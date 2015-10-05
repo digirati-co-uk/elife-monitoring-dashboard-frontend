@@ -275,109 +275,125 @@ a {
   }
 }
 
+.article-snapshot-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  li {
+    padding: 15px 0;
+    border-top: 1px solid $LightGrey5;
+    a {
+      display: table;
+      width: 100%;
+      color: $Black2;
+      &:hover {
+        color: $Black1;
+        text-decoration: none;
+      }
+    }
+    p {
+      margin: 0;
+      padding-left: 15px;
+      font-size: 12px;
+    }
+    .btn {
+      width: 130px;
+      margin-bottom: 5px;
+      text-align: left;
+      .glyphicon {
+        padding-right: 5px;
+      }
+    }
+    .checkbox {
+      margin: 0;
+      padding-right: 18px;
+      text-align: right;
+      label {
+        line-height: 20px;
+      }
+    }
+    .poa {
+      float: left;
+      &:before {
+        font-size: 30px;
+        padding-left: 4px;
+      }
+      &:after {
+        content: "POA";
+        display: block;
+        padding: 2px 5px 5px;
+        margin-top: 5px;
+        font-size: 13px;
+        color: white;
+        background-color: $Black2;
+      }
+    }
+    .vor {
+      float: left;
+      &:before {
+        font-size: 30px;
+        padding-left: 4px;
+      }
+      &:after {
+        content: "VOR";
+        display: block;
+        padding: 2px 5px 5px;
+        margin-top: 5px;
+        font-size: 13px;
+        color: white;
+        background-color: $Black3;
+      }
+    }
+    .column-1 {
+      display: table-cell;
+      width: 40%;
+      vertical-align: top;
+      p {
+        padding-left: 18%;
+      }
+    }
+    .column-2 {
+      display: table-cell;
+      width: 44%;
+      p {
+        float: left;
+        &:first-child {
+          width: 45%;
+        }
+        &:last-child {
+          width: 55%;
+        }   
+      }
+    }
+    .column-3 {
+      display: table-cell;
+      width: 16%;
+      vertical-align: middle;
+    }
+  }
+}
+
+.article-snapshot-action-list {
+  li {
+    a {
+      display: table-cell;
+      width: 84%;
+      & + .column-3 {
+        p {
+          text-align: right;
+        }
+      }
+    }
+  }
+}
+
 section {
   margin-top: 40px;
   border-bottom: 1px solid $LightGrey5;
   h4 {
     padding: 15px 0 15px 65px;
   }
-  ol {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    li {
-      padding: 15px 0;
-      border-top: 1px solid $LightGrey5;
-      a {
-        display: table;
-        width: 100%;
-        color: $Black2;
-        &:hover {
-          color: $Black1;
-          text-decoration: none;
-        }
-      }
-      p {
-        margin: 0;
-        padding-left: 15px;
-        font-size: 12px;
-      }
-      .btn {
-        width: 130px;
-        margin-bottom: 5px;
-        text-align: left;
-        .glyphicon {
-          padding-right: 5px;
-        }
-      }
-      .checkbox {
-        margin: 0;
-        padding-right: 18px;
-        text-align: right;
-        label {
-          line-height: 20px;
-        }
-      }
-      .poa {
-        float: left;
-        &:before {
-          font-size: 30px;
-          padding-left: 4px;
-        }
-        &:after {
-          content: "POA";
-          display: block;
-          padding: 2px 5px 5px;
-          margin-top: 5px;
-          font-size: 13px;
-          color: white;
-          background-color: $Black2;
-        }
-      }
-      .vor {
-        float: left;
-        &:before {
-          font-size: 30px;
-          padding-left: 4px;
-        }
-        &:after {
-          content: "VOR";
-          display: block;
-          padding: 2px 5px 5px;
-          margin-top: 5px;
-          font-size: 13px;
-          color: white;
-          background-color: $Black3;
-        }
-      }
-      .column-1 {
-        display: table-cell;
-        width: 40%;
-        vertical-align: top;
-        p {
-          padding-left: 18%;
-        }
-      }
-      .column-2 {
-        display: table-cell;
-        width: 44%;
-        p {
-          float: left;
-          &:first-child {
-            width: 45%;
-          }
-          &:last-child {
-            width: 55%;
-          }   
-        }
-      }
-      .column-3 {
-        display: table-cell;
-        width: 16%;
-        vertical-align: middle;
-      }
-    }
-  }
+  
   &.uir {
     h4 {
       display: inline-block;
@@ -387,15 +403,6 @@ section {
     >.btn {
       float: right;
       margin: 10px 0;
-    }
-    ol > li > a {
-      display: table-cell;
-      width: 84%;
-    }
-    .column-3 {
-      p {
-        text-align: right;
-      }
     }
   }
 }
