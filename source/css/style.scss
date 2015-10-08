@@ -1,31 +1,3 @@
-/*                                                                                                                                         
-                                                ,,            ,,                          ,,                                             
- .M"""bgd mm                                    db          `7MM        mm         mm   `7MM                                    OO OO OO 
-,MI    "Y MM                                                  MM        MM         MM     MM                                    88 88 88 
-`MMb.   mmMMmm ,pW"Wq.`7MMpdMAo.     `7Mb,od8 `7MM  .P"Ybmmm  MMpMMMb.mmMMmm     mmMMmm   MMpMMMb.  .gP"Ya `7Mb,od8 .gP"Ya      || || || 
-  `YMMNq. MM  6W'   `Wb MM   `Wb       MM' "'   MM :MI  I8    MM    MM  MM         MM     MM    MM ,M'   Yb  MM' "',M'   Yb     || || || 
-.     `MM MM  8M     M8 MM    M8       MM       MM  WmmmP"    MM    MM  MM         MM     MM    MM 8M""""""  MM    8M""""""     `' `' `' 
-Mb     dM MM  YA.   ,A9 MM   ,AP       MM       MM 8M         MM    MM  MM         MM     MM    MM YM.    ,  MM    YM.    ,     ,, ,, ,, 
-P"Ybmmd"  `Mbmo`Ybmd9'  MMbmmd'      .JMML.   .JMML.YMMMMMb .JMML  JMML.`Mbmo      `Mbmo.JMML  JMML.`Mbmmd'.JMML.   `Mbmmd'     db db db 
-                        MM                         6'     dP                                                                             
-                      .JMML.                       Ybmmmd'                                                                               
-
-Pattern Lab doesn't have any CSS requirements, which means you can write your styles however you want. Hooray!
-You can use Sass, Less, vanilla CSS, or some other crazy thing I haven't heard of yet.
-So please don't use these styles. They're just here to put together the demo, and nothing more.
-They're intentionally gray, boring, and crappy because you're supposed to do this stuff yourself.
-
-Atomic design is philosophically complimentary with these CSS approaches:
-
-* SMACSS by Jonathan Snook http://smacss.com/
-* OOCSS by Nicole Sullivan http://oocss.org/
-* BEM CSS Methology : http://bem.info/method/
-* CSS Guidelines by Harry Roberts : https://github.com/csswizardry/CSS-Guidelines
-
-So feel free to use any of these approaches. Or don't. It's totally up to you.
-
-*/
-
 /*------------------------------------*\
     $TABLE OF CONTENTS 
     based generally on Harry Roberts excellent CSS Guidelines https://github.com/csswizardry/CSS-Guidelines
@@ -53,12 +25,14 @@ So feel free to use any of these approaches. Or don't. It's totally up to you.
  * TOC To Be Continued
  */
 
+/*------------------------------------*\
+    $CUSTOM VARIABLES
+\*------------------------------------*/
 
-
-// Variables
+//Images
 $img-path: "../images";
   
-// Default Colours
+//Default Colours
 $Brown: #6E3F19;
 $DarkGreen: #046535;
 $Fuchsia: #CF0C4E;
@@ -70,7 +44,7 @@ $Purple: #732060;
 $LightGrey: #929497;
 $MediumGrey: #6D6E70;
 
-// New Colours
+//New Colours
 $LightGrey1: #d1d1d1;
 $LightGrey2: #ebebeb;
 $LightGrey2-txt: #969696;
@@ -90,7 +64,7 @@ $Teal-txt: #a5c3cc;
 $Orange: #f5cca6;
 $Orange-txt: #c4916c;
 
-// Break Points
+//Break Points
 $x-wide: "(max-width: 1199px)";
 $wide: "(max-width: 991px)";
 $mobile: "(max-width: 767px)";
@@ -275,7 +249,7 @@ a {
   }
 }
 
-.article-snapshot-list {
+ol.article-snapshot-list {
   list-style-type: none;
   padding: 0;
   margin: 0;
@@ -300,6 +274,7 @@ a {
       width: 130px;
       margin-bottom: 5px;
       text-align: left;
+      float: right;
       .glyphicon {
         padding-right: 5px;
       }
@@ -371,17 +346,23 @@ a {
       vertical-align: middle;
     }
   }
-}
-
-.article-snapshot-action-list {
-  li {
-    a {
-      display: table-cell;
-      width: 84%;
-      & + .column-3 {
-        p {
-          text-align: right;
+  &.article-snapshot-action-list {
+    li {
+      a {
+        display: table-cell;
+        width: 84%;
+        & + .column-3 {
+          p {
+            text-align: right;
+          }
         }
+      }
+    }
+  }
+  &.archive {
+    li {
+      &:first-child {
+        border-top: 0;
       }
     }
   }
