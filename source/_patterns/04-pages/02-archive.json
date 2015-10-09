@@ -1,12 +1,3 @@
 {
-	"nav-tabs" : [
-		{
-			"li": {
-				"class": ""
-			},
-			"li": {
-				"class": "active"
-			}
-		}
-	]
+
 }
