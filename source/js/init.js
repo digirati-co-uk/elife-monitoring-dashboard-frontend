@@ -23,4 +23,11 @@
 		$(this).toggleClass('active');
 		$('.header .search-form').toggleClass('active');
 	});
+
+	//Filter Box
+	$('#filter .dropdown-menu').on({
+		"click":function(e) {
+	      e.stopPropagation();
+	    }
+	});
 })(this);
