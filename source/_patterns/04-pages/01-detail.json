@@ -1,12 +1,8 @@
 {
-	"nav-tabs" : [
-		{
-			"li": {
-				"class": ""
-			},
-			"li": {
-				"class": ""
-			}
-		}
-	]
+	"article-version-map" : {
+		"class": "col-sm-3" 
+	},
+	"article-version-history" : {
+		"class": "col-sm-8 col-sm-offset-1"
+	}
 }

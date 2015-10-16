@@ -60,6 +60,8 @@ $Black3: #7a7a7a;
 $Blue: #428bca;
 $Pink: #ffc2bf;
 $Pink-txt: #cc9c99;
+$Green: #deffcc;
+$Green-txt: #b1cca3;
 $Teal: #cff4ff;
 $Teal-txt: #a5c3cc;
 $Orange: #f5cca6;
@@ -72,6 +74,7 @@ $mobile: "(max-width: 767px)";
 
 //Helpers
 .btn-grey {
+  text-decoration: none;
   background-color: $LightGrey7;
   border-color: $LightGrey7;
   color: white;
@@ -80,6 +83,11 @@ $mobile: "(max-width: 767px)";
     border-color: $LightGrey3;
     color: white;
   }
+}
+
+.pattern-helper {
+  margin-top: 40px;
+  text-decoration: none;
 }
 
 //Main
@@ -94,6 +102,7 @@ body {
 
 a {
   color: $Blue;
+  text-decoration: underline;
   &:hover {
     color: $Blue;
   }
@@ -127,6 +136,45 @@ a {
   background-color: $Orange;
   color: $Orange-txt;
 }
+.glyphicon-ok {
+  @extend .glyphicon-;
+  background-color: $Green;
+  color: $Green-txt;
+  padding: 15px;
+}
+
+.poa {
+  float: left;
+  &:before {
+    font-size: 30px;
+    padding-left: 4px;
+  }
+  &:after {
+    content: "POA";
+    display: block;
+    padding: 2px 5px 5px;
+    margin-top: 5px;
+    font-size: 13px;
+    color: white;
+    background-color: $Black2;
+  }
+}
+.vor {
+  float: left;
+  &:before {
+    font-size: 30px;
+    padding-left: 4px;
+  }
+  &:after {
+    content: "VOR";
+    display: block;
+    padding: 2px 5px 5px;
+    margin-top: 5px;
+    font-size: 13px;
+    color: white;
+    background-color: $Black3;
+  }
+}
 
 .logo {
   margin: 10px 0;
@@ -151,6 +199,7 @@ a {
       background-color: transparent;
       a {
         color: $DarkGrey;
+        text-decoration: none;
         padding: 10px 45px;
       }
       &.active {
@@ -187,6 +236,7 @@ a {
 }
 
 .breadcrumb {
+  background-color: transparent;
   color: $LightGrey3;
 }
 
@@ -206,6 +256,7 @@ a {
       }
     }
     a {
+      text-decoration: none;
       border: 1px solid $LightGrey4;
       border-radius: 0;
       padding: 10px 40px;
@@ -273,10 +324,10 @@ ol.article-snapshot-list {
     a {
       display: table;
       width: 100%;
+      text-decoration: none;
       color: $Black2;
       &:hover {
         color: $Black1;
-        text-decoration: none;
       }
     }
     p {
@@ -288,6 +339,7 @@ ol.article-snapshot-list {
       width: 130px;
       margin-bottom: 5px;
       text-align: left;
+      text-decoration: none;
       float: right;
       .glyphicon {
         padding-right: 5px;
@@ -299,38 +351,6 @@ ol.article-snapshot-list {
       text-align: right;
       label {
         line-height: 20px;
-      }
-    }
-    .poa {
-      float: left;
-      &:before {
-        font-size: 30px;
-        padding-left: 4px;
-      }
-      &:after {
-        content: "POA";
-        display: block;
-        padding: 2px 5px 5px;
-        margin-top: 5px;
-        font-size: 13px;
-        color: white;
-        background-color: $Black2;
-      }
-    }
-    .vor {
-      float: left;
-      &:before {
-        font-size: 30px;
-        padding-left: 4px;
-      }
-      &:after {
-        content: "VOR";
-        display: block;
-        padding: 2px 5px 5px;
-        margin-top: 5px;
-        font-size: 13px;
-        color: white;
-        background-color: $Black3;
       }
     }
     .column-1 {
@@ -362,9 +382,12 @@ ol.article-snapshot-list {
   }
   &.action {
     li {
-      a {
+      a,
+      .btn {
+        position: relative;
         display: table-cell;
-        width: 84%;
+        z-index: 1;
+        // width: 84%;
         & + .column-3 {
           p {
             text-align: right;
@@ -377,6 +400,91 @@ ol.article-snapshot-list {
     li {
       &:first-child {
         border-top: 0;
+      }
+    }
+  }
+}
+
+ol.article-version-map-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid $LightGrey5;
+  width: 25%;
+  li {
+    border-top: 1px solid $LightGrey5;
+    &:first-child {
+      border-top: 0;
+    }
+    &.version {
+      padding: 10px 15px;
+    }
+    &.run {
+      a {
+        display: table;
+        width: 100%;
+        text-decoration: none;
+        padding: 10px 15px 10px 30px;
+        &:hover {
+          background-color: $LightGrey1;
+        }
+        span {
+          display: table-cell;
+          color: $Black1;
+          &:last-child {
+            width: 20%;
+            text-align: right;
+          }
+          &:first-child {
+            width: 50%;
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+}
+
+ol.article-version-history-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 66.67%;
+  li {
+    display: table;
+    width: 100%;
+    padding-bottom: 20px;
+    .column-1 {
+      display: table-cell;
+      width: 50%;
+      @media #{$x-wide} {
+        width: 45%;
+      }
+      @media #{$wide} {
+        width: 50%;
+      }
+      span {
+        &:last-child {
+          position: relative;
+          top: 15px;
+          left: 20px;
+        }
+      }
+    }
+    .column-2 {
+      display: table-cell;
+      vertical-align: middle;
+      font-size: 12px;
+      p {
+        display: table-row;
+        width: 100%;
+        i {
+          display: table-cell;
+          padding-right: 15px;
+        }
+        span {
+          display: table-cell;
+        }
       }
     }
   }
@@ -396,16 +504,132 @@ section {
       padding: 7px 15px 15px;
       margin: 0;
     }
-    >.btn {
+    #publish-all {
+      display: none;
       float: right;
+      text-decoration: none;
       margin: 10px 0;
     }
+    #publish-action,
+    #publish-all-action {
+      display: none;
+    }
+  }
+
+  &.article-detail {
+    font-size: 12px;
+    p {
+      margin: 0;
+    }
+    .btn {
+      text-decoration: none;
+      @media #{$mobile} {
+        display: block;
+        &:not(:first-child) {
+          margin-top: 5px;
+        }
+      }
+    }
+    .snapshot {
+      display: table;
+      padding: 15px;
+      background-color: $LightGrey6;
+      border: 1px solid $LightGrey5;
+      .column-1 {
+        display: table-cell;
+        // width: 40%;
+        vertical-align: top;
+        p {
+          padding-left: 18%;
+        }
+      }
+      .column-2 {
+        display: table-cell;
+        padding: 0 15px;
+        width: 15%;
+        vertical-align: middle;
+        p {
+          display: table-row;
+        }
+        i {
+          display: table-cell;
+        }
+        strong {
+          display: table-cell;
+          padding-left: 15px;
+        }
+      }
+      .column-3 {
+        display: table-cell;
+        width: 30%;
+        vertical-align: middle;
+        text-align: right;
+        @media #{$x-wide} {
+          width: 40%;
+        }
+        @media #{$wide} {
+          width: 50%;
+        }
+        @media #{$mobile} {
+          width: 30%;
+        }
+      }
+    }
+    .detail {
+      display: table;
+      padding: 30px 15px;
+      .column-1 {
+        display: table-cell;
+        width: 65%;
+        @media #{$x-wide} {
+          width: 56%;
+        }
+        @media #{$wide} {
+          width: 45%;
+        }
+        i {
+          width: 20%;
+          @media #{$x-wide} {
+            width: 30%;
+          }
+        }
+      }
+      .column-2 {
+        display: table-cell;
+        i {
+          width: 50%;
+        }
+      }
+      p {
+        display: table-row;
+      }
+      i {
+        display: table-cell;
+        padding-right: 15px;
+      }
+      span {
+        display: table-cell;
+      }
+    }
+  }
+
+  &.article-version-map {
+    padding-left: 0;
+    border: 0;
+  }
+
+  &.article-version-history {
+    padding-right: 0;
+    border: 0;
   }
 }
 
 #filter {
   position: relative;
   margin-top: 40px;
+  a {
+    text-decoration: none;
+  }
   .dropdown-menu  {
     background-color: white;
     width: 100%;
@@ -421,6 +645,7 @@ section {
     overflow: auto;
     padding: 15px 0;
     .btn {
+      text-decoration: none;
       padding: 5px 7px;
       @media #{$wide} {
         margin: 15px 0 0;
@@ -433,6 +658,7 @@ section {
 
 .download-as {
   display: block;
+  text-decoration: none;
   margin: 40px 0;
   font-size: 12px;
   .glyphicon {
@@ -442,6 +668,12 @@ section {
 }
 
 //Layouts
+.dashboard-page {
+  .pattern-helper {
+    display: none;
+  }
+}
+
 .archive-page {
   #filter {
     margin: 0;
@@ -452,6 +684,22 @@ section {
     }
     .dropdown-menu  {
       top: -35px;
+    }
+  }
+}
+
+.detail-page {
+  .article-version-map-list,
+  .article-version-history-list {
+    width: auto;
+  }
+}
+
+.modal-dialog {
+  ol {
+    margin-top: 5px;
+    li {
+      list-style-type: square;
     }
   }
 }
