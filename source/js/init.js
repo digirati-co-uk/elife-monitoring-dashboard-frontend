@@ -23,6 +23,21 @@
 		$('.header .search-form').toggleClass('active');
 	});
 
+	//Datepicker
+	$('#datetimepicker-start').datetimepicker({
+		format: 'D-MM-YY'
+	});
+    $('#datetimepicker-end').datetimepicker({
+    	format: 'D-MM-YY',
+        useCurrent: false //Important! See issue #1075
+    });
+    $("#datetimepicker-start").on("dp.change", function (e) {
+        $('#datetimepicker-end').data("DateTimePicker").minDate(e.date);
+    });
+    $("#datetimepicker-end").on("dp.change", function (e) {
+        $('#datetimepicker-start').data("DateTimePicker").maxDate(e.date);
+    });
+
 	//Global variables
 	var articlesQueue = {};
 	var articleId, articleVer, queueDress;

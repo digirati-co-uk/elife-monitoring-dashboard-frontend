@@ -432,7 +432,7 @@ section {
   margin-top: 40px; }
   #filter a {
     text-decoration: none; }
-  #filter .dropdown-menu {
+  #filter > .dropdown-menu {
     background-color: white;
     width: 100%;
     padding: 15px;
@@ -443,15 +443,25 @@ section {
   #filter .filter-refine {
     list-style: none;
     overflow: auto;
-    padding: 15px 0; }
+    padding: 15px 0;
+    min-height: 420px; }
     #filter .filter-refine .btn {
       text-decoration: none;
+      margin-top: 10px;
       padding: 5px 7px; }
       @media (max-width: 991px) {
         #filter .filter-refine .btn {
           margin: 15px 0 0;
           display: block;
           width: 100%; } }
+
+.date-range .custom-label {
+  display: block;
+  margin-top: 10px; }
+
+#datetimepicker-start,
+#datetimepicker-end {
+  margin-bottom: 10px; }
 
 .download-as {
   display: block;
@@ -471,7 +481,7 @@ section {
     position: absolute;
     right: 15px;
     top: -73px; }
-  .archive-page #filter .dropdown-menu {
+  .archive-page #filter > .dropdown-menu {
     top: -35px; }
 
 .detail-page .article-version-map-list,
