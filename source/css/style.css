@@ -194,8 +194,10 @@ a {
   @media (max-width: 991px) {
     .section-map {
       padding: 15px 0; } }
-  .section-map a:hover {
+  .section-map a {
     text-decoration: none; }
+    .section-map a:hover {
+      text-decoration: none; }
   .section-map span.glyphicon {
     float: left;
     margin-top: 45px;
@@ -217,7 +219,8 @@ a {
         margin: -28px auto 0; } }
 
 table.article-snapshot-list {
-  margin-top: 15px; }
+  margin-top: 15px;
+  width: 100%; }
   table.article-snapshot-list tr {
     vertical-align: top;
     border-top: 1px solid #c8c8c8; }
@@ -340,6 +343,7 @@ section {
   margin-top: 40px;
   border-bottom: 1px solid #c8c8c8; }
   section h4 {
+    margin: 0;
     padding: 15px 0 15px 65px; }
   section.uir h4 {
     display: inline-block;
@@ -347,9 +351,10 @@ section {
     margin: 0; }
   section.uir #publish-all {
     display: none;
-    float: right;
-    text-decoration: none;
-    margin: 10px 0; }
+    position: absolute;
+    top: 15px;
+    right: 0;
+    text-decoration: none; }
   section.uir #publish-action,
   section.uir #publish-all-action {
     display: none; }
