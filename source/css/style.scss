@@ -374,6 +374,9 @@ table.article-snapshot-list {
     h6,
     p {
       padding-left: 18%;
+      @media #{$mobile} {
+        padding-left: 0;
+      }
     }
   }
   .column-2 {
@@ -680,6 +683,14 @@ section {
 #datetimepicker-start,
 #datetimepicker-end {
   margin-bottom: 10px;
+  input {
+    vertical-align: middle;
+    line-height: 16px;
+    &::-webkit-input-placeholder { font-size: 85%; }
+    &::-moz-placeholder { font-size: 85%; } /* firefox 19+ */
+    &:-moz-placeholder { font-size: 85%; }
+    &:-ms-input-placeholder { font-size: 85%; } /* ie */
+  }
 }
 
 .download-as {
