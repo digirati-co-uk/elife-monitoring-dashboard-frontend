@@ -321,9 +321,17 @@ a {
 table.article-snapshot-list {
   margin-top: 15px;
   width: 100%;
+  tbody {
+    @media #{$mobile} {
+      display: block;
+    }
+  }
   tr {
     vertical-align: top;
     border-top: 1px solid $LightGrey5;
+    @media #{$mobile} {
+      display: block;
+    }
   }
   td {
     padding-top: 15px;
@@ -371,6 +379,10 @@ table.article-snapshot-list {
   }
   .column-1 {
     width: 40%;
+    @media #{$mobile} {
+      display: block;
+      width: 100%;
+    }
     h6,
     p {
       padding-left: 18%;
@@ -381,15 +393,29 @@ table.article-snapshot-list {
   }
   .column-2 {
     width: 44%;
+    @media #{$mobile} {
+      display: block;
+      overflow: auto;
+      width: 100%;
+    }
   }
   .column-3 {
     width: 16%;
     font-size: 12px;
     vertical-align: middle;
     text-align: center;
+    @media #{$mobile} {
+      display: block;
+      width: 100%;
+      text-align: left;
+    }
   }
   &.action {
-    
+    @media #{$mobile} {
+      .btn {
+        width: 100%;
+      }
+    }
   }
   &.archive {
     .column-2 {
@@ -508,6 +534,11 @@ section {
       top: 15px;
       right: 0;
       text-decoration: none;
+      @media #{$mobile} {
+        top: auto;
+        bottom: -45px;
+        width: 100%;
+      }
     }
     #publish-action,
     #publish-all-action {

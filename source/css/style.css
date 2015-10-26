@@ -221,9 +221,15 @@ a {
 table.article-snapshot-list {
   margin-top: 15px;
   width: 100%; }
+  @media (max-width: 767px) {
+    table.article-snapshot-list tbody {
+      display: block; } }
   table.article-snapshot-list tr {
     vertical-align: top;
     border-top: 1px solid #c8c8c8; }
+    @media (max-width: 767px) {
+      table.article-snapshot-list tr {
+        display: block; } }
   table.article-snapshot-list td {
     padding-top: 15px;
     padding-bottom: 15px;
@@ -260,6 +266,10 @@ table.article-snapshot-list {
       line-height: 20px; }
   table.article-snapshot-list .column-1 {
     width: 40%; }
+    @media (max-width: 767px) {
+      table.article-snapshot-list .column-1 {
+        display: block;
+        width: 100%; } }
     table.article-snapshot-list .column-1 h6,
     table.article-snapshot-list .column-1 p {
       padding-left: 18%; }
@@ -269,11 +279,24 @@ table.article-snapshot-list {
           padding-left: 0; } }
   table.article-snapshot-list .column-2 {
     width: 44%; }
+    @media (max-width: 767px) {
+      table.article-snapshot-list .column-2 {
+        display: block;
+        overflow: auto;
+        width: 100%; } }
   table.article-snapshot-list .column-3 {
     width: 16%;
     font-size: 12px;
     vertical-align: middle;
     text-align: center; }
+    @media (max-width: 767px) {
+      table.article-snapshot-list .column-3 {
+        display: block;
+        width: 100%;
+        text-align: left; } }
+  @media (max-width: 767px) {
+    table.article-snapshot-list.action .btn {
+      width: 100%; } }
   table.article-snapshot-list.archive .column-2 {
     padding-left: 5%;
     padding-right: 5%; }
@@ -359,6 +382,11 @@ section {
     top: 15px;
     right: 0;
     text-decoration: none; }
+    @media (max-width: 767px) {
+      section.uir #publish-all {
+        top: auto;
+        bottom: -45px;
+        width: 100%; } }
   section.uir #publish-action,
   section.uir #publish-all-action {
     display: none; }

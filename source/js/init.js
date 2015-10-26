@@ -86,7 +86,6 @@
 		//Feedback to the user
 		$("#articles-queue").append("<li>" + queueDress + "</li>");
 
-		// console.log(articlesQueue);
 	});
 
 	//Article Publish All Click
@@ -115,7 +114,6 @@
 			$("#articles-queue").append("<li>" + queueDress + "</li>");
 		});
 
-		// console.log(articlesQueue);
 	});
 
 	//Publish (all) Action
@@ -123,7 +121,8 @@
 
 		//Disable Publish (all) button to stop sending multiple requests
 		e.stopPropagation();
-		$(this).attr('disabled', true);
+		$("#publish-cancel").hide();
+		$(this).attr('disabled', true).css({"width":"100%"});
 
 		//Publish Queue
 		sendQueue();
@@ -156,13 +155,11 @@
 		  	}
 		}).done(function(data, textStatus) {
 
-			// console.log(articlesQueue);
-
 			//Loop through all the key, value pairs in returned JS Object from server
-		    $.each(data, function(key, value) {
+		    $.each(JSON.parse(data), function(key, value) {
 
 		    	//Check if key exists in JS Object and the same key from server's response has the value 'queued'
-		    	if (articlesQueue.hasOwnProperty(key) && key.result === "queued") {
+		    	if (articlesQueue.hasOwnProperty(key) && value.result == 'queued') {
 
 					//If not showing the spinner
 					if ($("#publish-action *:not(div)")) {
@@ -172,18 +169,18 @@
 
 					//Edit the JS Object with the value from server's response
 					articlesQueue[key] = value;
-
-				} else if (articlesQueue.hasOwnProperty(key) && key.result === "error") {
+				} else if (articlesQueue.hasOwnProperty(key) && value.result == 'error') {
 
 		    		var keyCheck = "#articles-queue li:contains('" + key + "')";
 
 					//Show error(s) to the user next to article(s) & Remove article-id(s) from JS Object
-					$(keyCheck).append("<span class='glyphicon glyphicon-remove' data-toggle='tooltip' data-placement='top' title='" + key.message + "'></span>");
+					$(keyCheck).append("<span class='glyphicon glyphicon-remove' data-toggle='tooltip' data-placement='top' title='" + value.message + "'></span>");
 					delete articlesQueue[key];
-
-				} else {
-					console.log(key + ": Invalid article");
 				}
+
+				//Initialise Tooltips
+				$('[data-toggle="tooltip"]').tooltip();
+
 			});
 		});
 	}
@@ -200,44 +197,51 @@
 		  	}
 		}).done(function(data, textStatus) {
 
-			//Loop through all the key, value pairs in returned JS Object from server
-		    $.each(data, function(key, value) {
+			if (!jQuery.isEmptyObject(articlesQueue)) {
 
-		    	var keyCheck = "#articles-queue li:contains('" + key + "')";
+				//Loop through all the key, value pairs in returned JS Object from server
+			    $.each(JSON.parse(data), function(key, value) {
 
-		    	//Check if key exists in JS Object and the same key from server's response has the value 'published'
-				if (articlesQueue.hasOwnProperty(key) && value === "published") {
+			    	var keyCheck = "#articles-queue li:contains('" + key + "')";
 
-					//Show published status to the user next to article(s) & Remove article-id(s) from JS Object
-					$(keyCheck).append("<span class='glyphicon glyphicon-ok' data-toggle='tooltip' data-placement='top' title='" + value + "'></span>");
-					delete articlesQueue[key];
-				} else if (articlesQueue.hasOwnProperty(key) && value === "error") {
+			    	//Check if key exists in JS Object and the same key from server's response has the value 'published'
+					if (articlesQueue.hasOwnProperty(key) && value == 'published') {
 
-					//Show error status to the user next to article(s) & Remove article-id(s) from JS Object
-					$(keyCheck).append("<span class='glyphicon glyphicon-remove' data-toggle='tooltip' data-placement='top' title='" + value + "'></span>");
-					delete articlesQueue[key];
-				} else if (articlesQueue.hasOwnProperty(key) && value === null) {
+						//Show published status to the user next to article(s) & Remove article-id(s) from JS Object
+						$(keyCheck).append("<span class='glyphicon glyphicon-ok' data-toggle='tooltip' data-placement='top' title='" + value + "'></span>");
+						delete articlesQueue[key];
+					} else if (articlesQueue.hasOwnProperty(key) && value == 'error') {
 
-					//Show error status to the user next to article(s) & Remove article-id(s) from JS Object
-					$(keyCheck).append("<span class='glyphicon glyphicon-remove' data-toggle='tooltip' data-placement='top' title='" + value + "'></span>");
-					delete articlesQueue[key];
+						//Show error status to the user next to article(s) & Remove article-id(s) from JS Object
+						$(keyCheck).append("<span class='glyphicon glyphicon-remove' data-toggle='tooltip' data-placement='top' title='" + value + "'></span>");
+						delete articlesQueue[key];
+					} else if (articlesQueue.hasOwnProperty(key) && value === null) {
 
-					console.log(key + ": No status message");
-				} else {
-					console.log(key + ": Invalid article");
-				}
-			});
+						//Show error status to the user next to article(s) & Remove article-id(s) from JS Object
+						$(keyCheck).append("<span class='glyphicon glyphicon-remove' data-toggle='tooltip' data-placement='top' title='" + value + "'></span>");
+						delete articlesQueue[key];
+					} 
+				});
 
-			//Initialise Tooltips
-			$('[data-toggle="tooltip"]').tooltip();
+				//Initialise Tooltips
+				$('[data-toggle="tooltip"]').tooltip();
 
-			//Loop this function every 10 seconds
-			setTimeout(function() {
-				getResponse();
-			}, 10000);
+				//Loop this function every 10 seconds
+				setTimeout(function() {
+					getResponse();
+				}, 10000);
 
-			// TODO
-			// Break loop once all articles in queue have been handled and feed back to the user
+			} else {
+
+				//Feedback to the user
+				$("#publish-action").empty().text("Reload").attr('disabled', false);
+
+				//Bind a reload to the click
+				$("#publish-action").click(function(e) {
+					e.stopPropagation;
+					location.reload(true);
+				});
+			}
 		});
 	}
 })(this);
