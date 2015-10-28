@@ -55,13 +55,10 @@
 		//Interaction in the actionable items column of UIR table
 		if ($(".article-snapshot-list.action input:checkbox:checked").length > 0) {
 			$(".btn#publish").attr('disabled', true);
-			if ($(".article-snapshot-list.action input:checkbox:checked").length > 1) {
-				$("#publish-all").show();
-			} else {
-				$("#publish-all").hide();
-			}
+			$("#publish-all").show();
 		} else {
 			$(".btn#publish").attr('disabled', false);
+			$("#publish-all").hide();
 		}
 	});
 
@@ -234,7 +231,7 @@
 			} else {
 
 				//Feedback to the user
-				$("#publish-action").empty().text("Reload").attr('disabled', false);
+				$("#publish-action").empty().text("Close").attr('disabled', false);
 
 				//Bind a reload to the click
 				$("#publish-action").click(function(e) {
