@@ -119,16 +119,21 @@
 		//Disable Publish (all) button to stop sending multiple requests
 		e.stopPropagation();
 		$("#publish-cancel").hide();
-		$(this).attr('disabled', true).css({"width":"100%"});
+		$(this).empty().attr('disabled', true).css({"width":"100%"});
 
-		//Publish Queue
-		sendQueue();
+		//Poll endpoint if articles can be queued
+		queueArticlePublication();
+		
+		//Wait 5 seconds for the first response
+		setTimeout(function() {
+			//If the JS Object is not empty then
+			if (!jQuery.isEmptyObject(articlesQueue)) {
+				getArticleStatus();
+			}
+		}, 5000);
 
-		//Response Loop
-		getResponse();
-
-		//Click Cancel / Close icon to close modal & force reload
-		$("#publish-modal button.close, .btn#publish-cancel").click(function(e) {
+		//Click Close icon to close modal & force reload
+		$("#publish-modal button.close").click(function(e) {
 			e.stopPropagation();
 			location.reload(true);
 		});
@@ -141,11 +146,11 @@
 	});
 
 	//Poll
-	function sendQueue() {
+	function queueArticlePublication() {
 		$.ajax({
 			type: 'POST',
 			url: '../../data/queue.json',
-			data: articlesQueue,
+			data: { "articles": articlesQueue },
 		    error: function(xhr, textStatus, errorThrown) {
 	      		var err = textStatus + ", " + errorThrown;
 				console.log( "Request Failed: " + err );
@@ -175,6 +180,18 @@
 					delete articlesQueue[key];
 				}
 
+				//If the JS Object is empty then
+				if (jQuery.isEmptyObject(articlesQueue)) {
+					//Feedback to the user
+					$("#publish-action").unbind().text("Close").attr('disabled', false);
+
+					//Bind a reload to the click
+					$("#publish-action").click(function(e) {
+						e.stopPropagation;
+						location.reload(true);
+					});
+				}
+
 				//Initialise Tooltips
 				$('[data-toggle="tooltip"]').tooltip();
 
@@ -183,55 +200,58 @@
 	}
 
 	//Responses
-	function getResponse() {
+	function getArticleStatus() {
+
+		var dataStructure = "articles=" + articlesQueue;
+
 		$.ajax({
 			type: 'GET',
 			url: '../../data/response.json',
-			data: articlesQueue,
+			data: { "articles": articlesQueue },
 			error: function(xhr, textStatus, errorThrown) {
 	      		var err = textStatus + ", " + errorThrown;
 				console.log( "Request Failed: " + err );
 		  	}
 		}).done(function(data, textStatus) {
 
+			//Loop through all the key, value pairs in returned JS Object from server
+		    $.each(JSON.parse(data), function(key, value) {
+
+		    	var keyCheck = "#articles-queue li:contains('" + key + "')";
+
+		    	//Check if key exists in JS Object and the same key from server's response has the value 'published'
+				if (articlesQueue.hasOwnProperty(key) && value == 'published') {
+
+					//Show published status to the user next to article(s) & Remove article-id(s) from JS Object
+					$(keyCheck).append("<span class='glyphicon glyphicon-ok' data-toggle='tooltip' data-placement='top' title='" + value + "'></span>");
+					delete articlesQueue[key];
+				} else if (articlesQueue.hasOwnProperty(key) && value == 'error') {
+
+					//Show error status to the user next to article(s) & Remove article-id(s) from JS Object
+					$(keyCheck).append("<span class='glyphicon glyphicon-remove' data-toggle='tooltip' data-placement='top' title='" + value + "'></span>");
+					delete articlesQueue[key];
+				} else if (articlesQueue.hasOwnProperty(key) && value === null) {
+
+					//Show error status to the user next to article(s) & Remove article-id(s) from JS Object
+					$(keyCheck).append("<span class='glyphicon glyphicon-remove' data-toggle='tooltip' data-placement='top' title='" + value + "'></span>");
+					delete articlesQueue[key];
+				} 
+			});
+
+			//Initialise Tooltips
+			$('[data-toggle="tooltip"]').tooltip();
+
+			//If the JS Object is still not empty then
 			if (!jQuery.isEmptyObject(articlesQueue)) {
-
-				//Loop through all the key, value pairs in returned JS Object from server
-			    $.each(JSON.parse(data), function(key, value) {
-
-			    	var keyCheck = "#articles-queue li:contains('" + key + "')";
-
-			    	//Check if key exists in JS Object and the same key from server's response has the value 'published'
-					if (articlesQueue.hasOwnProperty(key) && value == 'published') {
-
-						//Show published status to the user next to article(s) & Remove article-id(s) from JS Object
-						$(keyCheck).append("<span class='glyphicon glyphicon-ok' data-toggle='tooltip' data-placement='top' title='" + value + "'></span>");
-						delete articlesQueue[key];
-					} else if (articlesQueue.hasOwnProperty(key) && value == 'error') {
-
-						//Show error status to the user next to article(s) & Remove article-id(s) from JS Object
-						$(keyCheck).append("<span class='glyphicon glyphicon-remove' data-toggle='tooltip' data-placement='top' title='" + value + "'></span>");
-						delete articlesQueue[key];
-					} else if (articlesQueue.hasOwnProperty(key) && value === null) {
-
-						//Show error status to the user next to article(s) & Remove article-id(s) from JS Object
-						$(keyCheck).append("<span class='glyphicon glyphicon-remove' data-toggle='tooltip' data-placement='top' title='" + value + "'></span>");
-						delete articlesQueue[key];
-					} 
-				});
-
-				//Initialise Tooltips
-				$('[data-toggle="tooltip"]').tooltip();
-
+				
 				//Loop this function every 10 seconds
 				setTimeout(function() {
-					getResponse();
+					getArticleStatus();
 				}, 10000);
-
 			} else {
 
 				//Feedback to the user
-				$("#publish-action").empty().text("Close").attr('disabled', false);
+				$("#publish-action").unbind().text("Close").attr('disabled', false);
 
 				//Bind a reload to the click
 				$("#publish-action").click(function(e) {
