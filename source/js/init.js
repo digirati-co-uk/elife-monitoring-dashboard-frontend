@@ -167,7 +167,7 @@
 		    $.each(data, function(key, value) {
 
 		    	//Check if key exists in JS Object and the same key from server's response has the value 'queued'
-		    	if (articlesQueue.hasOwnProperty(key) && value.result == 'queued') {
+		    	if (articlesQueue.hasOwnProperty(key) && value == 'queued') {
 
 					//If not showing the spinner
 					if ($("#publish-action *:not(div)")) {
@@ -177,7 +177,7 @@
 
 					//Edit the JS Object with the value from server's response
 					articlesQueue[key] = value;
-				} else if (articlesQueue.hasOwnProperty(key) && value.result == 'error') {
+				} else if (articlesQueue.hasOwnProperty(key) && value == 'error') {
 
 		    		var keyCheck = "#articles-queue li:contains('" + key + "')";
 
@@ -240,12 +240,8 @@
 					//Show error status to the user next to article(s) & Remove article-id(s) from JS Object
 					$(keyCheck).append("<span class='glyphicon glyphicon-remove' data-toggle='tooltip' data-placement='top' title='" + value + "'></span>");
 					delete articlesQueue[key];
-				} else if (articlesQueue.hasOwnProperty(key) && value === 'ready to publish') {
+				}
 
-					//Show error status to the user next to article(s) & Remove article-id(s) from JS Object
-					$(keyCheck).append("<span class='glyphicon glyphicon-remove' data-toggle='tooltip' data-placement='top' title='" + value + "'></span>");
-					delete articlesQueue[key];
-				} 
 			});
 
 			//Initialise Tooltips
