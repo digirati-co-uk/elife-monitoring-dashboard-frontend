@@ -1,6 +1,8 @@
+"use strict";
+
 (function(w){
 	var sw = document.body.clientWidth,
-		sh = document.body.clientHeight;
+			sh = document.body.clientHeight;
 
 	$(w).resize(function(){ //Update dimensions on resize
 		sw = document.body.clientWidth;
@@ -26,6 +28,7 @@
 	//Filter Box
 	$('#filter .dropdown-menu').on({
 		"click":function(e) {
+				//Stop modal from closing if clicked anywhere inside
 	      e.stopPropagation();
 	    }
 	});
@@ -34,121 +37,28 @@
 	$('#datetimepicker-start').datetimepicker({
 		format: 'D-MM-YY'
 	});
-    $('#datetimepicker-end').datetimepicker({
-    	format: 'D-MM-YY',
-        useCurrent: false //Important! See issue #1075
-    });
-    $("#datetimepicker-start").on("dp.change", function (e) {
-        $('#datetimepicker-end').data("DateTimePicker").minDate(e.date);
-    });
-    $("#datetimepicker-end").on("dp.change", function (e) {
-        $('#datetimepicker-start').data("DateTimePicker").maxDate(e.date);
-    });
+  $('#datetimepicker-end').datetimepicker({
+  	format: 'D-MM-YY',
+      useCurrent: false //Important! See issue #1075
+  });
+  $("#datetimepicker-start").on("dp.change", function (e) {
+      $('#datetimepicker-end').data("DateTimePicker").minDate(e.date);
+  });
+  $("#datetimepicker-end").on("dp.change", function (e) {
+      $('#datetimepicker-start').data("DateTimePicker").maxDate(e.date);
+  });
 
 	//Global variables
 	var dataStructure = []; //Data structure for the ajax request
 	var articlesQueue = {}; //JS Object that holds the article-ids to be queued/published
 	var articleId, articleVer, queueDress; //Variables to prepare the article-id(s) for use
 
-	//Article Checkbox
-	$('.article-snapshot-list.action input:checkbox').click(function(e) {
-
-		//Interaction in the actionable items column of UIR table
-		if ($(".article-snapshot-list.action input:checkbox:checked").length > 0) {
-			$(".btn#publish").attr('disabled', true);
-			$("#publish-all").show();
-		} else {
-			$(".btn#publish").attr('disabled', false);
-			$("#publish-all").hide();
-		}
-	});
-
-	//Article Publish Click
-	$(".btn#publish").click(function(e) {
-
-		//Empty list & swap text to 'publish'
-		$("#articles-queue").empty();
-		// $("#publish-all-action").hide();
-		$("#publish-action").empty().text('Publish');
-
-		//Prepare the article-ids for insertion in JS object
-		articleId = $(this).parents("tr").find(".article-id").html();
-		articleVer = $(this).parents("tr").find(".article-version").html();
+	//Prepare the article-ids for insertion in JS object
+	function getArticles(e) {
+		articleId = $(e).parents("tr").find(".article-id").html();
+		articleVer = $(e).parents("tr").find(".article-version").html();
 		queueDress = articleId + "-v" + articleVer;
-
-		//Empty & populate the JS Object
-		articlesQueue = {};
-		articlesQueue[queueDress] = "";
-		// articlesQueue[JSON.stringify(queueDress)] = "";
-
-		//Feedback to the user
-		$("#articles-queue").append("<li>" + queueDress + "</li>");
-
-	});
-
-	//Article Publish All Click
-	$(".btn#publish-all").click(function(e) {
-
-		//Empty list & swap text to 'Publish all'
-		$("#articles-queue").empty();
-		// $("#publish-all-action").show();
-		$("#publish-action").empty().text('Publish all');
-
-		//Empty the JS Object
-		articlesQueue = {};
-
-		//Iterate through selected article(s)
-		$(".article-snapshot-list.action input:checkbox:checked").each(function() {
-			
-			//Prepare the article-ids for insertion in JS object & queue list
-			articleId = $(this).parents("tr").find(".article-id").html();
-			articleVer = $(this).parents("tr").find(".article-version").html();
-			queueDress = articleId + "-v" + articleVer;
-
-			//Add to the JS Object
-			articlesQueue[queueDress] = "";
-
-			//Append to the queue list
-			$("#articles-queue").append("<li>" + queueDress + "</li>");
-		});
-	});
-
-	//Publish (all) Action
-	$("#publish-action").click(function(e) {
-
-		//Disable Publish (all) button to stop sending multiple requests
-		e.stopPropagation();
-		$("#publish-cancel").hide();
-		$(this).empty().attr('disabled', true).css({"width":"100%"});
-
-		//Prepare the data structure
-		$.each(articlesQueue, function(key) {
-			dataStructure.push(key);
-		});
-
-		//Poll endpoint if articles can be queued
-		queueArticlePublication();
-		
-		//Wait 5 seconds for the first response
-		setTimeout(function() {
-			//If the JS Object is not empty then
-			if (!jQuery.isEmptyObject(articlesQueue)) {
-				getArticleStatus();
-			}
-		}, 5000);
-
-		//Click Close icon to close modal & force reload
-		$("#publish-modal button.close").click(function(e) {
-			e.stopPropagation();
-			location.reload(true);
-		});
-		//Or press ESC & force a reload
-		$(document).keyup(function(e) {
-			if (e.keyCode == 27) {
-				location.reload(true);
-			}
-		});
-	});
+	}
 
 	//Poll
 	function queueArticlePublication() {
@@ -192,8 +102,7 @@
 					$("#publish-action").unbind().text("Close").attr('disabled', false);
 
 					//Bind a reload to the click
-					$("#publish-action").click(function(e) {
-						e.stopPropagation;
+					$("#publish-action").click(function() {
 						location.reload(true);
 					});
 				}
@@ -266,11 +175,102 @@
 				$("#publish-action").unbind().text("Close").attr('disabled', false);
 
 				//Bind a reload to the click
-				$("#publish-action").click(function(e) {
-					e.stopPropagation;
+				$("#publish-action").click(function() {
 					location.reload(true);
 				});
 			}
 		});
 	}
+
+	//Article Checkbox
+	$('.article-snapshot-list.action input:checkbox').click(function() {
+
+		//Interaction in the actionable items column of UIR table
+		if ($(".article-snapshot-list.action input:checkbox:checked").length > 0) {
+			$(".btn#publish").attr('disabled', true);
+			$("#publish-all").show();
+		} else {
+			$(".btn#publish").attr('disabled', false);
+			$("#publish-all").hide();
+		}
+	});
+
+	//Article Publish Click
+	$(".btn#publish").click(function() {
+
+		//Empty list & swap text to 'publish'
+		$("#articles-queue").empty();
+		$("#publish-action").empty().text('Publish');
+
+		//Prepare the article-ids for insertion in JS object
+		getArticles(this);
+
+		//Empty & populate the JS Object
+		articlesQueue = {};
+		articlesQueue[queueDress] = "";
+
+		//Feedback to the user
+		$("#articles-queue").append("<li>" + queueDress + "</li>");
+
+	});
+
+	//Article Publish All Click
+	$(".btn#publish-all").click(function() {
+
+		//Empty list & swap text to 'Publish all'
+		$("#articles-queue").empty();
+		$("#publish-action").empty().text('Publish all');
+
+		//Empty the JS Object
+		articlesQueue = {};
+
+		//Iterate through selected article(s)
+		$(".article-snapshot-list.action input:checkbox:checked").each(function() {
+			
+			//Prepare the article-ids for insertion in JS object
+			getArticles(this);
+
+			//Add to the JS Object
+			articlesQueue[queueDress] = "";
+
+			//Append to the queue list
+			$("#articles-queue").append("<li>" + queueDress + "</li>");
+		});
+	});
+
+	//Publish (all) Action
+	$("#publish-action").click(function() {
+
+		//Disable Publish (all) button to stop sending multiple requests
+		$("#publish-cancel").hide();
+		$(this).empty().attr('disabled', true).css({"width":"100%"});
+
+		//Prepare the data structure
+		$.each(articlesQueue, function(key) {
+			dataStructure.push(key);
+		});
+
+		//Poll endpoint if articles can be queued
+		queueArticlePublication();
+		
+		//Wait 5 seconds for the first response
+		setTimeout(function() {
+			//If the JS Object is not empty then
+			if (!jQuery.isEmptyObject(articlesQueue)) {
+				getArticleStatus();
+			}
+		}, 5000);
+
+		//Click Close icon to close modal & force reload
+		$("#publish-modal button.close").click(function() {
+			location.reload(true);
+		});
+		//Or press ESC & force a reload
+		$(document).keyup(function(e) {
+			if (e.keyCode == 27) {
+				location.reload(true);
+			}
+		});
+	});
+
 })(this);
