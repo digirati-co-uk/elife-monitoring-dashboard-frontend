@@ -182,7 +182,7 @@
 		    		var keyCheck = "#articles-queue li:contains('" + key + "')";
 
 					//Show error(s) to the user next to article(s) & Remove article-id(s) from JS Object
-					$(keyCheck).append("<span class='glyphicon glyphicon-remove' data-toggle='tooltip' data-placement='top' title='" + value.message + "'></span>");
+					$(keyCheck).append("<span class='glyphicon glyphicon-remove' data-toggle='tooltip' data-placement='top' title='" + value + "'></span>");
 					delete articlesQueue[key];
 				}
 
