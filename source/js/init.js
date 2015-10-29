@@ -155,7 +155,7 @@
 
 		$.ajax({
 			type: 'POST',
-			url: '../../data/queue.json',
+			url: 'http://localhost:8008/queue_article_publication',
 			data: { "articles" : dataStructure.join(",")},
 			error: function(xhr, textStatus, errorThrown) {
 	      		var err = textStatus + ", " + errorThrown;
@@ -164,7 +164,7 @@
 		}).done(function(data, textStatus) {
 
 			//Loop through all the key, value pairs in returned JS Object from server
-		    $.each(JSON.parse(data), function(key, value) {
+		    $.each(data, function(key, value) {
 
 		    	//Check if key exists in JS Object and the same key from server's response has the value 'queued'
 		    	if (articlesQueue.hasOwnProperty(key) && value.result == 'queued') {
@@ -216,7 +216,7 @@
 
 		$.ajax({
 			type: 'GET',
-			url: '../../data/response.json',
+			url: 'http://localhost:8008/check_article_status',
 			data: { "articles" : dataStructure.join(",")},
 			error: function(xhr, textStatus, errorThrown) {
 	      		var err = textStatus + ", " + errorThrown;
@@ -225,7 +225,7 @@
 		}).done(function(data, textStatus) {
 
 			//Loop through all the key, value pairs in returned JS Object from server
-		    $.each(JSON.parse(data), function(key, value) {
+		    $.each(data, function(key, value) {
 
 		    	var keyCheck = "#articles-queue li:contains('" + key + "')";
 
@@ -240,7 +240,7 @@
 					//Show error status to the user next to article(s) & Remove article-id(s) from JS Object
 					$(keyCheck).append("<span class='glyphicon glyphicon-remove' data-toggle='tooltip' data-placement='top' title='" + value + "'></span>");
 					delete articlesQueue[key];
-				} else if (articlesQueue.hasOwnProperty(key) && value === null) {
+				} else if (articlesQueue.hasOwnProperty(key) && value === 'ready to publish') {
 
 					//Show error status to the user next to article(s) & Remove article-id(s) from JS Object
 					$(keyCheck).append("<span class='glyphicon glyphicon-remove' data-toggle='tooltip' data-placement='top' title='" + value + "'></span>");
