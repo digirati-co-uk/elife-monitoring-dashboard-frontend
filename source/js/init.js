@@ -46,6 +46,7 @@
     });
 
 	//Global variables
+	var dataStructure = []; //Data structure for the ajax request
 	var articlesQueue = {}; //JS Object that holds the article-ids to be queued/published
 	var articleId, articleVer, queueDress; //Variables to prepare the article-id(s) for use
 
@@ -110,7 +111,6 @@
 			//Append to the queue list
 			$("#articles-queue").append("<li>" + queueDress + "</li>");
 		});
-
 	});
 
 	//Publish (all) Action
@@ -120,6 +120,11 @@
 		e.stopPropagation();
 		$("#publish-cancel").hide();
 		$(this).empty().attr('disabled', true).css({"width":"100%"});
+
+		//Prepare the data structure
+		$.each(articlesQueue, function(key) {
+			dataStructure.push(key);
+		});
 
 		//Poll endpoint if articles can be queued
 		queueArticlePublication();
@@ -147,11 +152,12 @@
 
 	//Poll
 	function queueArticlePublication() {
+
 		$.ajax({
 			type: 'POST',
 			url: '../../data/queue.json',
-			data: { "articles": articlesQueue },
-		    error: function(xhr, textStatus, errorThrown) {
+			data: { "articles" : dataStructure.join(",")},
+			error: function(xhr, textStatus, errorThrown) {
 	      		var err = textStatus + ", " + errorThrown;
 				console.log( "Request Failed: " + err );
 		  	}
@@ -196,18 +202,22 @@
 				$('[data-toggle="tooltip"]').tooltip();
 
 			});
+
+			//Prepare the data structure
+			dataStructure = [];
+			$.each(articlesQueue, function(key) {
+				dataStructure.push(key);
+			});
 		});
 	}
 
 	//Responses
 	function getArticleStatus() {
 
-		var dataStructure = "articles=" + articlesQueue;
-
 		$.ajax({
 			type: 'GET',
 			url: '../../data/response.json',
-			data: { "articles": articlesQueue },
+			data: { "articles" : dataStructure.join(",")},
 			error: function(xhr, textStatus, errorThrown) {
 	      		var err = textStatus + ", " + errorThrown;
 				console.log( "Request Failed: " + err );
@@ -243,6 +253,12 @@
 
 			//If the JS Object is still not empty then
 			if (!jQuery.isEmptyObject(articlesQueue)) {
+
+				//Prepare the data structure
+				dataStructure = [];
+				$.each(articlesQueue, function(key) {
+					dataStructure.push(key);
+				});
 				
 				//Loop this function every 10 seconds
 				setTimeout(function() {
