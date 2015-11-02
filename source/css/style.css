@@ -479,9 +479,14 @@ section {
     border-bottom: 1px solid #c8c8c8; }
   #filter .filter-refine {
     list-style: none;
-    overflow: auto;
+    overflow: visible;
     padding: 15px 0;
     min-height: 420px; }
+    #filter .filter-refine legend {
+      border: 0;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 5px; }
     #filter .filter-refine .btn {
       text-decoration: none;
       margin-top: 10px;
@@ -503,6 +508,7 @@ section {
   #datetimepicker-end input {
     vertical-align: middle;
     line-height: 16px;
+    padding: 6px;
     /* firefox 19+ */
     /* ie */ }
     #datetimepicker-start input::-webkit-input-placeholder,
