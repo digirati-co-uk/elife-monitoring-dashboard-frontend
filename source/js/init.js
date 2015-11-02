@@ -187,10 +187,8 @@
 
 		//Interaction in the actionable items column of UIR table
 		if ($(".article-snapshot-list.action input:checkbox:checked").length > 0) {
-			$(".btn#publish").attr('disabled', true);
 			$("#publish-all").show();
 		} else {
-			$(".btn#publish").attr('disabled', false);
 			$("#publish-all").hide();
 		}
 	});
