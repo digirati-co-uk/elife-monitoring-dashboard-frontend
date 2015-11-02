@@ -35,10 +35,10 @@
 
 	//Datepicker
 	$('#datetimepicker-start').datetimepicker({
-		format: 'D-MM-YY'
+		format: 'DD-MM-YY'
 	});
   $('#datetimepicker-end').datetimepicker({
-  	format: 'D-MM-YY',
+  	format: 'DD-MM-YY',
       useCurrent: false //Important! See issue #1075
   });
   $("#datetimepicker-start").on("dp.change", function (e) {
