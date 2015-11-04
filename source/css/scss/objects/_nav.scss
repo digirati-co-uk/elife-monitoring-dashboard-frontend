@@ -1,0 +1,112 @@
+/*------------------------------------*\
+    $NAVIGATION
+\*------------------------------------*/
+
+/* primary navigation */
+.navbar {
+  background-color: $LightGrey1;
+  border-radius: 0;
+  border: 0;
+  min-height: 40px;
+
+  @media #{$mobile} {
+    background-color: transparent;
+
+    .navbar-toggle {
+      background-color: $LightGrey1;
+    }
+
+    .icon-bar {
+      background-color: $DarkGrey;
+    }
+
+    .navbar-collapse {
+      background-color: $LightGrey1;
+    }
+
+  }
+
+  .navbar-collapse {
+    padding: 0;
+  }
+
+  .navbar-nav {
+
+    @media #{$mobile} {
+      margin: 0;
+
+      .open {
+
+        .dropdown-menu {
+
+          > li {
+
+            > a {
+              padding: 10px 45px;
+            }
+
+          }
+          
+        }
+
+      }
+
+    }
+
+    li {
+      background-color: transparent;
+      border-right: 1px solid white;
+
+      a {
+        color: $DarkGrey;
+        text-decoration: none;
+        padding: 10px 45px;
+      }
+
+      &.active {
+
+        > a {
+          background-color: $LightGrey2;
+
+          &:hover {
+            background-color: white;
+          }
+
+        }
+
+      }
+    
+    }
+
+  }
+
+  .dropdown-menu {
+    padding: 0;
+    border: 0;
+
+    li {
+      background-color: transparent;
+      border-top: 1px solid white;
+
+      > a {
+        background-color: $LightGrey2;
+        padding: 10px 0;
+        width: 170px;
+        text-align: center;
+
+        &:hover {
+          background-color: white;
+        }
+
+        @media #{$mobile} {
+          width: 100%;
+          text-align: left;
+        }
+
+      }
+
+    }
+
+  }
+
+}

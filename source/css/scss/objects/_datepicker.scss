@@ -1,0 +1,40 @@
+.date-range {
+
+  .custom-label {
+    display: block;
+    margin-top: 10px;
+  }
+
+  .date {
+    margin-bottom: 10px;
+
+    input {
+      vertical-align: middle;
+      line-height: 1.1;
+      padding: 6px;
+
+      &::-webkit-input-placeholder { 
+        font-size: 85%;
+        line-height: 1.4;
+      }
+
+      &::-moz-placeholder { /* firefox 19+ */
+        font-size: 85%;
+        line-height: 1.4;
+      } 
+      
+      &:-moz-placeholder { 
+        font-size: 85%;
+        line-height: 1.4;
+      }
+
+      &:-ms-input-placeholder { /* ie */
+        font-size: 85%;
+        line-height: 1.4;
+      }
+    
+    }
+
+  }
+
+}

@@ -1,0 +1,49 @@
+.filter {
+  position: relative;
+  margin-top: 40px;
+
+  a {
+    text-decoration: none;
+  }
+  
+  > .dropdown-menu  {
+    background-color: white;
+    width: 100%;
+    padding: 15px;
+    border-radius: 0;
+  }
+  
+  .filter-search {
+    padding: 0 0 15px;
+    border-bottom: 1px solid $LightGrey5;
+  }
+  
+  .filter-refine {
+    list-style: none;
+    overflow: visible;
+    padding: 15px 0;
+    min-height: 420px;
+    
+    legend {
+      border: 0;
+      font-weight: 700;
+      font-size: 1.4rem;
+      margin-bottom: 5px;
+    }
+    
+    .btn {
+      text-decoration: none;
+      margin-top: 10px;
+      padding: 5px 7px;
+      
+      @media #{$wide} {
+        margin: 15px 0 0;
+        display: block;
+        width: 100%;
+      }
+
+    }
+
+  }
+
+}

@@ -1,0 +1,36 @@
+/*------------------------------------*\
+    $BUTTONS
+\*------------------------------------*/
+
+.btn-grey {
+  text-decoration: none;
+  background-color: $LightGrey7;
+  border-color: $LightGrey7;
+  color: white;
+
+  &:hover {
+    background-color: $LightGrey3;
+    border-color: $LightGrey3;
+    color: white;
+  }
+
+}
+
+.publish-all {
+  display: none;
+  position: absolute;
+  top: 15px;
+  right: 0;
+  text-decoration: none;
+
+  @media #{$mobile} {
+    top: auto;
+    bottom: -45px;
+    width: 100%;
+  }
+
+}
+
+.publish-action {
+  display: none;
+}
