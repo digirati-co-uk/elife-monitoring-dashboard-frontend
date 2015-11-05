@@ -48,9 +48,9 @@
 }
 
 .glyph-status {
+  border-radius: 50%;
   margin-left: 5px;
   padding: 5px;
-  border-radius: 50%;
 }
 
 .glyphicon-remove--stat {
@@ -73,14 +73,18 @@
 
   @extend .glyph-status;
   
-  padding: 5px 6px 7px;
-  font-size: 1.1rem;
   background-color: $Orange;
   color: $Orange-txt;
+  font-size: 1.1rem;
+  padding: 5px 6px 7px;
 }
 
 .poa {
   float: left;
+
+  @media #{$mobile} {
+    display: none;
+  }
 
   &:before {
     font-size: 3rem;
@@ -88,13 +92,13 @@
   }
 
   &:after {
+    background-color: $Black2;
+    color: white;
     content: "POA";
     display: block;
-    padding: 2px 5px 5px;
-    margin-top: 5px;
     font-size: 1.3rem;
-    color: white;
-    background-color: $Black2;
+    margin-top: 5px;
+    padding: 2px 5px 5px;
   }
 
 }
@@ -102,19 +106,23 @@
 .vor {
   float: left;
 
+  @media #{$mobile} {
+    display: none;
+  }
+
   &:before {
     font-size: 3rem;
     padding-left: 4px;
   }
 
   &:after {
+    background-color: $Black3;
+    color: white;
     content: "VOR";
     display: block;
-    padding: 2px 5px 5px;
-    margin-top: 5px;
     font-size: 1.3rem;
-    color: white;
-    background-color: $Black3;
+    margin-top: 5px;
+    padding: 2px 5px 5px;
   }
 
 }

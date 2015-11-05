@@ -8,6 +8,10 @@
     display: none;
   }
 
+  .publish-action {
+    display: inline-block;
+  }
+
 }
 
 .archive-page {
@@ -34,20 +38,6 @@
   .article-version-map-list,
   .article-version-history-list {
     width: auto;
-  }
-
-}
-
-.modal-dialog {
-
-  ol {
-    margin-top: 5px;
-
-    li {
-      list-style-type: square;
-      padding: 5px 0;
-    }
-
   }
 
 }

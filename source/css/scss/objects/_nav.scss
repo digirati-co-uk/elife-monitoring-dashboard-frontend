@@ -59,8 +59,8 @@
 
       a {
         color: $DarkGrey;
-        text-decoration: none;
         padding: 10px 45px;
+        text-decoration: none;
       }
 
       &.active {
@@ -81,8 +81,8 @@
   }
 
   .dropdown-menu {
-    padding: 0;
     border: 0;
+    padding: 0;
 
     li {
       background-color: transparent;
@@ -91,16 +91,16 @@
       > a {
         background-color: $LightGrey2;
         padding: 10px 0;
-        width: 170px;
         text-align: center;
+        width: 170px;
 
         &:hover {
           background-color: white;
         }
 
         @media #{$mobile} {
-          width: 100%;
           text-align: left;
+          width: 100%;
         }
 
       }

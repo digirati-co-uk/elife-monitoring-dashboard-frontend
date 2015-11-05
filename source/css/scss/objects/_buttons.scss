@@ -3,10 +3,10 @@
 \*------------------------------------*/
 
 .btn-grey {
-  text-decoration: none;
   background-color: $LightGrey7;
   border-color: $LightGrey7;
   color: white;
+  text-decoration: none;
 
   &:hover {
     background-color: $LightGrey3;
@@ -19,13 +19,13 @@
 .publish-all {
   display: none;
   position: absolute;
-  top: 15px;
   right: 0;
   text-decoration: none;
+  top: 15px;
 
   @media #{$mobile} {
-    top: auto;
     bottom: -45px;
+    top: auto;
     width: 100%;
   }
 

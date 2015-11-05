@@ -3,32 +3,32 @@
 \*------------------------------------*/
 
 //Colours
+$Black1: #333;
+$Black2: #424242;
+$Black3: #7a7a7a;
+$Blue: #428bca;
+$DarkGrey: #616161;
+$Green-txt: #b1cca3;
+$Green: #deffcc;
 $LightGrey1: #d1d1d1;
-$LightGrey2: #ebebeb;
 $LightGrey2-txt: #969696;
+$LightGrey2: #ebebeb;
 $LightGrey3: #777;
 $LightGrey4: #ddd;
 $LightGrey5: #c8c8c8;
 $LightGrey6: #f5f5f5;
 $LightGrey7: #b3b3b3;
-$DarkGrey: #616161;
-$Black1: #333;
-$Black2: #424242;
-$Black3: #7a7a7a;
-$Blue: #428bca;
-$Pink: #ffc2bf;
-$Pink-txt: #cc9c99;
-$Green: #deffcc;
-$Green-txt: #b1cca3;
-$Teal: #cff4ff;
-$Teal-txt: #a5c3cc;
-$Orange: #f5cca6;
 $Orange-txt: #c4916c;
+$Orange: #f5cca6;
+$Pink-txt: #cc9c99;
+$Pink: #ffc2bf;
+$Teal-txt: #a5c3cc;
+$Teal: #cff4ff;
 
 //Images
 $img-path: "../images";
 
 //Break Points
-$x-wide: "(max-width: 1199px)";
-$wide: "(max-width: 991px)";
 $mobile: "(max-width: 767px)";
+$wide: "(max-width: 991px)";
+$x-wide: "(max-width: 1199px)";

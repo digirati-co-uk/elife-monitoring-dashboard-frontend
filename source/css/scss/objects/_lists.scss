@@ -1,8 +1,8 @@
 .article-version-map-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
   border: 1px solid $LightGrey5;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
   width: 25%;
   
   li {
@@ -13,37 +13,37 @@
     }
     
     .version {
+      border-bottom: 1px solid $LightGrey5;
       display: block;
       padding: 10px 15px;
-      border-bottom: 1px solid $LightGrey5;
     }
     
     .run {
-      padding: 0;
       list-style: none;
+      padding: 0;
       
       a {
         display: table;
-        width: 100%;
-        text-decoration: none;
         padding: 10px 15px 10px 30px;
+        text-decoration: none;
+        width: 100%;
         
         &:hover {
           background-color: $LightGrey1;
         }
         
         span {
-          display: table-cell;
           color: $Black1;
+          display: table-cell;
           
           &:last-child {
-            width: 20%;
             text-align: right;
+            width: 20%;
           }
           
           &:first-child {
-            width: 50%;
             text-align: left;
+            width: 50%;
           }
         
         }
@@ -58,14 +58,14 @@
 
 .article-version-history-list {
   list-style-type: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
   width: 66.67%;
   
   li {
     display: table;
-    width: 100%;
     padding-bottom: 20px;
+    width: 100%;
     
     .column-1 {
       display: table-cell;
@@ -82,9 +82,9 @@
       span {
         
         &:last-child {
+          left: 20px;
           position: relative;
           top: 15px;
-          left: 20px;
         }
       
       }
@@ -93,8 +93,8 @@
     
     .column-2 {
       display: table-cell;
-      vertical-align: middle;
       font-size: 1.2rem;
+      vertical-align: middle;
       
       p {
         display: table-row;
