@@ -11,8 +11,8 @@ then see [patternlab readme](patternlab-README.md)
 
 ### running
 
-if you'd like to contribute to the repo it would make sense to run a watch and reload task as follows:
+if you'd like to  test the publishing workflow:
 * in the project folder start a php server 'php -S localhost:8000' (change port if in conflict)
-* and then run 'php core/builder.php -wr' & see [advanced auto generate](http://patternlab.io/docs/advanced-auto-regenerate.html)
+* optionally run a watch and reload task 'php core/builder.php -wr'. See [advanced auto generate](http://patternlab.io/docs/advanced-auto-regenerate.html)
 
-else if you'd just like to view the Pattern Library in your project folder you should open 'public/index.html'
+alternatively if you'd just like to view the Patterns in the library, open 'public/index.html'
