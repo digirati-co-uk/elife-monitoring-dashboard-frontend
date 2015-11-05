@@ -616,6 +616,9 @@ section {
           margin: 15px 0 0;
           width: 100%; } }
 
+@media (max-width: 991px) {
+  .date-range {
+    display: inline-block; } }
 .date-range .custom-label {
   display: block;
   margin-top: 10px; }

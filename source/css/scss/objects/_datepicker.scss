@@ -1,5 +1,9 @@
 .date-range {
 
+  @media #{$wide} {
+    display: inline-block;
+  }
+
   .custom-label {
     display: block;
     margin-top: 10px;
