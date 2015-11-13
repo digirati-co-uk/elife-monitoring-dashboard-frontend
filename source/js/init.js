@@ -1,8 +1,8 @@
 "use strict";
 
 (function (w) {
-  var sw = document.body.clientWidth,
-      sh = document.body.clientHeight;
+  var sw = document.body.clientWidth;
+  var sh = document.body.clientHeight;
 
   $(w).resize(function () { //Update dimensions on resize
     sw = document.body.clientWidth;
@@ -267,7 +267,7 @@
     });
     //Or press ESC & force a reload
     $(document).keyup(function(e) {
-      if (e.keyCode == 27) {
+      if (e.keyCode === 27) {
         location.reload(true);
       }
     });

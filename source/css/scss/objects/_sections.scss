@@ -117,11 +117,23 @@ section {
       background-color: $LightGrey6;
       border: 1px solid $LightGrey5;
 
+      @media #{$mobile} {
+        display: block;
+      }
+
+      tbody {
+
+        @media #{$mobile} {
+          display: block;
+        }
+
+      }
+
       tr {
         vertical-align: middle;
 
         @media #{$mobile} {
-          display: table;
+          display: block;
           margin: 15px;
         }
       }
@@ -131,9 +143,10 @@ section {
         padding-bottom: 15px;
 
         @media #{$mobile} {
-          display: table-row;
+          display: block;
           padding: 0;
         }
+
       }
 
       .column-1 {
@@ -164,6 +177,7 @@ section {
         @media #{$mobile} {
           padding: 0;
           text-align: left;
+          width: 100%;
 
           dl {
             height: 60px;
@@ -190,6 +204,7 @@ section {
 
         @media #{$mobile} {
           padding: 0;
+          width: 100%;
 
           .btn {
             width: 100%;
@@ -207,23 +222,50 @@ section {
         padding-bottom: 15px;
         padding-top: 15px;
         vertical-align: top;
+
+        @media #{$mobile} {
+          display: block;
+          overflow: auto;
+          width: 100%;
+        }
+
       }
 
       dt {
         width: 32%;
+
+        @media #{$mobile} {
+          width: 50%;
+        }
+
       }
 
       dd {
         width: 68%;
+
+        @media #{$mobile} {
+          width: 50%;
+        }
+
       }
 
       .column-1 {
         width: 50%;
+
+        @media #{$mobile} {
+          width: 100%;
+        }
+
       }
 
       .column-2 {
         padding-left: 5%;
         padding-right: 5%;
+
+        @media #{$mobile} {
+          padding: 0;
+        }
+
       }
 
     }
@@ -233,11 +275,21 @@ section {
   &.article-version-map {
     border: 0;
     padding-left: 0;
+
+    @media #{$mobile} {
+      padding: 0;
+    }
+
   }
 
   &.article-version-history {
     border: 0;
     padding-right: 0;
+
+    @media #{$mobile} {
+      padding: 0;
+    }
+
   }
 
 }
