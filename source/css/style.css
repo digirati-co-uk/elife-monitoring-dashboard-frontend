@@ -325,18 +325,22 @@ a {
       vertical-align: middle; }
       @media (max-width: 767px) {
         .article-version-history-list li .column-2 {
-          clear: both;
-          float: left;
+          display: block;
+          width: 100%;
           padding-top: 15px;
           padding-left: 70px; } }
-      .article-version-history-list li .column-2 p {
-        display: table-row;
-        width: 100%; }
-        .article-version-history-list li .column-2 p i {
-          display: table-cell;
-          padding-right: 15px; }
-        .article-version-history-list li .column-2 p span {
-          display: table-cell; }
+      .article-version-history-list li .column-2 dl {
+        clear: both;
+        margin: 0; }
+        .article-version-history-list li .column-2 dl dt {
+          float: left;
+          font-weight: normal;
+          width: 30%; }
+        .article-version-history-list li .column-2 dl dd {
+          float: left;
+          width: 70%; }
+          .article-version-history-list li .column-2 dl dd.divide {
+            width: 35%; }
 
 .article-snapshot-list {
   margin-top: 15px;

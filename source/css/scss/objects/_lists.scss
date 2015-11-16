@@ -102,25 +102,32 @@
       vertical-align: middle;
 
       @media #{$mobile} {
-        clear: both;
-        float: left;
+        display: block;
+        width: 100%;
         padding-top: 15px;
         padding-left: 70px;
       }
-      
-      p {
-        display: table-row;
-        width: 100%;
-        
-        i {
-          display: table-cell;
-          padding-right: 15px;
+
+      dl {
+        clear: both;
+        margin: 0;     
+
+        dt {
+          float: left;
+          font-weight: normal;
+          width: 30%;
         }
-        
-        span {
-          display: table-cell;
+
+        dd {
+          float: left;
+          width: 70%;
+
+          &.divide {
+            width: 35%;
+          }
+
         }
-      
+
       }
     
     }
