@@ -1,39 +1,35 @@
-<div id="filter">
+<div class="filter">
 	<a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-      <span class="glyphicon glyphicon-filter"></span>
-      Filter
-    </a>
-    <ul class="dropdown-menu">
-    	<li class="clearfix">
-    		<form action="#" method="get" class="filter-search col-sm-8 col-sm-offset-2">
-		        <div class="input-group">
-		            <input type="text" name="keywords" class="form-control" placeholder="Enter keywords"/>
-		            <span class="input-group-btn">
-		                <button type="submit" name="seach" id="search-btn" class="btn btn-primary">Go</button>
-		            </span>
-		        </div>
-		    </form>
-		</li>
-		<li class="clearfix">
-		    <ul class="filter-refine">
-		    	<li class="col-sm-2 col-md-2">
-			    	<form>
-			    		<fieldset class="form-group">
-				    		<legend>State</legend>
-				    		<div class="checkbox">
+    <span class="glyphicon glyphicon-filter"></span>
+    Filter
+  </a>
+	<form class="dropdown-menu">
+    <ul>
+    	<li>
+        <div class="filter-search input-group col-sm-8 col-sm-offset-2">
+          <input type="text" name="keywords" class="form-control" placeholder="Enter keywords"/>
+          <span class="input-group-btn">
+              <button type="submit" name="search" id="search-btn" class="btn btn-primary">Go</button>
+          </span>
+        </div>
+  		</li>
+  		<li>
+  		  <ul class="filter-refine">
+  	    	<li class="col-sm-2 col-md-2">
+		    		<fieldset class="form-group">
+			    		<legend>State</legend>
+			    		<div class="checkbox">
 							  <label><input type="checkbox" value=""><small>POA</small></label>
 							</div>
 							<div class="checkbox">
 							  <label><input type="checkbox" value=""><small>VOR</small></label>
 							</div>
 						</fieldset>
-					</form>
-		    	</li>
-		    	<li class="col-sm-2 col-md-2">
-		    		<form>
-			    		<fieldset class="form-group">
-			    			<legend>Stages</legend>
-				    		<div class="checkbox">
+  	    	</li>
+  	    	<li class="col-sm-2 col-md-2">
+		    		<fieldset class="form-group">
+		    			<legend>Stages</legend>
+			    		<div class="checkbox">
 							  <label><input type="checkbox" value=""><small>Assembly</small></label>
 							</div>
 							<div class="checkbox">
@@ -46,13 +42,11 @@
 							  <label><input type="checkbox" value=""><small>Archive</small></label>
 							</div>
 						</fieldset>
-					</form>
-		    	</li>
-		    	<li class="col-sm-2 col-md-2">
-		    		<form>
-			    		<fieldset class="form-group">
-		    				<legend>Status</legend>
-				    		<div class="checkbox">
+  	    	</li>
+  	    	<li class="col-sm-2 col-md-2">
+		    		<fieldset class="form-group">
+	    				<legend>Status</legend>
+			    		<div class="checkbox">
 							  <label><input type="checkbox" value=""><small>Complete</small></label>
 							</div>
 							<div class="checkbox">
@@ -65,13 +59,11 @@
 							  <label><input type="checkbox" value=""><small>Error</small></label>
 							</div>
 						</fieldset>
-					</form>
-		    	</li>
-		    	<li class="col-sm-3 col-md-2">
-		    		<form>
-			    		<fieldset class="form-group">
-		    				<legend>Type</legend>
-				    		<div class="checkbox">
+  	    	</li>
+  	    	<li class="col-sm-3 col-md-2">
+		    		<fieldset class="form-group">
+	    				<legend>Type</legend>
+			    		<div class="checkbox">
 							  <label><input type="checkbox" value=""><small>Research Article</small></label>
 							</div>
 							<div class="checkbox">
@@ -84,13 +76,11 @@
 							  <label><input type="checkbox" value=""><small>Insight</small></label>
 							</div>
 						</fieldset>
-					</form>
-		    	</li>
-		    	<li class="col-sm-3 col-md-2">
-		    		<form>
-			    		<fieldset class="form-group">
-		    				<legend>Tags</legend>
-				    		<div class="checkbox">
+  	    	</li>
+  	    	<li class="col-sm-3 col-md-2">
+		    		<fieldset class="form-group">
+	    				<legend>Tags</legend>
+			    		<div class="checkbox">
 							  <label><input type="checkbox" value=""><small>Press</small></label>
 							</div>
 							<div class="checkbox">
@@ -109,28 +99,30 @@
 							  <label><input type="checkbox" value=""><small>Unusual</small></label>
 							</div>
 						</fieldset>
-					</form>
-		    	</li>
-		    	<li class="col-md-2 date-range">
-		    		<label class="control-label">Date range</label>
-		    		<small class="custom-label">Start</small>
-		    	  	<div class="input-group date" id="datetimepicker-start">
-		                <input type="text" class="form-control" placeholder="DD-MM-YY"/>
-		                <span class="input-group-addon">
-		                    <span class="glyphicon glyphicon-calendar"></span>
-		                </span>
-		            </div>
-		            <small class="custom-label">End</small>
-		    	  	<div class="input-group date" id="datetimepicker-end">
-		                <input type="text" class="form-control" placeholder="DD-MM-YY"/>
-		                <span class="input-group-addon">
-		                    <span class="glyphicon glyphicon-calendar"></span>
-		                </span>
-		            </div>
-					<div class="btn btn-sm btn-primary pull-left" id="search-refine-btn">Refine</div> 
-					<div class="btn btn-sm btn-grey pull-right" id="search-reset-btn">Reset all</div> 
-		    	</li>
-		    </ul>
+  	    	</li>
+  	    	<li class="col-md-2 date-range">
+            <fieldset class="form-group">
+    	    		<legend>Date range</legend>
+        			<small class="custom-label">Start</small>
+        	  	<div class="input-group date" id="datetimepicker-start">
+                <input type="text" class="form-control" placeholder="DD-MM-YY"/>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+             	</div>
+             	<small class="custom-label">End</small>
+        	  	<div class="input-group date" id="datetimepicker-end">
+                <input type="text" class="form-control" placeholder="DD-MM-YY"/>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            	</div>
+    					<div class="btn btn-sm btn-primary pull-left" id="search-refine-btn">Refine</div>
+    					<div class="btn btn-sm btn-grey pull-right" id="search-reset-btn">Reset all</div>
+            </fieldset>
+  	    	</li>
+  		  </ul>
     	</li>
     </ul>
+  </form>
 </div>

@@ -1,0 +1,295 @@
+.section-map {
+  background-color: $LightGrey6;
+  border: 1px solid $LightGrey5;
+  overflow: auto;
+  padding: 15px 0 15px 80px;
+
+  @media #{$x-wide} {
+    padding: 15px 0 15px 40px;
+    text-align: center;
+  }
+
+  @media #{$wide} {
+    padding: 15px 0;
+  }
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+  }
+
+  span {
+
+    &.glyphicon {
+      float: left;
+      margin-top: 45px;
+      transform: translateY(-50%);
+
+      @media #{$wide} {
+        float: none;
+      }
+
+    }
+
+    &.val {
+      font-size: 3.6rem;
+    }
+
+    &.desc {
+      font-weight: 300;
+    }
+
+  }
+
+  .text-center {
+    float: left;
+    width: 112px;
+
+    @media #{$wide} {
+      display: block;
+      float: none;
+      margin: -28px auto 0;
+    }
+
+  }
+
+}
+
+section {
+  border-bottom: 1px solid $LightGrey5;
+  margin-top: 40px;
+  position: relative;
+  
+  &.uir {
+
+    h4 {
+      display: inline-block;
+      margin: 0;
+      padding: 7px 15px 15px;
+    }
+
+    .column-3 {
+      text-align: right;
+    }
+
+  }
+
+  &.article-detail {
+    font-size: 1.2rem;
+
+    h6 {
+      font-weight: bold;
+      margin-top: 0;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .btn {
+      text-decoration: none;
+
+      @media #{$mobile} {
+        display: block;
+
+        &:not(:first-child) {
+          margin-top: 5px;
+        }
+
+      }
+
+    }
+
+    dt,
+    dd {
+      float: left;
+      font-size: 1.2rem;
+      font-weight: normal;
+      line-height: 1.3;
+      width: 50%;
+    }
+
+    .snapshot {
+      background-color: $LightGrey6;
+      border: 1px solid $LightGrey5;
+
+      @media #{$mobile} {
+        display: block;
+      }
+
+      tbody {
+
+        @media #{$mobile} {
+          display: block;
+        }
+
+      }
+
+      tr {
+        vertical-align: middle;
+
+        @media #{$mobile} {
+          display: block;
+          margin: 15px;
+        }
+      }
+
+      td {
+        padding-top: 15px;
+        padding-bottom: 15px;
+
+        @media #{$mobile} {
+          display: block;
+          padding: 0;
+        }
+
+      }
+
+      .column-1 {
+        padding-left: 15px;
+        vertical-align: top;
+
+        @media #{$mobile} {
+          padding: 0;
+        }
+
+        h6,
+        p {
+          padding-left: 18%;
+
+          @media #{$mobile} {
+            padding-left: 0;
+          }
+
+        }
+
+      }
+      .column-2 {
+        padding-left: 15px;
+        padding-right: 15px;
+        text-align: right;
+        width: 15%;
+
+        @media #{$mobile} {
+          padding: 0;
+          text-align: left;
+          width: 100%;
+
+          dl {
+            height: 60px;
+            margin: 0;
+            padding: 15px 0;
+          }
+
+        }
+
+      }
+
+      .column-3 {
+        padding-right: 15px;
+        text-align: right;
+        width: 30%;
+
+        @media #{$x-wide} {
+          width: 40%;
+        }
+
+        @media #{$wide} {
+          width: 50%;
+        }
+
+        @media #{$mobile} {
+          padding: 0;
+          width: 100%;
+
+          .btn {
+            width: 100%;
+          }
+
+        }
+
+      }
+
+    }
+
+    .detail {
+
+      td {
+        padding-bottom: 15px;
+        padding-top: 15px;
+        vertical-align: top;
+
+        @media #{$mobile} {
+          display: block;
+          overflow: auto;
+          width: 100%;
+        }
+
+      }
+
+      dt {
+        width: 32%;
+
+        @media #{$mobile} {
+          width: 50%;
+        }
+
+      }
+
+      dd {
+        width: 68%;
+
+        @media #{$mobile} {
+          width: 50%;
+        }
+
+      }
+
+      .column-1 {
+        width: 50%;
+
+        @media #{$mobile} {
+          width: 100%;
+        }
+
+      }
+
+      .column-2 {
+        padding-left: 5%;
+        padding-right: 5%;
+
+        @media #{$mobile} {
+          padding: 0;
+        }
+
+      }
+
+    }
+
+  }
+
+  &.article-version-map {
+    border: 0;
+    padding-left: 0;
+
+    @media #{$mobile} {
+      padding: 0;
+    }
+
+  }
+
+  &.article-version-history {
+    border: 0;
+    padding-right: 0;
+
+    @media #{$mobile} {
+      padding: 0;
+    }
+
+  }
+
+}

@@ -1,0 +1,43 @@
+/*------------------------------------*\
+    $LAYOUT
+\*------------------------------------*/
+
+.dashboard-page {
+
+  .pattern-helper {
+    display: none;
+  }
+
+  .publish-action {
+    display: inline-block;
+  }
+
+}
+
+.archive-page {
+
+  .filter {
+    margin: 0;
+
+    .dropdown-toggle {
+      position: absolute;
+      right: 15px;
+      top: -73px;
+    }
+
+    > .dropdown-menu  {
+      top: -35px;
+    }
+
+  }
+
+}
+
+.detail-page {
+
+  .article-version-map-list,
+  .article-version-history-list {
+    width: auto;
+  }
+
+}

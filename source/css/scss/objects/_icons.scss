@@ -1,0 +1,128 @@
+.glyph-header {
+  border-radius: 50%;
+  font-size: 2rem;
+  padding: 15px;
+}
+
+.glyphicon-warning-sign--mod {
+  
+  @extend .glyph-header;
+  
+  background-color: $Pink;
+  color: $Pink-txt;
+  padding: 13px 15px 17px;
+}
+
+.glyphicon-cog--mod {
+  
+  @extend .glyph-header;
+  
+  background-color: $Teal;
+  color: $Teal-txt;
+}
+
+.glyphicon-hand-down--mod {
+  
+  @extend .glyph-header;
+  
+  background-color: $LightGrey2;
+  color: $LightGrey2-txt;
+  padding: 16px 14px 14px 16px;
+}
+
+.glyphicon-time--mod {
+  
+  @extend .glyph-header;
+  
+  background-color: $Orange;
+  color: $Orange-txt;
+}
+
+.glyphicon-ok--mod {
+  
+  @extend .glyph-header;
+  
+  background-color: $Green;
+  color: $Green-txt;
+  padding: 15px;
+}
+
+.glyph-status {
+  border-radius: 50%;
+  margin-left: 5px;
+  padding: 5px;
+}
+
+.glyphicon-remove--stat {
+  
+  @extend .glyph-status;
+  
+  background-color: $Pink;
+  color: $Pink-txt;
+}
+
+.glyphicon-ok--stat {
+  
+  @extend .glyph-status;
+  
+  background-color: $Green;
+  color: $Green-txt;
+}
+
+.glyphicon-warning-sign--stat {
+
+  @extend .glyph-status;
+  
+  background-color: $Orange;
+  color: $Orange-txt;
+  font-size: 1.1rem;
+  padding: 5px 6px 7px;
+}
+
+.poa {
+  float: left;
+
+  @media #{$mobile} {
+    display: none;
+  }
+
+  &:before {
+    font-size: 3rem;
+    padding-left: 4px;
+  }
+
+  &:after {
+    background-color: $Black2;
+    color: white;
+    content: "POA";
+    display: block;
+    font-size: 1.3rem;
+    margin-top: 5px;
+    padding: 2px 5px 5px;
+  }
+
+}
+
+.vor {
+  float: left;
+
+  @media #{$mobile} {
+    display: none;
+  }
+
+  &:before {
+    font-size: 3rem;
+    padding-left: 4px;
+  }
+
+  &:after {
+    background-color: $Black3;
+    color: white;
+    content: "VOR";
+    display: block;
+    font-size: 1.3rem;
+    margin-top: 5px;
+    padding: 2px 5px 5px;
+  }
+
+}

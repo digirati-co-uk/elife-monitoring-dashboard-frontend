@@ -1,0 +1,137 @@
+.article-version-map-list {
+  border: 1px solid $LightGrey5;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 25%;
+  
+  li {
+    border-top: 1px solid $LightGrey5;
+    
+    &:first-child {
+      border-top: 0;
+    }
+    
+    .version {
+      border-bottom: 1px solid $LightGrey5;
+      display: block;
+      padding: 10px 15px;
+    }
+    
+    .run {
+      list-style: none;
+      padding: 0;
+      
+      a {
+        display: table;
+        padding: 10px 15px 10px 30px;
+        text-decoration: none;
+        width: 100%;
+        
+        &:hover {
+          background-color: $LightGrey1;
+        }
+        
+        span {
+          color: $Black1;
+          display: table-cell;
+          
+          &:last-child {
+            text-align: right;
+            width: 20%;
+          }
+          
+          &:first-child {
+            text-align: left;
+            width: 50%;
+          }
+        
+        }
+      
+      }
+    
+    }
+  
+  }
+
+}
+
+.article-version-history-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 66.67%;
+  
+  li {
+    display: table;
+    padding-bottom: 20px;
+    width: 100%;
+    
+    .column-1 {
+      display: table-cell;
+      width: 50%;
+      
+      @media #{$x-wide} {
+        width: 45%;
+      }
+      
+      @media #{$wide} {
+        width: 50%;
+      }
+
+      @media #{$mobile} {
+        display: block;
+        width: 100%;
+      }
+      
+      span {
+        
+        &:last-child {
+          float: left;
+          margin-left: 20px;
+          margin-top: 14px;
+        }
+      
+      }
+    
+    }
+    
+    .column-2 {
+      display: table-cell;
+      font-size: 1.2rem;
+      vertical-align: middle;
+
+      @media #{$mobile} {
+        display: block;
+        width: 100%;
+        padding-top: 15px;
+        padding-left: 70px;
+      }
+
+      dl {
+        clear: both;
+        margin: 0;     
+
+        dt {
+          float: left;
+          font-weight: normal;
+          width: 30%;
+        }
+
+        dd {
+          float: left;
+          width: 70%;
+
+          &.divide {
+            width: 35%;
+          }
+
+        }
+
+      }
+    
+    }
+  
+  }
+
+}
