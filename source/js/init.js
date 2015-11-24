@@ -196,7 +196,7 @@
   });
 
   //Article Publish Click
-  $(".btn#publish").click(function() {
+  $(".btn.publish").click(function() {
 
     //Empty list & swap text to 'publish'
     $("#articles-queue").empty();
