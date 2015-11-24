@@ -62,6 +62,8 @@ a {
     top: -73px; }
   .archive-page .filter > .dropdown-menu {
     top: -35px; }
+  .archive-page .filter > .dropdown-menu ul {
+    list-style-type: none; }
 
 .detail-page .article-version-map-list,
 .detail-page .article-version-history-list {
