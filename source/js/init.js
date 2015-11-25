@@ -1,6 +1,8 @@
-"use strict";
+
 
 (function (w) {
+  'use strict';
+
   var sw = document.body.clientWidth;
   var sh = document.body.clientHeight;
 
