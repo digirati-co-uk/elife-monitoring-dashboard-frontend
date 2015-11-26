@@ -1,16 +1,8 @@
 /*! eLife - v0.0.1 - 2015-11-26
 * https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend
 * Copyright (c) 2015 eLife; Licensed  */
-jQuery(function($) {
+(function($) {
   'use strict';
-
-  //Filter Box
-  $('.filter .dropdown-menu').on({
-    click: function(e) {
-      //Stop modal from closing if clicked anywhere inside
-      e.stopPropagation();
-    },
-  });
 
   //Datepicker - https://eonasdan.github.io/bootstrap-datetimepicker/#linked-pickers
   $('#datetimepicker-start').datetimepicker({
@@ -28,6 +20,98 @@ jQuery(function($) {
     $('#datetimepicker-start').data('DateTimePicker').maxDate(e.date);
   });
 
+})(jQuery);
+
+(function($) {
+  'use strict';
+
+  //Filter Box
+  $('.filter .dropdown-menu').on({
+    click: function(e) {
+      //Stop modal from closing if clicked anywhere inside
+      e.stopPropagation();
+    },
+  });
+
+})(jQuery);
+
+(function($) {
+  'use strict';
+
+  var ENTER_KEY = 13;
+  var ESCAPE_KEY = 27;
+
+  var App = {
+    init: function() {
+      this.queued = {};
+      this.bindEvents();
+    },
+
+    bindEvents: function() {
+      $('.toggle-publish-all').on('change', this.togglePublishAllBtn.bind(this));
+      $('#btn-publish-selected').on('click', this.publishSelected.bind(this));
+      $('.btn-publish').on('click', this.publish.bind(this));
+    },
+
+    togglePublishAllBtn: function(e) {
+      console.log('togglePublishAll');
+      $('#btn-publish-selected').show(); //@TODO not working
+      var article = this.getArticleData($(e.target));
+      this.populateQueue(article);
+    },
+
+    publishSelected: function() {
+      console.log('publishSelected');
+      var isMultiple = (_.size(this.queued) > 1) ? true : false;
+      this.initModal(isMultiple);
+      this.displayQueue();
+    },
+
+    publish: function(e) {
+      console.log('publish');
+      var article = this.getArticleData($(e.target));
+      this.initModal(false);
+      this.populateQueue(article);
+      this.displayQueue();
+    },
+
+    initModal: function(isMultiple) {
+      console.log('initPublishModal');
+      var btnText = (isMultiple) ? 'Publish All' : 'Publish';
+      $('#articles-queue', '#publish-modal').empty();
+      $('#publish-action', '#publish-modal').empty().text(btnText);
+    },
+
+    getArticleData: function(target) {
+      console.log('getArticleData');
+      var targetParent = target.parents('tr');
+      var articleId = targetParent.attr('data-article-id');
+      var articleVer = targetParent.attr('data-article-version');
+      return articleId + '-v' + articleVer;
+    },
+
+    populateQueue: function(article) {
+      console.log('populateQueue');
+      if (_.isUndefined(this.queued[article])) {
+        this.queued[article] = '';
+      } else {
+        delete this.queued[article];
+      }
+    },
+
+    displayQueue: function(article) {
+      console.log('displayQueue');
+      $.each(this.queued, function(key) {
+        $('#articles-queue').append('<li>' + key + '</li>');
+      });
+    },
+
+  };
+
+  App.init();
+
+  /// Code still to be refactored
+
   //Global variables
   var dataStructure = []; //Data structure for the ajax request
   var articlesQueue = {}; //JS Object that holds the article-ids to be queued/published
@@ -35,12 +119,6 @@ jQuery(function($) {
   var articleVer;
   var queueDress; //Variables to prepare the article-id(s) for use
 
-  //Prepare the article-ids for insertion in JS object
-  function getArticles(e) {
-    articleId = $(e).parents('tr').find('.article-id').html();
-    articleVer = $(e).parents('tr').find('.article-version').html();
-    queueDress = articleId + '-v' + articleVer;
-  }
 
   //Poll
   function queueArticlePublication() {
@@ -164,61 +242,11 @@ jQuery(function($) {
     });
   }
 
-  //Article Checkbox
-  $('.article-snapshot-list.action input:checkbox').click(function() {
 
-    //Interaction in the actionable items column of UIR table
-    if ($('.article-snapshot-list.action input:checkbox:checked').length > 0) {
-      $('#publish-all').show();
-    } else {
-      $('#publish-all').hide();
-    }
-  });
 
-  //Article Publish Click
-  $('.btn.publish').click(function() {
 
-    //Empty list & swap text to 'publish'
-    $('#articles-queue').empty();
-    $('#publish-action').empty().text('Publish');
 
-    //Prepare the article-ids for insertion in JS object
-    getArticles(this);
-
-    //Empty & populate the JS Object
-    articlesQueue = {};
-    articlesQueue[queueDress] = '';
-
-    //Feedback to the user
-    $('#articles-queue').append('<li>' + queueDress + '</li>');
-
-  });
-
-  //Article Publish All Click
-  $('.btn#publish-all').click(function() {
-
-    //Empty list & swap text to 'Publish all'
-    $('#articles-queue').empty();
-    $('#publish-action').empty().text('Publish all');
-
-    //Empty the JS Object
-    articlesQueue = {};
-
-    //Iterate through selected article(s)
-    $('.article-snapshot-list.action input:checkbox:checked').each(function() {
-
-      //Prepare the article-ids for insertion in JS object
-      getArticles(this);
-
-      //Add to the JS Object
-      articlesQueue[queueDress] = '';
-
-      //Append to the queue list
-      $('#articles-queue').append('<li>' + queueDress + '</li>');
-    });
-  });
-
-  //Publish (all) Action
+  //Publish all (all) button in the popup
   $('#publish-action').click(function() {
 
     //Disable Publish (all) button to stop sending multiple requests
@@ -248,13 +276,13 @@ jQuery(function($) {
 
     //Or press ESC & force a reload
     $(document).keyup(function(e) {
-      if (e.keyCode === 27) {
+      if (e.keyCode === ESCAPE_KEY) {
         location.reload(true);
       }
     });
   });
 
-})(this);
+})(jQuery);
 
 (function(w) {
   var sw = document.body.clientWidth;
@@ -281,9 +309,4 @@ jQuery(function($) {
     $(this).toggleClass('active');
     $('.header .search-form').toggleClass('active');
   });
-})(this);
-
-
-(function(w){
-console.log('test');
 })(this);
