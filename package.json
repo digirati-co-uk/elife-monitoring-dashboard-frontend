@@ -1,0 +1,30 @@
+{
+  "name": "deploy",
+  "title": "eLife",
+  "version": "0.0.1",
+  "private": true,
+  "description": "eLife Deploy",
+  "homepage": "https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend",
+  "author": {
+    "name": "eLife",
+    "url": "http://elifesciences.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend.git"
+  },
+  "devDependencies": {
+    "grunt": "latest",
+    "grunt-contrib-concat": "latest",
+    "grunt-contrib-uglify": "latest",
+    "grunt-contrib-watch": "latest",
+    "grunt-sass": "^1.0.0",
+    "grunt-scss-lint": "^0.3.6",
+    "node-sass": "^3.1.2"
+  },
+  "path" : {
+    "js" : "source/js/",
+    "scss" : "source/css/scss/",
+    "css" : "source/css/"
+  }
+}

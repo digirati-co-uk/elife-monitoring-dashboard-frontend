@@ -1,0 +1,81 @@
+module.exports = function(grunt) {
+  grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
+    '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
+    '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
+    '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
+    ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
+
+    // Task configuration.
+
+    // Concatenate all JS into one file
+    concat: {
+      options: {
+        banner: '<%= banner %>',
+        stripBanners: true,
+      },
+      dist: {
+        //put all the prerequisites in a file
+        files: {
+          //app  js
+          'source/js/init.js': [
+            'source/js/app/**/*',
+          ],
+        },
+      },
+    },
+    uglify: {
+      options: {
+        banner: '<%= banner %>',
+      },
+      init: {
+        src: ['source/js/init.js'],
+        dest: 'source/js/init.min.js',
+      },
+    },
+
+    sass: {
+      dev: {
+        files: {
+          'source/css/style.css': 'source/css/style.scss',
+        },
+        options: {
+          //includePaths: ['source/css/scss/incs'],
+          outputStyle: 'expanded',
+          imagePath: '../images',
+          sourceMap: true,
+          outFile: 'source/css/',
+        },
+      },
+    },
+
+    // Watches styles and specs for changes
+    watch: {
+      css: {
+        files: ['source/css/scss/**/*.scss'],
+        tasks: ['sass'],
+        options: {nospawn: false},
+      },
+      js: {
+        files: ['source/js/app/**/*.js'],
+        tasks: ['concat'],
+        options: {nospawn: false},
+      },
+    },
+  });
+  [
+    'grunt-contrib-concat',
+    'grunt-contrib-uglify',
+    'grunt-contrib-watch',
+    'grunt-sass',
+    'grunt-scss-lint',
+  ].forEach(function(task) {
+    grunt.loadNpmTasks(task);
+  });
+
+  // Register the default tasks
+  grunt.registerTask('default', ['concat', 'sass']);
+  grunt.registerTask('default', ['concat', 'sass', 'watch']);
+  grunt.registerTask('deploy', ['concat', 'uglify', 'sass']);
+};
