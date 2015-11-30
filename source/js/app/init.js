@@ -21,21 +21,27 @@
     },
 
     bindEvents: function() {
-      $('.toggle-add-to-queue').on('change', this.toggleAddToQueueBtn.bind(this));
-      $('.btn-publish-queued').on('click', this.publishQueued.bind(this));
-      $('.btn-publish').on('click', this.publish.bind(this));
-      $('#publish-action').on('click', this.performPublish.bind(this));
-      $('#publish-modal').on('keyup', this.refreshPage.bind(this));
-      $('.close', '#publish-modal').on('click', this.refreshPage.bind(this));
+      console.log('bindEvents');
+
+      // @TODO This needs to look for ..toggle-add-to-queue checkboxes but its not working atm
+      $('#articles').on('change', 'input:checkbox', this.toggleAddToQueueBtn.bind(this));
+
+      $('#articles').on('click', '.btn-publish-queued', this.publishQueued.bind(this));
+      $('#articles').on('click', '.btn-publish', this.publish.bind(this));
+
+      $('#articles').on('click', '#publish-action', this.performPublish.bind(this));
+
+      $('#articles').on('keyup', '#publish-modal', this.refreshPage.bind(this));
+      $('#articles').on('click', '#publish-modal .close', this.refreshPage.bind(this));
     },
 
     renderArticles: function() {
+      console.log('renderArticles');
       $.ajax({
         url: "http://localhost:8000/articles.json",
         cache: false,
         dataType: "json",
         success: function(articles){
-          console.log(articles);
           this.articleTemplate = eLife.templates['article-template'];
           $('#articles').html(this.articleTemplate(articles));
         },
@@ -49,7 +55,7 @@
     },
 
     toggleAddToQueueBtn: function(e) {
-      console.log('togglePublishAll');
+      console.log('toggleAddToQueueBtn');
       $('.btn-publish-queued').show(); //@TODO not working
       this.populateQueue($(e.target));
     },
@@ -81,21 +87,21 @@
       var articleId = targetParent.attr('data-article-id');
       var articleVer = targetParent.attr('data-article-version');
       var articleRun = targetParent.attr('data-article-run');
+      var addToQueue = {id: articleId, version: articleVer, run: articleRun};
 
+      var queuedItems = [];
+      queuedItems = this.queued;
+      if(_.findWhere(queuedItems, addToQueue)) {
+        // delete from queueditems
+        _.reject(queuedItems, addToQueue, function(){
 
-      _.each(this.queued, i, function(queued){
-        console.log(queued);
-        console.log(i);
-      });
+        });
+      }
+      else {
+        queuedItems.push(addToQueue);
+      }
+      this.queued = queuedItems;
 
-      //var queued = this.queued;
-      //console.log(_.where(this.queued, {id: articleId, version: articleVer, run: articleRun}));
-      ////if (!)) {
-      //queued = [{id: articleId, version: articleVer, run: articleRun}];
-      ////} else {
-      ////  delete this.queued[articleKey];
-      ////}
-      //this.queued = queued;
       console.log(this.queued);
     },
 

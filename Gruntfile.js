@@ -20,7 +20,7 @@ module.exports = function(grunt) {
         files: {
           //app  js
           'source/js/libs.js': [
-            'source/js/libs/underscore/underscore.js',
+            'source/js/libs/underscore.js',
             'source/js/libs/handlebars-v4.0.5.js',
             'source/js/libs/swag.js',
           ],

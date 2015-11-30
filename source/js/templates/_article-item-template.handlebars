@@ -6,6 +6,7 @@
         <h6>
             <a href="#">{{ title }}</a>
         </h6>
+
         <p>
             <a href="#">{{ desc }}</a>
         </p>
@@ -46,29 +47,30 @@
             </dd>
         </dl>
     </td>
-
     {{#isnt section 'uir'}}
-    <td class="column-3">
-        <a href="#">
-            <b>STATUS MESSAGE</b>
-        </a>
-    </td>
+        <td class="column-3">
+            <a href="#">
+                <b>STATUS MESSAGE</b>
+            </a>
+        </td>
     {{/isnt}}
     {{#is section 'uir'}}
-    <td class="column-3">
-        <button class="btn btn-default preview">
-            <span class="glyphicon glyphicon-eye-open"></span>
-        Preview
-        </button>
-        <button class="btn btn-default publish btn-publish" data-toggle="modal" data-target="#publish-modal" type="button">
-            <span class="glyphicon glyphicon-globe"></span>
-        Publish Now
-        </button>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" class="toggle-publish-all"> Batch Publishing
+        <td class="column-3">
+            <button class="btn btn-default preview">
+                <span class="glyphicon glyphicon-eye-open"></span>
+                Preview
+            </button>
+            <button class="btn btn-default publish btn-publish" data-toggle="modal" data-target="#publish-modal"
+                    type="button">
+                <span class="glyphicon glyphicon-globe"></span>
+                Publish Now
+            </button>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" class="toggle-publish-all"> Batch Publishing
                 </label>
             </div>
         </td>
-    </tr>
     {{/is}}
+
+</tr>
