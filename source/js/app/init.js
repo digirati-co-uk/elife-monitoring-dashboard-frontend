@@ -17,6 +17,7 @@
       this.queued = [];
       this.isPublishing = false;
       this.bindEvents();
+      this.renderArticles();
     },
 
     bindEvents: function() {
@@ -26,6 +27,23 @@
       $('#publish-action').on('click', this.performPublish.bind(this));
       $('#publish-modal').on('keyup', this.refreshPage.bind(this));
       $('.close', '#publish-modal').on('click', this.refreshPage.bind(this));
+    },
+
+    renderArticles: function() {
+      $.ajax({
+        url: "http://localhost:8000/articles.json",
+        cache: false,
+        dataType: "json",
+        success: function(articles){
+          this.articleTemplate = eLife.templates['article-template'];
+          console.log(articles);
+          $('#articles').html(this.articleTemplate(articles));
+        },
+        error: function(data){
+
+        }
+      });
+
     },
 
     toggleAddToQueueBtn: function(e) {
@@ -143,6 +161,15 @@
 
   //Poll
   function queueArticlePublication() {
+
+    //$.ajax({
+    //  url: url,
+    //  type: "POST",
+    //  data: {articles: JSON.stringify(data)},
+    //  contentType: "application/json",
+    //  complete: callback
+    //});
+
 
     $.ajax({
       type: 'POST',

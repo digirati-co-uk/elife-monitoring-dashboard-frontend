@@ -50,6 +50,20 @@ module.exports = function(grunt) {
       },
     },
 
+    handlebars: {
+      compile: {
+        options: {
+          namespace: "eLife.templates",
+          processName: function(filePath) {
+            return filePath.replace(/^source\/js\/templates\//, '').replace(/\.handlebars/, '');
+          }
+        },
+        files: {
+          "source/js/app/templates.js":["source/js/templates/*.handlebars"]
+        }
+      }
+    },
+
     // Watches styles and specs for changes
     watch: {
       css: {
@@ -68,6 +82,7 @@ module.exports = function(grunt) {
     'grunt-contrib-concat',
     'grunt-contrib-uglify',
     'grunt-contrib-watch',
+    'grunt-contrib-handlebars',
     'grunt-sass',
     'grunt-scss-lint',
   ].forEach(function(task) {
@@ -75,7 +90,6 @@ module.exports = function(grunt) {
   });
 
   // Register the default tasks
-  grunt.registerTask('default', ['concat', 'sass']);
-  grunt.registerTask('default', ['concat', 'sass', 'watch']);
-  grunt.registerTask('deploy', ['concat', 'uglify', 'sass']);
+  grunt.registerTask('default', ['handlebars','concat', 'sass', 'watch']);
+  grunt.registerTask('deploy', ['handlebars','concat', 'uglify', 'sass']);
 };
