@@ -46,11 +46,15 @@
             </dd>
         </dl>
     </td>
+
+    {{#isnt section 'uir'}}
     <td class="column-3">
         <a href="#">
             <b>STATUS MESSAGE</b>
         </a>
     </td>
+    {{/isnt}}
+    {{#is section 'uir'}}
     <td class="column-3">
         <button class="btn btn-default preview">
             <span class="glyphicon glyphicon-eye-open"></span>
@@ -67,3 +71,4 @@
             </div>
         </td>
     </tr>
+    {{/is}}

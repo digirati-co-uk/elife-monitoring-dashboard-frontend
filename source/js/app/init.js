@@ -35,12 +35,14 @@
         cache: false,
         dataType: "json",
         success: function(articles){
-          this.articleTemplate = eLife.templates['article-template'];
           console.log(articles);
+          this.articleTemplate = eLife.templates['article-template'];
           $('#articles').html(this.articleTemplate(articles));
         },
         error: function(data){
-
+          console.log(data);
+          this.errorTemplate = eLife.templates['error-template'];
+          $('#articles').html(this.errorTemplate(data));
         }
       });
 

@@ -19,7 +19,12 @@ module.exports = function(grunt) {
         //put all the prerequisites in a file
         files: {
           //app  js
-          'source/js/init.js': [
+          'source/js/libs.js': [
+            'source/js/libs/underscore/underscore.js',
+            'source/js/libs/handlebars-v4.0.5.js',
+            'source/js/libs/swag.js',
+          ],
+          'source/js/app.js': [
             'source/js/app/**/*',
           ],
         },
@@ -59,7 +64,7 @@ module.exports = function(grunt) {
           }
         },
         files: {
-          "source/js/app/templates.js":["source/js/templates/*.handlebars"]
+          "source/js/app/templates.js": ["source/js/templates/*.handlebars"]
         }
       }
     },
@@ -76,6 +81,11 @@ module.exports = function(grunt) {
         tasks: ['concat'],
         options: {nospawn: false},
       },
+      handlebars: {
+        files: ['source/js/templates/**/*.handlebars'],
+        tasks: ['handlebars', 'concat'],
+        options: {nospawn: false},
+      },
     },
   });
   [
@@ -90,6 +100,6 @@ module.exports = function(grunt) {
   });
 
   // Register the default tasks
-  grunt.registerTask('default', ['handlebars','concat', 'sass', 'watch']);
-  grunt.registerTask('deploy', ['handlebars','concat', 'uglify', 'sass']);
+  grunt.registerTask('default', ['handlebars', 'concat', 'sass', 'watch']);
+  grunt.registerTask('deploy', ['handlebars', 'concat', 'uglify', 'sass']);
 };
