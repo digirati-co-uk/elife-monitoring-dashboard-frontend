@@ -1,4 +1,4 @@
-/*! eLife - v0.0.1 - 2015-11-26
+/*! eLife - v0.0.1 - 2015-11-30
 * https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend
 * Copyright (c) 2015 eLife; Licensed  */
 (function($) {
@@ -38,30 +38,41 @@
 (function($) {
   'use strict';
 
-  var ENTER_KEY = 13;
   var ESCAPE_KEY = 27;
+
+
+
+  var utils = {
+    queueArticles: function(queued) {
+      console.log(queued);
+    }
+  };
+
 
   var App = {
     init: function() {
-      this.queued = {};
+      this.queued = [];
+      this.isPublishing = false;
       this.bindEvents();
     },
 
     bindEvents: function() {
-      $('.toggle-publish-all').on('change', this.togglePublishAllBtn.bind(this));
-      $('#btn-publish-selected').on('click', this.publishSelected.bind(this));
+      $('.toggle-add-to-queue').on('change', this.toggleAddToQueueBtn.bind(this));
+      $('.btn-publish-queued').on('click', this.publishQueued.bind(this));
       $('.btn-publish').on('click', this.publish.bind(this));
+      $('#publish-action').on('click', this.performPublish.bind(this));
+      $('#publish-modal').on('keyup', this.refreshPage.bind(this));
+      $('.close', '#publish-modal').on('click', this.refreshPage.bind(this));
     },
 
-    togglePublishAllBtn: function(e) {
+    toggleAddToQueueBtn: function(e) {
       console.log('togglePublishAll');
-      $('#btn-publish-selected').show(); //@TODO not working
-      var article = this.getArticleData($(e.target));
-      this.populateQueue(article);
+      $('.btn-publish-queued').show(); //@TODO not working
+      this.populateQueue($(e.target));
     },
 
-    publishSelected: function() {
-      console.log('publishSelected');
+    publishQueued: function() {
+      console.log('publishQueued');
       var isMultiple = (_.size(this.queued) > 1) ? true : false;
       this.initModal(isMultiple);
       this.displayQueue();
@@ -69,9 +80,8 @@
 
     publish: function(e) {
       console.log('publish');
-      var article = this.getArticleData($(e.target));
       this.initModal(false);
-      this.populateQueue(article);
+      this.populateQueue($(e.target));
       this.displayQueue();
     },
 
@@ -82,33 +92,81 @@
       $('#publish-action', '#publish-modal').empty().text(btnText);
     },
 
-    getArticleData: function(target) {
-      console.log('getArticleData');
-      var targetParent = target.parents('tr');
+    populateQueue: function(target) {
+      console.log('populateQueue');
+      var targetParent = target.parents('tr'); //@TODO remove the need for this
       var articleId = targetParent.attr('data-article-id');
       var articleVer = targetParent.attr('data-article-version');
-      return articleId + '-v' + articleVer;
-    },
+      var articleRun = targetParent.attr('data-article-run');
 
-    populateQueue: function(article) {
-      console.log('populateQueue');
-      if (_.isUndefined(this.queued[article])) {
-        this.queued[article] = '';
-      } else {
-        delete this.queued[article];
-      }
+
+      _.each(this.queued, i, function(queued){
+        console.log(queued);
+        console.log(i);
+      });
+
+      //var queued = this.queued;
+      //console.log(_.where(this.queued, {id: articleId, version: articleVer, run: articleRun}));
+      ////if (!)) {
+      //queued = [{id: articleId, version: articleVer, run: articleRun}];
+      ////} else {
+      ////  delete this.queued[articleKey];
+      ////}
+      //this.queued = queued;
+      console.log(this.queued);
     },
 
     displayQueue: function(article) {
       console.log('displayQueue');
-      $.each(this.queued, function(key) {
-        $('#articles-queue').append('<li>' + key + '</li>');
+      _.each(this.queued, function(article) {
+        $('#articles-queue').append('<li>' + article.id + '</li>');
       });
     },
+
+    refreshPage: function(e) {
+      if (this.isPublishing === true || e.which === ESCAPE_KEY) {
+        location.reload(true);
+      }
+    },
+
+    performPublish: function(e) {
+      //Disable Publish (all) button to stop sending multiple requests
+      $('#publish-cancel').hide();
+      $(e).empty().attr('disabled', true).css({width: '100%'});
+
+      // gather article data to send off
+      // queue them queueArticlePublication
+      utils.queueArticles(this.queued);
+      // poll to find out the status getArticleStatus
+      // profit
+
+
+
+
+
+      //Poll endpoint if articles can be queued
+      queueArticlePublication();
+
+      //Wait 5 seconds for the first response
+      setTimeout(function() {
+        //If the JS Object is not empty then
+        if (!jQuery.isEmptyObject(articlesQueue)) {
+          getArticleStatus();
+        }
+      }, 5000);
+
+
+
+      this.isPublishing = true;
+
+    },
+
+
 
   };
 
   App.init();
+
 
   /// Code still to be refactored
 
@@ -132,6 +190,9 @@
         console.log('Request Failed: ' + err);
       },
     }).done(function(data, textStatus) {
+
+      console.log(data)
+      console.log(textStatus)
 
       //Loop through all the key, value pairs in returned JS Object from server
       $.each(data, function(key, value) {
@@ -242,45 +303,6 @@
     });
   }
 
-
-
-
-
-  //Publish all (all) button in the popup
-  $('#publish-action').click(function() {
-
-    //Disable Publish (all) button to stop sending multiple requests
-    $('#publish-cancel').hide();
-    $(this).empty().attr('disabled', true).css({width: '100%'});
-
-    //Prepare the data structure
-    $.each(articlesQueue, function(key) {
-      dataStructure.push(key);
-    });
-
-    //Poll endpoint if articles can be queued
-    queueArticlePublication();
-
-    //Wait 5 seconds for the first response
-    setTimeout(function() {
-      //If the JS Object is not empty then
-      if (!jQuery.isEmptyObject(articlesQueue)) {
-        getArticleStatus();
-      }
-    }, 5000);
-
-    //Click Close icon to close modal & force reload
-    $('#publish-modal button.close').click(function() {
-      location.reload(true);
-    });
-
-    //Or press ESC & force a reload
-    $(document).keyup(function(e) {
-      if (e.keyCode === ESCAPE_KEY) {
-        location.reload(true);
-      }
-    });
-  });
 
 })(jQuery);
 
