@@ -4,11 +4,23 @@
   var ESCAPE_KEY = 27;
 
 
-
   var utils = {
     queueArticles: function(queued) {
       console.log(queued);
-    }
+    },
+    removeObject: function(obj, match) {
+      var queued = [];
+      _.each(obj, function(queue) {
+        if (!_.isEqual(queue, match)) {
+          queued.push(queue);
+        }
+      });
+      return queued;
+    },
+    addObject: function(obj, match) {
+      obj.push(match);
+      return obj;
+    },
   };
 
 
@@ -41,11 +53,11 @@
         url: "http://localhost:8000/articles.json",
         cache: false,
         dataType: "json",
-        success: function(articles){
+        success: function(articles) {
           this.articleTemplate = eLife.templates['article-template'];
           $('#articles').html(this.articleTemplate(articles));
         },
-        error: function(data){
+        error: function(data) {
           console.log(data);
           this.errorTemplate = eLife.templates['error-template'];
           $('#articles').html(this.errorTemplate(data));
@@ -89,19 +101,12 @@
       var articleRun = targetParent.attr('data-article-run');
       var addToQueue = {id: articleId, version: articleVer, run: articleRun};
 
-      var queuedItems = [];
-      queuedItems = this.queued;
-      if(_.findWhere(queuedItems, addToQueue)) {
-        // delete from queueditems
-        _.reject(queuedItems, addToQueue, function(){
-
-        });
+      if (_.findWhere(this.queued, addToQueue)) {
+        this.queued = utils.removeObject(this.queued, addToQueue);
+      } else {
+        //queuedItems.push(addToQueue);
+        this.queued = utils.addObject(this.queued, addToQueue);
       }
-      else {
-        queuedItems.push(addToQueue);
-      }
-      this.queued = queuedItems;
-
       console.log(this.queued);
     },
 
@@ -130,9 +135,6 @@
       // profit
 
 
-
-
-
       //Poll endpoint if articles can be queued
       queueArticlePublication();
 
@@ -145,11 +147,9 @@
       }, 5000);
 
 
-
       this.isPublishing = true;
 
     },
-
 
 
   };
