@@ -2,12 +2,9 @@
   'use strict';
 
   var ESCAPE_KEY = 27;
-
+  var API = 'http://127.0.0.1:8008/';
 
   var utils = {
-    queueArticles: function(queued) {
-      console.log(queued);
-    },
     removeObject: function(obj, match) {
       var queued = [];
       _.each(obj, function(queue) {
@@ -15,27 +12,28 @@
           queued.push(queue);
         }
       });
+
       return queued;
     },
+
     addObject: function(obj, match) {
       obj.push(match);
       return obj;
     },
   };
-
-
   var App = {
     init: function() {
+      this.checkingStatus = '';
+      this.queuePolled = 0;
       this.queued = [];
       this.isPublishing = false;
+      $('[data-toggle="tooltip"]', document).tooltip();
       this.bindEvents();
       this.renderArticles();
     },
 
     bindEvents: function() {
-      console.log('bindEvents');
-
-      // @TODO This needs to look for ..toggle-add-to-queue checkboxes but its not working atm
+      // @TODO This needs to look for .toggle-add-to-queue checkboxes but its not working atm
       $('#articles').on('change', 'input:checkbox', this.toggleAddToQueueBtn.bind(this));
 
       $('#articles').on('click', '.btn-publish-queued', this.publishQueued.bind(this));
@@ -48,53 +46,48 @@
     },
 
     renderArticles: function() {
-      console.log('renderArticles');
       $.ajax({
-        url: "http://localhost:8000/articles.json",
+        url: API + 'current',
         cache: false,
-        dataType: "json",
+        dataType: 'json',
         success: function(articles) {
           this.articleTemplate = eLife.templates['article-template'];
           $('#articles').html(this.articleTemplate(articles));
         },
+
         error: function(data) {
-          console.log(data);
           this.errorTemplate = eLife.templates['error-template'];
           $('#articles').html(this.errorTemplate(data));
-        }
+        },
+
       });
 
     },
 
     toggleAddToQueueBtn: function(e) {
-      console.log('toggleAddToQueueBtn');
       $('.btn-publish-queued').show(); //@TODO not working
       this.populateQueue($(e.target));
     },
 
     publishQueued: function() {
-      console.log('publishQueued');
       var isMultiple = (_.size(this.queued) > 1) ? true : false;
       this.initModal(isMultiple);
-      this.displayQueue();
+      this.displayQueueList();
     },
 
     publish: function(e) {
-      console.log('publish');
       this.initModal(false);
       this.populateQueue($(e.target));
-      this.displayQueue();
+      this.displayQueueList();
     },
 
     initModal: function(isMultiple) {
-      console.log('initPublishModal');
       var btnText = (isMultiple) ? 'Publish All' : 'Publish';
       $('#articles-queue', '#publish-modal').empty();
       $('#publish-action', '#publish-modal').empty().text(btnText);
     },
 
     populateQueue: function(target) {
-      console.log('populateQueue');
       var targetParent = target.parents('tr'); //@TODO remove the need for this
       var articleId = targetParent.attr('data-article-id');
       var articleVer = targetParent.attr('data-article-version');
@@ -104,17 +97,44 @@
       if (_.findWhere(this.queued, addToQueue)) {
         this.queued = utils.removeObject(this.queued, addToQueue);
       } else {
-        //queuedItems.push(addToQueue);
         this.queued = utils.addObject(this.queued, addToQueue);
       }
-      console.log(this.queued);
     },
 
-    displayQueue: function(article) {
-      console.log('displayQueue');
+    displayQueueList: function(article) {
       _.each(this.queued, function(article) {
-        $('#articles-queue').append('<li>' + article.id + '</li>');
+        var title = $('[data-article-id=' + article.id + ']').attr('data-article-title');
+        var listItem = $('<li>' + title + '</li>');
+        listItem.data({id: article.id, version: article.version, run: article.run});
+        $('#articles-queue').append(listItem);
       });
+    },
+
+    updateQueueListStatus: function(queuedArticles) {
+      this.queuePolled++;
+      this.queued = queuedArticles;
+      var completedCnt = 0;
+      var articleQueue = $('#articles-queue li');
+      var articlePublishStatusTemplate = eLife.templates['article-publish-status'];
+      var queuedItems = this.queued;
+      _.each(articleQueue, function(articleQueue, i) {
+        var articleId = $(articleQueue).data('id');
+        var articleVer = $(articleQueue).data('version');
+        var articleRun = $(articleQueue).data('run');
+        var displayInQueue = {id: articleId, version: articleVer, run: articleRun};
+        var queuedItem = _.find(queuedItems, displayInQueue);
+        if (queuedItem.status === 'published') {
+          completedCnt++;
+        }
+
+        $('span.glyphicon', articleQueue).remove();
+        $(articleQueue).append(articlePublishStatusTemplate(queuedItem));
+      });
+
+      if (this.queuePolled === 25 || completedCnt === queuedItems.length) {
+        this.isPublishing = false;
+        clearInterval(this.checkingStatus);
+      }
     },
 
     refreshPage: function(e) {
@@ -127,179 +147,43 @@
       //Disable Publish (all) button to stop sending multiple requests
       $('#publish-cancel').hide();
       $(e).empty().attr('disabled', true).css({width: '100%'});
-
-      // gather article data to send off
-      // queue them queueArticlePublication
-      utils.queueArticles(this.queued);
-      // poll to find out the status getArticleStatus
-      // profit
-
-
-      //Poll endpoint if articles can be queued
-      queueArticlePublication();
-
-      //Wait 5 seconds for the first response
-      setTimeout(function() {
-        //If the JS Object is not empty then
-        if (!jQuery.isEmptyObject(articlesQueue)) {
-          getArticleStatus();
-        }
-      }, 5000);
-
-
       this.isPublishing = true;
-
+      this.queueArticles(this.queued);
+      this.checkArticleStatus(this.queued);
     },
 
+    queueArticles: function(queued) {
+      //@TODO error handling
+      $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        url: API + 'queue_article_publication',
+        data: JSON.stringify({articles: queued}),
+        success: function(data) {
+          console.log(data);
+          App.updateQueueListStatus(data.articles);
+        },
+      });
+    },
+
+    checkArticleStatus: function(queued) {
+
+      this.checkingStatus = setInterval(function() {
+        $.ajax({
+          type: 'POST',
+          contentType: 'application/json',
+          url: API + 'check_article_status',
+          data: JSON.stringify({articles: queued}),
+          success: function(data) {
+            App.updateQueueListStatus(data.articles);
+          },
+
+          complete: this.checkArticleStatus,
+        });
+      }, 1000);
+    },
 
   };
 
   App.init();
-
-
-  /// Code still to be refactored
-
-  //Global variables
-  var dataStructure = []; //Data structure for the ajax request
-  var articlesQueue = {}; //JS Object that holds the article-ids to be queued/published
-  var articleId;
-  var articleVer;
-  var queueDress; //Variables to prepare the article-id(s) for use
-
-
-  //Poll
-  function queueArticlePublication() {
-
-    //$.ajax({
-    //  url: url,
-    //  type: "POST",
-    //  data: {articles: JSON.stringify(data)},
-    //  contentType: "application/json",
-    //  complete: callback
-    //});
-
-
-    $.ajax({
-      type: 'POST',
-      url: 'http://localhost:8008/queue_article_publication',
-      data: {articles: dataStructure.join(',')},
-      error: function(xhr, textStatus, errorThrown) {
-        var err = textStatus + ', ' + errorThrown;
-        console.log('Request Failed: ' + err);
-      },
-    }).done(function(data, textStatus) {
-
-      console.log(data)
-      console.log(textStatus)
-
-      //Loop through all the key, value pairs in returned JS Object from server
-      $.each(data, function(key, value) {
-
-        //Check if key exists in JS Object and the same key from server's response has the value 'queued'
-        if (articlesQueue.hasOwnProperty(key) && value === 'queued') {
-
-          //If not showing the spinner
-          if ($('#publish-action *:not(div)')) {
-            //Show the publish (all) spinner in progress
-            $('#publish-action').empty().append('<div class="throbber-loader">Loading…</div>');
-          }
-
-          //Edit the JS Object with the value from server's response
-          articlesQueue[key] = value;
-        } else if (articlesQueue.hasOwnProperty(key) && value === 'error') {
-
-          var keyCheck = "#articles-queue li:contains('" + key + "')";
-
-          //Show error(s) to the user next to article(s) & Remove article-id(s) from JS Object
-          $(keyCheck).append('<span class="glyphicon glyphicon-remove glyphicon-remove--stat" data-toggle="tooltip" data-placement="top" title=" + value + "></span>');
-          delete articlesQueue[key];
-        }
-
-        //If the JS Object is empty then
-        if (jQuery.isEmptyObject(articlesQueue)) {
-          //Feedback to the user
-          $('#publish-action').unbind().text('Close').attr('disabled', false);
-
-          //Bind a reload to the click
-          $('#publish-action').click(function() {
-            location.reload(true);
-          });
-        }
-
-        //Initialise Tooltips
-        $('[data-toggle="tooltip"]').tooltip();
-
-      });
-
-      //Prepare the data structure
-      dataStructure = [];
-      $.each(articlesQueue, function(key) {
-        dataStructure.push(key);
-      });
-    });
-  }
-
-  //Responses
-  function getArticleStatus() {
-
-    $.ajax({
-      type: 'GET',
-      url: 'http://localhost:8008/check_article_status',
-      data: {articles: dataStructure.join(',')},
-      error: function(xhr, textStatus, errorThrown) {
-        var err = textStatus + ', ' + errorThrown;
-        console.log('Request Failed: ' + err);
-      },
-    }).done(function(data, textStatus) {
-
-      //Loop through all the key, value pairs in returned JS Object from server
-      $.each(data, function(key, value) {
-
-        var keyCheck = "#articles-queue li:contains('" + key + "')";
-
-        //Check if key exists in JS Object and the same key from server's response has the value 'published'
-        if (articlesQueue.hasOwnProperty(key) && value === 'published') {
-
-          //Show published status to the user next to article(s) & Remove article-id(s) from JS Object
-          $(keyCheck).append('<span class="glyphicon glyphicon-ok glyphicon-ok--stat" data-toggle="tooltip" data-placement="top" title="' + value + '"></span>');
-          delete articlesQueue[key];
-        } else if (articlesQueue.hasOwnProperty(key) && value === 'error') {
-
-          //Show error status to the user next to article(s) & Remove article-id(s) from JS Object
-          $(keyCheck).append('<span class="glyphicon glyphicon-remove glyphicon-remove--stat" data-toggle="tooltip" data-placement="top" title="' + value + '"></span>');
-          delete articlesQueue[key];
-        }
-
-      });
-
-      //Initialise Tooltips
-      $('[data-toggle="tooltip"]').tooltip();
-
-      //If the JS Object is still not empty then
-      if (!jQuery.isEmptyObject(articlesQueue)) {
-
-        //Prepare the data structure
-        dataStructure = [];
-        $.each(articlesQueue, function(key) {
-          dataStructure.push(key);
-        });
-
-        //Loop this function every 10 seconds
-        setTimeout(function() {
-          getArticleStatus();
-        }, 10000);
-      } else {
-
-        //Feedback to the user
-        $('#publish-action').unbind().text('Close').attr('disabled', false);
-
-        //Bind a reload to the click
-        $('#publish-action').click(function() {
-          location.reload(true);
-        });
-      }
-    });
-  }
-
-
 })(jQuery);

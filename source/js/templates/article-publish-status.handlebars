@@ -1,0 +1,17 @@
+{{#is status 'error'}}
+    <span class="glyphicon glyphicon-remove glyphicon-remove--stat" data-toggle="tooltip" data-placement="top"
+          title="{{status}} {{message}}"></span>
+{{/is}}
+{{#is status 'queued'}}
+    <span class="glyphicon glyphicon-ok glyphicon-warning-sign--stat" data-toggle="tooltip" data-placement="top"
+          title="{{status}} {{message}}"></span>
+{{/is}}
+{{#is status 'ready to publish'}}
+    <span class="glyphicon glyphicon-ok glyphicon-warning-sign--stat" data-toggle="tooltip" data-placement="top"
+          title="{{status}} {{message}}"></span>
+{{/is}}
+{{#is status 'published'}}
+    <span class="glyphicon glyphicon-ok glyphicon-ok--stat" data-toggle="tooltip" data-placement="top"
+          title="{{status}} {{message}}"></span>
+{{/is}}
+

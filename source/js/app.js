@@ -37,17 +37,15 @@
 
 (function ($) {
     Swag.registerHelpers(Handlebars);
+    //Initialise Tooltips
 })(jQuery);
 (function($) {
   'use strict';
 
   var ESCAPE_KEY = 27;
-
+  var API = 'http://127.0.0.1:8008/';
 
   var utils = {
-    queueArticles: function(queued) {
-      console.log(queued);
-    },
     removeObject: function(obj, match) {
       var queued = [];
       _.each(obj, function(queue) {
@@ -55,27 +53,28 @@
           queued.push(queue);
         }
       });
+
       return queued;
     },
+
     addObject: function(obj, match) {
       obj.push(match);
       return obj;
     },
   };
-
-
   var App = {
     init: function() {
+      this.checkingStatus = '';
+      this.queuePolled = 0;
       this.queued = [];
       this.isPublishing = false;
+      $('[data-toggle="tooltip"]', document).tooltip();
       this.bindEvents();
       this.renderArticles();
     },
 
     bindEvents: function() {
-      console.log('bindEvents');
-
-      // @TODO This needs to look for ..toggle-add-to-queue checkboxes but its not working atm
+      // @TODO This needs to look for .toggle-add-to-queue checkboxes but its not working atm
       $('#articles').on('change', 'input:checkbox', this.toggleAddToQueueBtn.bind(this));
 
       $('#articles').on('click', '.btn-publish-queued', this.publishQueued.bind(this));
@@ -88,53 +87,48 @@
     },
 
     renderArticles: function() {
-      console.log('renderArticles');
       $.ajax({
-        url: "http://localhost:8000/articles.json",
+        url: API + 'current',
         cache: false,
-        dataType: "json",
+        dataType: 'json',
         success: function(articles) {
           this.articleTemplate = eLife.templates['article-template'];
           $('#articles').html(this.articleTemplate(articles));
         },
+
         error: function(data) {
-          console.log(data);
           this.errorTemplate = eLife.templates['error-template'];
           $('#articles').html(this.errorTemplate(data));
-        }
+        },
+
       });
 
     },
 
     toggleAddToQueueBtn: function(e) {
-      console.log('toggleAddToQueueBtn');
       $('.btn-publish-queued').show(); //@TODO not working
       this.populateQueue($(e.target));
     },
 
     publishQueued: function() {
-      console.log('publishQueued');
       var isMultiple = (_.size(this.queued) > 1) ? true : false;
       this.initModal(isMultiple);
-      this.displayQueue();
+      this.displayQueueList();
     },
 
     publish: function(e) {
-      console.log('publish');
       this.initModal(false);
       this.populateQueue($(e.target));
-      this.displayQueue();
+      this.displayQueueList();
     },
 
     initModal: function(isMultiple) {
-      console.log('initPublishModal');
       var btnText = (isMultiple) ? 'Publish All' : 'Publish';
       $('#articles-queue', '#publish-modal').empty();
       $('#publish-action', '#publish-modal').empty().text(btnText);
     },
 
     populateQueue: function(target) {
-      console.log('populateQueue');
       var targetParent = target.parents('tr'); //@TODO remove the need for this
       var articleId = targetParent.attr('data-article-id');
       var articleVer = targetParent.attr('data-article-version');
@@ -144,17 +138,44 @@
       if (_.findWhere(this.queued, addToQueue)) {
         this.queued = utils.removeObject(this.queued, addToQueue);
       } else {
-        //queuedItems.push(addToQueue);
         this.queued = utils.addObject(this.queued, addToQueue);
       }
-      console.log(this.queued);
     },
 
-    displayQueue: function(article) {
-      console.log('displayQueue');
+    displayQueueList: function(article) {
       _.each(this.queued, function(article) {
-        $('#articles-queue').append('<li>' + article.id + '</li>');
+        var title = $('[data-article-id=' + article.id + ']').attr('data-article-title');
+        var listItem = $('<li>' + title + '</li>');
+        listItem.data({id: article.id, version: article.version, run: article.run});
+        $('#articles-queue').append(listItem);
       });
+    },
+
+    updateQueueListStatus: function(queuedArticles) {
+      this.queuePolled++;
+      this.queued = queuedArticles;
+      var completedCnt = 0;
+      var articleQueue = $('#articles-queue li');
+      var articlePublishStatusTemplate = eLife.templates['article-publish-status'];
+      var queuedItems = this.queued;
+      _.each(articleQueue, function(articleQueue, i) {
+        var articleId = $(articleQueue).data('id');
+        var articleVer = $(articleQueue).data('version');
+        var articleRun = $(articleQueue).data('run');
+        var displayInQueue = {id: articleId, version: articleVer, run: articleRun};
+        var queuedItem = _.find(queuedItems, displayInQueue);
+        if (queuedItem.status === 'published') {
+          completedCnt++;
+        }
+
+        $('span.glyphicon', articleQueue).remove();
+        $(articleQueue).append(articlePublishStatusTemplate(queuedItem));
+      });
+
+      if (this.queuePolled === 25 || completedCnt === queuedItems.length) {
+        this.isPublishing = false;
+        clearInterval(this.checkingStatus);
+      }
     },
 
     refreshPage: function(e) {
@@ -167,181 +188,45 @@
       //Disable Publish (all) button to stop sending multiple requests
       $('#publish-cancel').hide();
       $(e).empty().attr('disabled', true).css({width: '100%'});
-
-      // gather article data to send off
-      // queue them queueArticlePublication
-      utils.queueArticles(this.queued);
-      // poll to find out the status getArticleStatus
-      // profit
-
-
-      //Poll endpoint if articles can be queued
-      queueArticlePublication();
-
-      //Wait 5 seconds for the first response
-      setTimeout(function() {
-        //If the JS Object is not empty then
-        if (!jQuery.isEmptyObject(articlesQueue)) {
-          getArticleStatus();
-        }
-      }, 5000);
-
-
       this.isPublishing = true;
-
+      this.queueArticles(this.queued);
+      this.checkArticleStatus(this.queued);
     },
 
+    queueArticles: function(queued) {
+      //@TODO error handling
+      $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        url: API + 'queue_article_publication',
+        data: JSON.stringify({articles: queued}),
+        success: function(data) {
+          console.log(data);
+          App.updateQueueListStatus(data.articles);
+        },
+      });
+    },
+
+    checkArticleStatus: function(queued) {
+
+      this.checkingStatus = setInterval(function() {
+        $.ajax({
+          type: 'POST',
+          contentType: 'application/json',
+          url: API + 'check_article_status',
+          data: JSON.stringify({articles: queued}),
+          success: function(data) {
+            App.updateQueueListStatus(data.articles);
+          },
+
+          complete: this.checkArticleStatus,
+        });
+      }, 1000);
+    },
 
   };
 
   App.init();
-
-
-  /// Code still to be refactored
-
-  //Global variables
-  var dataStructure = []; //Data structure for the ajax request
-  var articlesQueue = {}; //JS Object that holds the article-ids to be queued/published
-  var articleId;
-  var articleVer;
-  var queueDress; //Variables to prepare the article-id(s) for use
-
-
-  //Poll
-  function queueArticlePublication() {
-
-    //$.ajax({
-    //  url: url,
-    //  type: "POST",
-    //  data: {articles: JSON.stringify(data)},
-    //  contentType: "application/json",
-    //  complete: callback
-    //});
-
-
-    $.ajax({
-      type: 'POST',
-      url: 'http://localhost:8008/queue_article_publication',
-      data: {articles: dataStructure.join(',')},
-      error: function(xhr, textStatus, errorThrown) {
-        var err = textStatus + ', ' + errorThrown;
-        console.log('Request Failed: ' + err);
-      },
-    }).done(function(data, textStatus) {
-
-      console.log(data)
-      console.log(textStatus)
-
-      //Loop through all the key, value pairs in returned JS Object from server
-      $.each(data, function(key, value) {
-
-        //Check if key exists in JS Object and the same key from server's response has the value 'queued'
-        if (articlesQueue.hasOwnProperty(key) && value === 'queued') {
-
-          //If not showing the spinner
-          if ($('#publish-action *:not(div)')) {
-            //Show the publish (all) spinner in progress
-            $('#publish-action').empty().append('<div class="throbber-loader">Loading…</div>');
-          }
-
-          //Edit the JS Object with the value from server's response
-          articlesQueue[key] = value;
-        } else if (articlesQueue.hasOwnProperty(key) && value === 'error') {
-
-          var keyCheck = "#articles-queue li:contains('" + key + "')";
-
-          //Show error(s) to the user next to article(s) & Remove article-id(s) from JS Object
-          $(keyCheck).append('<span class="glyphicon glyphicon-remove glyphicon-remove--stat" data-toggle="tooltip" data-placement="top" title=" + value + "></span>');
-          delete articlesQueue[key];
-        }
-
-        //If the JS Object is empty then
-        if (jQuery.isEmptyObject(articlesQueue)) {
-          //Feedback to the user
-          $('#publish-action').unbind().text('Close').attr('disabled', false);
-
-          //Bind a reload to the click
-          $('#publish-action').click(function() {
-            location.reload(true);
-          });
-        }
-
-        //Initialise Tooltips
-        $('[data-toggle="tooltip"]').tooltip();
-
-      });
-
-      //Prepare the data structure
-      dataStructure = [];
-      $.each(articlesQueue, function(key) {
-        dataStructure.push(key);
-      });
-    });
-  }
-
-  //Responses
-  function getArticleStatus() {
-
-    $.ajax({
-      type: 'GET',
-      url: 'http://localhost:8008/check_article_status',
-      data: {articles: dataStructure.join(',')},
-      error: function(xhr, textStatus, errorThrown) {
-        var err = textStatus + ', ' + errorThrown;
-        console.log('Request Failed: ' + err);
-      },
-    }).done(function(data, textStatus) {
-
-      //Loop through all the key, value pairs in returned JS Object from server
-      $.each(data, function(key, value) {
-
-        var keyCheck = "#articles-queue li:contains('" + key + "')";
-
-        //Check if key exists in JS Object and the same key from server's response has the value 'published'
-        if (articlesQueue.hasOwnProperty(key) && value === 'published') {
-
-          //Show published status to the user next to article(s) & Remove article-id(s) from JS Object
-          $(keyCheck).append('<span class="glyphicon glyphicon-ok glyphicon-ok--stat" data-toggle="tooltip" data-placement="top" title="' + value + '"></span>');
-          delete articlesQueue[key];
-        } else if (articlesQueue.hasOwnProperty(key) && value === 'error') {
-
-          //Show error status to the user next to article(s) & Remove article-id(s) from JS Object
-          $(keyCheck).append('<span class="glyphicon glyphicon-remove glyphicon-remove--stat" data-toggle="tooltip" data-placement="top" title="' + value + '"></span>');
-          delete articlesQueue[key];
-        }
-
-      });
-
-      //Initialise Tooltips
-      $('[data-toggle="tooltip"]').tooltip();
-
-      //If the JS Object is still not empty then
-      if (!jQuery.isEmptyObject(articlesQueue)) {
-
-        //Prepare the data structure
-        dataStructure = [];
-        $.each(articlesQueue, function(key) {
-          dataStructure.push(key);
-        });
-
-        //Loop this function every 10 seconds
-        setTimeout(function() {
-          getArticleStatus();
-        }, 10000);
-      } else {
-
-        //Feedback to the user
-        $('#publish-action').unbind().text('Close').attr('disabled', false);
-
-        //Bind a reload to the click
-        $('#publish-action').click(function() {
-          location.reload(true);
-        });
-      }
-    });
-  }
-
-
 })(jQuery);
 
 (function(w) {
@@ -381,7 +266,9 @@ Handlebars.registerPartial("article-item-template", Handlebars.template({"1":fun
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "<tr data-article-id=\""
+  return "<tr data-article-title=\""
+    + alias4(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
+    + "\" data-article-id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-article-version=\""
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
@@ -412,6 +299,40 @@ Handlebars.registerPartial("article-item-template", Handlebars.template({"1":fun
 Handlebars.registerPartial("article-publish-modal", Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     return "<a href=\"#\" class=\"btn btn-default pattern-helper\" data-toggle=\"modal\" data-target=\"#publish-modal\">\n    Modal\n</a>\n<div class=\"modal fade\" id=\"publish-modal\" tabindex=\"-1\" role=\"dialog\" data-backdrop=\"static\" aria-labelledby=\"publish-modal\">\n    <div class=\"modal-dialog modal-sm\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"myModalLabel\">Publish article(s)</h4>\n            </div>\n            <div class=\"modal-body\">\n                Are you sure you want to publish the following article(s)?\n                <ol id=\"articles-queue\"></ol>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"publish-cancel\">Cancel</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner publish-action\" id=\"publish-action\"></button>\n            </div>\n        </div>\n    </div>\n</div>";
 },"useData":true}));
+
+this["eLife"]["templates"]["article-publish-status"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "    <span class=\"glyphicon glyphicon-remove glyphicon-remove--stat\" data-toggle=\"tooltip\" data-placement=\"top\"\n          title=\""
+    + alias4(((helper = (helper = helpers.status || (depth0 != null ? depth0.status : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"status","hash":{},"data":data}) : helper)))
+    + " "
+    + alias4(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"message","hash":{},"data":data}) : helper)))
+    + "\"></span>\n";
+},"3":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "    <span class=\"glyphicon glyphicon-ok glyphicon-warning-sign--stat\" data-toggle=\"tooltip\" data-placement=\"top\"\n          title=\""
+    + alias4(((helper = (helper = helpers.status || (depth0 != null ? depth0.status : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"status","hash":{},"data":data}) : helper)))
+    + " "
+    + alias4(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"message","hash":{},"data":data}) : helper)))
+    + "\"></span>\n";
+},"5":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "    <span class=\"glyphicon glyphicon-ok glyphicon-ok--stat\" data-toggle=\"tooltip\" data-placement=\"top\"\n          title=\""
+    + alias4(((helper = (helper = helpers.status || (depth0 != null ? depth0.status : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"status","hash":{},"data":data}) : helper)))
+    + " "
+    + alias4(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"message","hash":{},"data":data}) : helper)))
+    + "\"></span>\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
+
+  return ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0.status : depth0),"error",{"name":"is","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0.status : depth0),"queued",{"name":"is","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0.status : depth0),"ready to publish",{"name":"is","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0.status : depth0),"published",{"name":"is","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n";
+},"useData":true});
 
 this["eLife"]["templates"]["article-template"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1, alias1=depth0 != null ? depth0 : {};
