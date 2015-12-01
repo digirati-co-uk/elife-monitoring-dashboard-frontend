@@ -27,9 +27,11 @@
       this.queuePolled = 0;
       this.queued = [];
       this.isPublishing = false;
-      $('[data-toggle="tooltip"]', document).tooltip();
+      Swag.registerHelpers(Handlebars);
       this.bindEvents();
       this.renderArticles();
+
+      $('[data-toggle="tooltip"]', document).tooltip();
     },
 
     bindEvents: function() {
@@ -144,9 +146,7 @@
     },
 
     performPublish: function(e) {
-      //Disable Publish (all) button to stop sending multiple requests
-      $('#publish-cancel').hide();
-      $(e).empty().attr('disabled', true).css({width: '100%'});
+      $('#publish-cancel, #publish-action').hide();
       this.isPublishing = true;
       this.queueArticles(this.queued);
       this.checkArticleStatus(this.queued);
@@ -160,14 +160,13 @@
         url: API + 'queue_article_publication',
         data: JSON.stringify({articles: queued}),
         success: function(data) {
-          console.log(data);
           App.updateQueueListStatus(data.articles);
         },
       });
     },
 
     checkArticleStatus: function(queued) {
-
+      App.updateQueueListStatus(queued);
       this.checkingStatus = setInterval(function() {
         $.ajax({
           type: 'POST',
@@ -178,7 +177,11 @@
             App.updateQueueListStatus(data.articles);
           },
 
-          complete: this.checkArticleStatus,
+          error: function(data) {
+            //@TODO better error handling here
+            this.isPublishing = false;
+            clearInterval(App.checkingStatus);
+          },
         });
       }, 1000);
     },
