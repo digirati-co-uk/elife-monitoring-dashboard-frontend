@@ -23,7 +23,7 @@ if you'd like to  test the publishing process:
 * in the public folder start a php server 
 
 ```bash
-'php -S localhost:8000'
+php -S localhost:8000
 ```
 
  (change port if in conflict)
