@@ -1,0 +1,76 @@
+<tr data-article-title="{{ title }}" data-article-id="{{ id }}" data-article-version="{{ version }}" data-article-run="{{ run }}">
+    <td class="column-1">
+        <a href="#" class="hidden-xs">
+            <span class="glyphicon glyphicon-file {{ type }}"></span>
+        </a>
+        <h6>
+            <a href="#">{{ title }}</a>
+        </h6>
+
+        <p>
+            <a href="#">{{ desc }}</a>
+        </p>
+    </td>
+    <td class="column-2">
+        <dl>
+            <dt>
+                <a href="#">
+                    <i>Version:</i>
+                </a>
+            </dt>
+            <dd>
+                <a href="#">{{ type }}.{{ run }}.{{ version }}</a>
+            </dd>
+            <dt>
+                <a href="#">
+                    <i>Article type:</i>
+                </a>
+            </dt>
+            <dd>
+                <a href="#">Research Article</a>
+            </dd>
+            <dt>
+                <a href="#">
+                    <i>Publication date:</i>
+                </a>
+            </dt>
+            <dd>
+                <a href="#">{{ datePublished }}</a>
+            </dd>
+            <dt>
+                <a href="#">
+                    <i>Corresponding authors:</i>
+                </a>
+            </dt>
+            <dd>
+                <a href="#">{{ authors }}</a>
+            </dd>
+        </dl>
+    </td>
+    {{#isnt section 'uir'}}
+        <td class="column-3">
+            <a href="#">
+                <b>STATUS MESSAGE</b>
+            </a>
+        </td>
+    {{/isnt}}
+    {{#is section 'uir'}}
+        <td class="column-3">
+            <button class="btn btn-default preview">
+                <span class="glyphicon glyphicon-eye-open"></span>
+                Preview
+            </button>
+            <button class="btn btn-default publish btn-publish" data-toggle="modal" data-target="#publish-modal"
+                    type="button">
+                <span class="glyphicon glyphicon-globe"></span>
+                Publish Now
+            </button>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" class="toggle-publish-all"> Batch Publishing
+                </label>
+            </div>
+        </td>
+    {{/is}}
+
+</tr>

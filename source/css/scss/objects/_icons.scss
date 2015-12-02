@@ -5,43 +5,43 @@
 }
 
 .glyphicon-warning-sign--mod {
-  
+
   @extend .glyph-header;
-  
+
   background-color: $Pink;
   color: $Pink-txt;
   padding: 13px 15px 17px;
 }
 
 .glyphicon-cog--mod {
-  
+
   @extend .glyph-header;
-  
+
   background-color: $Teal;
   color: $Teal-txt;
 }
 
 .glyphicon-hand-down--mod {
-  
+
   @extend .glyph-header;
-  
+
   background-color: $LightGrey2;
   color: $LightGrey2-txt;
   padding: 16px 14px 14px 16px;
 }
 
 .glyphicon-time--mod {
-  
+
   @extend .glyph-header;
-  
+
   background-color: $Orange;
   color: $Orange-txt;
 }
 
 .glyphicon-ok--mod {
-  
+
   @extend .glyph-header;
-  
+
   background-color: $Green;
   color: $Green-txt;
   padding: 15px;
@@ -54,17 +54,17 @@
 }
 
 .glyphicon-remove--stat {
-  
+
   @extend .glyph-status;
-  
+
   background-color: $Pink;
   color: $Pink-txt;
 }
 
 .glyphicon-ok--stat {
-  
+
   @extend .glyph-status;
-  
+
   background-color: $Green;
   color: $Green-txt;
 }
@@ -72,7 +72,7 @@
 .glyphicon-warning-sign--stat {
 
   @extend .glyph-status;
-  
+
   background-color: $Orange;
   color: $Orange-txt;
   font-size: 1.1rem;
