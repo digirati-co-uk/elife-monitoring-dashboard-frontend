@@ -1,21 +1,19 @@
 <span class="article-status">
     {{#is status 'error'}}
         <span class="glyphicon glyphicon-remove glyphicon-remove--stat" data-toggle="tooltip" data-placement="top"
-              title="{{status}} {{message}}"></span>
+              title="{{capitalizeFirst status}} {{message}}"></span>
     {{/is}}
     {{#is status 'queued'}}
-        <div class="throbber-loader throbber-loader--small "></div>
-        <!--<span class="glyphicon glyphicon-ok glyphicon-warning-sign--stat" data-toggle="tooltip" data-placement="top"-->
-        <!--title="{{status}} {{message}}"></span>-->
+        <div class="throbber-loader throbber-loader--small "  data-toggle="tooltip" data-placement="top"
+             title="{{capitalizeFirst status}} {{message}}"></div>
     {{/is}}
     {{#is status 'ready to publish'}}
-        <div class="throbber-loader throbber-loader--small "></div>
-        <!--<span class="glyphicon glyphicon-ok glyphicon-warning-sign--stat" data-toggle="tooltip" data-placement="top"-->
-        <!--title="{{status}} {{message}}"></span>-->
+        <div class="throbber-loader throbber-loader--small "  data-toggle="tooltip" data-placement="top"
+             title="{{capitalizeFirst status}} {{message}}"></div>
     {{/is}}
     {{#is status 'published'}}
         <span class="glyphicon glyphicon-ok glyphicon-ok--stat" data-toggle="tooltip" data-placement="top"
-              title="{{status}} {{message}}"></span>
+              title="{{capitalizeFirst status}} {{message}}"></span>
     {{/is}}
 </span>
 
