@@ -65,10 +65,9 @@
       this.queued = [];
       this.isPublishing = false;
       Swag.registerHelpers(Handlebars);
+      $('[data-toggle="tooltip"]').tooltip();
       this.bindEvents();
       this.renderArticles();
-
-      $('[data-toggle="tooltip"]', document).tooltip();
     },
 
     bindEvents: function() {
@@ -176,6 +175,7 @@
         }
         $('.article-status', articleQueue).remove();
         $(articleQueue).append(articlePublishStatusTemplate(queuedItem));
+        $('[data-toggle="tooltip"]').tooltip();
       });
 
       _.each(status, function(s) {
