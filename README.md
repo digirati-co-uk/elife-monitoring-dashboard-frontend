@@ -20,7 +20,14 @@ then see [patternlab readme](patternlab-README.md)
 
 
 if you'd like to  test the publishing process:
-* in the project folder start a php server 'php -S localhost:8000' (change port if in conflict)
+* in the public folder start a php server 
+
+```bash
+'php -S localhost:8000'
+```
+
+ (change port if in conflict)
+
 * optionally run a watch and reload task 'php core/builder.php -wr'. See [advanced auto generate](http://patternlab.io/docs/advanced-auto-regenerate.html)
 
 alternatively if you'd just like to view the Patterns in the library, open 'public/index.html'
