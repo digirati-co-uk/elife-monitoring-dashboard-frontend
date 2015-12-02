@@ -45,7 +45,7 @@ Handlebars.registerPartial("article-publish-modal", Handlebars.template({"compil
 this["eLife"]["templates"]["article-publish-status"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "    <span class=\"glyphicon glyphicon-remove glyphicon-remove--stat\" data-toggle=\"tooltip\" data-placement=\"top\"\n          title=\""
+  return "        <span class=\"glyphicon glyphicon-remove glyphicon-remove--stat\" data-toggle=\"tooltip\" data-placement=\"top\"\n              title=\""
     + alias4(((helper = (helper = helpers.status || (depth0 != null ? depth0.status : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"status","hash":{},"data":data}) : helper)))
     + " "
     + alias4(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"message","hash":{},"data":data}) : helper)))
@@ -53,15 +53,15 @@ this["eLife"]["templates"]["article-publish-status"] = Handlebars.template({"1":
 },"3":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "    <span class=\"glyphicon glyphicon-ok glyphicon-warning-sign--stat\" data-toggle=\"tooltip\" data-placement=\"top\"\n          title=\""
+  return "        <div class=\"throbber-loader throbber-loader--small \"></div>\n        <!--<span class=\"glyphicon glyphicon-ok glyphicon-warning-sign--stat\" data-toggle=\"tooltip\" data-placement=\"top\"-->\n        <!--title=\""
     + alias4(((helper = (helper = helpers.status || (depth0 != null ? depth0.status : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"status","hash":{},"data":data}) : helper)))
     + " "
     + alias4(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"message","hash":{},"data":data}) : helper)))
-    + "\"></span>\n";
+    + "\"></span>-->\n";
 },"5":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "    <span class=\"glyphicon glyphicon-ok glyphicon-ok--stat\" data-toggle=\"tooltip\" data-placement=\"top\"\n          title=\""
+  return "        <span class=\"glyphicon glyphicon-ok glyphicon-ok--stat\" data-toggle=\"tooltip\" data-placement=\"top\"\n              title=\""
     + alias4(((helper = (helper = helpers.status || (depth0 != null ? depth0.status : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"status","hash":{},"data":data}) : helper)))
     + " "
     + alias4(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"message","hash":{},"data":data}) : helper)))
@@ -69,11 +69,12 @@ this["eLife"]["templates"]["article-publish-status"] = Handlebars.template({"1":
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
 
-  return ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0.status : depth0),"error",{"name":"is","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+  return "<span class=\"article-status\">\n"
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0.status : depth0),"error",{"name":"is","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0.status : depth0),"queued",{"name":"is","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0.status : depth0),"ready to publish",{"name":"is","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0.status : depth0),"published",{"name":"is","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\n";
+    + "</span>\n\n";
 },"useData":true});
 
 this["eLife"]["templates"]["article-template"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams) {

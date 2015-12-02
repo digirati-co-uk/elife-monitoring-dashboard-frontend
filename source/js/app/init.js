@@ -45,6 +45,8 @@
 
       $('#articles').on('keyup', '#publish-modal', this.refreshPage.bind(this));
       $('#articles').on('click', '#publish-modal .close', this.refreshPage.bind(this));
+      $('#articles').on('click', '#publish-modal #publish-cancel', this.refreshPage.bind(this));
+
     },
 
     renderArticles: function() {
@@ -115,38 +117,56 @@
     updateQueueListStatus: function(queuedArticles) {
       this.queuePolled++;
       this.queued = queuedArticles;
-      var completedCnt = 0;
+      var total = 0;
+      var status = {completed: 0, error: 0};
       var articleQueue = $('#articles-queue li');
       var articlePublishStatusTemplate = eLife.templates['article-publish-status'];
       var queuedItems = this.queued;
+
       _.each(articleQueue, function(articleQueue, i) {
         var articleId = $(articleQueue).data('id');
         var articleVer = $(articleQueue).data('version');
         var articleRun = $(articleQueue).data('run');
         var displayInQueue = {id: articleId, version: articleVer, run: articleRun};
         var queuedItem = _.find(queuedItems, displayInQueue);
-        if (queuedItem.status === 'published') {
-          completedCnt++;
+        switch (queuedItem.status) {
+          case 'published':
+            status.completed++;
+          break;
+          case 'error':
+            status.error++;
+          break;
         }
-
-        $('span.glyphicon', articleQueue).remove();
+        $('.article-status', articleQueue).remove();
         $(articleQueue).append(articlePublishStatusTemplate(queuedItem));
       });
 
-      if (this.queuePolled === 25 || completedCnt === queuedItems.length) {
+      _.each(status, function(s) {
+        total = total + s;
+      });
+
+      if (this.queuePolled === 25 || _.contains(status, queuedItems.length) || status === queuedItems.length) {
         this.isPublishing = false;
         clearInterval(this.checkingStatus);
       }
+
+
     },
 
     refreshPage: function(e) {
       if (this.isPublishing === true || e.which === ESCAPE_KEY) {
         location.reload(true);
       }
+
+      this.resetModalButtons();
+    },
+
+    resetModalButtons: function() {
+      $('#publish-modal #publish-action').prop('disabled', false).removeClass('disabled');
     },
 
     performPublish: function(e) {
-      $('#publish-cancel, #publish-action').hide();
+      $('#publish-action').prop('disabled', true).addClass('disabled');
       this.isPublishing = true;
       this.queueArticles(this.queued);
       this.checkArticleStatus(this.queued);
@@ -185,6 +205,8 @@
         });
       }, 1000);
     },
+
+
 
   };
 
