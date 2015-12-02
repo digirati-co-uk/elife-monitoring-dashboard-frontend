@@ -27,6 +27,7 @@
       this.queuePolled = 0;
       this.queued = [];
       this.isPublishing = false;
+      this.isAllPublished = false;
       Swag.registerHelpers(Handlebars);
       $('[data-toggle="tooltip"]').tooltip();
       this.bindEvents();
@@ -45,6 +46,7 @@
       $('#articles').on('keyup', '#publish-modal', this.refreshPage.bind(this));
       $('#articles').on('click', '#publish-modal .close', this.refreshPage.bind(this));
       $('#articles').on('click', '#publish-modal #publish-cancel', this.refreshPage.bind(this));
+      $('#articles').on('click', '#publish-modal #publish-close', this.refreshPage.bind(this));
 
     },
 
@@ -88,6 +90,7 @@
       var btnText = (isMultiple) ? 'Publish All' : 'Publish';
       $('#articles-queue', '#publish-modal').empty();
       $('#publish-action', '#publish-modal').empty().text(btnText);
+      $('#publish-close').hide();
     },
 
     populateQueue: function(target) {
@@ -138,7 +141,6 @@
         }
         $('.article-status', articleQueue).remove();
         $(articleQueue).append(articlePublishStatusTemplate(queuedItem));
-        $('[data-toggle="tooltip"]').tooltip();
       });
 
       _.each(status, function(s) {
@@ -147,13 +149,15 @@
 
       if (this.queuePolled === 25 || _.contains(status, queuedItems.length) || status === queuedItems.length) {
         this.isPublishing = false;
+        this.isAllPublished = true;
         clearInterval(this.checkingStatus);
+        $('#publish-close').show();
       }
 
     },
 
     refreshPage: function(e) {
-      if (this.isPublishing === true || e.which === ESCAPE_KEY) {
+      if (this.isPublishing === true || this.isAllPublished === true || e.which === ESCAPE_KEY) {
         location.reload(true);
       }
 
@@ -169,10 +173,11 @@
     },
 
     performPublish: function(e) {
+      $('#publish-cancel').hide();
       $('#publish-action').prop('disabled', true).addClass('disabled');
       this.isPublishing = true;
       this.queueArticles(this.queued);
-      this.checkArticleStatus(this.queued);
+      setTimeout(this.checkArticleStatus(this.queued), 5000);
     },
 
     queueArticles: function(queued) {
@@ -204,7 +209,7 @@
             clearInterval(App.checkingStatus);
           },
         });
-      }, 1000);
+      }, 10000);
     },
 
   };
