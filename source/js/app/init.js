@@ -34,7 +34,7 @@
     },
 
     bindEvents: function() {
-      // @TODO This needs to look for .toggle-add-to-queue checkboxes but its not working atm
+
       $('#articles').on('change', 'input:checkbox', this.toggleAddToQueueBtn.bind(this));
 
       $('#articles').on('click', '.btn-publish-queued', this.publishQueued.bind(this));
@@ -68,7 +68,7 @@
     },
 
     toggleAddToQueueBtn: function(e) {
-      $('.btn-publish-queued').show(); //@TODO not working
+      $('.btn-publish-queued').show();
       this.populateQueue($(e.target));
     },
 
@@ -91,7 +91,7 @@
     },
 
     populateQueue: function(target) {
-      var targetParent = target.parents('tr'); //@TODO remove the need for this
+      var targetParent = target.parents('tr');
       var articleId = targetParent.attr('data-article-id');
       var articleVer = targetParent.attr('data-article-version');
       var articleRun = targetParent.attr('data-article-run');
@@ -150,7 +150,6 @@
         clearInterval(this.checkingStatus);
       }
 
-
     },
 
     refreshPage: function(e) {
@@ -163,6 +162,10 @@
 
     resetModalButtons: function() {
       $('#publish-modal #publish-action').prop('disabled', false).removeClass('disabled');
+      $('#articles-queue').empty();
+      $('.toggle-publish-all').each(function(i, e) {
+        $(e).prop('checked', false);
+      });
     },
 
     performPublish: function(e) {
@@ -173,7 +176,6 @@
     },
 
     queueArticles: function(queued) {
-      //@TODO error handling
       $.ajax({
         type: 'POST',
         contentType: 'application/json',
@@ -198,15 +200,12 @@
           },
 
           error: function(data) {
-            //@TODO better error handling here
             this.isPublishing = false;
             clearInterval(App.checkingStatus);
           },
         });
       }, 1000);
     },
-
-
 
   };
 
