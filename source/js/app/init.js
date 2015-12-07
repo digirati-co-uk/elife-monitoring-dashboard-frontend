@@ -29,6 +29,8 @@
       this.queued = [];
       this.isPublishing = false;
       this.isAllPublished = false;
+      this.checkStatusInterval = 8000;
+      this.publishTimeout = 5000;
       Swag.registerHelpers(Handlebars);
       this.bindEvents();
       this.renderArticles();
@@ -192,7 +194,7 @@
       $('#publish-action').prop('disabled', true).addClass('disabled');
       this.isPublishing = true;
       this.queueArticles(this.queued);
-      setTimeout(this.checkArticleStatus(this.queued), 5000);
+
     },
 
     queueArticles: function(queued) {
@@ -203,6 +205,13 @@
         data: JSON.stringify({articles: queued}),
         success: function(data) {
           app.updateQueueListStatus(data.articles);
+          setTimeout(app.checkArticleStatus(app.queued), app.publishTimeout);
+        },
+
+        error: function(data) {
+          this.queueArticleStatusErrorTemplate = eLife.templates['error-queue-article-template'];
+          $('#publish-modal .modal-body').html(this.queueArticleStatusErrorTemplate(articles));
+          $('#publish-cancel').show();
         },
       });
     },
@@ -220,11 +229,14 @@
           },
 
           error: function(data) {
+            this.checkArticleStatusErrorTemplate = eLife.templates['error-article-status-template'];
+            $('#publish-modal .modal-body').html(this.checkArticleStatusErrorTemplate(articles));
+            $('#publish-cancel').show();
             this.isPublishing = false;
             clearInterval(app.checkingStatus);
           },
         });
-      }, 10000);
+      }, this.checkStatusInterval);
     },
 
   };

@@ -66,6 +66,8 @@
       this.queued = [];
       this.isPublishing = false;
       this.isAllPublished = false;
+      this.checkStatusInterval = 8000;
+      this.publishTimeout = 5000;
       Swag.registerHelpers(Handlebars);
       this.bindEvents();
       this.renderArticles();
@@ -229,7 +231,7 @@
       $('#publish-action').prop('disabled', true).addClass('disabled');
       this.isPublishing = true;
       this.queueArticles(this.queued);
-      setTimeout(this.checkArticleStatus(this.queued), 5000);
+
     },
 
     queueArticles: function(queued) {
@@ -240,6 +242,13 @@
         data: JSON.stringify({articles: queued}),
         success: function(data) {
           app.updateQueueListStatus(data.articles);
+          setTimeout(app.checkArticleStatus(app.queued), app.publishTimeout);
+        },
+
+        error: function(data) {
+          this.queueArticleStatusErrorTemplate = eLife.templates['error-queue-article-template'];
+          $('#publish-modal .modal-body').html(this.queueArticleStatusErrorTemplate(articles));
+          $('#publish-cancel').show();
         },
       });
     },
@@ -257,11 +266,14 @@
           },
 
           error: function(data) {
+            this.checkArticleStatusErrorTemplate = eLife.templates['error-article-status-template'];
+            $('#publish-modal .modal-body').html(this.checkArticleStatusErrorTemplate(articles));
+            $('#publish-cancel').show();
             this.isPublishing = false;
             clearInterval(app.checkingStatus);
           },
         });
-      }, 10000);
+      }, this.checkStatusInterval);
     },
 
   };
@@ -447,6 +459,14 @@ this["eLife"]["templates"]["article-template"] = Handlebars.template({"1":functi
 
   return ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},depth0,{"name":"each","hash":{},"fn":container.program(1, data, 2, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "");
 },"usePartial":true,"useData":true,"useBlockParams":true});
+
+this["eLife"]["templates"]["error-article-status-template"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "<div class=\"alert alert-danger\">\n    An error has occurred while checking the status of the article(s) requested. Please cancel and try again.\n</div>";
+},"useData":true});
+
+this["eLife"]["templates"]["error-queue-article-template"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "<div class=\"alert alert-danger\">\n    An error has occurred while queueing the article(s) requested. Please cancel and try again.\n</div>";
+},"useData":true});
 
 this["eLife"]["templates"]["error-template"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
