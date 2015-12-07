@@ -62,18 +62,18 @@
     init: function() {
       this.checkingStatus = '';
       this.queuePolled = 0;
+      this.articles = [];
       this.queued = [];
       this.isPublishing = false;
       this.isAllPublished = false;
       Swag.registerHelpers(Handlebars);
-      $('[data-toggle="tooltip"]').tooltip();
       this.bindEvents();
       this.renderArticles();
     },
 
     bindEvents: function() {
 
-      $('#articles').on('change', 'input:checkbox', this.toggleAddToQueueBtn.bind(this));
+      $('#articles').on('change', 'input.toggle-publish-all:checkbox', this.toggleAddToQueueBtn.bind(this));
 
       $('#articles').on('click', '.btn-publish-queued', this.publishQueued.bind(this));
       $('#articles').on('click', '.btn-publish', this.publish.bind(this));
@@ -93,6 +93,7 @@
         cache: false,
         dataType: 'json',
         success: function(articles) {
+          app.articles = articles;
           this.articleTemplate = eLife.templates['article-template'];
           $('#articles').html(this.articleTemplate(articles));
         },
@@ -108,6 +109,17 @@
 
     toggleAddToQueueBtn: function(e) {
       $('.btn-publish-queued').show();
+      var isChecked = $(e.target).is(':checked');
+      if (isChecked === false) {
+        var cnt = 0;
+        $('input.toggle-publish-all:checkbox', '#articles').each(function(i, element) {
+          var checkedState = $(element).is(':checked');
+          if (checkedState === false) cnt++;
+        });
+
+        if (cnt === this.articles.uir.length) $('.btn-publish-queued').hide();
+      }
+
       this.populateQueue($(e.target));
     },
 
@@ -224,13 +236,13 @@
         url: API + 'queue_article_publication',
         data: JSON.stringify({articles: queued}),
         success: function(data) {
-          App.updateQueueListStatus(data.articles);
+          app.updateQueueListStatus(data.articles);
         },
       });
     },
 
     checkArticleStatus: function(queued) {
-      App.updateQueueListStatus(queued);
+      app.updateQueueListStatus(queued);
       this.checkingStatus = setInterval(function() {
         $.ajax({
           type: 'POST',
@@ -238,12 +250,12 @@
           url: API + 'check_article_status',
           data: JSON.stringify({articles: queued}),
           success: function(data) {
-            App.updateQueueListStatus(data.articles);
+            app.updateQueueListStatus(data.articles);
           },
 
           error: function(data) {
             this.isPublishing = false;
-            clearInterval(App.checkingStatus);
+            clearInterval(app.checkingStatus);
           },
         });
       }, 10000);
