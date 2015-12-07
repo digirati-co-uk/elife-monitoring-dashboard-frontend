@@ -21,7 +21,7 @@
       return obj;
     },
   };
-  var App = {
+  var app = {
     init: function() {
       this.checkingStatus = '';
       this.queuePolled = 0;
@@ -214,5 +214,5 @@
 
   };
 
-  App.init();
+  app.init();
 })(jQuery);

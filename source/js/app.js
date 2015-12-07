@@ -1,4 +1,4 @@
-/*! eLife - v0.0.1 - 2015-12-02
+/*! eLife - v0.0.1 - 2015-12-07
 * https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend
 * Copyright (c) 2015 eLife; Licensed  */
 (function($) {
@@ -58,7 +58,7 @@
       return obj;
     },
   };
-  var App = {
+  var app = {
     init: function() {
       this.checkingStatus = '';
       this.queuePolled = 0;
@@ -251,7 +251,7 @@
 
   };
 
-  App.init();
+  app.init();
 })(jQuery);
 
 (function(w) {
