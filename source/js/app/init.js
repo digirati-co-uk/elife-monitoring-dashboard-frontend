@@ -179,9 +179,12 @@
     resetModalButtons: function() {
       $('#publish-modal #publish-action').prop('disabled', false).removeClass('disabled');
       $('#articles-queue').empty();
+      $('.btn-publish-queued').hide();
       $('.toggle-publish-all').each(function(i, e) {
         $(e).prop('checked', false);
       });
+
+      this.queued = [];
     },
 
     performPublish: function(e) {
