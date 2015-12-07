@@ -21,22 +21,24 @@
       return obj;
     },
   };
-  var App = {
+  var app = {
     init: function() {
       this.checkingStatus = '';
       this.queuePolled = 0;
+      this.articles = [];
       this.queued = [];
       this.isPublishing = false;
       this.isAllPublished = false;
+      this.checkStatusInterval = 8000;
+      this.publishTimeout = 5000;
       Swag.registerHelpers(Handlebars);
-      $('[data-toggle="tooltip"]').tooltip();
       this.bindEvents();
       this.renderArticles();
     },
 
     bindEvents: function() {
 
-      $('#articles').on('change', 'input:checkbox', this.toggleAddToQueueBtn.bind(this));
+      $('#articles').on('change', 'input.toggle-publish-all:checkbox', this.toggleAddToQueueBtn.bind(this));
 
       $('#articles').on('click', '.btn-publish-queued', this.publishQueued.bind(this));
       $('#articles').on('click', '.btn-publish', this.publish.bind(this));
@@ -56,6 +58,7 @@
         cache: false,
         dataType: 'json',
         success: function(articles) {
+          app.articles = articles;
           this.articleTemplate = eLife.templates['article-template'];
           $('#articles').html(this.articleTemplate(articles));
         },
@@ -71,6 +74,17 @@
 
     toggleAddToQueueBtn: function(e) {
       $('.btn-publish-queued').show();
+      var isChecked = $(e.target).is(':checked');
+      if (isChecked === false) {
+        var cnt = 0;
+        $('input.toggle-publish-all:checkbox', '#articles').each(function(i, element) {
+          var checkedState = $(element).is(':checked');
+          if (checkedState === false) cnt++;
+        });
+
+        if (cnt === this.articles.uir.length) $('.btn-publish-queued').hide();
+      }
+
       this.populateQueue($(e.target));
     },
 
@@ -167,9 +181,12 @@
     resetModalButtons: function() {
       $('#publish-modal #publish-action').prop('disabled', false).removeClass('disabled');
       $('#articles-queue').empty();
+      $('.btn-publish-queued').hide();
       $('.toggle-publish-all').each(function(i, e) {
         $(e).prop('checked', false);
       });
+
+      this.queued = [];
     },
 
     performPublish: function(e) {
@@ -177,7 +194,7 @@
       $('#publish-action').prop('disabled', true).addClass('disabled');
       this.isPublishing = true;
       this.queueArticles(this.queued);
-      setTimeout(this.checkArticleStatus(this.queued), 5000);
+
     },
 
     queueArticles: function(queued) {
@@ -187,13 +204,20 @@
         url: API + 'queue_article_publication',
         data: JSON.stringify({articles: queued}),
         success: function(data) {
-          App.updateQueueListStatus(data.articles);
+          app.updateQueueListStatus(data.articles);
+          setTimeout(app.checkArticleStatus(app.queued), app.publishTimeout);
+        },
+
+        error: function(data) {
+          this.queueArticleStatusErrorTemplate = eLife.templates['error-queue-article-template'];
+          $('#publish-modal .modal-body').html(this.queueArticleStatusErrorTemplate(articles));
+          $('#publish-cancel').show();
         },
       });
     },
 
     checkArticleStatus: function(queued) {
-      App.updateQueueListStatus(queued);
+      app.updateQueueListStatus(queued);
       this.checkingStatus = setInterval(function() {
         $.ajax({
           type: 'POST',
@@ -201,18 +225,21 @@
           url: API + 'check_article_status',
           data: JSON.stringify({articles: queued}),
           success: function(data) {
-            App.updateQueueListStatus(data.articles);
+            app.updateQueueListStatus(data.articles);
           },
 
           error: function(data) {
+            this.checkArticleStatusErrorTemplate = eLife.templates['error-article-status-template'];
+            $('#publish-modal .modal-body').html(this.checkArticleStatusErrorTemplate(articles));
+            $('#publish-cancel').show();
             this.isPublishing = false;
-            clearInterval(App.checkingStatus);
+            clearInterval(app.checkingStatus);
           },
         });
-      }, 10000);
+      }, this.checkStatusInterval);
     },
 
   };
 
-  App.init();
+  app.init();
 })(jQuery);
