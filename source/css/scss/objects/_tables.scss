@@ -22,7 +22,7 @@
   tr {
     border-top: 1px solid $LightGrey5;
     vertical-align: top;
-    
+
     @media #{$mobile} {
       display: block;
     }
@@ -97,7 +97,7 @@
     h6,
     p {
       padding-left: 18%;
-      
+
       @media #{$mobile} {
         padding-left: 0;
       }
@@ -119,7 +119,7 @@
 
   .column-3 {
     font-size: 1.2rem;
-    text-align: center;
+    //text-align: center;
     vertical-align: middle;
     width: 16%;
 

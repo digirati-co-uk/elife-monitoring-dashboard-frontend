@@ -1,57 +1,54 @@
-<tr data-article-title="{{ title }}" data-article-id="{{ id }}" data-article-version="{{ version }}" data-article-run="{{ run }}">
+<tr data-article-title="{{ title }}" data-article-id="{{ id }}" data-article-version="{{ version }}"
+    data-article-run="{{ run }}">
     <td class="column-1">
         <a href="#" class="hidden-xs">
-            <span class="glyphicon glyphicon-file {{ type }}"></span>
+            <span class="glyphicon glyphicon-file {{lowercase status }}"></span>
         </a>
         <h6>
-            <a href="#">{{ title }}</a>
+            <a href="#">{{ doi }}</a>
         </h6>
 
         <p>
-            <a href="#">{{ desc }}</a>
+            <a href="#">{{ title }}</a>
         </p>
     </td>
     <td class="column-2">
         <dl>
             <dt>
-                <a href="#">
-                    <i>Version:</i>
-                </a>
+                <i>Version:</i>
             </dt>
             <dd>
-                <a href="#">{{ type }}.{{ run }}.{{ version }}</a>
+                {{ version }}
             </dd>
             <dt>
-                <a href="#">
-                    <i>Article type:</i>
-                </a>
+                <i>Article type:</i>
             </dt>
             <dd>
-                <a href="#">Research Article</a>
+                {{ article-type }}
             </dd>
             <dt>
-                <a href="#">
-                    <i>Publication date:</i>
-                </a>
+                <i>Publication date:</i>
             </dt>
             <dd>
-                <a href="#">{{ datePublished }}</a>
+                {{elFormatUnixDate publication-date "Do MMMM YYYY" }}
             </dd>
             <dt>
-                <a href="#">
-                    <i>Corresponding authors:</i>
-                </a>
+                <i>Corresponding authors:</i>
             </dt>
             <dd>
-                <a href="#">{{ authors }}</a>
+                {{ corresponding-authors }}
             </dd>
         </dl>
     </td>
     {{#isnt section 'uir'}}
         <td class="column-3">
-            <a href="#">
-                <b>STATUS MESSAGE</b>
-            </a>
+            <p>
+                <b>{{ uppercase event-type }}
+                <br/>{{ uppercase event-status }}</b>
+            </p>
+            <p>
+                <small>({{ event-timestamp }})</small>
+            </p>
         </td>
     {{/isnt}}
     {{#is section 'uir'}}

@@ -1,4 +1,3 @@
-(function($) {
   'use strict';
 
   var ESCAPE_KEY = 27;
@@ -59,6 +58,7 @@
         dataType: 'json',
         success: function(articles) {
           app.articles = articles;
+          console.log(articles);
           this.articleTemplate = eLife.templates['article-template'];
           $('#articles').html(this.articleTemplate(articles));
         },
@@ -242,4 +242,3 @@
   };
 
   app.init();
-})(jQuery);

@@ -1,4 +1,4 @@
-/*! eLife - v0.0.1 - 2015-12-07
+/*! eLife - v0.0.1 - 2015-12-22
 * https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend
 * Copyright (c) 2015 eLife; Licensed  */
 (function($) {
@@ -35,7 +35,6 @@
 
 })(jQuery);
 
-(function($) {
   'use strict';
 
   var ESCAPE_KEY = 27;
@@ -96,6 +95,7 @@
         dataType: 'json',
         success: function(articles) {
           app.articles = articles;
+          console.log(articles);
           this.articleTemplate = eLife.templates['article-template'];
           $('#articles').html(this.articleTemplate(articles));
         },
@@ -279,7 +279,6 @@
   };
 
   app.init();
-})(jQuery);
 
 (function(w) {
   var sw = document.body.clientWidth;
@@ -308,11 +307,22 @@
   });
 })(this);
 
+Handlebars.registerHelper('elFormatUnixDate', function(date, format) {
+  return moment.unix(date).format(format);
+});
 this["eLife"] = this["eLife"] || {};
 this["eLife"]["templates"] = this["eLife"]["templates"] || {};
 
 Handlebars.registerPartial("article-item-template", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    return "        <td class=\"column-3\">\n            <a href=\"#\">\n                <b>STATUS MESSAGE</b>\n            </a>\n        </td>\n";
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3=container.escapeExpression;
+
+  return "        <td class=\"column-3\">\n            <p>\n                <b>"
+    + alias3((helpers.uppercase || (depth0 && depth0.uppercase) || alias2).call(alias1,(depth0 != null ? depth0["event-type"] : depth0),{"name":"uppercase","hash":{},"data":data}))
+    + "\n                <br/>"
+    + alias3((helpers.uppercase || (depth0 && depth0.uppercase) || alias2).call(alias1,(depth0 != null ? depth0["event-status"] : depth0),{"name":"uppercase","hash":{},"data":data}))
+    + "</b>\n            </p>\n            <p>\n                <small>("
+    + alias3(((helper = (helper = helpers["event-timestamp"] || (depth0 != null ? depth0["event-timestamp"] : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"event-timestamp","hash":{},"data":data}) : helper)))
+    + ")</small>\n            </p>\n        </td>\n";
 },"3":function(container,depth0,helpers,partials,data) {
     return "        <td class=\"column-3\">\n            <button class=\"btn btn-default preview\">\n                <span class=\"glyphicon glyphicon-eye-open\"></span>\n                Preview\n            </button>\n            <button class=\"btn btn-default publish btn-publish\" data-toggle=\"modal\" data-target=\"#publish-modal\"\n                    type=\"button\">\n                <span class=\"glyphicon glyphicon-globe\"></span>\n                Publish Now\n            </button>\n            <div class=\"checkbox\">\n                <label>\n                    <input type=\"checkbox\" class=\"toggle-publish-all\"> Batch Publishing\n                </label>\n            </div>\n        </td>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -324,25 +334,23 @@ Handlebars.registerPartial("article-item-template", Handlebars.template({"1":fun
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-article-version=\""
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
-    + "\" data-article-run=\""
+    + "\"\n    data-article-run=\""
     + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
     + "\">\n    <td class=\"column-1\">\n        <a href=\"#\" class=\"hidden-xs\">\n            <span class=\"glyphicon glyphicon-file "
-    + alias4(((helper = (helper = helpers.type || (depth0 != null ? depth0.type : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"type","hash":{},"data":data}) : helper)))
+    + alias4((helpers.lowercase || (depth0 && depth0.lowercase) || alias2).call(alias1,(depth0 != null ? depth0.status : depth0),{"name":"lowercase","hash":{},"data":data}))
     + "\"></span>\n        </a>\n        <h6>\n            <a href=\"#\">"
-    + alias4(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.doi || (depth0 != null ? depth0.doi : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"doi","hash":{},"data":data}) : helper)))
     + "</a>\n        </h6>\n\n        <p>\n            <a href=\"#\">"
-    + alias4(((helper = (helper = helpers.desc || (depth0 != null ? depth0.desc : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"desc","hash":{},"data":data}) : helper)))
-    + "</a>\n        </p>\n    </td>\n    <td class=\"column-2\">\n        <dl>\n            <dt>\n                <a href=\"#\">\n                    <i>Version:</i>\n                </a>\n            </dt>\n            <dd>\n                <a href=\"#\">"
-    + alias4(((helper = (helper = helpers.type || (depth0 != null ? depth0.type : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"type","hash":{},"data":data}) : helper)))
-    + "."
-    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
-    + "."
+    + alias4(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
+    + "</a>\n        </p>\n    </td>\n    <td class=\"column-2\">\n        <dl>\n            <dt>\n                <i>Version:</i>\n            </dt>\n            <dd>\n                "
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
-    + "</a>\n            </dd>\n            <dt>\n                <a href=\"#\">\n                    <i>Article type:</i>\n                </a>\n            </dt>\n            <dd>\n                <a href=\"#\">Research Article</a>\n            </dd>\n            <dt>\n                <a href=\"#\">\n                    <i>Publication date:</i>\n                </a>\n            </dt>\n            <dd>\n                <a href=\"#\">"
-    + alias4(((helper = (helper = helpers.datePublished || (depth0 != null ? depth0.datePublished : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"datePublished","hash":{},"data":data}) : helper)))
-    + "</a>\n            </dd>\n            <dt>\n                <a href=\"#\">\n                    <i>Corresponding authors:</i>\n                </a>\n            </dt>\n            <dd>\n                <a href=\"#\">"
-    + alias4(((helper = (helper = helpers.authors || (depth0 != null ? depth0.authors : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"authors","hash":{},"data":data}) : helper)))
-    + "</a>\n            </dd>\n        </dl>\n    </td>\n"
+    + "\n            </dd>\n            <dt>\n                <i>Article type:</i>\n            </dt>\n            <dd>\n                "
+    + alias4(((helper = (helper = helpers["article-type"] || (depth0 != null ? depth0["article-type"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"article-type","hash":{},"data":data}) : helper)))
+    + "\n            </dd>\n            <dt>\n                <i>Publication date:</i>\n            </dt>\n            <dd>\n                "
+    + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["publication-date"] : depth0),"Do MMMM YYYY",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + "\n            </dd>\n            <dt>\n                <i>Corresponding authors:</i>\n            </dt>\n            <dd>\n                "
+    + alias4(((helper = (helper = helpers["corresponding-authors"] || (depth0 != null ? depth0["corresponding-authors"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"corresponding-authors","hash":{},"data":data}) : helper)))
+    + "\n            </dd>\n        </dl>\n    </td>\n"
     + ((stack1 = (helpers.isnt || (depth0 && depth0.isnt) || alias2).call(alias1,(depth0 != null ? depth0.section : depth0),"uir",{"name":"isnt","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0.section : depth0),"uir",{"name":"is","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n</tr>";
