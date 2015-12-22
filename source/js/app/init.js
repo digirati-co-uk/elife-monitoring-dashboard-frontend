@@ -58,7 +58,6 @@
         dataType: 'json',
         success: function(articles) {
           app.articles = articles;
-          console.log(articles);
           this.articleTemplate = eLife.templates['article-template'];
           $('#articles').html(this.articleTemplate(articles));
         },
@@ -113,7 +112,6 @@
       var articleVer = targetParent.attr('data-article-version');
       var articleRun = targetParent.attr('data-article-run');
       var addToQueue = {id: articleId, version: articleVer, run: articleRun};
-
       if (_.findWhere(this.queued, addToQueue)) {
         this.queued = utils.removeObject(this.queued, addToQueue);
       } else {

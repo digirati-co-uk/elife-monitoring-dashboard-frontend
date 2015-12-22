@@ -95,7 +95,6 @@
         dataType: 'json',
         success: function(articles) {
           app.articles = articles;
-          console.log(articles);
           this.articleTemplate = eLife.templates['article-template'];
           $('#articles').html(this.articleTemplate(articles));
         },
@@ -150,7 +149,6 @@
       var articleVer = targetParent.attr('data-article-version');
       var articleRun = targetParent.attr('data-article-run');
       var addToQueue = {id: articleId, version: articleVer, run: articleRun};
-
       if (_.findWhere(this.queued, addToQueue)) {
         this.queued = utils.removeObject(this.queued, addToQueue);
       } else {
@@ -380,10 +378,10 @@ Handlebars.registerPartial("article-item-template", Handlebars.template({"1":fun
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "<tr data-article-title=\""
-    + alias4(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
-    + "\" data-article-id=\""
+    + alias4(((helper = (helper = helpers.doi || (depth0 != null ? depth0.doi : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"doi","hash":{},"data":data}) : helper)))
+    + "\"\n    data-article-id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" data-article-version=\""
+    + "\"\n    data-article-version=\""
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
     + "\"\n    data-article-run=\""
     + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
