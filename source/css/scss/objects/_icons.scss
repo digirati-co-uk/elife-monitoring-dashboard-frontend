@@ -126,3 +126,28 @@
   }
 
 }
+
+.no-article-status-type {
+  float: left;
+
+  @media #{$mobile} {
+    display: none;
+  }
+
+  &:before {
+    font-size: 3rem;
+    padding-left: 4px;
+  }
+
+  &:after {
+    background-color: $Black3;
+    color: white;
+    content: "...";
+    text-align: center;
+    display: block;
+    font-size: 1.3rem;
+    margin-top: 5px;
+    padding: 2px 5px 5px;
+  }
+
+}

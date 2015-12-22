@@ -2,52 +2,67 @@
     data-article-run="{{ run }}">
     <td class="column-1">
         <a href="#" class="hidden-xs">
-            <span class="glyphicon glyphicon-file {{lowercase status }}"></span>
+            <span class="glyphicon glyphicon-file {{#if status}}{{lowercase status }}{{else}}no-article-status-type{{/if}}"></span>
         </a>
         <h6>
-            <a href="#">{{ doi }}</a>
+            <a href="#">{{#if doi}}{{ doi }}{{else}}Not yet available ({{id}}){{/if}}</a>
         </h6>
-
-        <p>
-            <a href="#">{{ title }}</a>
-        </p>
+        {{#if title}}
+            <p>
+                <a href="#">{{ title }}</a>
+            </p>
+        {{/if}}
     </td>
     <td class="column-2">
         <dl>
-            <dt>
-                <i>Version:</i>
-            </dt>
-            <dd>
-                {{ version }}
-            </dd>
-            <dt>
-                <i>Article type:</i>
-            </dt>
-            <dd>
-                {{ article-type }}
-            </dd>
-            <dt>
-                <i>Publication date:</i>
-            </dt>
-            <dd>
-                {{elFormatUnixDate publication-date "Do MMMM YYYY" }}
-            </dd>
-            <dt>
-                <i>Corresponding authors:</i>
-            </dt>
-            <dd>
-                {{ corresponding-authors }}
-            </dd>
+            {{#if version}}
+                {{#if doi}}
+                <dt>
+                    <a href="#"><i>Version:</i></a>
+                </dt>
+                <dd>
+                    <a href="#">{{ version }}</a>
+                </dd>
+                {{/if}}
+            {{/if}}
+            {{#if article-type}}
+                <dt>
+                    <a href="#"><i>Article type:</i></a>
+                </dt>
+                <dd>
+                    <a href="#">{{ article-type }}</a>
+                </dd>
+            {{/if}}
+            {{#if publication-date}}
+                <dt>
+                    <a href="#"><i>Publication date:</i></a>
+                </dt>
+                <dd>
+                    <a href="#">{{elFormatUnixDate publication-date "Do MMMM YYYY" }}</a>
+                </dd>
+            {{/if}}
+            {{#if corresponding-authors}}
+                <dt>
+                    <a href="#"><i>Corresponding authors:</i></a>
+                </dt>
+                <dd>
+                    <a href="#">{{ corresponding-authors }}</a>
+                </dd>
+            {{/if}}
         </dl>
     </td>
     {{#isnt section 'uir'}}
         <td class="column-3">
             <p>
-                <b>{{ uppercase event-type }}
-                <br/>{{ uppercase event-status }}</b>
-            </p>
-            <p>
-                <small>({{ event-timestamp }})</small>
+                <b>
+                    {{#if event-type}}
+                        <a href="#">{{ uppercase event-type }}</a>
+                    {{/if}}
+                    {{#if event-status}}
+                        <br/>
+                        <a href="#">{{ uppercase event-status }}</a>
+                    {{/if}}
+                </b>
             </p>
         </td>
     {{/isnt}}

@@ -297,6 +297,32 @@ a:hover {
   padding: 2px 5px 5px;
 }
 
+.no-article-status-type {
+  float: left;
+}
+
+@media (max-width: 767px) {
+  .no-article-status-type {
+    display: none;
+  }
+}
+
+.no-article-status-type:before {
+  font-size: 3rem;
+  padding-left: 4px;
+}
+
+.no-article-status-type:after {
+  background-color: #7a7a7a;
+  color: white;
+  content: "...";
+  text-align: center;
+  display: block;
+  font-size: 1.3rem;
+  margin-top: 5px;
+  padding: 2px 5px 5px;
+}
+
 /*------------------------------------*    $BUTTONS
 \*------------------------------------*/
 .btn-grey {
