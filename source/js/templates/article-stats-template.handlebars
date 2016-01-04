@@ -1,0 +1,61 @@
+<div class="section-map">
+    {{#each this as |articles articleSection|}}
+
+        {{# if articles.length}}
+            {{#is articleSection 'error'}}
+                <div class="col-sm-3">
+                    <a href="#error-list">
+                        <span class="glyphicon glyphicon-warning-sign glyphicon-warning-sign--mod"></span>
+                    </a>
+                    <div class="text-center">
+                        <a href="#error-list">
+                            <span class="val">{{articles.length}}</span><br>
+                            <span class="desc">Articles with Errors</span>
+                        </a>
+                    </div>
+                </div>
+            {{/is}}
+            {{#is articleSection 'in-progress'}}
+                <div class="col-sm-3">
+                    <a href="#in-progress-list">
+                        <span class="glyphicon glyphicon-cog glyphicon-cog--mod"></span>
+                    </a>
+                    <div class="text-center">
+                        <a href="#in-progress-list">
+                            <span class="val">{{articles.length}}</span><br>
+                            <span class="desc">Articles are in Progress</span>
+                        </a>
+                    </div>
+                </div>
+            {{/is}}
+            {{#is articleSection 'uir'}}
+                <div class="col-sm-3">
+                    <a href="#uir-list">
+                        <span class="glyphicon glyphicon-hand-down glyphicon-hand-down--mod"></span>
+                    </a>
+                    <div class="text-center">
+                        <a href="#uir-list">
+                            <span class="val">{{articles.length}}</span><br>
+                            <span class="desc">Articles require User Input<br>(Ready to Publish)</span>
+                        </a>
+                    </div>
+                </div>
+            {{/is}}
+            {{#is articleSection 'scheduled'}}
+                <div class="col-sm-3">
+                    <a href="#scheduled-list">
+                        <span class="glyphicon glyphicon-time glyphicon-time--mod"></span>
+                    </a>
+                    <div class="text-center">
+                        <a href="#scheduled-list">
+                            <span class="val">{{articles.length}}</span><br>
+                            <span class="desc">Articles are Scheduled</span>
+                        </a>
+                    </div>
+                </div>
+            {{/is}}
+        {{/if}}
+    {{/each}}
+</div>
+
+

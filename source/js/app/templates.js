@@ -28,9 +28,9 @@ Handlebars.registerPartial("article-item-template", Handlebars.template({"1":fun
 },"12":function(container,depth0,helpers,partials,data) {
     var helper;
 
-  return "                <dt>\n                    <a href=\"#\"><i>Version:</i></a>\n                </dt>\n                <dd>\n                    <a href=\"#\">"
+  return "                    <dt>\n                        <a href=\"#\"><i>Version:</i></a>\n                    </dt>\n                    <dd>\n                        <a href=\"#\">"
     + container.escapeExpression(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"version","hash":{},"data":data}) : helper)))
-    + "</a>\n                </dd>\n";
+    + "</a>\n                    </dd>\n";
 },"14":function(container,depth0,helpers,partials,data) {
     var helper;
 
@@ -136,6 +136,50 @@ this["eLife"]["templates"]["article-publish-status"] = Handlebars.template({"1":
     + "</span>\n\n";
 },"useData":true});
 
+this["eLife"]["templates"]["article-stats-template"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams) {
+    var stack1;
+
+  return "\n"
+    + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = blockParams[0][0]) != null ? stack1.length : stack1),{"name":"if","hash":{},"fn":container.program(2, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "");
+},"2":function(container,depth0,helpers,partials,data,blockParams) {
+    var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
+
+  return ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,blockParams[1][1],"error",{"name":"is","hash":{},"fn":container.program(3, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,blockParams[1][1],"in-progress",{"name":"is","hash":{},"fn":container.program(5, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,blockParams[1][1],"uir",{"name":"is","hash":{},"fn":container.program(7, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,blockParams[1][1],"scheduled",{"name":"is","hash":{},"fn":container.program(9, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "");
+},"3":function(container,depth0,helpers,partials,data,blockParams) {
+    var stack1;
+
+  return "                <div class=\"col-sm-3\">\n                    <a href=\"#error-list\">\n                        <span class=\"glyphicon glyphicon-warning-sign glyphicon-warning-sign--mod\"></span>\n                    </a>\n                    <div class=\"text-center\">\n                        <a href=\"#error-list\">\n                            <span class=\"val\">"
+    + container.escapeExpression(container.lambda(((stack1 = blockParams[2][0]) != null ? stack1.length : stack1), depth0))
+    + "</span><br>\n                            <span class=\"desc\">Articles with Errors</span>\n                        </a>\n                    </div>\n                </div>\n";
+},"5":function(container,depth0,helpers,partials,data,blockParams) {
+    var stack1;
+
+  return "                <div class=\"col-sm-3\">\n                    <a href=\"#in-progress-list\">\n                        <span class=\"glyphicon glyphicon-cog glyphicon-cog--mod\"></span>\n                    </a>\n                    <div class=\"text-center\">\n                        <a href=\"#in-progress-list\">\n                            <span class=\"val\">"
+    + container.escapeExpression(container.lambda(((stack1 = blockParams[2][0]) != null ? stack1.length : stack1), depth0))
+    + "</span><br>\n                            <span class=\"desc\">Articles are in Progress</span>\n                        </a>\n                    </div>\n                </div>\n";
+},"7":function(container,depth0,helpers,partials,data,blockParams) {
+    var stack1;
+
+  return "                <div class=\"col-sm-3\">\n                    <a href=\"#uir-list\">\n                        <span class=\"glyphicon glyphicon-hand-down glyphicon-hand-down--mod\"></span>\n                    </a>\n                    <div class=\"text-center\">\n                        <a href=\"#uir-list\">\n                            <span class=\"val\">"
+    + container.escapeExpression(container.lambda(((stack1 = blockParams[2][0]) != null ? stack1.length : stack1), depth0))
+    + "</span><br>\n                            <span class=\"desc\">Articles require User Input<br>(Ready to Publish)</span>\n                        </a>\n                    </div>\n                </div>\n";
+},"9":function(container,depth0,helpers,partials,data,blockParams) {
+    var stack1;
+
+  return "                <div class=\"col-sm-3\">\n                    <a href=\"#scheduled-list\">\n                        <span class=\"glyphicon glyphicon-time glyphicon-time--mod\"></span>\n                    </a>\n                    <div class=\"text-center\">\n                        <a href=\"#scheduled-list\">\n                            <span class=\"val\">"
+    + container.escapeExpression(container.lambda(((stack1 = blockParams[2][0]) != null ? stack1.length : stack1), depth0))
+    + "</span><br>\n                            <span class=\"desc\">Articles are Scheduled</span>\n                        </a>\n                    </div>\n                </div>\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams) {
+    var stack1;
+
+  return "<div class=\"section-map\">\n"
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},depth0,{"name":"each","hash":{},"fn":container.program(1, data, 2, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + "</div>\n\n\n";
+},"useData":true,"useBlockParams":true});
+
 this["eLife"]["templates"]["article-template"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1, alias1=depth0 != null ? depth0 : {};
 
@@ -215,9 +259,9 @@ this["eLife"]["templates"]["error-queue-article-template"] = Handlebars.template
 this["eLife"]["templates"]["error-template"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "<section>\n    <p><strong>"
+  return "<section>\n    <p class=\"lead\"><strong>"
     + alias4(((helper = (helper = helpers.status || (depth0 != null ? depth0.status : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"status","hash":{},"data":data}) : helper)))
     + " "
     + alias4(((helper = (helper = helpers.statusText || (depth0 != null ? depth0.statusText : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"statusText","hash":{},"data":data}) : helper)))
-    + "</strong> Sorry an error occurred retrieving the articles.</p>\n</section>";
+    + "</strong></p>\n    <p>Sorry an error occurred retrieving the articles.</p>\n    <br />\n</section>";
 },"useData":true});
