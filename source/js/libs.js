@@ -1,6 +1,6 @@
-/*! eLife - v0.0.1 - 2015-12-22
+/*! eLife - v0.0.1 - 2016-01-04
 * https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend
-* Copyright (c) 2015 eLife; Licensed  */
+* Copyright (c) 2016 eLife; Licensed  */
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
