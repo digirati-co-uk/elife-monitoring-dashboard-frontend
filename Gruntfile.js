@@ -20,12 +20,16 @@ module.exports = function(grunt) {
         files: {
           //app  js
           'source/js/libs.js': [
-            'source/js/libs/underscore.js',
-            'source/js/libs/handlebars-v4.0.5.js',
-            'source/js/libs/swag.js',
+            'source/_src/libs/underscore.js',
+            'source/_src/libs/handlebars-v4.0.5.js',
+            'source/_src/libs/swag.js',
           ],
           'source/js/app.js': [
-            'source/js/app/**/*',
+            'source/_src/app/templates.js',
+            'source/_src/app/templates-helpers.js',
+            'source/_src/app/datepicker.js',
+            'source/_src/app/dropdown.js',
+            'source/_src/app/init.js',
           ],
         },
       },
@@ -34,9 +38,13 @@ module.exports = function(grunt) {
       options: {
         banner: '<%= banner %>',
       },
-      init: {
-        src: ['source/js/init.js'],
-        dest: 'source/js/init.min.js',
+      libs: {
+        src: ['source/js/libs.js'],
+        dest: 'source/js/libs.js',
+      },
+      app: {
+        src: ['source/js/app.js'],
+        dest: 'source/js/app.js',
       },
     },
 
@@ -60,11 +68,11 @@ module.exports = function(grunt) {
         options: {
           namespace: "eLife.templates",
           processName: function(filePath) {
-            return filePath.replace(/^source\/js\/templates\//, '').replace(/\.handlebars/, '');
+            return filePath.replace(/^source\/_src\/handlebars\//, '').replace(/\.handlebars/, '');
           }
         },
         files: {
-          "source/js/app/templates.js": ["source/js/templates/*.handlebars"]
+          "source/_src/app/templates.js": ["source/_src/handlebars/*.handlebars"]
         }
       }
     },
@@ -82,7 +90,7 @@ module.exports = function(grunt) {
         options: {nospawn: false},
       },
       handlebars: {
-        files: ['source/js/templates/**/*.handlebars'],
+        files: ['source/_handlebars/**/*.handlebars'],
         tasks: ['handlebars', 'concat'],
         options: {nospawn: false},
       },

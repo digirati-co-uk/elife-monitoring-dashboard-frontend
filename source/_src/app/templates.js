@@ -265,3 +265,7 @@ this["eLife"]["templates"]["error-template"] = Handlebars.template({"compiler":[
     + alias4(((helper = (helper = helpers.statusText || (depth0 != null ? depth0.statusText : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"statusText","hash":{},"data":data}) : helper)))
     + "</strong></p>\n    <p>Sorry an error occurred retrieving the articles.</p>\n    <br />\n</section>";
 },"useData":true});
+
+this["eLife"]["templates"]["loading-template"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "<div class=\"text-center\"><div class=\"throbber-loader throbber-loader--small \"></div></div>";
+},"useData":true});

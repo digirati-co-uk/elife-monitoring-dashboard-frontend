@@ -53,6 +53,8 @@ var app = {
   },
 
   renderArticles: function() {
+    this.loadingTemplate = eLife.templates['loading-template'];
+    $('#articles').empty().html(this.loadingTemplate());
     $.ajax({
       url: API + 'current',
       cache: false,
@@ -60,14 +62,14 @@ var app = {
       success: function(articles) {
         app.articles = articles;
         this.articleTemplate = eLife.templates['article-template'];
-        $('#articles').html(this.articleTemplate(articles));
+        $('#articles').empty().html(this.articleTemplate(articles));
         this.articleStatsTemplate = eLife.templates['article-stats-template'];
         $('#articleStats').html(this.articleStatsTemplate(articles));
       },
 
       error: function(data) {
         this.errorTemplate = eLife.templates['error-template'];
-        $('#articles').html(this.errorTemplate(data));
+        $('#articles').empty().html(this.errorTemplate(data));
       },
 
     });
