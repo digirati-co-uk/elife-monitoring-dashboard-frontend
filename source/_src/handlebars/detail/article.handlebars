@@ -1,0 +1,47 @@
+{{id}}
+{{> article-detail section=articleDetail }}
+<section class="article-version-map col-sm-4 col-md-3">
+    <ol class="article-version-map-list">
+        {{#each article.versions as |versions|}}
+            <li>
+                <span class="version">Version {{@key}}</span>
+                <ol class="run">
+                    {{#each versions.runs as |runs| }}
+                        <li data-run="{{run-key}}"  data-version="{{version-key}}">
+                            <a href="#">
+                                <span>Run {{@key}}</span>
+                                <span>{{elFormatUnixDate publication-date "Do MMMM YYYY" }}</span>
+                                <span>14:00</span>
+                            </a>
+                        </li>
+
+                    {{/each}}
+                </ol>
+
+            </li>
+        {{/each}}
+    </ol>
+</section>
+<section class="article-version-history col-sm-8 col-md-8 col-md-offset-1">
+    <ol class="article-version-history-list">
+        {{#each currentArticle.events as |events|}}
+            <li>
+                <div class="column-1">
+                    <span class="glyphicon glyphicon-ok {{event-status}} glyphicon-ok--mod pull-left"></span>
+                    <span>{{event-type}}</span>
+                </div>
+                <div class="column-2">
+                    <dl>
+                        <dt><i>Timestamp:</i></dt>
+                        <dd class="divide">{{event-timestamp}}28/04/2015</dd>
+                        <dd class="divide">12:34</dd>
+                    </dl>
+                    <dl>
+                        <dt><i>Message:</i></dt>
+                        <dd>{{event-message}}</dd>
+                    </dl>
+                </div>
+            </li>
+        {{/each}}
+    </ol>
+</section>
