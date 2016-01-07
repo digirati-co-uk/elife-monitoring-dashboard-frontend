@@ -1,6 +1,6 @@
 'use strict';
 
-Elife.archive = {
+app.archive = {
   init: function() {
     if ($('.archive-page').length > 0) {
 

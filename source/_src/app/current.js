@@ -1,6 +1,6 @@
 'use strict';
 
-Elife.current = {
+app.current = {
   /**
    * Initialise the methods for the Current page
    */
@@ -43,11 +43,11 @@ Elife.current = {
     this.loadingTemplate = eLife.templates['loading-template'];
     $('#articles').empty().html(this.loadingTemplate());
     $.ajax({
-      url: Elife.API + 'api/current',
+      url: app.API + 'api/current',
       cache: false,
       dataType: 'json',
       success: function(articles) {
-        Elife.current.articles = articles;
+        app.current.articles = articles;
         this.articleTemplate = eLife.templates['current/article'];
         $('#articles').empty().html(this.articleTemplate(articles));
         this.articleStatsTemplate = eLife.templates['current/article-stats-template'];
@@ -55,7 +55,7 @@ Elife.current = {
       },
 
       error: function(data) {
-        this.errorTemplate = eLife.templates['current/error-render-articles'];
+        this.errorTemplate = eLife.templates['error-render'];
         $('#articles').empty().html(this.errorTemplate(data));
       },
 
@@ -106,9 +106,9 @@ Elife.current = {
     var articleRun = targetParent.attr('data-article-run');
     var addToQueue = {id: articleId, version: articleVer, run: articleRun};
     if (_.findWhere(this.queued, addToQueue)) {
-      this.queued = Elife.utils.removeObject(this.queued, addToQueue);
+      this.queued = app.utils.removeObject(this.queued, addToQueue);
     } else {
-      this.queued = Elife.utils.addObject(this.queued, addToQueue);
+      this.queued = app.utils.addObject(this.queued, addToQueue);
     }
   },
 
@@ -162,7 +162,7 @@ Elife.current = {
   },
 
   refreshPage: function(e) {
-    if (this.isPublishing === true || this.isAllPublished === true || e.which === Elife.ESCAPE_KEY) {
+    if (this.isPublishing === true || this.isAllPublished === true || e.which === app.ESCAPE_KEY) {
       location.reload(true);
     }
 
@@ -192,11 +192,11 @@ Elife.current = {
     $.ajax({
       type: 'POST',
       contentType: 'application/json',
-      url: Elife.API + 'api/queue_article_publication',
+      url: app.API + 'api/queue_article_publication',
       data: JSON.stringify({articles: queued}),
       success: function(data) {
-        Elife.current.updateQueueListStatus(data.articles);
-        setTimeout(Elife.current.checkArticleStatus(Elife.current.queued), Elife.current.publishTimeout);
+        app.current.updateQueueListStatus(data.articles);
+        setTimeout(app.current.checkArticleStatus(app.current.queued), app.current.publishTimeout);
       },
 
       error: function(data) {
@@ -208,15 +208,15 @@ Elife.current = {
   },
 
   checkArticleStatus: function(queued) {
-    Elife.current.updateQueueListStatus(queued);
+    app.current.updateQueueListStatus(queued);
     this.checkingStatus = setInterval(function() {
       $.ajax({
         type: 'POST',
         contentType: 'application/json',
-        url: Elife.API + 'api/article_status',
+        url: app.API + 'api/article_publication_status',
         data: JSON.stringify({articles: queued}),
         success: function(data) {
-          Elife.current.updateQueueListStatus(data.articles);
+          app.current.updateQueueListStatus(data.articles);
         },
 
         error: function(data) {
@@ -224,7 +224,7 @@ Elife.current = {
           $('#publish-modal .modal-body').html(this.checkArticleStatusErrorTemplate(articles));
           $('#publish-cancel').show();
           this.isPublishing = false;
-          clearInterval(Elife.current.checkingStatus);
+          clearInterval(app.current.checkingStatus);
         },
       });
     }, this.checkStatusInterval);
@@ -232,4 +232,4 @@ Elife.current = {
 
 };
 
-Elife.current.init();
+app.current.init();
