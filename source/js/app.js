@@ -1,4 +1,4 @@
-/*! eLife - v0.0.1 - 2016-01-06
+/*! eLife - v0.0.1 - 2016-01-07
 * https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend
 * Copyright (c) 2016 eLife; Licensed  */
 this["eLife"] = this["eLife"] || {};
@@ -367,7 +367,7 @@ Elife.current = {
     this.loadingTemplate = eLife.templates['loading-template'];
     $('#articles').empty().html(this.loadingTemplate());
     $.ajax({
-      url: Elife.API + 'current',
+      url: Elife.API + 'api/current',
       cache: false,
       dataType: 'json',
       success: function(articles) {
@@ -516,7 +516,7 @@ Elife.current = {
     $.ajax({
       type: 'POST',
       contentType: 'application/json',
-      url: Elife.API + 'queue_article_publication',
+      url: Elife.API + 'api/queue_article_publication',
       data: JSON.stringify({articles: queued}),
       success: function(data) {
         Elife.current.updateQueueListStatus(data.articles);
@@ -537,7 +537,7 @@ Elife.current = {
       $.ajax({
         type: 'POST',
         contentType: 'application/json',
-        url: Elife.API + 'check_article_status',
+        url: Elife.API + 'api/article_status',
         data: JSON.stringify({articles: queued}),
         success: function(data) {
           Elife.current.updateQueueListStatus(data.articles);

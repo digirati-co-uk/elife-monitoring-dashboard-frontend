@@ -43,7 +43,7 @@ Elife.current = {
     this.loadingTemplate = eLife.templates['loading-template'];
     $('#articles').empty().html(this.loadingTemplate());
     $.ajax({
-      url: Elife.API + 'current',
+      url: Elife.API + 'api/current',
       cache: false,
       dataType: 'json',
       success: function(articles) {
@@ -192,7 +192,7 @@ Elife.current = {
     $.ajax({
       type: 'POST',
       contentType: 'application/json',
-      url: Elife.API + 'queue_article_publication',
+      url: Elife.API + 'api/queue_article_publication',
       data: JSON.stringify({articles: queued}),
       success: function(data) {
         Elife.current.updateQueueListStatus(data.articles);
@@ -213,7 +213,7 @@ Elife.current = {
       $.ajax({
         type: 'POST',
         contentType: 'application/json',
-        url: Elife.API + 'check_article_status',
+        url: Elife.API + 'api/article_status',
         data: JSON.stringify({articles: queued}),
         success: function(data) {
           Elife.current.updateQueueListStatus(data.articles);
