@@ -76,7 +76,7 @@ module.exports = function(grunt) {
           }
         },
         files: {
-          "source/_src/app/templates.js": ["source/_src/handlebars/*.handlebars"]
+          "source/_src/app/templates.js": ["source/_src/handlebars/**/*.handlebars"]
         }
       }
     },
@@ -94,7 +94,7 @@ module.exports = function(grunt) {
         options: {nospawn: false},
       },
       handlebars: {
-        files: ['source/_src/_handlebars/**/*.handlebars'],
+        files: ['source/_src/handlebars/**/*.handlebars'],
         tasks: ['handlebars', 'concat'],
         options: {nospawn: false},
       },

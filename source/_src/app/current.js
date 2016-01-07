@@ -48,14 +48,14 @@ Elife.current = {
       dataType: 'json',
       success: function(articles) {
         Elife.current.articles = articles;
-        this.articleTemplate = eLife.templates['article-template'];
+        this.articleTemplate = eLife.templates['current/article'];
         $('#articles').empty().html(this.articleTemplate(articles));
-        this.articleStatsTemplate = eLife.templates['article-stats-template'];
+        this.articleStatsTemplate = eLife.templates['current/article-stats-template'];
         $('#articleStats').html(this.articleStatsTemplate(articles));
       },
 
       error: function(data) {
-        this.errorTemplate = eLife.templates['error-template'];
+        this.errorTemplate = eLife.templates['current/error-render-articles'];
         $('#articles').empty().html(this.errorTemplate(data));
       },
 
@@ -127,7 +127,7 @@ Elife.current = {
     var total = 0;
     var status = {completed: 0, error: 0};
     var articleQueue = $('#articles-queue li');
-    var articlePublishStatusTemplate = eLife.templates['article-publish-status'];
+    var articlePublishStatusTemplate = eLife.templates['current/article-publish-modal-status'];
     var queuedItems = this.queued;
 
     _.each(articleQueue, function(articleQueue, i) {
@@ -200,7 +200,7 @@ Elife.current = {
       },
 
       error: function(data) {
-        this.queueArticleStatusErrorTemplate = eLife.templates['error-queue-article-template'];
+        this.queueArticleStatusErrorTemplate = eLife.templates['current/error-queue-articles'];
         $('#publish-modal .modal-body').html(this.queueArticleStatusErrorTemplate(articles));
         $('#publish-cancel').show();
       },
@@ -220,7 +220,7 @@ Elife.current = {
         },
 
         error: function(data) {
-          this.checkArticleStatusErrorTemplate = eLife.templates['error-article-status-template'];
+          this.checkArticleStatusErrorTemplate = eLife.templates['current/error-check-article-status'];
           $('#publish-modal .modal-body').html(this.checkArticleStatusErrorTemplate(articles));
           $('#publish-cancel').show();
           this.isPublishing = false;

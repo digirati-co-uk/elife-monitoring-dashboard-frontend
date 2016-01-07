@@ -4,7 +4,7 @@
 this["eLife"] = this["eLife"] || {};
 this["eLife"]["templates"] = this["eLife"]["templates"] || {};
 
-Handlebars.registerPartial("article-item-template", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+Handlebars.registerPartial("article-item", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     return container.escapeExpression((helpers.lowercase || (depth0 && depth0.lowercase) || helpers.helperMissing).call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.status : depth0),{"name":"lowercase","hash":{},"data":data}));
 },"3":function(container,depth0,helpers,partials,data) {
     return "no-article-status-type";
@@ -99,7 +99,7 @@ Handlebars.registerPartial("article-publish-modal", Handlebars.template({"compil
     return "<a href=\"#\" class=\"btn btn-default pattern-helper\" data-toggle=\"modal\" data-target=\"#publish-modal\">\n    Modal\n</a>\n<div class=\"modal fade\" id=\"publish-modal\" tabindex=\"-1\" role=\"dialog\" data-backdrop=\"static\" aria-labelledby=\"publish-modal\">\n    <div class=\"modal-dialog modal-sm\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"myModalLabel\">Publish article(s)</h4>\n            </div>\n            <div class=\"modal-body\">\n                Are you sure you want to publish the following article(s)?\n                <ol id=\"articles-queue\"></ol>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"publish-close\">Close</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"publish-cancel\">Cancel</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner publish-action\" id=\"publish-action\"></button>\n            </div>\n        </div>\n    </div>\n</div>";
 },"useData":true}));
 
-this["eLife"]["templates"]["article-publish-status"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+this["eLife"]["templates"]["current/article-publish-modal-status"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3=container.escapeExpression;
 
   return "        <span class=\"glyphicon glyphicon-remove glyphicon-remove--stat\"></span>\n        <br />\n        <span class=\"text-muted\">"
@@ -139,7 +139,7 @@ this["eLife"]["templates"]["article-publish-status"] = Handlebars.template({"1":
     + "</span>\n\n";
 },"useData":true});
 
-this["eLife"]["templates"]["article-stats-template"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams) {
+this["eLife"]["templates"]["current/article-stats-template"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
   return "\n"
@@ -183,7 +183,7 @@ this["eLife"]["templates"]["article-stats-template"] = Handlebars.template({"1":
     + "</div>\n\n\n";
 },"useData":true,"useBlockParams":true});
 
-this["eLife"]["templates"]["article-template"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams) {
+this["eLife"]["templates"]["current/article"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1, alias1=depth0 != null ? depth0 : {};
 
   return ((stack1 = (helpers.is || (depth0 && depth0.is) || helpers.helperMissing).call(alias1,blockParams[0][1],"uir",{"name":"is","hash":{},"fn":container.program(2, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
@@ -244,22 +244,22 @@ this["eLife"]["templates"]["article-template"] = Handlebars.template({"1":functi
 },"16":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return ((stack1 = container.invokePartial(partials["article-item-template"],depth0,{"name":"article-item-template","hash":{"section":blockParams[2][1]},"data":data,"blockParams":blockParams,"indent":"                    ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "");
+  return ((stack1 = container.invokePartial(partials["article-item"],depth0,{"name":"article-item","hash":{"section":blockParams[2][1]},"data":data,"blockParams":blockParams,"indent":"                    ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "");
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
   return ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},depth0,{"name":"each","hash":{},"fn":container.program(1, data, 2, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "");
 },"usePartial":true,"useData":true,"useBlockParams":true});
 
-this["eLife"]["templates"]["error-article-status-template"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+this["eLife"]["templates"]["current/error-check-article-status"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     return "<div class=\"alert alert-danger\">\n    An error has occurred while checking the status of the article(s) requested. Please cancel and try again.\n</div>";
 },"useData":true});
 
-this["eLife"]["templates"]["error-queue-article-template"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+this["eLife"]["templates"]["current/error-queue-articles"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     return "<div class=\"alert alert-danger\">\n    An error has occurred while queueing the article(s) requested. Please cancel and try again.\n</div>";
 },"useData":true});
 
-this["eLife"]["templates"]["error-template"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+this["eLife"]["templates"]["current/error-render-articles"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "<section>\n    <p class=\"lead\"><strong>"
@@ -267,6 +267,18 @@ this["eLife"]["templates"]["error-template"] = Handlebars.template({"compiler":[
     + " "
     + alias4(((helper = (helper = helpers.statusText || (depth0 != null ? depth0.statusText : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"statusText","hash":{},"data":data}) : helper)))
     + "</strong></p>\n    <p>Sorry an error occurred retrieving the articles.</p>\n    <br />\n</section>";
+},"useData":true});
+
+this["eLife"]["templates"]["detail/article-detail"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "<section class=\"article-detail\">\n    <table class=\"snapshot\">\n        <tr>\n            <td class=\"column-1\">\n                <span class=\"glyphicon glyphicon-file poa\"></span>\n                <h6>10.7554/eLife.04640</h6>\n                <p>Perturbation biology nominates upstream-downstream drug combinations in RAF inhibitor resistant melanoma cells</p>\n            </td>\n            <td class=\"column-2\">\n                <dl>\n                    <dt><i>Version:</i></dt>\n                    <dd><strong>2</strong></dd>\n                    <dt><i>Run:</i></dt>\n                    <dd><strong>3</strong></dd>\n                </dl>\n            </td>\n            <td class=\"column-3\">\n                <button class=\"btn btn-default\">\n                    <span class=\"glyphicon glyphicon-eye-open\"></span>\n                    Preview\n                </button>\n                <button class=\"btn btn-default\">\n                    <span class=\"glyphicon glyphicon-globe\"></span>\n                    Publish Now\n                </button>\n                <button class=\"btn btn-default\">\n                    <span class=\"glyphicon glyphicon-calendar\"></span>\n                    Schedule\n                </button>\n                <button class=\"btn btn-default hide\">\n                    <span class=\"glyphicon glyphicon-calendar\"></span>\n                    Re-Schedule\n                </button>\n                <button class=\"btn btn-default hide\">\n                    <span class=\"glyphicon glyphicon-calendar\"></span>\n                    Cancel Schedule\n                </button>\n            </td>\n        </tr>\n    </table>\n    <table class=\"detail\">\n        <tr>\n            <td class=\"column-1\">\n                <dl>\n                    <dt><i>Article type:</i></dt>\n                    <dd>Research Article</dd>\n                    <dt><i>Publication date:</i></dt>\n                    <dd>28/04/2015</dd>\n                    <dt><i>Corresponding authors:</i></dt>\n                    <dd>Ian T Baldwin, Max Planck, John Anderson, Thomas Peel, Allvar Gullstrand, Alexis Carrel, Charles Richet, Robert</dd>\n                    <dt><i>Authors:</i></dt>\n                    <dd>Bárány, Jules Bordet, Schack August Steenberg Krogh, Archibald Vivian Hill, Otto Fritz Meyerhof, Sir Frederick, Grant Banting, John James Rickard Macleod</dd>\n                </dl>\n            </td>\n            <td class=\"column-2\">\n                <strong class=\"pull-left\">Destinations</strong>\n            </td>\n            <td class=\"column-3\">\n                <dl>\n                    <dt><i>eLife:</i></dt>\n                    <dd><a href=\"#\">10.7554/eLife.04640</a></dd>\n                    <dt><i>PMC:</i></dt>\n                    <dd>Not yet available</dd>\n                    <dt><i>PubMed:</i></dt>\n                    <dd><a href=\"#\">00333455</a></dd>\n                    <dt><i>PubRouter:</i></dt>\n                    <dd>Delivered</dd>\n                    <dt><i>Cengage:</i></dt>\n                    <dd><a href=\"#\">21940</a></dd>\n                    <dt><i>Google Scholar:</i></dt>\n                    <dd>Registered</dd>\n                </dl>\n            </td>\n        </tr>\n    </table>\n</section>";
+},"useData":true});
+
+this["eLife"]["templates"]["detail/article-version-history"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "<ol class=\"article-version-history-list\">\n    <li>\n        <div class=\"column-1\">\n            <span class=\"glyphicon glyphicon-ok glyphicon-ok--mod pull-left\"></span>\n            <span>Version Determined</span>\n        </div>\n        <div class=\"column-2\">\n            <dl>\n                <dt><i>Timestamp:</i></dt>\n                <dd class=\"divide\">28/04/2015</dd>\n                <dd class=\"divide\">12:34</dd>\n            </dl>\n            <dl>\n                <dt><i>Message:</i></dt>\n                <dd>We have determined the version after checking with John</dd>\n            </dl>\n        </div>\n    </li>\n    <li>\n        <div class=\"column-1\">\n            <span class=\"glyphicon glyphicon-ok glyphicon-ok--mod pull-left\"></span>\n            <span>JSON Created</span>\n        </div>\n        <div class=\"column-2\">\n            <dl>\n                <dt><i>Timestamp:</i></dt>\n                <dd class=\"divide\">28/04/2015</dd>\n                <dd class=\"divide\">13:45</dd>\n            </dl>\n            <dl>\n                <dt><i>Message:</i></dt>\n                <dd>JSON needed manual fix several times</dd>\n            </dl>\n        </div>\n    </li>\n    <li>\n        <div class=\"column-1\">\n            <span class=\"glyphicon glyphicon-ok glyphicon-ok--mod pull-left\"></span>\n            <span>Images Converted</span>\n        </div>\n        <div class=\"column-2\">\n            <dl>\n                <dt><i>Timestamp:</i></dt>\n                <dd class=\"divide\">28/04/2015</dd>\n                <dd class=\"divide\">14:34</dd>\n            </dl>\n            <dl>\n                <dt><i>Message:</i></dt>\n                <dd>7 images were resized</dd>\n            </dl>\n        </div>\n    </li>\n    <li>\n        <div class=\"column-1\">\n            <span class=\"glyphicon glyphicon-ok glyphicon-ok--mod pull-left\"></span>\n            <span>Publication Date Set</span>\n        </div>\n        <div class=\"column-2\">\n            <dl>\n                <dt><i>Timestamp:</i></dt>\n                <dd class=\"divide\">28/04/2015</dd>\n                <dd class=\"divide\">14:44</dd>\n            </dl>\n        </div>\n    </li>\n    <li>\n        <div class=\"column-1\">\n            <span class=\"glyphicon glyphicon-ok glyphicon-ok--mod pull-left\"></span>\n            <span>Date Stamped<br>- from XML<br>- from System</span>\n        </div>\n        <div class=\"column-2\">\n            <dl>\n                <dt><i>Timestamp:</i></dt>\n                <dd class=\"divide\">28/04/2015</dd>\n                <dd class=\"divide\">15:00</dd>\n            </dl>\n        </div>\n    </li>\n    <li>\n        <div class=\"column-1\">\n            <span class=\"glyphicon glyphicon-ok glyphicon-ok--mod pull-left\"></span>\n            <span>Article Submitted</span>\n        </div>\n        <div class=\"column-2\">\n            <dl>\n                <dt><i>Timestamp:</i></dt>\n                <dd class=\"divide\">28/04/2015</dd>\n                <dd class=\"divide\">15:00</dd>\n            </dl>\n            <dl>\n                <dt><i>Message:</i></dt>\n                <dd>Another message here</dd>\n            </dl>\n        </div>\n    </li>\n    <li>\n        <div class=\"column-1\">\n            <span class=\"glyphicon glyphicon-ok glyphicon-ok--mod pull-left\"></span>\n            <span>Article Ready to Publish</span>\n        </div>\n        <div class=\"column-2\">\n            <dl>\n                <dt><i>Timestamp:</i></dt>\n                <dd class=\"divide\">28/04/2015</dd>\n                <dd class=\"divide\">16:16</dd>\n            </dl>\n            <dl>\n                <dt><i>Message:</i></dt>\n                <dd>All elements available now</dd>\n            </dl>\n        </div>\n    </li>\n    <li>\n        <div class=\"column-1\">\n            <span class=\"glyphicon glyphicon-ok glyphicon-ok--mod pull-left\"></span>\n            <span>Article Published</span>\n        </div>\n        <div class=\"column-2\">\n            <dl>\n                <dt><i>Timestamp:</i></dt>\n                <dd class=\"divide\">28/04/2015</dd>\n                <dd class=\"divide\">16:34</dd>\n            </dl>\n        </div>\n    </li>\n    <li>\n        <div class=\"column-1\">\n            <span class=\"glyphicon glyphicon-ok glyphicon-ok--mod pull-left\"></span>\n            <span>Article Archived</span>\n        </div>\n        <div class=\"column-2\">\n            <dl>\n                <dt><i>Timestamp:</i></dt>\n                <dd class=\"divide\">28/04/2015</dd>\n                <dd class=\"divide\">17:00</dd>\n            </dl>\n            <dl>\n                <dt><i>Message:</i></dt>\n                <dd>Another message here</dd>\n            </dl>\n        </div>\n    </li>\n    <li>\n        <div class=\"column-1\">\n            <span class=\"glyphicon glyphicon-ok glyphicon-ok--mod pull-left\"></span>\n            <span>Downstream Process Initiated</span>\n        </div>\n        <div class=\"column-2\">\n            <dl>\n                <dt><i>Timestamp:</i></dt>\n                <dd class=\"divide\">28/04/2015</dd>\n                <dd class=\"divide\">17:15</dd>\n            </dl>\n            <dl>\n                <dt><i>Message:</i></dt>\n                <dd>Another message here</dd>\n            </dl>\n        </div>\n    </li>\n</ol>";
+},"useData":true});
+
+this["eLife"]["templates"]["detail/article-version-map"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "<ol class=\"article-version-map-list\">\n    <li>\n        <span class=\"version\">Version 1</span>\n        <ol class=\"run\">\n            <li>\n                <a href=\"#\">\n                    <span>Run 1</span>\n                    <span>24/04/2015</span>\n                    <span>14:00</span>\n                </a>\n            </li>\n            <li>\n                <a href=\"#\">\n                    <span>Run 2</span>\n                    <span>24/04/2015</span>\n                    <span>14:34</span>\n                </a>\n            </li>\n        </ol>\n    </li>\n    <li>\n        <span class=\"version\">Version 2</span>\n        <ol class=\"run\">\n            <li>\n                <a href=\"#\">\n                    <span>Run 1</span>\n                    <span>27/04/2015</span>\n                    <span>10:15</span>\n                </a>\n            </li>\n            <li>\n                <a href=\"#\">\n                    <span>Run 2</span>\n                    <span>27/04/2015</span>\n                    <span>13:05</span>\n                </a>\n            </li>\n            <li>\n                <a href=\"#\">\n                    <span>Run 3</span>\n                </a>\n            </li>\n        </ol>\n    </li>\n</ol>";
 },"useData":true});
 
 this["eLife"]["templates"]["loading-template"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -372,14 +384,14 @@ Elife.current = {
       dataType: 'json',
       success: function(articles) {
         Elife.current.articles = articles;
-        this.articleTemplate = eLife.templates['article-template'];
+        this.articleTemplate = eLife.templates['current/article'];
         $('#articles').empty().html(this.articleTemplate(articles));
-        this.articleStatsTemplate = eLife.templates['article-stats-template'];
+        this.articleStatsTemplate = eLife.templates['current/article-stats-template'];
         $('#articleStats').html(this.articleStatsTemplate(articles));
       },
 
       error: function(data) {
-        this.errorTemplate = eLife.templates['error-template'];
+        this.errorTemplate = eLife.templates['current/error-render-articles'];
         $('#articles').empty().html(this.errorTemplate(data));
       },
 
@@ -451,7 +463,7 @@ Elife.current = {
     var total = 0;
     var status = {completed: 0, error: 0};
     var articleQueue = $('#articles-queue li');
-    var articlePublishStatusTemplate = eLife.templates['article-publish-status'];
+    var articlePublishStatusTemplate = eLife.templates['current/article-publish-modal-status'];
     var queuedItems = this.queued;
 
     _.each(articleQueue, function(articleQueue, i) {
@@ -524,7 +536,7 @@ Elife.current = {
       },
 
       error: function(data) {
-        this.queueArticleStatusErrorTemplate = eLife.templates['error-queue-article-template'];
+        this.queueArticleStatusErrorTemplate = eLife.templates['current/error-queue-articles'];
         $('#publish-modal .modal-body').html(this.queueArticleStatusErrorTemplate(articles));
         $('#publish-cancel').show();
       },
@@ -544,7 +556,7 @@ Elife.current = {
         },
 
         error: function(data) {
-          this.checkArticleStatusErrorTemplate = eLife.templates['error-article-status-template'];
+          this.checkArticleStatusErrorTemplate = eLife.templates['current/error-check-article-status'];
           $('#publish-modal .modal-body').html(this.checkArticleStatusErrorTemplate(articles));
           $('#publish-cancel').show();
           this.isPublishing = false;
@@ -563,7 +575,10 @@ Elife.current.init();
 Elife.detail = {
   init: function() {
     if ($('.detail-page').length > 0) {
-
+      this.article = [];
+      this.renderArticleDetail();
+      this.renderArticleVersionMap();
+      this.renderArticleVersionHistory();
     }
   },
 
@@ -571,9 +586,27 @@ Elife.detail = {
 
   },
 
+  renderArticleDetail: function() {
+    var article = this.article;
+    this.articleDetailTemplate = eLife.templates['detail/article-detail'];
+    $('.article-detail').html(this.articleDetailTemplate(article));
+  },
+
+  renderArticleVersionMap: function() {
+    var article = this.article;
+    this.articleVersionMapTemplate = eLife.templates['detail/article-version-map'];
+    $('.article-version-map').html(this.articleVersionMapTemplate(article));
+  },
+
+  renderArticleVersionHistory: function() {
+    var article = this.article;
+    this.articleVersionHistoryTemplate = eLife.templates['detail/article-version-history'];
+    $('.article-version-history').html(this.articleVersionHistoryTemplate(article));
+  },
+
 };
 
-
+Elife.detail.init();
 'use strict';
 
 Elife.archive = {
