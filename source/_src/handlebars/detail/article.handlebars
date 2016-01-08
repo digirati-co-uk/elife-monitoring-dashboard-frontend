@@ -7,14 +7,13 @@
                 <span class="version">Version {{@key}}</span>
                 <ol class="run">
                     {{#each versions.runs as |runs| }}
-                        <li data-run="{{run-key}}"  data-version="{{version-key}}">
+                        <li data-run="{{run-number}}"  data-version="{{version-number}}">
                             <a href="#">
                                 <span>Run {{@key}}</span>
                                 <span>{{elFormatUnixDate publication-date "Do MMMM YYYY" }}</span>
                                 <span>14:00</span>
                             </a>
                         </li>
-
                     {{/each}}
                 </ol>
 

@@ -1,4 +1,4 @@
-/*! eLife - v0.0.1 - 2016-01-07
+/*! eLife - v0.0.1 - 2016-01-08
 * https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend
 * Copyright (c) 2016 eLife; Licensed  */
 //     Underscore.js 1.8.3

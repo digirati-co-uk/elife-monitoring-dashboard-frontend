@@ -56,15 +56,12 @@ app.detail = {
       this.version = app.utils.getNthObjectKey(this.article.versions, 0);
       this.run = app.utils.getNthObjectKey(this.article.versions[this.version].runs, 0);
     }
-    return this.article.versions[this.version].runs[this.run]
+    return this.article.versions[this.version].runs[this.run];
   },
 
   updateRun: function(e, i) {
-    console.log($(e.target));
-    this.run = $(e.target).data('data-run');
-    this.version = $(e.target).data('data-version');
-    console.log(this.version);
-    console.log(this.run);
+    this.run = $(e.target).parents(':eq(1)').attr('data-run');
+    this.version = $(e.target).parents(':eq(1)').attr('data-version');
     this.currentArticle = this.article.versions[this.version].runs[this.run];
     this.renderArticle();
   },

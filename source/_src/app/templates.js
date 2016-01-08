@@ -312,14 +312,14 @@ this["eLife"]["templates"]["detail/article"] = Handlebars.template({"1":function
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "                        <li data-run=\""
-    + alias4(((helper = (helper = helpers["run-key"] || (depth0 != null ? depth0["run-key"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-key","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers["run-number"] || (depth0 != null ? depth0["run-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-number","hash":{},"data":data}) : helper)))
     + "\"  data-version=\""
-    + alias4(((helper = (helper = helpers["version-key"] || (depth0 != null ? depth0["version-key"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version-key","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers["version-number"] || (depth0 != null ? depth0["version-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version-number","hash":{},"data":data}) : helper)))
     + "\">\n                            <a href=\"#\">\n                                <span>Run "
     + alias4(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"key","hash":{},"data":data}) : helper)))
     + "</span>\n                                <span>"
     + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["publication-date"] : depth0),"Do MMMM YYYY",{"name":"elFormatUnixDate","hash":{},"data":data}))
-    + "</span>\n                                <span>14:00</span>\n                            </a>\n                        </li>\n\n";
+    + "</span>\n                                <span>14:00</span>\n                            </a>\n                        </li>\n";
 },"4":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
