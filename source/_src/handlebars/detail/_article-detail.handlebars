@@ -1,0 +1,63 @@
+<section class="article-detail">
+    <table class="snapshot">
+        <tr>
+            <td class="column-1">
+                <span class="glyphicon glyphicon-file {{#if currentArticle.status}}{{lowercase currentArticle.status }}{{else}}no-article-status-type{{/if}}"></span>
+                <h6>{{currentArticle.doi}}</h6>
+                <p>{{currentArticle.title}}</p>
+            </td>
+            <td class="column-2">
+                <dl>
+                    <dt><i>Version:</i></dt>
+                    <dd><strong>{{version}}</strong></dd>
+                    <dt><i>Run:</i></dt>
+                    <dd><strong>{{run}}</strong></dd>
+                </dl>
+            </td>
+            <td class="column-3">
+                <button class="btn btn-default">
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                    Preview
+                </button>
+                <button class="btn btn-default">
+                    <span class="glyphicon glyphicon-globe"></span>
+                    Publish Now
+                </button>
+                <button class="btn btn-default">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    Schedule
+                </button>
+                <button class="btn btn-default hide">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    Re-Schedule
+                </button>
+                <button class="btn btn-default hide">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    Cancel Schedule
+                </button>
+            </td>
+        </tr>
+    </table>
+    <table class="detail">
+        <tr>
+            <td class="column-1">
+                <dl>
+                    {{#if currentArticle.article-type}}
+                    <dt><i>Article type:</i></dt>
+                    <dd>{{ currentArticle.article-type }}</dd>
+                    {{/if}}
+    {{#if currentArticle.publication-date}}
+                    <dt><i>Publication date:</i></dt>
+                    <dd>{{elFormatUnixDate currentArticle.publication-date "Do MMMM YYYY" }}</dd>
+    {{/if}}
+    {{#if currentArticle.corresponding-authors}}
+                    <dt><i>Corresponding authors:</i></dt>
+                    <dd>{{currentArticle.corresponding-authors}}</dd>
+    {{/if}}
+                    <!--<dt><i>Authors:</i></dt>-->
+                    <!--<dd>Bárány, Jules Bordet, Schack August Steenberg Krogh, Archibald Vivian Hill, Otto Fritz Meyerhof, Sir Frederick, Grant Banting, John James Rickard Macleod</dd>-->
+                </dl>
+            </td>
+        </tr>
+    </table>
+</section>

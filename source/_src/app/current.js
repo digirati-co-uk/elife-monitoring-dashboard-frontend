@@ -1,78 +1,68 @@
 'use strict';
 
-var ESCAPE_KEY = 27;
-var API = 'http://127.0.0.1:8008/';
-
-var utils = {
-  removeObject: function(obj, match) {
-    var queued = [];
-    _.each(obj, function(queue) {
-      if (!_.isEqual(queue, match)) {
-        queued.push(queue);
-      }
-    });
-
-    return queued;
-  },
-
-  addObject: function(obj, match) {
-    obj.push(match);
-    return obj;
-  },
-};
-
-var app = {
+app.current = {
+  /**
+   * Initialise the methods for the Current page
+   */
   init: function() {
-    this.checkingStatus = '';
-    this.queuePolled = 0;
-    this.articles = [];
-    this.queued = [];
-    this.isPublishing = false;
-    this.isAllPublished = false;
-    this.checkStatusInterval = 8000;
-    this.publishTimeout = 5000;
-    Swag.registerHelpers(Handlebars);
-    this.bindEvents();
-    this.renderArticles();
+    if ($('.current-page').length > 0) {
+      this.checkingStatus = '';
+      this.queuePolled = 0;
+      this.articles = [];
+      this.queued = [];
+      this.isPublishing = false;
+      this.isAllPublished = false;
+      this.checkStatusInterval = 8000;
+      this.publishTimeout = 5000;
+      Swag.registerHelpers(Handlebars);
+      this.bindEvents();
+      this.renderArticles();
+    }
   },
 
+  /**
+   * Bind events
+   */
   bindEvents: function() {
 
-    $('#articles').on('change', 'input.toggle-publish-all:checkbox', this.toggleAddToQueueBtn.bind(this));
+    $('#articles', '.current-page').on('change', 'input.toggle-publish-all:checkbox', this.toggleAddToQueueBtn.bind(this));
 
-    $('#articles').on('click', '.btn-publish-queued', this.publishQueued.bind(this));
-    $('#articles').on('click', '.btn-publish', this.publish.bind(this));
+    $('#articles', '.current-page').on('click', '.btn-publish-queued', this.publishQueued.bind(this));
+    $('#articles', '.current-page').on('click', '.btn-publish', this.publish.bind(this));
 
-    $('#articles').on('click', '#publish-action', this.performPublish.bind(this));
+    $('#articles', '.current-page').on('click', '#publish-action', this.performPublish.bind(this));
 
-    $('#articles').on('keyup', '#publish-modal', this.refreshPage.bind(this));
-    $('#articles').on('click', '#publish-modal .close', this.refreshPage.bind(this));
-    $('#articles').on('click', '#publish-modal #publish-cancel', this.refreshPage.bind(this));
-    $('#articles').on('click', '#publish-modal #publish-close', this.refreshPage.bind(this));
+    $('#articles', '.current-page').on('keyup', '#publish-modal', this.refreshPage.bind(this));
+    $('#articles', '.current-page').on('click', '#publish-modal .close', this.refreshPage.bind(this));
+    $('#articles', '.current-page').on('click', '#publish-modal #publish-cancel', this.refreshPage.bind(this));
+    $('#articles', '.current-page').on('click', '#publish-modal #publish-close', this.refreshPage.bind(this));
 
   },
 
   renderArticles: function() {
+    this.loadingTemplate = eLife.templates['loading-template'];
+    $('#articles').empty().html(this.loadingTemplate());
     $.ajax({
-      url: API + 'current',
+      url: app.API + 'api/current',
       cache: false,
       dataType: 'json',
       success: function(articles) {
-        app.articles = articles;
-        this.articleTemplate = eLife.templates['article-template'];
-        $('#articles').html(this.articleTemplate(articles));
-        this.articleStatsTemplate = eLife.templates['article-stats-template'];
+        app.current.articles = articles;
+        this.articleTemplate = eLife.templates['current/article'];
+        $('#articles').empty().html(this.articleTemplate(articles));
+        this.articleStatsTemplate = eLife.templates['current/article-stats-template'];
         $('#articleStats').html(this.articleStatsTemplate(articles));
       },
 
       error: function(data) {
-        this.errorTemplate = eLife.templates['error-template'];
-        $('#articles').html(this.errorTemplate(data));
+        this.errorTemplate = eLife.templates['error-render'];
+        $('#articles').empty().html(this.errorTemplate(data));
       },
 
     });
 
   },
+
 
   toggleAddToQueueBtn: function(e) {
     $('.btn-publish-queued').show();
@@ -116,9 +106,9 @@ var app = {
     var articleRun = targetParent.attr('data-article-run');
     var addToQueue = {id: articleId, version: articleVer, run: articleRun};
     if (_.findWhere(this.queued, addToQueue)) {
-      this.queued = utils.removeObject(this.queued, addToQueue);
+      this.queued = app.utils.removeObject(this.queued, addToQueue);
     } else {
-      this.queued = utils.addObject(this.queued, addToQueue);
+      this.queued = app.utils.addObject(this.queued, addToQueue);
     }
   },
 
@@ -137,7 +127,7 @@ var app = {
     var total = 0;
     var status = {completed: 0, error: 0};
     var articleQueue = $('#articles-queue li');
-    var articlePublishStatusTemplate = eLife.templates['article-publish-status'];
+    var articlePublishStatusTemplate = eLife.templates['current/article-publish-modal-status'];
     var queuedItems = this.queued;
 
     _.each(articleQueue, function(articleQueue, i) {
@@ -172,7 +162,7 @@ var app = {
   },
 
   refreshPage: function(e) {
-    if (this.isPublishing === true || this.isAllPublished === true || e.which === ESCAPE_KEY) {
+    if (this.isPublishing === true || this.isAllPublished === true || e.which === app.ESCAPE_KEY) {
       location.reload(true);
     }
 
@@ -202,15 +192,15 @@ var app = {
     $.ajax({
       type: 'POST',
       contentType: 'application/json',
-      url: API + 'queue_article_publication',
+      url: app.API + 'api/queue_article_publication',
       data: JSON.stringify({articles: queued}),
       success: function(data) {
-        app.updateQueueListStatus(data.articles);
-        setTimeout(app.checkArticleStatus(app.queued), app.publishTimeout);
+        app.current.updateQueueListStatus(data.articles);
+        setTimeout(app.current.checkArticleStatus(app.current.queued), app.current.publishTimeout);
       },
 
       error: function(data) {
-        this.queueArticleStatusErrorTemplate = eLife.templates['error-queue-article-template'];
+        this.queueArticleStatusErrorTemplate = eLife.templates['current/error-queue-articles'];
         $('#publish-modal .modal-body').html(this.queueArticleStatusErrorTemplate(articles));
         $('#publish-cancel').show();
       },
@@ -218,23 +208,23 @@ var app = {
   },
 
   checkArticleStatus: function(queued) {
-    app.updateQueueListStatus(queued);
+    app.current.updateQueueListStatus(queued);
     this.checkingStatus = setInterval(function() {
       $.ajax({
         type: 'POST',
         contentType: 'application/json',
-        url: API + 'check_article_status',
+        url: app.API + 'api/article_publication_status',
         data: JSON.stringify({articles: queued}),
         success: function(data) {
-          app.updateQueueListStatus(data.articles);
+          app.current.updateQueueListStatus(data.articles);
         },
 
         error: function(data) {
-          this.checkArticleStatusErrorTemplate = eLife.templates['error-article-status-template'];
+          this.checkArticleStatusErrorTemplate = eLife.templates['current/error-check-article-status'];
           $('#publish-modal .modal-body').html(this.checkArticleStatusErrorTemplate(articles));
           $('#publish-cancel').show();
           this.isPublishing = false;
-          clearInterval(app.checkingStatus);
+          clearInterval(app.current.checkingStatus);
         },
       });
     }, this.checkStatusInterval);
@@ -242,4 +232,4 @@ var app = {
 
 };
 
-app.init();
+app.current.init();

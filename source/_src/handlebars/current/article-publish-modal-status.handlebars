@@ -1,0 +1,23 @@
+<span class="article-status">
+    {{#is publication-status 'error'}}
+        <span class="glyphicon glyphicon-remove glyphicon-remove--stat"></span>
+        <br />
+        <span class="text-muted">{{capitalizeFirst publication-status}}{{#if message}}:{{/if}} {{message}}</span>
+    {{/is}}
+    {{#is publication-status 'queued'}}
+        <div class="throbber-loader throbber-loader--small "></div>
+        <br />
+        <span class="text-muted">{{capitalizeFirst publication-status}}{{#if message}}:{{/if}} {{message}}</span>
+    {{/is}}
+    {{#is publication-status 'ready to publish'}}
+        <div class="throbber-loader throbber-loader--small "></div>
+        <br />
+        <span class="text-muted">{{capitalizeFirst publication-status}}{{#if message}}:{{/if}} {{message}}</span>
+    {{/is}}
+    {{#is publication-status 'published'}}
+        <span class="glyphicon glyphicon-ok glyphicon-ok--stat"></span>
+        <br />
+        <span class="text-muted">{{capitalizeFirst publication-status}}{{#if message}}:{{/if}} {{message}}</span>
+    {{/is}}
+</span>
+

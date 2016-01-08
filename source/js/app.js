@@ -1,320 +1,10 @@
-/*! eLife - v0.0.1 - 2016-01-04
+/*! eLife - v0.0.1 - 2016-01-08
 * https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend
 * Copyright (c) 2016 eLife; Licensed  */
-(function($) {
-  'use strict';
-
-  //Datepicker - https://eonasdan.github.io/bootstrap-datetimepicker/#linked-pickers
-  $('#datetimepicker-start').datetimepicker({
-    format: 'DD-MM-YY',
-  });
-  $('#datetimepicker-end').datetimepicker({
-    format: 'DD-MM-YY',
-    useCurrent: false, //Important! See issue #1075
-  });
-  $('#datetimepicker-start').on('dp.change', function(e) {
-    $('#datetimepicker-end').data('DateTimePicker').minDate(e.date);
-  });
-
-  $('#datetimepicker-end').on('dp.change', function(e) {
-    $('#datetimepicker-start').data('DateTimePicker').maxDate(e.date);
-  });
-
-})(jQuery);
-
-(function($) {
-  'use strict';
-
-  //Filter Box
-  $('.filter .dropdown-menu').on({
-    click: function(e) {
-      //Stop modal from closing if clicked anywhere inside
-      e.stopPropagation();
-    },
-  });
-
-})(jQuery);
-
-'use strict';
-
-var ESCAPE_KEY = 27;
-var API = 'http://127.0.0.1:8008/';
-
-var utils = {
-  removeObject: function(obj, match) {
-    var queued = [];
-    _.each(obj, function(queue) {
-      if (!_.isEqual(queue, match)) {
-        queued.push(queue);
-      }
-    });
-
-    return queued;
-  },
-
-  addObject: function(obj, match) {
-    obj.push(match);
-    return obj;
-  },
-};
-
-var app = {
-  init: function() {
-    this.checkingStatus = '';
-    this.queuePolled = 0;
-    this.articles = [];
-    this.queued = [];
-    this.isPublishing = false;
-    this.isAllPublished = false;
-    this.checkStatusInterval = 8000;
-    this.publishTimeout = 5000;
-    Swag.registerHelpers(Handlebars);
-    this.bindEvents();
-    this.renderArticles();
-  },
-
-  bindEvents: function() {
-
-    $('#articles').on('change', 'input.toggle-publish-all:checkbox', this.toggleAddToQueueBtn.bind(this));
-
-    $('#articles').on('click', '.btn-publish-queued', this.publishQueued.bind(this));
-    $('#articles').on('click', '.btn-publish', this.publish.bind(this));
-
-    $('#articles').on('click', '#publish-action', this.performPublish.bind(this));
-
-    $('#articles').on('keyup', '#publish-modal', this.refreshPage.bind(this));
-    $('#articles').on('click', '#publish-modal .close', this.refreshPage.bind(this));
-    $('#articles').on('click', '#publish-modal #publish-cancel', this.refreshPage.bind(this));
-    $('#articles').on('click', '#publish-modal #publish-close', this.refreshPage.bind(this));
-
-  },
-
-  renderArticles: function() {
-    $.ajax({
-      url: API + 'current',
-      cache: false,
-      dataType: 'json',
-      success: function(articles) {
-        app.articles = articles;
-        this.articleTemplate = eLife.templates['article-template'];
-        $('#articles').html(this.articleTemplate(articles));
-        this.articleStatsTemplate = eLife.templates['article-stats-template'];
-        $('#articleStats').html(this.articleStatsTemplate(articles));
-      },
-
-      error: function(data) {
-        this.errorTemplate = eLife.templates['error-template'];
-        $('#articles').html(this.errorTemplate(data));
-      },
-
-    });
-
-  },
-
-  toggleAddToQueueBtn: function(e) {
-    $('.btn-publish-queued').show();
-    var isChecked = $(e.target).is(':checked');
-    if (isChecked === false) {
-      var cnt = 0;
-      $('input.toggle-publish-all:checkbox', '#articles').each(function(i, element) {
-        var checkedState = $(element).is(':checked');
-        if (checkedState === false) cnt++;
-      });
-
-      if (cnt === this.articles.uir.length) $('.btn-publish-queued').hide();
-    }
-
-    this.populateQueue($(e.target));
-  },
-
-  publishQueued: function() {
-    var isMultiple = (_.size(this.queued) > 1) ? true : false;
-    this.initModal(isMultiple);
-    this.displayQueueList();
-  },
-
-  publish: function(e) {
-    this.initModal(false);
-    this.populateQueue($(e.target));
-    this.displayQueueList();
-  },
-
-  initModal: function(isMultiple) {
-    var btnText = (isMultiple) ? 'Publish All' : 'Publish';
-    $('#articles-queue', '#publish-modal').empty();
-    $('#publish-action', '#publish-modal').empty().text(btnText);
-    $('#publish-close').hide();
-  },
-
-  populateQueue: function(target) {
-    var targetParent = target.parents('tr');
-    var articleId = targetParent.attr('data-article-id');
-    var articleVer = targetParent.attr('data-article-version');
-    var articleRun = targetParent.attr('data-article-run');
-    var addToQueue = {id: articleId, version: articleVer, run: articleRun};
-    if (_.findWhere(this.queued, addToQueue)) {
-      this.queued = utils.removeObject(this.queued, addToQueue);
-    } else {
-      this.queued = utils.addObject(this.queued, addToQueue);
-    }
-  },
-
-  displayQueueList: function(article) {
-    _.each(this.queued, function(article) {
-      var title = $('[data-article-id=' + article.id + ']').attr('data-article-title');
-      var listItem = $('<li>' + title + '</li>');
-      listItem.data({id: article.id, version: article.version, run: article.run});
-      $('#articles-queue').append(listItem);
-    });
-  },
-
-  updateQueueListStatus: function(queuedArticles) {
-    this.queuePolled++;
-    this.queued = queuedArticles;
-    var total = 0;
-    var status = {completed: 0, error: 0};
-    var articleQueue = $('#articles-queue li');
-    var articlePublishStatusTemplate = eLife.templates['article-publish-status'];
-    var queuedItems = this.queued;
-
-    _.each(articleQueue, function(articleQueue, i) {
-      var articleId = $(articleQueue).data('id');
-      var articleVer = $(articleQueue).data('version');
-      var articleRun = $(articleQueue).data('run');
-      var displayInQueue = {id: articleId, version: articleVer, run: articleRun};
-      var queuedItem = _.find(queuedItems, displayInQueue);
-      switch (queuedItem.status) {
-        case 'published':
-          status.completed++;
-        break;
-        case 'error':
-          status.error++;
-        break;
-      }
-      $('.article-status', articleQueue).remove();
-      $(articleQueue).append(articlePublishStatusTemplate(queuedItem));
-    });
-
-    _.each(status, function(s) {
-      total = total + s;
-    });
-
-    if (this.queuePolled === 25 || _.contains(status, queuedItems.length) || status === queuedItems.length) {
-      this.isPublishing = false;
-      this.isAllPublished = true;
-      clearInterval(this.checkingStatus);
-      $('#publish-close').show();
-    }
-
-  },
-
-  refreshPage: function(e) {
-    if (this.isPublishing === true || this.isAllPublished === true || e.which === ESCAPE_KEY) {
-      location.reload(true);
-    }
-
-    this.resetModalButtons();
-  },
-
-  resetModalButtons: function() {
-    $('#publish-modal #publish-action').prop('disabled', false).removeClass('disabled');
-    $('#articles-queue').empty();
-    $('.btn-publish-queued').hide();
-    $('.toggle-publish-all').each(function(i, e) {
-      $(e).prop('checked', false);
-    });
-
-    this.queued = [];
-  },
-
-  performPublish: function(e) {
-    $('#publish-cancel').hide();
-    $('#publish-action').prop('disabled', true).addClass('disabled');
-    this.isPublishing = true;
-    this.queueArticles(this.queued);
-
-  },
-
-  queueArticles: function(queued) {
-    $.ajax({
-      type: 'POST',
-      contentType: 'application/json',
-      url: API + 'queue_article_publication',
-      data: JSON.stringify({articles: queued}),
-      success: function(data) {
-        app.updateQueueListStatus(data.articles);
-        setTimeout(app.checkArticleStatus(app.queued), app.publishTimeout);
-      },
-
-      error: function(data) {
-        this.queueArticleStatusErrorTemplate = eLife.templates['error-queue-article-template'];
-        $('#publish-modal .modal-body').html(this.queueArticleStatusErrorTemplate(articles));
-        $('#publish-cancel').show();
-      },
-    });
-  },
-
-  checkArticleStatus: function(queued) {
-    app.updateQueueListStatus(queued);
-    this.checkingStatus = setInterval(function() {
-      $.ajax({
-        type: 'POST',
-        contentType: 'application/json',
-        url: API + 'check_article_status',
-        data: JSON.stringify({articles: queued}),
-        success: function(data) {
-          app.updateQueueListStatus(data.articles);
-        },
-
-        error: function(data) {
-          this.checkArticleStatusErrorTemplate = eLife.templates['error-article-status-template'];
-          $('#publish-modal .modal-body').html(this.checkArticleStatusErrorTemplate(articles));
-          $('#publish-cancel').show();
-          this.isPublishing = false;
-          clearInterval(app.checkingStatus);
-        },
-      });
-    }, this.checkStatusInterval);
-  },
-
-};
-
-app.init();
-
-(function(w) {
-  var sw = document.body.clientWidth;
-  var sh = document.body.clientHeight;
-
-  $(w).resize(function() { //Update dimensions on resize
-    sw = document.body.clientWidth;
-    sh = document.body.clientHeight;
-
-    //updateAds();
-
-  });
-
-  //Navigation toggle
-  $('.nav-toggle-menu').click(function(e) {
-    e.preventDefault();
-    $(this).toggleClass('active');
-    $('.nav').toggleClass('active');
-  });
-
-  //Navigation toggle
-  $('.nav-toggle-search').click(function(e) {
-    e.preventDefault();
-    $(this).toggleClass('active');
-    $('.header .search-form').toggleClass('active');
-  });
-})(this);
-
-Handlebars.registerHelper('elFormatUnixDate', function(date, format) {
-  return moment.unix(date).format(format);
-});
 this["eLife"] = this["eLife"] || {};
 this["eLife"]["templates"] = this["eLife"]["templates"] || {};
 
-Handlebars.registerPartial("article-item-template", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+Handlebars.registerPartial("article-item", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     return container.escapeExpression((helpers.lowercase || (depth0 && depth0.lowercase) || helpers.helperMissing).call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.status : depth0),{"name":"lowercase","hash":{},"data":data}));
 },"3":function(container,depth0,helpers,partials,data) {
     return "no-article-status-type";
@@ -409,11 +99,55 @@ Handlebars.registerPartial("article-publish-modal", Handlebars.template({"compil
     return "<a href=\"#\" class=\"btn btn-default pattern-helper\" data-toggle=\"modal\" data-target=\"#publish-modal\">\n    Modal\n</a>\n<div class=\"modal fade\" id=\"publish-modal\" tabindex=\"-1\" role=\"dialog\" data-backdrop=\"static\" aria-labelledby=\"publish-modal\">\n    <div class=\"modal-dialog modal-sm\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"myModalLabel\">Publish article(s)</h4>\n            </div>\n            <div class=\"modal-body\">\n                Are you sure you want to publish the following article(s)?\n                <ol id=\"articles-queue\"></ol>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"publish-close\">Close</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"publish-cancel\">Cancel</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner publish-action\" id=\"publish-action\"></button>\n            </div>\n        </div>\n    </div>\n</div>";
 },"useData":true}));
 
-this["eLife"]["templates"]["article-publish-status"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return container.escapeExpression((helpers.lowercase || (depth0 && depth0.lowercase) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.status : stack1),{"name":"lowercase","hash":{},"data":data}));
+},"3":function(container,depth0,helpers,partials,data) {
+    return "no-article-status-type";
+},"5":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "                    <dt><i>Article type:</i></dt>\n                    <dd>"
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["article-type"] : stack1), depth0))
+    + "</dd>\n";
+},"7":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "                    <dt><i>Publication date:</i></dt>\n                    <dd>"
+    + container.escapeExpression((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["publication-date"] : stack1),"Do MMMM YYYY",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + "</dd>\n";
+},"9":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "                    <dt><i>Corresponding authors:</i></dt>\n                    <dd>"
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["corresponding-authors"] : stack1), depth0))
+    + "</dd>\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=container.lambda, alias3=container.escapeExpression, alias4=helpers.helperMissing, alias5="function";
+
+  return "<section class=\"article-detail\">\n    <table class=\"snapshot\">\n        <tr>\n            <td class=\"column-1\">\n                <span class=\"glyphicon glyphicon-file "
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.status : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
+    + "\"></span>\n                <h6>"
+    + alias3(alias2(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.doi : stack1), depth0))
+    + "</h6>\n                <p>"
+    + alias3(alias2(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.title : stack1), depth0))
+    + "</p>\n            </td>\n            <td class=\"column-2\">\n                <dl>\n                    <dt><i>Version:</i></dt>\n                    <dd><strong>"
+    + alias3(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
+    + "</strong></dd>\n                    <dt><i>Run:</i></dt>\n                    <dd><strong>"
+    + alias3(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + "</strong></dd>\n                </dl>\n            </td>\n            <td class=\"column-3\">\n                <button class=\"btn btn-default\">\n                    <span class=\"glyphicon glyphicon-eye-open\"></span>\n                    Preview\n                </button>\n                <button class=\"btn btn-default\">\n                    <span class=\"glyphicon glyphicon-globe\"></span>\n                    Publish Now\n                </button>\n                <button class=\"btn btn-default\">\n                    <span class=\"glyphicon glyphicon-calendar\"></span>\n                    Schedule\n                </button>\n                <button class=\"btn btn-default hide\">\n                    <span class=\"glyphicon glyphicon-calendar\"></span>\n                    Re-Schedule\n                </button>\n                <button class=\"btn btn-default hide\">\n                    <span class=\"glyphicon glyphicon-calendar\"></span>\n                    Cancel Schedule\n                </button>\n            </td>\n        </tr>\n    </table>\n    <table class=\"detail\">\n        <tr>\n            <td class=\"column-1\">\n                <dl>\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["article-type"] : stack1),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["corresponding-authors"] : stack1),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "                    <!--<dt><i>Authors:</i></dt>-->\n                    <!--<dd>Bárány, Jules Bordet, Schack August Steenberg Krogh, Archibald Vivian Hill, Otto Fritz Meyerhof, Sir Frederick, Grant Banting, John James Rickard Macleod</dd>-->\n                </dl>\n            </td>\n        </tr>\n    </table>\n</section>";
+},"useData":true}));
+
+this["eLife"]["templates"]["current/article-publish-modal-status"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3=container.escapeExpression;
 
   return "        <span class=\"glyphicon glyphicon-remove glyphicon-remove--stat\"></span>\n        <br />\n        <span class=\"text-muted\">"
-    + alias3((helpers.capitalizeFirst || (depth0 && depth0.capitalizeFirst) || alias2).call(alias1,(depth0 != null ? depth0.status : depth0),{"name":"capitalizeFirst","hash":{},"data":data}))
+    + alias3((helpers.capitalizeFirst || (depth0 && depth0.capitalizeFirst) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),{"name":"capitalizeFirst","hash":{},"data":data}))
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.message : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + " "
     + alias3(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"message","hash":{},"data":data}) : helper)))
@@ -424,7 +158,7 @@ this["eLife"]["templates"]["article-publish-status"] = Handlebars.template({"1":
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3=container.escapeExpression;
 
   return "        <div class=\"throbber-loader throbber-loader--small \"></div>\n        <br />\n        <span class=\"text-muted\">"
-    + alias3((helpers.capitalizeFirst || (depth0 && depth0.capitalizeFirst) || alias2).call(alias1,(depth0 != null ? depth0.status : depth0),{"name":"capitalizeFirst","hash":{},"data":data}))
+    + alias3((helpers.capitalizeFirst || (depth0 && depth0.capitalizeFirst) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),{"name":"capitalizeFirst","hash":{},"data":data}))
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.message : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + " "
     + alias3(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"message","hash":{},"data":data}) : helper)))
@@ -433,7 +167,7 @@ this["eLife"]["templates"]["article-publish-status"] = Handlebars.template({"1":
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3=container.escapeExpression;
 
   return "        <span class=\"glyphicon glyphicon-ok glyphicon-ok--stat\"></span>\n        <br />\n        <span class=\"text-muted\">"
-    + alias3((helpers.capitalizeFirst || (depth0 && depth0.capitalizeFirst) || alias2).call(alias1,(depth0 != null ? depth0.status : depth0),{"name":"capitalizeFirst","hash":{},"data":data}))
+    + alias3((helpers.capitalizeFirst || (depth0 && depth0.capitalizeFirst) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),{"name":"capitalizeFirst","hash":{},"data":data}))
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.message : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + " "
     + alias3(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"message","hash":{},"data":data}) : helper)))
@@ -442,14 +176,14 @@ this["eLife"]["templates"]["article-publish-status"] = Handlebars.template({"1":
     var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
 
   return "<span class=\"article-status\">\n"
-    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0.status : depth0),"error",{"name":"is","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0.status : depth0),"queued",{"name":"is","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0.status : depth0),"ready to publish",{"name":"is","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0.status : depth0),"published",{"name":"is","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),"error",{"name":"is","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),"queued",{"name":"is","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),"ready to publish",{"name":"is","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),"published",{"name":"is","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "</span>\n\n";
 },"useData":true});
 
-this["eLife"]["templates"]["article-stats-template"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams) {
+this["eLife"]["templates"]["current/article-stats-template"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
   return "\n"
@@ -493,7 +227,7 @@ this["eLife"]["templates"]["article-stats-template"] = Handlebars.template({"1":
     + "</div>\n\n\n";
 },"useData":true,"useBlockParams":true});
 
-this["eLife"]["templates"]["article-template"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams) {
+this["eLife"]["templates"]["current/article"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1, alias1=depth0 != null ? depth0 : {};
 
   return ((stack1 = (helpers.is || (depth0 && depth0.is) || helpers.helperMissing).call(alias1,blockParams[0][1],"uir",{"name":"is","hash":{},"fn":container.program(2, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
@@ -554,27 +288,461 @@ this["eLife"]["templates"]["article-template"] = Handlebars.template({"1":functi
 },"16":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return ((stack1 = container.invokePartial(partials["article-item-template"],depth0,{"name":"article-item-template","hash":{"section":blockParams[2][1]},"data":data,"blockParams":blockParams,"indent":"                    ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "");
+  return ((stack1 = container.invokePartial(partials["article-item"],depth0,{"name":"article-item","hash":{"section":blockParams[2][1]},"data":data,"blockParams":blockParams,"indent":"                    ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "");
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
   return ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},depth0,{"name":"each","hash":{},"fn":container.program(1, data, 2, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "");
 },"usePartial":true,"useData":true,"useBlockParams":true});
 
-this["eLife"]["templates"]["error-article-status-template"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+this["eLife"]["templates"]["current/error-check-article-status"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     return "<div class=\"alert alert-danger\">\n    An error has occurred while checking the status of the article(s) requested. Please cancel and try again.\n</div>";
 },"useData":true});
 
-this["eLife"]["templates"]["error-queue-article-template"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+this["eLife"]["templates"]["current/error-queue-articles"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     return "<div class=\"alert alert-danger\">\n    An error has occurred while queueing the article(s) requested. Please cancel and try again.\n</div>";
 },"useData":true});
 
-this["eLife"]["templates"]["error-template"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+this["eLife"]["templates"]["detail/article"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : {};
+
+  return "            <li>\n                <span class=\"version\">Version "
+    + container.escapeExpression(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"key","hash":{},"data":data}) : helper)))
+    + "</span>\n                <ol class=\"run\">\n"
+    + ((stack1 = helpers.each.call(alias1,((stack1 = blockParams[0][0]) != null ? stack1.runs : stack1),{"name":"each","hash":{},"fn":container.program(2, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + "                </ol>\n\n            </li>\n";
+},"2":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "                        <li data-run=\""
+    + alias4(((helper = (helper = helpers["run-number"] || (depth0 != null ? depth0["run-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-number","hash":{},"data":data}) : helper)))
+    + "\"  data-version=\""
+    + alias4(((helper = (helper = helpers["version-number"] || (depth0 != null ? depth0["version-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version-number","hash":{},"data":data}) : helper)))
+    + "\">\n                            <a href=\"#\">\n                                <span>Run "
+    + alias4(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"key","hash":{},"data":data}) : helper)))
+    + "</span>\n                                <span>"
+    + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["publication-date"] : depth0),"Do MMMM YYYY",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + "</span>\n                                <span>14:00</span>\n                            </a>\n                        </li>\n";
+},"4":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "            <li>\n                <div class=\"column-1\">\n                    <span class=\"glyphicon glyphicon-ok "
+    + alias4(((helper = (helper = helpers["event-status"] || (depth0 != null ? depth0["event-status"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"event-status","hash":{},"data":data}) : helper)))
+    + " glyphicon-ok--mod pull-left\"></span>\n                    <span>"
+    + alias4(((helper = (helper = helpers["event-type"] || (depth0 != null ? depth0["event-type"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"event-type","hash":{},"data":data}) : helper)))
+    + "</span>\n                </div>\n                <div class=\"column-2\">\n                    <dl>\n                        <dt><i>Timestamp:</i></dt>\n                        <dd class=\"divide\">"
+    + alias4(((helper = (helper = helpers["event-timestamp"] || (depth0 != null ? depth0["event-timestamp"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"event-timestamp","hash":{},"data":data}) : helper)))
+    + "28/04/2015</dd>\n                        <dd class=\"divide\">12:34</dd>\n                    </dl>\n                    <dl>\n                        <dt><i>Message:</i></dt>\n                        <dd>"
+    + alias4(((helper = (helper = helpers["event-message"] || (depth0 != null ? depth0["event-message"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"event-message","hash":{},"data":data}) : helper)))
+    + "</dd>\n                    </dl>\n                </div>\n            </li>\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : {};
+
+  return container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"id","hash":{},"data":data,"blockParams":blockParams}) : helper)))
+    + "\n"
+    + ((stack1 = container.invokePartial(partials["article-detail"],depth0,{"name":"article-detail","hash":{"section":(depth0 != null ? depth0.articleDetail : depth0)},"data":data,"blockParams":blockParams,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + "<section class=\"article-version-map col-sm-4 col-md-3\">\n    <ol class=\"article-version-map-list\">\n"
+    + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.versions : stack1),{"name":"each","hash":{},"fn":container.program(1, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + "    </ol>\n</section>\n<section class=\"article-version-history col-sm-8 col-md-8 col-md-offset-1\">\n    <ol class=\"article-version-history-list\">\n"
+    + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.events : stack1),{"name":"each","hash":{},"fn":container.program(4, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + "    </ol>\n</section>";
+},"usePartial":true,"useData":true,"useBlockParams":true});
+
+this["eLife"]["templates"]["error-render"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "<section>\n    <p class=\"lead\"><strong>"
     + alias4(((helper = (helper = helpers.status || (depth0 != null ? depth0.status : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"status","hash":{},"data":data}) : helper)))
     + " "
     + alias4(((helper = (helper = helpers.statusText || (depth0 != null ? depth0.statusText : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"statusText","hash":{},"data":data}) : helper)))
-    + "</strong></p>\n    <p>Sorry an error occurred retrieving the articles.</p>\n    <br />\n</section>";
+    + "</strong></p>\n    <p>Sorry an error occurred while retrieving the requested information.</p>\n    <br />\n</section>";
 },"useData":true});
+
+this["eLife"]["templates"]["loading-template"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "<div class=\"text-center\"><div class=\"throbber-loader throbber-loader--small \"></div></div>";
+},"useData":true});
+Handlebars.registerHelper('elFormatUnixDate', function(date, format) {
+  return moment.unix(date).format(format);
+});
+(function($) {
+  'use strict';
+
+  //Datepicker - https://eonasdan.github.io/bootstrap-datetimepicker/#linked-pickers
+  $('#datetimepicker-start').datetimepicker({
+    format: 'DD-MM-YY',
+  });
+  $('#datetimepicker-end').datetimepicker({
+    format: 'DD-MM-YY',
+    useCurrent: false, //Important! See issue #1075
+  });
+  $('#datetimepicker-start').on('dp.change', function(e) {
+    $('#datetimepicker-end').data('DateTimePicker').minDate(e.date);
+  });
+
+  $('#datetimepicker-end').on('dp.change', function(e) {
+    $('#datetimepicker-start').data('DateTimePicker').maxDate(e.date);
+  });
+
+})(jQuery);
+
+'use strict';
+
+var app = {
+  ESCAPE_KEY: 27,
+  API: 'http://127.0.0.1:8008/'
+};
+
+
+'use strict';
+
+app.utils = {
+  removeObject: function(obj, match) {
+    var queued = [];
+    _.each(obj, function(queue) {
+      if (!_.isEqual(queue, match)) {
+        queued.push(queue);
+      }
+    });
+
+    return queued;
+  },
+
+  addObject: function(obj, match) {
+    obj.push(match);
+    return obj;
+  },
+
+  getNthObjectKey: function(obj, n) {
+    var nth = [];
+    var i = 0;
+    _.each(obj, function(item, key) {
+      if (i === n) {
+        nth = key;
+      }
+      i++;
+    });
+    return nth;
+  }
+};
+'use strict';
+
+app.current = {
+  /**
+   * Initialise the methods for the Current page
+   */
+  init: function() {
+    if ($('.current-page').length > 0) {
+      this.checkingStatus = '';
+      this.queuePolled = 0;
+      this.articles = [];
+      this.queued = [];
+      this.isPublishing = false;
+      this.isAllPublished = false;
+      this.checkStatusInterval = 8000;
+      this.publishTimeout = 5000;
+      Swag.registerHelpers(Handlebars);
+      this.bindEvents();
+      this.renderArticles();
+    }
+  },
+
+  /**
+   * Bind events
+   */
+  bindEvents: function() {
+
+    $('#articles', '.current-page').on('change', 'input.toggle-publish-all:checkbox', this.toggleAddToQueueBtn.bind(this));
+
+    $('#articles', '.current-page').on('click', '.btn-publish-queued', this.publishQueued.bind(this));
+    $('#articles', '.current-page').on('click', '.btn-publish', this.publish.bind(this));
+
+    $('#articles', '.current-page').on('click', '#publish-action', this.performPublish.bind(this));
+
+    $('#articles', '.current-page').on('keyup', '#publish-modal', this.refreshPage.bind(this));
+    $('#articles', '.current-page').on('click', '#publish-modal .close', this.refreshPage.bind(this));
+    $('#articles', '.current-page').on('click', '#publish-modal #publish-cancel', this.refreshPage.bind(this));
+    $('#articles', '.current-page').on('click', '#publish-modal #publish-close', this.refreshPage.bind(this));
+
+  },
+
+  renderArticles: function() {
+    this.loadingTemplate = eLife.templates['loading-template'];
+    $('#articles').empty().html(this.loadingTemplate());
+    $.ajax({
+      url: app.API + 'api/current',
+      cache: false,
+      dataType: 'json',
+      success: function(articles) {
+        app.current.articles = articles;
+        this.articleTemplate = eLife.templates['current/article'];
+        $('#articles').empty().html(this.articleTemplate(articles));
+        this.articleStatsTemplate = eLife.templates['current/article-stats-template'];
+        $('#articleStats').html(this.articleStatsTemplate(articles));
+      },
+
+      error: function(data) {
+        this.errorTemplate = eLife.templates['error-render'];
+        $('#articles').empty().html(this.errorTemplate(data));
+      },
+
+    });
+
+  },
+
+
+  toggleAddToQueueBtn: function(e) {
+    $('.btn-publish-queued').show();
+    var isChecked = $(e.target).is(':checked');
+    if (isChecked === false) {
+      var cnt = 0;
+      $('input.toggle-publish-all:checkbox', '#articles').each(function(i, element) {
+        var checkedState = $(element).is(':checked');
+        if (checkedState === false) cnt++;
+      });
+
+      if (cnt === this.articles.uir.length) $('.btn-publish-queued').hide();
+    }
+
+    this.populateQueue($(e.target));
+  },
+
+  publishQueued: function() {
+    var isMultiple = (_.size(this.queued) > 1) ? true : false;
+    this.initModal(isMultiple);
+    this.displayQueueList();
+  },
+
+  publish: function(e) {
+    this.initModal(false);
+    this.populateQueue($(e.target));
+    this.displayQueueList();
+  },
+
+  initModal: function(isMultiple) {
+    var btnText = (isMultiple) ? 'Publish All' : 'Publish';
+    $('#articles-queue', '#publish-modal').empty();
+    $('#publish-action', '#publish-modal').empty().text(btnText);
+    $('#publish-close').hide();
+  },
+
+  populateQueue: function(target) {
+    var targetParent = target.parents('tr');
+    var articleId = targetParent.attr('data-article-id');
+    var articleVer = targetParent.attr('data-article-version');
+    var articleRun = targetParent.attr('data-article-run');
+    var addToQueue = {id: articleId, version: articleVer, run: articleRun};
+    if (_.findWhere(this.queued, addToQueue)) {
+      this.queued = app.utils.removeObject(this.queued, addToQueue);
+    } else {
+      this.queued = app.utils.addObject(this.queued, addToQueue);
+    }
+  },
+
+  displayQueueList: function(article) {
+    _.each(this.queued, function(article) {
+      var title = $('[data-article-id=' + article.id + ']').attr('data-article-title');
+      var listItem = $('<li>' + title + '</li>');
+      listItem.data({id: article.id, version: article.version, run: article.run});
+      $('#articles-queue').append(listItem);
+    });
+  },
+
+  updateQueueListStatus: function(queuedArticles) {
+    this.queuePolled++;
+    this.queued = queuedArticles;
+    var total = 0;
+    var status = {completed: 0, error: 0};
+    var articleQueue = $('#articles-queue li');
+    var articlePublishStatusTemplate = eLife.templates['current/article-publish-modal-status'];
+    var queuedItems = this.queued;
+
+    _.each(articleQueue, function(articleQueue, i) {
+      var articleId = $(articleQueue).data('id');
+      var articleVer = $(articleQueue).data('version');
+      var articleRun = $(articleQueue).data('run');
+      var displayInQueue = {id: articleId, version: articleVer, run: articleRun};
+      var queuedItem = _.find(queuedItems, displayInQueue);
+      switch (queuedItem.status) {
+        case 'published':
+          status.completed++;
+        break;
+        case 'error':
+          status.error++;
+        break;
+      }
+      $('.article-status', articleQueue).remove();
+      $(articleQueue).append(articlePublishStatusTemplate(queuedItem));
+    });
+
+    _.each(status, function(s) {
+      total = total + s;
+    });
+
+    if (this.queuePolled === 25 || _.contains(status, queuedItems.length) || status === queuedItems.length) {
+      this.isPublishing = false;
+      this.isAllPublished = true;
+      clearInterval(this.checkingStatus);
+      $('#publish-close').show();
+    }
+
+  },
+
+  refreshPage: function(e) {
+    if (this.isPublishing === true || this.isAllPublished === true || e.which === app.ESCAPE_KEY) {
+      location.reload(true);
+    }
+
+    this.resetModalButtons();
+  },
+
+  resetModalButtons: function() {
+    $('#publish-modal #publish-action').prop('disabled', false).removeClass('disabled');
+    $('#articles-queue').empty();
+    $('.btn-publish-queued').hide();
+    $('.toggle-publish-all').each(function(i, e) {
+      $(e).prop('checked', false);
+    });
+
+    this.queued = [];
+  },
+
+  performPublish: function(e) {
+    $('#publish-cancel').hide();
+    $('#publish-action').prop('disabled', true).addClass('disabled');
+    this.isPublishing = true;
+    this.queueArticles(this.queued);
+
+  },
+
+  queueArticles: function(queued) {
+    $.ajax({
+      type: 'POST',
+      contentType: 'application/json',
+      url: app.API + 'api/queue_article_publication',
+      data: JSON.stringify({articles: queued}),
+      success: function(data) {
+        app.current.updateQueueListStatus(data.articles);
+        setTimeout(app.current.checkArticleStatus(app.current.queued), app.current.publishTimeout);
+      },
+
+      error: function(data) {
+        this.queueArticleStatusErrorTemplate = eLife.templates['current/error-queue-articles'];
+        $('#publish-modal .modal-body').html(this.queueArticleStatusErrorTemplate(articles));
+        $('#publish-cancel').show();
+      },
+    });
+  },
+
+  checkArticleStatus: function(queued) {
+    app.current.updateQueueListStatus(queued);
+    this.checkingStatus = setInterval(function() {
+      $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        url: app.API + 'api/article_publication_status',
+        data: JSON.stringify({articles: queued}),
+        success: function(data) {
+          app.current.updateQueueListStatus(data.articles);
+        },
+
+        error: function(data) {
+          this.checkArticleStatusErrorTemplate = eLife.templates['current/error-check-article-status'];
+          $('#publish-modal .modal-body').html(this.checkArticleStatusErrorTemplate(articles));
+          $('#publish-cancel').show();
+          this.isPublishing = false;
+          clearInterval(app.current.checkingStatus);
+        },
+      });
+    }, this.checkStatusInterval);
+  },
+
+};
+
+app.current.init();
+'use strict';
+
+app.detail = {
+  init: function() {
+    if ($('.detail-page').length > 0) {
+      this.article = [];
+      this.version = '';
+      this.run = '';
+      Swag.registerHelpers(Handlebars);
+      this.getArticle();
+      this.bindEvents();
+    }
+  },
+
+  bindEvents: function() {
+    $('#article', '.detail-page').on('click', '.article-version-map-list .run li', this.updateRun.bind(this));
+  },
+
+  renderArticle: function() {
+    if (this.article) {
+      this.articleTemplate = eLife.templates['detail/article'];
+      console.log(this.currentArticle);
+      $('#article').empty().html(this.articleTemplate(
+          {
+            article: this.article,
+            currentArticle: this.currentArticle,
+            version: this.version,
+            run: this.run,
+          }));
+    }
+  },
+
+  getArticle: function() {
+
+    $.ajax({
+      url: app.API + 'api/article/123',
+      cache: false,
+      dataType: 'json',
+      success: function(article) {
+        app.detail.article = article;
+        app.detail.currentArticle = app.detail.getCurrentArticle();
+        app.detail.renderArticle();
+      },
+
+      error: function(data) {
+        this.errorTemplate = eLife.templates['error-render'];
+        $('#article').empty().html(this.errorTemplate(data));
+      },
+
+    });
+
+  },
+
+  getCurrentArticle: function() {
+    if (!this.version && !this.run) {
+      this.version = app.utils.getNthObjectKey(this.article.versions, 0);
+      this.run = app.utils.getNthObjectKey(this.article.versions[this.version].runs, 0);
+    }
+    return this.article.versions[this.version].runs[this.run];
+  },
+
+  updateRun: function(e, i) {
+    this.run = $(e.target).parents(':eq(1)').attr('data-run');
+    this.version = $(e.target).parents(':eq(1)').attr('data-version');
+    this.currentArticle = this.article.versions[this.version].runs[this.run];
+    this.renderArticle();
+  },
+
+};
+
+app.detail.init();
+
+'use strict';
+
+app.archive = {
+  init: function() {
+    if ($('.archive-page').length > 0) {
+
+    }
+  },
+
+  bindEvents: function() {
+
+  },
+
+};
+
