@@ -1,4 +1,4 @@
-/*! eLife - v0.0.1 - 2016-01-08
+/*! eLife - v0.0.1 - 2016-01-11
 * https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend
 * Copyright (c) 2016 eLife; Licensed  */
 this["eLife"] = this["eLife"] || {};
@@ -21,7 +21,7 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
 },"9":function(container,depth0,helpers,partials,data) {
     var helper;
 
-  return "            <p>\n                <a href=\"#\">"
+  return "            <p>\n                <a href=\"/patterns/04-pages-01-detail/04-pages-01-detail.html\">"
     + container.escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"title","hash":{},"data":data}) : helper)))
     + "</a>\n            </p>\n";
 },"11":function(container,depth0,helpers,partials,data) {
@@ -31,23 +31,23 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
 },"12":function(container,depth0,helpers,partials,data) {
     var helper;
 
-  return "                    <dt>\n                        <a href=\"#\"><i>Version:</i></a>\n                    </dt>\n                    <dd>\n                        <a href=\"#\">"
+  return "                    <dt>\n                        <a href=\"/patterns/04-pages-01-detail/04-pages-01-detail.html\"><i>Version:</i></a>\n                    </dt>\n                    <dd>\n                        <a href=\"/patterns/04-pages-01-detail/04-pages-01-detail.html\">"
     + container.escapeExpression(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"version","hash":{},"data":data}) : helper)))
     + "</a>\n                    </dd>\n";
 },"14":function(container,depth0,helpers,partials,data) {
     var helper;
 
-  return "                <dt>\n                    <a href=\"#\"><i>Article type:</i></a>\n                </dt>\n                <dd>\n                    <a href=\"#\">"
+  return "                <dt>\n                    <a href=\"/patterns/04-pages-01-detail/04-pages-01-detail.html\"><i>Article type:</i></a>\n                </dt>\n                <dd>\n                    <a href=\"/patterns/04-pages-01-detail/04-pages-01-detail.html\">"
     + container.escapeExpression(((helper = (helper = helpers["article-type"] || (depth0 != null ? depth0["article-type"] : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"article-type","hash":{},"data":data}) : helper)))
     + "</a>\n                </dd>\n";
 },"16":function(container,depth0,helpers,partials,data) {
-    return "                <dt>\n                    <a href=\"#\"><i>Publication date:</i></a>\n                </dt>\n                <dd>\n                    <a href=\"#\">"
+    return "                <dt>\n                    <a href=\"/patterns/04-pages-01-detail/04-pages-01-detail.html\"><i>Publication date:</i></a>\n                </dt>\n                <dd>\n                    <a href=\"/patterns/04-pages-01-detail/04-pages-01-detail.html\">"
     + container.escapeExpression((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || helpers.helperMissing).call(depth0 != null ? depth0 : {},(depth0 != null ? depth0["publication-date"] : depth0),"Do MMMM YYYY",{"name":"elFormatUnixDate","hash":{},"data":data}))
     + "</a>\n                </dd>\n";
 },"18":function(container,depth0,helpers,partials,data) {
     var helper;
 
-  return "                <dt>\n                    <a href=\"#\"><i>Corresponding authors:</i></a>\n                </dt>\n                <dd>\n                    <a href=\"#\">"
+  return "                <dt>\n                    <a href=\"/patterns/04-pages-01-detail/04-pages-01-detail.html\"><i>Corresponding authors:</i></a>\n                </dt>\n                <dd>\n                    <a href=\"/patterns/04-pages-01-detail/04-pages-01-detail.html\">"
     + container.escapeExpression(((helper = (helper = helpers["corresponding-authors"] || (depth0 != null ? depth0["corresponding-authors"] : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"corresponding-authors","hash":{},"data":data}) : helper)))
     + "</a>\n                </dd>\n";
 },"20":function(container,depth0,helpers,partials,data) {
@@ -58,11 +58,11 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0["event-status"] : depth0),{"name":"if","hash":{},"fn":container.program(23, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "                </b>\n            </p>\n        </td>\n";
 },"21":function(container,depth0,helpers,partials,data) {
-    return "                        <a href=\"#\">"
+    return "                        <a href=\"/patterns/04-pages-01-detail/04-pages-01-detail.html\">"
     + container.escapeExpression((helpers.uppercase || (depth0 && depth0.uppercase) || helpers.helperMissing).call(depth0 != null ? depth0 : {},(depth0 != null ? depth0["event-type"] : depth0),{"name":"uppercase","hash":{},"data":data}))
     + "</a>\n";
 },"23":function(container,depth0,helpers,partials,data) {
-    return "                        <br/>\n                        <a href=\"#\">"
+    return "                        <br/>\n                        <a href=\"/patterns/04-pages-01-detail/04-pages-01-detail.html\">"
     + container.escapeExpression((helpers.uppercase || (depth0 && depth0.uppercase) || helpers.helperMissing).call(depth0 != null ? depth0 : {},(depth0 != null ? depth0["event-status"] : depth0),{"name":"uppercase","hash":{},"data":data}))
     + "</a>\n";
 },"25":function(container,depth0,helpers,partials,data) {
@@ -78,9 +78,9 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
     + "\"\n    data-article-run=\""
     + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
-    + "\">\n    <td class=\"column-1\">\n        <a href=\"#\" class=\"hidden-xs\">\n            <span class=\"glyphicon glyphicon-file "
+    + "\">\n    <td class=\"column-1\">\n        <a href=\"/patterns/04-pages-01-detail/04-pages-01-detail.html\" class=\"hidden-xs\">\n            <span class=\"glyphicon glyphicon-file "
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.status : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
-    + "\"></span>\n        </a>\n        <h6>\n            <a href=\"#\">"
+    + "\"></span>\n        </a>\n        <h6>\n            <a href=\"/patterns/04-pages-01-detail/04-pages-01-detail.html\">"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.doi : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.program(7, data, 0),"data":data})) != null ? stack1 : "")
     + "</a>\n        </h6>\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.title : depth0),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
