@@ -420,7 +420,7 @@ a:hover {
 
 .article-version-map-list li .run a span:first-child {
   text-align: left;
-  width: 50%;
+  width: 30%;
 }
 
 .article-version-history-list {
@@ -438,7 +438,7 @@ a:hover {
 
 .article-version-history-list li .column-1 {
   display: table-cell;
-  width: 50%;
+  width: 40%;
 }
 
 @media (max-width: 1199px) {

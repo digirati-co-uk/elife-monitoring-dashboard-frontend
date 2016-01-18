@@ -377,9 +377,9 @@ this["eLife"]["templates"]["detail/article"] = Handlebars.template({"1":function
   return container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"id","hash":{},"data":data,"blockParams":blockParams}) : helper)))
     + "\n"
     + ((stack1 = container.invokePartial(partials["article-detail"],depth0,{"name":"article-detail","hash":{"section":(depth0 != null ? depth0.articleDetail : depth0)},"data":data,"blockParams":blockParams,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-    + "<section class=\"article-version-map col-sm-4 col-md-3\">\n    <ol class=\"article-version-map-list\">\n"
+    + "<section class=\"article-version-map col-sm-4 col-md-4\">\n    <ol class=\"article-version-map-list\">\n"
     + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.versions : stack1),{"name":"each","hash":{},"fn":container.program(1, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
-    + "    </ol>\n</section>\n<section class=\"article-version-history col-sm-8 col-md-8 col-md-offset-1\">\n    <ol class=\"article-version-history-list\">\n"
+    + "    </ol>\n</section>\n<section class=\"article-version-history col-sm-8 col-md-8\">\n    <ol class=\"article-version-history-list\">\n"
     + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.events : stack1),{"name":"each","hash":{},"fn":container.program(4, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "    </ol>\n</section>";
 },"usePartial":true,"useData":true,"useBlockParams":true});
@@ -424,7 +424,7 @@ Handlebars.registerHelper('elFormatUnixDate', function(date, format) {
 'use strict';
 
 var config = {
-  API: 'http://127.0.0.1:8008/',
+  API: '/',
 };
 
 

@@ -1,6 +1,6 @@
 {{id}}
 {{> article-detail section=articleDetail }}
-<section class="article-version-map col-sm-4 col-md-3">
+<section class="article-version-map col-sm-4 col-md-4">
     <ol class="article-version-map-list">
         {{#each article.versions as |versions|}}
             <li>
@@ -21,7 +21,7 @@
         {{/each}}
     </ol>
 </section>
-<section class="article-version-history col-sm-8 col-md-8 col-md-offset-1">
+<section class="article-version-history col-sm-8 col-md-8">
     <ol class="article-version-history-list">
         {{#each currentArticle.events as |events|}}
             <li>
