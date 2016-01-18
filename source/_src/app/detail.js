@@ -32,23 +32,31 @@ app.detail = {
 
   getArticle: function() {
 
-    $.ajax({
-      url: app.API + 'api/article/123',
-      cache: false,
-      dataType: 'json',
-      success: function(article) {
-        app.detail.article = article;
-        app.detail.currentArticle = app.detail.getCurrentArticle();
-        app.detail.renderArticle();
-      },
+    var queryString = window.location.search;
+    var queryParams = app.utils.getQueryParams(queryString);
 
-      error: function(data) {
-        this.errorTemplate = eLife.templates['error-render'];
-        $('#article').empty().html(this.errorTemplate(data));
-      },
+    if (_.has(queryParams, 'article_id')) {
+      var articleId = queryParams.articleId;
+      $.ajax({
+        url: app.API + 'api/article/' + articleId,
+        cache: false,
+        dataType: 'json',
+        success: function(article) {
+          app.detail.article = article;
+          app.detail.currentArticle = app.detail.getCurrentArticle();
+          app.detail.renderArticle();
+        },
 
-    });
+        error: function(data) {
+          this.errorTemplate = eLife.templates['error-render'];
+          $('#article').empty().html(this.errorTemplate(data));
+        },
 
+      });
+    } else {
+      this.errorTemplate = eLife.templates['error-render'];
+      $('#article').empty().html(this.errorTemplate(data));
+    }
   },
 
   getCurrentArticle: function() {
