@@ -742,7 +742,6 @@ app.detail = {
   renderArticle: function() {
     if (this.article) {
       this.articleTemplate = eLife.templates['detail/article'];
-      console.log(this.currentArticle);
       $('#article').empty().html(this.articleTemplate(
           {
             article: this.article,
@@ -758,7 +757,7 @@ app.detail = {
     var queryString = window.location.search;
     var queryParams = app.utils.getQueryParams(queryString);
 
-    if (_.has(queryParams, 'article_id')) {
+    if (_.has(queryParams, 'articleId')) {
       var articleId = queryParams.articleId;
       $.ajax({
         url: app.API + 'api/article/' + articleId,
@@ -778,7 +777,7 @@ app.detail = {
       });
     } else {
       this.errorTemplate = eLife.templates['error-render'];
-      $('#article').empty().html(this.errorTemplate(data));
+      $('#article').empty().html(this.errorTemplate());
     }
   },
 
