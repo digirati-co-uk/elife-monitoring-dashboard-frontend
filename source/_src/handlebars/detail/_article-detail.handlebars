@@ -43,19 +43,17 @@
             <td class="column-1">
                 <dl>
                     {{#if currentArticle.article-type}}
-                    <dt><i>Article type:</i></dt>
-                    <dd>{{ currentArticle.article-type }}</dd>
+                        <dt><i>Article type:</i></dt>
+                        <dd>{{ currentArticle.article-type }}</dd>
                     {{/if}}
-    {{#if currentArticle.publication-date}}
-                    <dt><i>Publication date:</i></dt>
-                    <dd>{{elFormatUnixDate currentArticle.publication-date "Do MMMM YYYY" }}</dd>
-    {{/if}}
-    {{#if currentArticle.corresponding-authors}}
-                    <dt><i>Corresponding authors:</i></dt>
-                    <dd>{{currentArticle.corresponding-authors}}</dd>
-    {{/if}}
-                    <!--<dt><i>Authors:</i></dt>-->
-                    <!--<dd>Bárány, Jules Bordet, Schack August Steenberg Krogh, Archibald Vivian Hill, Otto Fritz Meyerhof, Sir Frederick, Grant Banting, John James Rickard Macleod</dd>-->
+                    {{#if currentArticle.publication-date}}
+                        <dt><i>Publication date:</i></dt>
+                        <dd>{{elFormatUnixDate currentArticle.publication-date "Do MMMM YYYY" }}</dd>
+                    {{/if}}
+                    {{#if currentArticle.corresponding-authors}}
+                        <dt><i>Corresponding authors:</i></dt>
+                        <dd>{{currentArticle.corresponding-authors}}</dd>
+                    {{/if}}
                 </dl>
             </td>
         </tr>

@@ -1,4 +1,3 @@
-{{id}}
 {{> article-detail section=articleDetail }}
 <section class="article-version-map col-sm-4 col-md-4">
     <ol class="article-version-map-list">
@@ -8,10 +7,10 @@
                 <ol class="run">
                     {{#each versions.runs as |runs| }}
                         <li data-run="{{run-number}}"  data-version="{{version-number}}">
-                            <a href="#">
+                            <a href="#">{{currentArticle}}
                                 <span>Run {{@key}}</span>
-                                <span>{{elFormatUnixDate publication-date "Do MMMM YYYY" }}</span>
-                                <span>{{elFormatUnixDate publication-date "HH:mm" }}</span>
+                                <span>{{elFormatUnixDate first-event-timestamp "Do MMMM YYYY" }}</span>
+                                <span>{{elFormatUnixDate first-event-timestamp "HH:mm" }}</span>
                             </a>
                         </li>
                     {{/each}}
@@ -23,7 +22,9 @@
 </section>
 <section class="article-version-history col-sm-8 col-md-8">
     <ol class="article-version-history-list">
-        {{#each currentArticle.events as |events|}}
+        {{debug currentEvents}}
+        {{debug currentEvents.events}}
+        {{#each currentEvents.events as |events|}}
             <li>
                 <div class="column-1">
                     <span class="glyphicon glyphicon-ok {{event-status}} glyphicon-ok--mod pull-left"></span>

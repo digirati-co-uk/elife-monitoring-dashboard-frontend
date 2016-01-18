@@ -137,19 +137,19 @@ Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(c
 },"5":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "                    <dt><i>Article type:</i></dt>\n                    <dd>"
+  return "                        <dt><i>Article type:</i></dt>\n                        <dd>"
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["article-type"] : stack1), depth0))
     + "</dd>\n";
 },"7":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "                    <dt><i>Publication date:</i></dt>\n                    <dd>"
+  return "                        <dt><i>Publication date:</i></dt>\n                        <dd>"
     + container.escapeExpression((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["publication-date"] : stack1),"Do MMMM YYYY",{"name":"elFormatUnixDate","hash":{},"data":data}))
     + "</dd>\n";
 },"9":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "                    <dt><i>Corresponding authors:</i></dt>\n                    <dd>"
+  return "                        <dt><i>Corresponding authors:</i></dt>\n                        <dd>"
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["corresponding-authors"] : stack1), depth0))
     + "</dd>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -169,7 +169,7 @@ Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(c
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["article-type"] : stack1),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["corresponding-authors"] : stack1),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "                    <!--<dt><i>Authors:</i></dt>-->\n                    <!--<dd>Bárány, Jules Bordet, Schack August Steenberg Krogh, Archibald Vivian Hill, Otto Fritz Meyerhof, Sir Frederick, Grant Banting, John James Rickard Macleod</dd>-->\n                </dl>\n            </td>\n        </tr>\n    </table>\n</section>";
+    + "                </dl>\n            </td>\n        </tr>\n    </table>\n</section>";
 },"useData":true}));
 
 this["eLife"]["templates"]["current/article-publish-modal-status"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
@@ -347,12 +347,14 @@ this["eLife"]["templates"]["detail/article"] = Handlebars.template({"1":function
     + alias4(((helper = (helper = helpers["run-number"] || (depth0 != null ? depth0["run-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-number","hash":{},"data":data}) : helper)))
     + "\"  data-version=\""
     + alias4(((helper = (helper = helpers["version-number"] || (depth0 != null ? depth0["version-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version-number","hash":{},"data":data}) : helper)))
-    + "\">\n                            <a href=\"#\">\n                                <span>Run "
+    + "\">\n                            <a href=\"#\">"
+    + alias4(((helper = (helper = helpers.currentArticle || (depth0 != null ? depth0.currentArticle : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"currentArticle","hash":{},"data":data}) : helper)))
+    + "\n                                <span>Run "
     + alias4(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"key","hash":{},"data":data}) : helper)))
     + "</span>\n                                <span>"
-    + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["publication-date"] : depth0),"Do MMMM YYYY",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["first-event-timestamp"] : depth0),"Do MMMM YYYY",{"name":"elFormatUnixDate","hash":{},"data":data}))
     + "</span>\n                                <span>"
-    + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["publication-date"] : depth0),"HH:mm",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["first-event-timestamp"] : depth0),"HH:mm",{"name":"elFormatUnixDate","hash":{},"data":data}))
     + "</span>\n                            </a>\n                        </li>\n";
 },"4":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
@@ -369,15 +371,17 @@ this["eLife"]["templates"]["detail/article"] = Handlebars.template({"1":function
     + alias4(((helper = (helper = helpers["event-message"] || (depth0 != null ? depth0["event-message"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"event-message","hash":{},"data":data}) : helper)))
     + "</dd>\n                    </dl>\n                </div>\n            </li>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : {};
+    var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3=container.escapeExpression;
 
-  return container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"id","hash":{},"data":data,"blockParams":blockParams}) : helper)))
-    + "\n"
-    + ((stack1 = container.invokePartial(partials["article-detail"],depth0,{"name":"article-detail","hash":{"section":(depth0 != null ? depth0.articleDetail : depth0)},"data":data,"blockParams":blockParams,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+  return ((stack1 = container.invokePartial(partials["article-detail"],depth0,{"name":"article-detail","hash":{"section":(depth0 != null ? depth0.articleDetail : depth0)},"data":data,"blockParams":blockParams,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "<section class=\"article-version-map col-sm-4 col-md-4\">\n    <ol class=\"article-version-map-list\">\n"
     + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.versions : stack1),{"name":"each","hash":{},"fn":container.program(1, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
-    + "    </ol>\n</section>\n<section class=\"article-version-history col-sm-8 col-md-8\">\n    <ol class=\"article-version-history-list\">\n"
-    + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.events : stack1),{"name":"each","hash":{},"fn":container.program(4, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + "    </ol>\n</section>\n<section class=\"article-version-history col-sm-8 col-md-8\">\n    <ol class=\"article-version-history-list\">\n        "
+    + alias3((helpers.debug || (depth0 && depth0.debug) || alias2).call(alias1,(depth0 != null ? depth0.currentEvents : depth0),{"name":"debug","hash":{},"data":data,"blockParams":blockParams}))
+    + "\n        "
+    + alias3((helpers.debug || (depth0 && depth0.debug) || alias2).call(alias1,((stack1 = (depth0 != null ? depth0.currentEvents : depth0)) != null ? stack1.events : stack1),{"name":"debug","hash":{},"data":data,"blockParams":blockParams}))
+    + "\n"
+    + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.currentEvents : depth0)) != null ? stack1.events : stack1),{"name":"each","hash":{},"fn":container.program(4, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "    </ol>\n</section>";
 },"usePartial":true,"useData":true,"useBlockParams":true});
 
