@@ -11,7 +11,7 @@
                             <a href="#">
                                 <span>Run {{@key}}</span>
                                 <span>{{elFormatUnixDate publication-date "Do MMMM YYYY" }}</span>
-                                <span>14:00</span>
+                                <span>{{elFormatUnixDate publication-date "HH:mm" }}</span>
                             </a>
                         </li>
                     {{/each}}
@@ -32,8 +32,8 @@
                 <div class="column-2">
                     <dl>
                         <dt><i>Timestamp:</i></dt>
-                        <dd class="divide">{{event-timestamp}}28/04/2015</dd>
-                        <dd class="divide">12:34</dd>
+                        <dd class="divide">{{elFormatUnixDate event-timestamp "MM/DD/YYYY" }}</dd>
+                        <dd class="divide">{{elFormatUnixDate event-timestamp "HH:mm" }}</dd>
                     </dl>
                     <dl>
                         <dt><i>Message:</i></dt>

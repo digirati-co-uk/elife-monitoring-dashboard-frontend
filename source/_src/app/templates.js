@@ -351,7 +351,9 @@ this["eLife"]["templates"]["detail/article"] = Handlebars.template({"1":function
     + alias4(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"key","hash":{},"data":data}) : helper)))
     + "</span>\n                                <span>"
     + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["publication-date"] : depth0),"Do MMMM YYYY",{"name":"elFormatUnixDate","hash":{},"data":data}))
-    + "</span>\n                                <span>14:00</span>\n                            </a>\n                        </li>\n";
+    + "</span>\n                                <span>"
+    + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["publication-date"] : depth0),"HH:mm",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + "</span>\n                            </a>\n                        </li>\n";
 },"4":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
@@ -360,8 +362,10 @@ this["eLife"]["templates"]["detail/article"] = Handlebars.template({"1":function
     + " glyphicon-ok--mod pull-left\"></span>\n                    <span>"
     + alias4(((helper = (helper = helpers["event-type"] || (depth0 != null ? depth0["event-type"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"event-type","hash":{},"data":data}) : helper)))
     + "</span>\n                </div>\n                <div class=\"column-2\">\n                    <dl>\n                        <dt><i>Timestamp:</i></dt>\n                        <dd class=\"divide\">"
-    + alias4(((helper = (helper = helpers["event-timestamp"] || (depth0 != null ? depth0["event-timestamp"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"event-timestamp","hash":{},"data":data}) : helper)))
-    + "28/04/2015</dd>\n                        <dd class=\"divide\">12:34</dd>\n                    </dl>\n                    <dl>\n                        <dt><i>Message:</i></dt>\n                        <dd>"
+    + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["event-timestamp"] : depth0),"MM/DD/YYYY",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + "</dd>\n                        <dd class=\"divide\">"
+    + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["event-timestamp"] : depth0),"HH:mm",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + "</dd>\n                    </dl>\n                    <dl>\n                        <dt><i>Message:</i></dt>\n                        <dd>"
     + alias4(((helper = (helper = helpers["event-message"] || (depth0 != null ? depth0["event-message"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"event-message","hash":{},"data":data}) : helper)))
     + "</dd>\n                    </dl>\n                </div>\n            </li>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams) {
