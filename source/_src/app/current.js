@@ -60,9 +60,7 @@ app.current = {
       },
 
     });
-
   },
-
 
   toggleAddToQueueBtn: function(e) {
     $('.btn-publish-queued').show();
@@ -88,7 +86,7 @@ app.current = {
 
   publish: function(e) {
     this.initModal(false);
-    this.populateQueue($(e.target));
+    this.populateQueue($(e.target), true);
     this.displayQueueList();
   },
 
@@ -99,16 +97,21 @@ app.current = {
     $('#publish-close').hide();
   },
 
-  populateQueue: function(target) {
+  populateQueue: function(target, publishNow) {
     var targetParent = target.parents('tr');
     var articleId = targetParent.attr('data-article-id');
     var articleVer = targetParent.attr('data-article-version');
     var articleRun = targetParent.attr('data-article-run');
     var addToQueue = {id: articleId, version: articleVer, run: articleRun};
-    if (_.findWhere(this.queued, addToQueue)) {
-      this.queued = app.utils.removeObject(this.queued, addToQueue);
-    } else {
+    if (publishNow) {
+      this.queued = [];
       this.queued = app.utils.addObject(this.queued, addToQueue);
+    } else {
+      if (_.findWhere(this.queued, addToQueue)) {
+        this.queued = app.utils.removeObject(this.queued, addToQueue);
+      } else {
+        this.queued = app.utils.addObject(this.queued, addToQueue);
+      }
     }
   },
 

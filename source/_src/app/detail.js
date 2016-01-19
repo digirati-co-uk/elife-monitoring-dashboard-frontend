@@ -31,7 +31,6 @@ app.detail = {
           app.detail.article = article;
           app.detail.currentArticle = app.detail.getCurrentArticle();
           app.detail.currentEvents = app.detail.getCurrentEvents();
-          console.log(app.detail.currentEvents);
           app.detail.renderArticle();
         },
 
