@@ -1,4 +1,4 @@
-/*! eLife - v0.0.1 - 2016-01-19
+/*! eLife - v0.0.1 - 2016-01-21
 * https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend
 * Copyright (c) 2016 eLife; Licensed  */
 this["eLife"] = this["eLife"] || {};
@@ -224,7 +224,7 @@ this["eLife"]["templates"]["current/article-stats-template"] = Handlebars.templa
     var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
 
   return ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,blockParams[1][1],"error",{"name":"is","hash":{},"fn":container.program(3, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
-    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,blockParams[1][1],"in-progress",{"name":"is","hash":{},"fn":container.program(5, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,blockParams[1][1],"inProgress",{"name":"is","hash":{},"fn":container.program(5, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,blockParams[1][1],"uir",{"name":"is","hash":{},"fn":container.program(7, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,blockParams[1][1],"scheduled",{"name":"is","hash":{},"fn":container.program(9, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "");
 },"3":function(container,depth0,helpers,partials,data,blockParams) {
@@ -279,7 +279,7 @@ this["eLife"]["templates"]["current/article"] = Handlebars.template({"1":functio
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias4).call(alias3,blockParams[1][1],"uir",{"name":"is","hash":{},"fn":container.program(5, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "            <table class=\"article-snapshot-list\">\n"
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias4).call(alias3,blockParams[1][1],"error",{"name":"is","hash":{},"fn":container.program(7, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
-    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias4).call(alias3,blockParams[1][1],"in-progress",{"name":"is","hash":{},"fn":container.program(10, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias4).call(alias3,blockParams[1][1],"inProgress",{"name":"is","hash":{},"fn":container.program(10, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias4).call(alias3,blockParams[1][1],"uir",{"name":"is","hash":{},"fn":container.program(12, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias4).call(alias3,blockParams[1][1],"scheduled",{"name":"is","hash":{},"fn":container.program(14, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "                <tbody>\n"
@@ -374,16 +374,12 @@ this["eLife"]["templates"]["detail/article"] = Handlebars.template({"1":function
     + alias4(((helper = (helper = helpers["event-message"] || (depth0 != null ? depth0["event-message"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"event-message","hash":{},"data":data}) : helper)))
     + "</dd>\n                    </dl>\n                </div>\n            </li>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams) {
-    var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3=container.escapeExpression;
+    var stack1, alias1=depth0 != null ? depth0 : {};
 
   return ((stack1 = container.invokePartial(partials["article-detail"],depth0,{"name":"article-detail","hash":{"section":(depth0 != null ? depth0.articleDetail : depth0)},"data":data,"blockParams":blockParams,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "<section class=\"article-version-map col-sm-4 col-md-4\">\n    <ol class=\"article-version-map-list\">\n"
     + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.versions : stack1),{"name":"each","hash":{},"fn":container.program(1, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
-    + "    </ol>\n</section>\n<section class=\"article-version-history col-sm-8 col-md-8\">\n    <ol class=\"article-version-history-list\">\n        "
-    + alias3((helpers.debug || (depth0 && depth0.debug) || alias2).call(alias1,(depth0 != null ? depth0.currentEvents : depth0),{"name":"debug","hash":{},"data":data,"blockParams":blockParams}))
-    + "\n        "
-    + alias3((helpers.debug || (depth0 && depth0.debug) || alias2).call(alias1,((stack1 = (depth0 != null ? depth0.currentEvents : depth0)) != null ? stack1.events : stack1),{"name":"debug","hash":{},"data":data,"blockParams":blockParams}))
-    + "\n"
+    + "    </ol>\n</section>\n<section class=\"article-version-history col-sm-8 col-md-8\">\n    <ol class=\"article-version-history-list\">\n"
     + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.currentEvents : depth0)) != null ? stack1.events : stack1),{"name":"each","hash":{},"fn":container.program(4, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "    </ol>\n</section>";
 },"usePartial":true,"useData":true,"useBlockParams":true});
@@ -534,7 +530,10 @@ app.current = {
     $('#articles', '.current-page').on('click', '#publish-modal #publish-close', this.refreshPage.bind(this));
 
   },
-
+  /**
+   * Fetch articles and render on the page.
+   * Renders both the 'summary' at the top of the page and the list below
+   */
   renderArticles: function() {
     this.loadingTemplate = eLife.templates['loading-template'];
     $('#articles').empty().html(this.loadingTemplate());
@@ -545,9 +544,9 @@ app.current = {
       success: function(articles) {
         app.current.articles = articles;
         this.articleTemplate = eLife.templates['current/article'];
-        $('#articles').empty().html(this.articleTemplate(articles));
+        $('#articles').empty().html(this.articleTemplate(app.current.sortArticles(articles)));
         this.articleStatsTemplate = eLife.templates['current/article-stats-template'];
-        $('#articleStats').html(this.articleStatsTemplate(articles));
+        $('#articleStats').html(this.articleStatsTemplate(app.current.sortArticles(articles)));
       },
 
       error: function(data) {
@@ -557,7 +556,27 @@ app.current = {
 
     });
   },
+  /**
+   * Because the API returns data in any order and handlebars is limited we will sort here
+   * Correct order: Error, In Progress, User input Required, Scheduled
+   * @param articles
+   * @returns {*}
+   */
+  sortArticles: function(articles) {
+    var sortedArticles = {
+      error: articles.error,
+      inProgress: articles['in-progress'],
+      uir: articles.uir,
+      scheduled: articles.scheduled,
+    };
+    return sortedArticles;
+  },
 
+  /**
+   * When you check a checkbox under any user input required
+   * adds the relevant information for the checked item to the queue
+   * @param e
+   */
   toggleAddToQueueBtn: function(e) {
     $('.btn-publish-queued').show();
     var isChecked = $(e.target).is(':checked');
@@ -574,25 +593,41 @@ app.current = {
     this.populateQueue($(e.target));
   },
 
+  /**
+   * When 'Publish all selected' active & clicked
+   * Launch publish modal and update the list of queued items.
+   *
+   */
   publishQueued: function() {
     var isMultiple = (_.size(this.queued) > 1) ? true : false;
     this.initModal(isMultiple);
     this.displayQueueList();
   },
-
+  /**
+   * When 'Publish now' clicked
+   * Launch publish modal and update the list of queued items.
+   * @param e
+   */
   publish: function(e) {
     this.initModal(false);
     this.populateQueue($(e.target), true);
     this.displayQueueList();
   },
-
+  /**
+   * Show modal popup that contains publish status information
+   * @param isMultiple
+   */
   initModal: function(isMultiple) {
     var btnText = (isMultiple) ? 'Publish All' : 'Publish';
     $('#articles-queue', '#publish-modal').empty();
     $('#publish-action', '#publish-modal').empty().text(btnText);
     $('#publish-close').hide();
   },
-
+  /**
+   * Amend queued items.
+   * @param target
+   * @param publishNow
+   */
   populateQueue: function(target, publishNow) {
     var targetParent = target.parents('tr');
     var articleId = targetParent.attr('data-article-id');
@@ -610,7 +645,10 @@ app.current = {
       }
     }
   },
-
+  /**
+   * Update the queue list to the items in the queue
+   * @param article
+   */
   displayQueueList: function(article) {
     _.each(this.queued, function(article) {
       var title = $('[data-article-id=' + article.id + ']').attr('data-article-title');
@@ -619,7 +657,10 @@ app.current = {
       $('#articles-queue').append(listItem);
     });
   },
-
+  /**
+   * Update the queue list status and update global status's
+   * @param queuedArticles
+   */
   updateQueueListStatus: function(queuedArticles) {
     this.queuePolled++;
     this.queued = queuedArticles;
@@ -651,7 +692,7 @@ app.current = {
       total = total + s;
     });
 
-    if (this.queuePolled === 25 || _.contains(status, queuedItems.length) || status === queuedItems.length) {
+    if (this.queuePolled === 250 || _.contains(status, queuedItems.length) || status === queuedItems.length) {
       this.isPublishing = false;
       this.isAllPublished = true;
       clearInterval(this.checkingStatus);
@@ -660,6 +701,10 @@ app.current = {
 
   },
 
+  /**
+   * refresh page on certain circumstances
+   * @param e
+   */
   refreshPage: function(e) {
     if (this.isPublishing === true || this.isAllPublished === true || e.which === app.ESCAPE_KEY) {
       location.reload(true);
@@ -668,6 +713,9 @@ app.current = {
     this.resetModalButtons();
   },
 
+  /**
+   * Reset the modal buttons and publish checkboxes
+   */
   resetModalButtons: function() {
     $('#publish-modal #publish-action').prop('disabled', false).removeClass('disabled');
     $('#articles-queue').empty();
@@ -679,6 +727,10 @@ app.current = {
     this.queued = [];
   },
 
+  /**
+   * queue articles to the publishing service
+   * @param e
+   */
   performPublish: function(e) {
     $('#publish-cancel').hide();
     $('#publish-action').prop('disabled', true).addClass('disabled');
@@ -687,6 +739,10 @@ app.current = {
 
   },
 
+  /**
+   * Queue articles to the service, set timeout to keep polling for the status
+   * @param queued
+   */
   queueArticles: function(queued) {
     $.ajax({
       type: 'POST',
@@ -706,6 +762,10 @@ app.current = {
     });
   },
 
+  /**
+   * Poll service to find out what is happening
+   * @param queued
+   */
   checkArticleStatus: function(queued) {
     app.current.updateQueueListStatus(queued);
     this.checkingStatus = setInterval(function() {

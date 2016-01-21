@@ -38,7 +38,10 @@ app.current = {
     $('#articles', '.current-page').on('click', '#publish-modal #publish-close', this.refreshPage.bind(this));
 
   },
-
+  /**
+   * Fetch articles and render on the page.
+   * Renders both the 'summary' at the top of the page and the list below
+   */
   renderArticles: function() {
     this.loadingTemplate = eLife.templates['loading-template'];
     $('#articles').empty().html(this.loadingTemplate());
@@ -49,9 +52,9 @@ app.current = {
       success: function(articles) {
         app.current.articles = articles;
         this.articleTemplate = eLife.templates['current/article'];
-        $('#articles').empty().html(this.articleTemplate(articles));
+        $('#articles').empty().html(this.articleTemplate(app.current.sortArticles(articles)));
         this.articleStatsTemplate = eLife.templates['current/article-stats-template'];
-        $('#articleStats').html(this.articleStatsTemplate(articles));
+        $('#articleStats').html(this.articleStatsTemplate(app.current.sortArticles(articles)));
       },
 
       error: function(data) {
@@ -61,7 +64,27 @@ app.current = {
 
     });
   },
+  /**
+   * Because the API returns data in any order and handlebars is limited we will sort here
+   * Correct order: Error, In Progress, User input Required, Scheduled
+   * @param articles
+   * @returns {*}
+   */
+  sortArticles: function(articles) {
+    var sortedArticles = {
+      error: articles.error,
+      inProgress: articles['in-progress'],
+      uir: articles.uir,
+      scheduled: articles.scheduled,
+    };
+    return sortedArticles;
+  },
 
+  /**
+   * When you check a checkbox under any user input required
+   * adds the relevant information for the checked item to the queue
+   * @param e
+   */
   toggleAddToQueueBtn: function(e) {
     $('.btn-publish-queued').show();
     var isChecked = $(e.target).is(':checked');
@@ -78,25 +101,41 @@ app.current = {
     this.populateQueue($(e.target));
   },
 
+  /**
+   * When 'Publish all selected' active & clicked
+   * Launch publish modal and update the list of queued items.
+   *
+   */
   publishQueued: function() {
     var isMultiple = (_.size(this.queued) > 1) ? true : false;
     this.initModal(isMultiple);
     this.displayQueueList();
   },
-
+  /**
+   * When 'Publish now' clicked
+   * Launch publish modal and update the list of queued items.
+   * @param e
+   */
   publish: function(e) {
     this.initModal(false);
     this.populateQueue($(e.target), true);
     this.displayQueueList();
   },
-
+  /**
+   * Show modal popup that contains publish status information
+   * @param isMultiple
+   */
   initModal: function(isMultiple) {
     var btnText = (isMultiple) ? 'Publish All' : 'Publish';
     $('#articles-queue', '#publish-modal').empty();
     $('#publish-action', '#publish-modal').empty().text(btnText);
     $('#publish-close').hide();
   },
-
+  /**
+   * Amend queued items.
+   * @param target
+   * @param publishNow
+   */
   populateQueue: function(target, publishNow) {
     var targetParent = target.parents('tr');
     var articleId = targetParent.attr('data-article-id');
@@ -114,7 +153,10 @@ app.current = {
       }
     }
   },
-
+  /**
+   * Update the queue list to the items in the queue
+   * @param article
+   */
   displayQueueList: function(article) {
     _.each(this.queued, function(article) {
       var title = $('[data-article-id=' + article.id + ']').attr('data-article-title');
@@ -123,7 +165,10 @@ app.current = {
       $('#articles-queue').append(listItem);
     });
   },
-
+  /**
+   * Update the queue list status and update global status's
+   * @param queuedArticles
+   */
   updateQueueListStatus: function(queuedArticles) {
     this.queuePolled++;
     this.queued = queuedArticles;
@@ -164,6 +209,10 @@ app.current = {
 
   },
 
+  /**
+   * refresh page on certain circumstances
+   * @param e
+   */
   refreshPage: function(e) {
     if (this.isPublishing === true || this.isAllPublished === true || e.which === app.ESCAPE_KEY) {
       location.reload(true);
@@ -172,6 +221,9 @@ app.current = {
     this.resetModalButtons();
   },
 
+  /**
+   * Reset the modal buttons and publish checkboxes
+   */
   resetModalButtons: function() {
     $('#publish-modal #publish-action').prop('disabled', false).removeClass('disabled');
     $('#articles-queue').empty();
@@ -183,6 +235,10 @@ app.current = {
     this.queued = [];
   },
 
+  /**
+   * queue articles to the publishing service
+   * @param e
+   */
   performPublish: function(e) {
     $('#publish-cancel').hide();
     $('#publish-action').prop('disabled', true).addClass('disabled');
@@ -191,6 +247,10 @@ app.current = {
 
   },
 
+  /**
+   * Queue articles to the service, set timeout to keep polling for the status
+   * @param queued
+   */
   queueArticles: function(queued) {
     $.ajax({
       type: 'POST',
@@ -210,6 +270,10 @@ app.current = {
     });
   },
 
+  /**
+   * Poll service to find out what is happening
+   * @param queued
+   */
   checkArticleStatus: function(queued) {
     app.current.updateQueueListStatus(queued);
     this.checkingStatus = setInterval(function() {
