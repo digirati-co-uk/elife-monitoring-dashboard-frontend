@@ -155,7 +155,7 @@ app.current = {
       total = total + s;
     });
 
-    if (this.queuePolled === 25 || _.contains(status, queuedItems.length) || status === queuedItems.length) {
+    if (this.queuePolled === 250 || _.contains(status, queuedItems.length) || status === queuedItems.length) {
       this.isPublishing = false;
       this.isAllPublished = true;
       clearInterval(this.checkingStatus);
