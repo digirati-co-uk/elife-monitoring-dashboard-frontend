@@ -1,6 +1,9 @@
 'use strict';
 
 app.detail = {
+  /**
+   * Initialise the methods for the Detail page
+   */
   init: function() {
     if ($('.detail-page').length > 0) {
       this.article = [];
@@ -8,19 +11,26 @@ app.detail = {
       this.currentArticle = [];
       this.version = '';
       this.run = '';
+      var queryString = window.location.search;
+      var queryParams = app.utils.getQueryParams(queryString);
       Swag.registerHelpers(Handlebars);
-      this.getArticle();
+      this.getArticle(queryParams);
       this.bindEvents();
     }
   },
 
+  /**
+   * Bind events
+   */
   bindEvents: function() {
     $('#article', '.detail-page').on('click', '.article-version-map-list .run li', this.updateRun.bind(this));
   },
 
-  getArticle: function() {
-    var queryString = window.location.search;
-    var queryParams = app.utils.getQueryParams(queryString);
+  /**
+   * Get article from param in url
+   * @param queryParams
+   */
+  getArticle: function(queryParams) {
     if (_.has(queryParams, 'articleId')) {
       var articleId = queryParams.articleId;
       $.ajax({
@@ -45,7 +55,9 @@ app.detail = {
       $('#article').empty().html(this.errorTemplate());
     }
   },
-
+  /**
+   * Render article to template
+   */
   renderArticle: function() {
     if (this.article) {
       this.articleTemplate = eLife.templates['detail/article'];
@@ -60,6 +72,10 @@ app.detail = {
     }
   },
 
+  /**
+   * Find the current article from stored data
+   * @returns {*}
+   */
   getCurrentArticle: function() {
     if (!this.version && !this.run) {
       this.version = app.utils.getNthObjectKey(this.article.versions, 0);
@@ -69,6 +85,10 @@ app.detail = {
     return this.article.versions[this.version].details;
   },
 
+  /**
+   * Find the current list of events from stored data
+   * @returns {*}
+   */
   getCurrentEvents: function() {
     if (!this.version && !this.run) {
       this.version = app.utils.getNthObjectKey(this.article.versions, 0);
@@ -78,7 +98,11 @@ app.detail = {
     return this.article.versions[this.version].runs[this.run];
   },
 
-  updateRun: function(e, i) {
+  /**
+   * Update page details when a new run is selected
+   * @param e
+   */
+  updateRun: function(e) {
     this.run = $(e.target).parents('[data-run]:first').attr('data-run');
     this.version = $(e.target).parents('[data-version]:first').attr('data-version');
     this.currentArticle = this.article.versions[this.version].details;
