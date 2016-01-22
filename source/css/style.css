@@ -482,11 +482,11 @@ a:hover {
 }
 
 .article-version-map-list .run-container .run .title {
-  width: 55%;
+  width: 50%;
 }
 
 .article-version-map-list .run-container .run .date {
-  width: 35%;
+  width: 40%;
   text-align: right;
 }
 
@@ -924,6 +924,7 @@ section.article-detail .actions {
 }
 
 section.article-detail .snapshot {
+  width: 100%;
   background-color: #f5f5f5;
   border: 1px solid #c8c8c8;
 }
@@ -1032,6 +1033,10 @@ section.article-detail .snapshot .column-3 {
   section.article-detail .snapshot .column-3 .btn {
     width: 100%;
   }
+}
+
+section.article-detail .detail {
+  width: 100%;
 }
 
 section.article-detail .detail td {

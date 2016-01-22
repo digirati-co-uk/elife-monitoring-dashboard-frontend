@@ -120,6 +120,7 @@ section {
     }
 
     .snapshot {
+      width: 100%;
       background-color: $LightGrey6;
       border: 1px solid $LightGrey5;
 
@@ -223,7 +224,7 @@ section {
     }
 
     .detail {
-
+      width: 100%;
       td {
         padding-bottom: 15px;
         padding-top: 15px;

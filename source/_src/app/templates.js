@@ -393,9 +393,9 @@ this["eLife"]["templates"]["detail/article"] = Handlebars.template({"1":function
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, alias1=depth0 != null ? depth0 : {};
 
-  return "<div class=\"col-md-4\">\n\n    <section class=\"article-version-map\">\n        <ol class=\"article-version-map-list\">\n"
+  return "<div class=\"col-md-3\">\n\n    <section class=\"article-version-map\">\n        <ol class=\"article-version-map-list\">\n"
     + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.versions : stack1),{"name":"each","hash":{},"fn":container.program(1, data, 1, blockParams, depths),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
-    + "        </ol>\n    </section>\n\n</div>\n<div class=\"col-md-8\">\n\n\n"
+    + "        </ol>\n    </section>\n\n</div>\n<div class=\"col-md-9\">\n\n\n"
     + ((stack1 = container.invokePartial(partials["article-detail"],depth0,{"name":"article-detail","hash":{"section":(depth0 != null ? depth0.articleDetail : depth0)},"data":data,"blockParams":blockParams,"indent":"    ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "    <section class=\"article-version-history\">\n        <ol class=\"article-version-history-list\">\n"
     + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.currentEvents : depth0)) != null ? stack1.events : stack1),{"name":"each","hash":{},"fn":container.program(10, data, 1, blockParams, depths),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
