@@ -1,4 +1,4 @@
-/*! eLife - v0.0.1 - 2016-01-21
+/*! eLife - v0.0.1 - 2016-01-22
 * https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend
 * Copyright (c) 2016 eLife; Licensed  */
 this["eLife"] = this["eLife"] || {};
@@ -338,28 +338,34 @@ this["eLife"]["templates"]["current/error-queue-articles"] = Handlebars.template
 this["eLife"]["templates"]["detail/article"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {};
 
-  return "            <li>\n                <span class=\"version\">Version "
-    + container.escapeExpression(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"key","hash":{},"data":data}) : helper)))
-    + "</span>\n                <ol class=\"run\">\n"
-    + ((stack1 = helpers.each.call(alias1,((stack1 = blockParams[0][0]) != null ? stack1.runs : stack1),{"name":"each","hash":{},"fn":container.program(2, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+  return "            <li>\n                <span class=\"version-container\">\n                    <span class=\"version\">Version "
+    + container.escapeExpression(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"key","hash":{},"data":data,"blockParams":blockParams}) : helper)))
+    + "</span>\n                    <span class=\"status\"><span class=\"glyphicon reset-article-status-type "
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = ((stack1 = blockParams[0][0]) != null ? stack1.details : stack1)) != null ? stack1.status : stack1),{"name":"if","hash":{},"fn":container.program(2, data, 0, blockParams),"inverse":container.program(4, data, 0, blockParams),"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + " \"></span></span>\n                </span>\n                <ol class=\"run-container\">\n"
+    + ((stack1 = helpers.each.call(alias1,((stack1 = blockParams[0][0]) != null ? stack1.runs : stack1),{"name":"each","hash":{},"fn":container.program(6, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "                </ol>\n\n            </li>\n";
-},"2":function(container,depth0,helpers,partials,data) {
+},"2":function(container,depth0,helpers,partials,data,blockParams) {
+    var stack1;
+
+  return container.escapeExpression((helpers.lowercase || (depth0 && depth0.lowercase) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = ((stack1 = blockParams[1][0]) != null ? stack1.details : stack1)) != null ? stack1.status : stack1),{"name":"lowercase","hash":{},"data":data,"blockParams":blockParams}));
+},"4":function(container,depth0,helpers,partials,data) {
+    return "no-article-status-type";
+},"6":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "                        <li data-run=\""
     + alias4(((helper = (helper = helpers["run-number"] || (depth0 != null ? depth0["run-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-number","hash":{},"data":data}) : helper)))
     + "\"  data-version=\""
     + alias4(((helper = (helper = helpers["version-number"] || (depth0 != null ? depth0["version-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version-number","hash":{},"data":data}) : helper)))
-    + "\">\n                            <a href=\"#\">"
+    + "\" class=\"run\">\n                            <a href=\"#\">\n                                "
     + alias4(((helper = (helper = helpers.currentArticle || (depth0 != null ? depth0.currentArticle : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"currentArticle","hash":{},"data":data}) : helper)))
-    + "\n                                <span>Run "
+    + "\n                                <span class=\"title\">Run "
     + alias4(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"key","hash":{},"data":data}) : helper)))
-    + "</span>\n                                <span>"
-    + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["first-event-timestamp"] : depth0),"Do MMMM YYYY",{"name":"elFormatUnixDate","hash":{},"data":data}))
-    + "</span>\n                                <span>"
-    + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["first-event-timestamp"] : depth0),"HH:mm",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + "</span>\n                                <span class=\"date\">"
+    + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["first-event-timestamp"] : depth0),"MM/DD/YYYY HH:mm",{"name":"elFormatUnixDate","hash":{},"data":data}))
     + "</span>\n                            </a>\n                        </li>\n";
-},"4":function(container,depth0,helpers,partials,data) {
+},"8":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "            <li>\n                <div class=\"column-1\">\n                    <span class=\"glyphicon glyphicon-ok "
@@ -380,7 +386,7 @@ this["eLife"]["templates"]["detail/article"] = Handlebars.template({"1":function
     + "<section class=\"article-version-map col-sm-4 col-md-4\">\n    <ol class=\"article-version-map-list\">\n"
     + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.versions : stack1),{"name":"each","hash":{},"fn":container.program(1, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "    </ol>\n</section>\n<section class=\"article-version-history col-sm-8 col-md-8\">\n    <ol class=\"article-version-history-list\">\n"
-    + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.currentEvents : depth0)) != null ? stack1.events : stack1),{"name":"each","hash":{},"fn":container.program(4, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.currentEvents : depth0)) != null ? stack1.events : stack1),{"name":"each","hash":{},"fn":container.program(8, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "    </ol>\n</section>";
 },"usePartial":true,"useData":true,"useBlockParams":true});
 

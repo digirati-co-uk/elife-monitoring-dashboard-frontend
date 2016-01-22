@@ -323,6 +323,10 @@ a:hover {
   padding: 2px 5px 5px;
 }
 
+.reset-article-status-type {
+  float: none;
+}
+
 /*------------------------------------*    $BUTTONS
 \*------------------------------------*/
 .btn-grey {
@@ -370,7 +374,109 @@ a:hover {
   vertical-align: text-bottom;
 }
 
+.article-version-map-list,
+.article-version-map-list.run-container {
+  list-style: none;
+}
+
+.article-version-map-list ul, .article-version-map-list li, .article-version-map-list ol,
+.article-version-map-list.run-container ul,
+.article-version-map-list.run-container li,
+.article-version-map-list.run-container ol {
+  list-style: none;
+}
+
 .article-version-map-list {
+  background-color: #f5f5f5;
+  border: 1px solid #c8c8c8;
+}
+
+.article-version-map-list li .version-container {
+  background-color: #c8c8c8;
+  border-top: 1px solid #c8c8c8;
+  border-bottom: 1px solid #c8c8c8;
+}
+
+.article-version-map-list li:first-child .version-container {
+  border-top: 0px;
+}
+
+.article-version-map-list .run-container li a {
+  border-bottom: 1px solid #c8c8c8;
+}
+
+.article-version-map-list .run-container li a:hover {
+  background-color: #d5d5d5;
+}
+
+.article-version-map-list .run-container li:last-of-type a {
+  border-bottom: 0px;
+}
+
+.article-version-map-list .run-container li:nth-child(even) a {
+  background-color: #ececec;
+}
+
+.article-version-map-list .run-container li:nth-child(even) a:hover {
+  background-color: #d5d5d5;
+}
+
+.article-version-map-list .run-container .run a {
+  text-decoration: none;
+  color: #333;
+}
+
+.article-version-map-list .run-container .run .date {
+  font-size: 1.1rem;
+  color: #7a7a7a;
+}
+
+.article-version-map-list .version-container,
+.article-version-map-list .run-container .run a {
+  display: block;
+  width: 100%;
+  padding: 5px 10px;
+}
+
+.article-version-map-list .version-container .version,
+.article-version-map-list .version-container .status,
+.article-version-map-list .run-container .run span {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.article-version-map-list .version-container,
+.article-version-map-list .run-container .run a {
+  display: table;
+}
+
+.article-version-map-list .version-container {
+  display: table;
+}
+
+.article-version-map-list .version-container .version {
+  width: 80%;
+}
+
+.article-version-map-list .version-container .status {
+  width: 20%;
+  text-align: right;
+}
+
+.article-version-map-list .run-container .run .title {
+  width: 70%;
+}
+
+.article-version-map-list .run-container .run .date {
+  width: 30%;
+  text-align: right;
+}
+
+.article-version-map-list .glyphicon {
+  top: -3px;
+}
+
+.article-version-map-list-old {
   border: 1px solid #c8c8c8;
   list-style-type: none;
   margin: 0;
@@ -378,47 +484,47 @@ a:hover {
   width: 25%;
 }
 
-.article-version-map-list li {
+.article-version-map-list-old li {
   border-top: 1px solid #c8c8c8;
 }
 
-.article-version-map-list li:first-child {
+.article-version-map-list-old li:first-child {
   border-top: 0;
 }
 
-.article-version-map-list li .version {
+.article-version-map-list-old li .version {
   border-bottom: 1px solid #c8c8c8;
   display: block;
   padding: 10px 15px;
 }
 
-.article-version-map-list li .run {
+.article-version-map-list-old li .run {
   list-style: none;
   padding: 0;
 }
 
-.article-version-map-list li .run a {
+.article-version-map-list-old li .run a {
   display: table;
   padding: 10px 15px 10px 30px;
   text-decoration: none;
   width: 100%;
 }
 
-.article-version-map-list li .run a:hover {
+.article-version-map-list-old li .run a:hover {
   background-color: #d1d1d1;
 }
 
-.article-version-map-list li .run a span {
+.article-version-map-list-old li .run a span {
   color: #333;
   display: table-cell;
 }
 
-.article-version-map-list li .run a span:last-child {
+.article-version-map-list-old li .run a span:last-child {
   text-align: right;
   width: 20%;
 }
 
-.article-version-map-list li .run a span:first-child {
+.article-version-map-list-old li .run a span:first-child {
   text-align: left;
   width: 30%;
 }
