@@ -401,24 +401,32 @@ a:hover {
   border-top: 0px;
 }
 
-.article-version-map-list .run-container li a {
-  border-bottom: 1px solid #c8c8c8;
-}
-
-.article-version-map-list .run-container li a:hover {
-  background-color: #d5d5d5;
-}
-
 .article-version-map-list .run-container li:last-of-type a {
   border-bottom: 0px;
 }
 
-.article-version-map-list .run-container li:nth-child(even) a {
+.article-version-map-list .run-container li:nth-child(even) {
   background-color: #ececec;
 }
 
-.article-version-map-list .run-container li:nth-child(even) a:hover {
+.article-version-map-list .run-container li:hover, .article-version-map-list .run-container li.active {
   background-color: #d5d5d5;
+}
+
+.article-version-map-list .run-container li:hover .icon, .article-version-map-list .run-container li.active .icon {
+  color: #333;
+}
+
+.article-version-map-list .run-container li.active {
+  background-color: #cde1f1;
+}
+
+.article-version-map-list .run-container li.active .icon {
+  color: #333;
+}
+
+.article-version-map-list .run-container li a {
+  border-bottom: 1px solid #c8c8c8;
 }
 
 .article-version-map-list .run-container .run a {
@@ -431,6 +439,11 @@ a:hover {
   color: #7a7a7a;
 }
 
+.article-version-map-list .run-container .run .icon {
+  font-size: 1.2rem;
+  color: #7a7a7a;
+}
+
 .article-version-map-list .version-container,
 .article-version-map-list .run-container .run a {
   display: block;
@@ -440,7 +453,7 @@ a:hover {
 
 .article-version-map-list .version-container .version,
 .article-version-map-list .version-container .status,
-.article-version-map-list .run-container .run span {
+.article-version-map-list .run-container .run a > span {
   display: table-cell;
   vertical-align: middle;
 }
@@ -461,19 +474,25 @@ a:hover {
 .article-version-map-list .version-container .status {
   width: 20%;
   text-align: right;
+  vertical-align: middle;
+}
+
+.article-version-map-list .version-container .glyphicon {
+  top: -3px;
 }
 
 .article-version-map-list .run-container .run .title {
-  width: 70%;
+  width: 55%;
 }
 
 .article-version-map-list .run-container .run .date {
-  width: 30%;
+  width: 35%;
   text-align: right;
 }
 
-.article-version-map-list .glyphicon {
-  top: -3px;
+.article-version-map-list .run-container .run .icon {
+  width: 10%;
+  text-align: right;
 }
 
 .article-version-map-list-old {

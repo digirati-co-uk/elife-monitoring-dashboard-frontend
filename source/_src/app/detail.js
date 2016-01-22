@@ -23,7 +23,7 @@ app.detail = {
    * Bind events
    */
   bindEvents: function() {
-    $('#article', '.detail-page').on('click', '.article-version-map-list .run li', this.updateRun.bind(this));
+    $('#article', '.detail-page').on('click', '.article-version-map-list .run-container .run a', this.updateRun.bind(this));
   },
 
   /**
@@ -66,8 +66,8 @@ app.detail = {
             article: this.article,
             currentArticle: this.currentArticle,
             currentEvents: this.currentEvents,
-            version: this.version,
-            run: this.run,
+            currentVersion: this.version,
+            currentRun: this.run,
           }));
     }
   },

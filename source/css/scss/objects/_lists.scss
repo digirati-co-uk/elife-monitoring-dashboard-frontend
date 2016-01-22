@@ -22,20 +22,32 @@
     border-top: 0px;
   }
 
-  .run-container li a {
-    border-bottom: 1px solid $LightGrey5;
-    &:hover {
-      background-color: lighten($LightGrey5, 5%);
-    }
-  }
   .run-container li:last-of-type a {
     border-bottom: 0px;
   }
 
-  .run-container li:nth-child(even) a {
-    background-color: lighten($LightGrey5, 14%);
-    &:hover {
+  .run-container li {
+    &:nth-child(even) {
+      background-color: lighten($LightGrey5, 14%);
+    }
+
+    &:hover,
+    &.active {
       background-color: lighten($LightGrey5, 5%);
+      .icon {
+        color: $Black1
+      }
+    }
+
+    &.active {
+      background-color: lighten($Blue, 35%);
+      .icon {
+        color: $Black1
+      }
+    }
+
+    a {
+      border-bottom: 1px solid $LightGrey5;
     }
   }
 
@@ -48,6 +60,11 @@
 
     .date {
       font-size: 1.1rem;
+      color: $Black3;
+    }
+
+    .icon {
+      font-size: 1.2rem;
       color: $Black3;
     }
   }
@@ -64,7 +81,7 @@
   //align items
   .version-container .version,
   .version-container .status,
-  .run-container .run span {
+  .run-container .run a > span {
     display: table-cell;
     vertical-align: middle;
   }
@@ -83,22 +100,30 @@
     .status {
       width: 20%;
       text-align: right;
+      vertical-align: middle;
+    }
+
+    .glyphicon {
+      top: -3px;
     }
   }
 
   .run-container .run {
     .title {
-      width: 70%;
+      width: 55%;
     }
+
     .date {
-      width: 30%;
+      width: 35%;
+      text-align: right;
+    }
+
+    .icon {
+      width: 10%;
       text-align: right;
     }
   }
 
-  .glyphicon {
-    top: -3px;
-  }
 }
 
 .article-version-map-list-old {
