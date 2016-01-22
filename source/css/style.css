@@ -918,6 +918,11 @@ section.article-detail dd {
   width: 50%;
 }
 
+section.article-detail .actions {
+  text-align: right;
+  padding-bottom: 15px;
+}
+
 section.article-detail .snapshot {
   background-color: #f5f5f5;
   border: 1px solid #c8c8c8;

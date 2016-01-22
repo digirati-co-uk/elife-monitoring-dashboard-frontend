@@ -3,8 +3,7 @@
     <section class="article-version-map">
         <ol class="article-version-map-list">
             {{#each article.versions as |versions|}}
-                <li >
-
+                <li>
                 <span class="version-container">
                     <span class="version">Version {{@key}}</span>
                     <span class="status"><span
@@ -12,13 +11,7 @@
                 </span>
                     <ol class="run-container">
                         {{#each versions.runs as |runs| }}
-                            <li data-run="{{run-number}}" data-version="{{version-number}}" class="run
-                            {{#is version-number ../../currentVersion}}
-                                {{#is run-number ../../currentRun}}
-                                            active
-                                        {{/is}}
-                            {{/is}}
-                            ">
+                            <li data-run="{{run-number}}" data-version="{{version-number}}" class="run {{#is version-number ../../currentVersion}}{{#is run-number ../../currentRun}}active{{/is}}{{/is}}">
                                 <a href="#">
                                     {{currentArticle}}
                                     <span class="title">Run {{@key}}</span>

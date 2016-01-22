@@ -129,9 +129,9 @@ Handlebars.registerPartial("article-publish-modal", Handlebars.template({"compil
 },"useData":true}));
 
 Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    return "                    <button class=\"btn btn-default hide\">\n                        <span class=\"glyphicon glyphicon-calendar\"></span>\n                        Re-Schedule\n                    </button>\n                    <button class=\"btn btn-default hide\">\n                        <span class=\"glyphicon glyphicon-calendar\"></span>\n                        Cancel Schedule\n                    </button>\n";
+    return "            <button class=\"btn btn-default\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Re-Schedule\n            </button>\n            <button class=\"btn btn-default\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Cancel Schedule\n            </button>\n";
 },"3":function(container,depth0,helpers,partials,data) {
-    return "                    <button class=\"btn btn-default\">\n                        <span class=\"glyphicon glyphicon-eye-open\"></span>\n                        Preview\n                    </button>\n                    <button class=\"btn btn-default\">\n                        <span class=\"glyphicon glyphicon-globe\"></span>\n                        Publish Now\n                    </button>\n                    <button class=\"btn btn-default\">\n                        <span class=\"glyphicon glyphicon-calendar\"></span>\n                        Schedule\n                    </button>\n";
+    return "            <button class=\"btn btn-default\">\n                <span class=\"glyphicon glyphicon-eye-open\"></span>\n                Preview\n            </button>\n            <button class=\"btn btn-default\">\n                <span class=\"glyphicon glyphicon-globe\"></span>\n                Publish Now\n            </button>\n            <button class=\"btn btn-default\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Schedule\n            </button>\n";
 },"5":function(container,depth0,helpers,partials,data) {
     var stack1;
 
@@ -159,9 +159,9 @@ Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(c
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=container.lambda, alias3=container.escapeExpression, alias4=helpers.helperMissing, alias5="function";
 
-  return "<section class=\"article-detail\">\n    <table class=\"actions\">\n        <tr>\n            <td class=\"column-1\">\n"
+  return "<section class=\"article-detail\">\n    <div class=\"actions \">\n"
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["scheduled-publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
-    + "            </td>\n        </tr>\n    </table>\n    <table class=\"snapshot\">\n        <tr>\n            <td class=\"column-1\">\n                <span class=\"glyphicon glyphicon-file "
+    + "    </div>\n    <table class=\"snapshot\">\n        <tr>\n            <td class=\"column-1\">\n                <span class=\"glyphicon glyphicon-file "
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.status : stack1),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.program(7, data, 0),"data":data})) != null ? stack1 : "")
     + "\"></span>\n                <h6>"
     + alias3(alias2(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.doi : stack1), depth0))
@@ -341,7 +341,7 @@ this["eLife"]["templates"]["current/error-queue-articles"] = Handlebars.template
 this["eLife"]["templates"]["detail/article"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {};
 
-  return "                <li >\n\n                <span class=\"version-container\">\n                    <span class=\"version\">Version "
+  return "                <li>\n                <span class=\"version-container\">\n                    <span class=\"version\">Version "
     + container.escapeExpression(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"key","hash":{},"data":data,"blockParams":blockParams}) : helper)))
     + "</span>\n                    <span class=\"status\"><span\n                            class=\"glyphicon reset-article-status-type "
     + ((stack1 = helpers["if"].call(alias1,((stack1 = ((stack1 = blockParams[0][0]) != null ? stack1.details : stack1)) != null ? stack1.status : stack1),{"name":"if","hash":{},"fn":container.program(2, data, 0, blockParams, depths),"inverse":container.program(4, data, 0, blockParams, depths),"data":data,"blockParams":blockParams})) != null ? stack1 : "")
@@ -361,9 +361,9 @@ this["eLife"]["templates"]["detail/article"] = Handlebars.template({"1":function
     + alias4(((helper = (helper = helpers["run-number"] || (depth0 != null ? depth0["run-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-number","hash":{},"data":data}) : helper)))
     + "\" data-version=\""
     + alias4(((helper = (helper = helpers["version-number"] || (depth0 != null ? depth0["version-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version-number","hash":{},"data":data}) : helper)))
-    + "\" class=\"run\n"
+    + "\" class=\"run "
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["version-number"] : depth0),(depths[2] != null ? depths[2].currentVersion : depths[2]),{"name":"is","hash":{},"fn":container.program(7, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "                            \">\n                                <a href=\"#\">\n                                    "
+    + "\">\n                                <a href=\"#\">\n                                    "
     + alias4(((helper = (helper = helpers.currentArticle || (depth0 != null ? depth0.currentArticle : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"currentArticle","hash":{},"data":data}) : helper)))
     + "\n                                    <span class=\"title\">Run "
     + alias4(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"key","hash":{},"data":data}) : helper)))
@@ -375,7 +375,7 @@ this["eLife"]["templates"]["detail/article"] = Handlebars.template({"1":function
 
   return ((stack1 = (helpers.is || (depth0 && depth0.is) || helpers.helperMissing).call(depth0 != null ? depth0 : {},(depth0 != null ? depth0["run-number"] : depth0),(depths[2] != null ? depths[2].currentRun : depths[2]),{"name":"is","hash":{},"fn":container.program(8, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"8":function(container,depth0,helpers,partials,data) {
-    return "                                            active\n";
+    return "active";
 },"10":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
