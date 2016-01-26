@@ -1,59 +1,7 @@
 <div class="col-md-3">
-
-    <section class="article-version-map">
-        <ol class="article-version-map-list">
-            {{#each article.versions as |versions|}}
-                <li>
-                <span class="version-container">
-                    <span class="version">Version {{@key}}</span>
-                    <span class="status"><span
-                            class="glyphicon reset-article-status-type {{#if versions.details.status}}{{lowercase versions.details.status }}{{else}}no-article-status-type{{/if}} "></span></span>
-                </span>
-                    <ol class="run-container">
-                        {{#each versions.runs as |runs| }}
-                            <li data-run="{{run-number}}" data-version="{{version-number}}" class="run {{#is version-number ../../currentVersion}}{{#is run-number ../../currentRun}}active{{/is}}{{/is}}">
-                                <a href="#">
-                                    {{currentArticle}}
-                                    <span class="title">Run {{@key}}</span>
-                                    <span class="date">{{elFormatUnixDate first-event-timestamp "MM/DD/YYYY HH:mm" }}</span>
-                                    <span class="icon"><span class="glyphicon glyphicon-chevron-right"></span></span>
-                                </a>
-                            </li>
-                        {{/each}}
-                    </ol>
-
-                </li>
-            {{/each}}
-        </ol>
-    </section>
-
+    {{> article-version-list }}
 </div>
 <div class="col-md-9">
-
-
     {{> article-detail section=articleDetail }}
-    <section class="article-version-history">
-        <ol class="article-version-history-list">
-            {{#each currentEvents.events as |events|}}
-                <li>
-                    <div class="column-1">
-                        <span class="glyphicon glyphicon-ok {{event-status}} glyphicon-ok--mod pull-left"></span>
-                        <span>{{event-type}}</span>
-                    </div>
-                    <div class="column-2">
-                        <dl>
-                            <dt><i>Timestamp:</i></dt>
-                            <dd class="divide">{{elFormatUnixDate event-timestamp "MM/DD/YYYY" }}</dd>
-                            <dd class="divide">{{elFormatUnixDate event-timestamp "HH:mm" }}</dd>
-                        </dl>
-                        <dl>
-                            <dt><i>Message:</i></dt>
-                            <dd>{{event-message}}</dd>
-                        </dl>
-                    </div>
-                </li>
-            {{/each}}
-        </ol>
-    </section>
-
+    {{> article-version-history }}
 </div>

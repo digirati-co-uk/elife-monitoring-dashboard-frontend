@@ -482,11 +482,11 @@ a:hover {
 }
 
 .article-version-map-list .run-container .run .title {
-  width: 50%;
+  width: 40%;
 }
 
 .article-version-map-list .run-container .run .date {
-  width: 40%;
+  width: 50%;
   text-align: right;
 }
 
