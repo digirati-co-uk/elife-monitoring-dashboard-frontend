@@ -167,6 +167,12 @@ Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(c
   return "                        <dt><i>Corresponding authors:</i></dt>\n                        <dd>"
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["corresponding-authors"] : stack1), depth0))
     + "</dd>\n";
+},"15":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "                        <dt><i>Authors:</i></dt>\n                        <dd>"
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.authors : stack1), depth0))
+    + "</dd>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=container.lambda, alias3=container.escapeExpression, alias4=helpers.helperMissing, alias5="function";
 
@@ -186,6 +192,7 @@ Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(c
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["article-type"] : stack1),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["corresponding-authors"] : stack1),{"name":"if","hash":{},"fn":container.program(13, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.authors : stack1),{"name":"if","hash":{},"fn":container.program(15, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "                </dl>\n            </td>\n        </tr>\n    </table>\n</section>";
 },"useData":true}));
 
@@ -538,6 +545,17 @@ app.utils = {
         .value();
   },
 };
+'use strict';
+/**
+ * This
+ * @type {{init: app.publish.init, bindEvents: app.publish.bindEvents, renderArticles: app.publish.renderArticles, sortArticles: app.publish.sortArticles, toggleAddToQueueBtn: app.publish.toggleAddToQueueBtn, publishQueued: app.publish.publishQueued, publish: app.publish.publish, initModal: app.publish.initModal, populateQueue: app.publish.populateQueue, displayQueueList: app.publish.displayQueueList, updateQueueListStatus: app.publish.updateQueueListStatus, refreshPage: app.publish.refreshPage, resetModalButtons: app.publish.resetModalButtons, performPublish: app.publish.performPublish, queueArticles: app.publish.queueArticles, checkArticleStatus: app.publish.checkArticleStatus}}
+ */
+app.publish = {
+
+
+
+};
+
 'use strict';
 
 app.current = {

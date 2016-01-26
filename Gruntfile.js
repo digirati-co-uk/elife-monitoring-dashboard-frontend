@@ -44,6 +44,7 @@ module.exports = function(grunt) {
             'source/_src/app/config-dev.js',
             'source/_src/app/init.js',
             'source/_src/app/utils.js',
+            'source/_src/app/publish.js',
             'source/_src/app/current.js',
             'source/_src/app/detail.js',
             'source/_src/app/archive.js',
