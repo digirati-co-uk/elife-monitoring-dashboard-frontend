@@ -11,8 +11,7 @@ app.detail = {
       this.currentArticle = [];
       this.version = '';
       this.run = '';
-      var queryString = window.location.search;
-      var queryParams = app.utils.getQueryParams(queryString);
+      var queryParams = this.getArticleParams();
       Swag.registerHelpers(Handlebars);
       this.getArticle(queryParams);
       this.bindEvents();
@@ -31,10 +30,14 @@ app.detail = {
    * @param queryParams
    */
   getArticle: function(queryParams) {
-    if (_.has(queryParams, 'articleId')) {
-      var articleId = queryParams.articleId;
+    var url;
+    var message;
+    if (!_.isUndefined(queryParams.articleId)) {
+      url = queryParams.articleId;
+      url = (!_.isUndefined(queryParams.versionNumber)) ? url + '/' + queryParams.versionNumber : url;
+      url = (!_.isUndefined(queryParams.runNumber)) ? url + '/' + queryParams.runNumber : url;
       $.ajax({
-        url: app.API + 'api/article/' + articleId,
+        url: app.API + 'api/article/' + url,
         cache: false,
         dataType: 'json',
         success: function(article) {
@@ -52,7 +55,8 @@ app.detail = {
       });
     } else {
       this.errorTemplate = eLife.templates['error-render'];
-      $('#article').empty().html(this.errorTemplate());
+      message = 'No ArticleId was supplied. <br /><br />';
+      $('#article').empty().html(this.errorTemplate({message: message}));
     }
   },
   /**
@@ -110,6 +114,37 @@ app.detail = {
     this.renderArticle();
   },
 
+  /**
+   * Get information from the url for the article ID
+   * expected format
+   * article/articleId/version/run
+   */
+  getArticleParams: function() {
+    var queryParams = {};
+    var articleId;
+    var versionNumber;
+    var runNumber;
+    var url;
+    if (app.config.ISPP) {
+      articleId = '00387';
+      versionNumber = '1';
+      runNumber = '1';
+    } else {
+      url = window.location.pathname.split('/');
+      url = _.compact(url);
+      articleId = url[1];
+      versionNumber = url[2];
+      runNumber = url[3];
+    }
+
+    queryParams = {
+      articleId: articleId,
+      versionNumber: versionNumber,
+      runNumber: runNumber,
+    };
+
+    return queryParams;
+  },
 };
 
 app.detail.init();

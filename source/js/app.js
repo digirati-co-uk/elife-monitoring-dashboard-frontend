@@ -1,4 +1,4 @@
-/*! eLife - v0.0.1 - 2016-01-22
+/*! eLife - v0.0.1 - 
 * https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend
 * Copyright (c) 2016 eLife; Licensed  */
 this["eLife"] = this["eLife"] || {};
@@ -406,13 +406,15 @@ this["eLife"]["templates"]["detail/article"] = Handlebars.template({"1":function
 },"usePartial":true,"useData":true,"useDepths":true,"useBlockParams":true});
 
 this["eLife"]["templates"]["error-render"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "<section>\n    <p class=\"lead\"><strong>"
     + alias4(((helper = (helper = helpers.status || (depth0 != null ? depth0.status : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"status","hash":{},"data":data}) : helper)))
     + " "
     + alias4(((helper = (helper = helpers.statusText || (depth0 != null ? depth0.statusText : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"statusText","hash":{},"data":data}) : helper)))
-    + "</strong></p>\n    <p>Sorry an error occurred while retrieving the requested information.</p>\n    <br />\n</section>";
+    + "</strong></p>\n    <p>Sorry an error occurred while retrieving the requested information.</p>\n    <br />\n    <p>"
+    + ((stack1 = ((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"message","hash":{},"data":data}) : helper))) != null ? stack1 : "")
+    + "</p>\n    <br />\n</section>";
 },"useData":true});
 
 this["eLife"]["templates"]["loading-template"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -446,6 +448,7 @@ Handlebars.registerHelper('elFormatUnixDate', function(date, format) {
 
 var config = {
   API: '/',
+  ISPP: false,
 };
 
 
@@ -454,6 +457,7 @@ var config = {
 var app = {
   ESCAPE_KEY: 27,
   API: config.API,
+  config: config,
 };
 
 
@@ -827,8 +831,7 @@ app.detail = {
       this.currentArticle = [];
       this.version = '';
       this.run = '';
-      var queryString = window.location.search;
-      var queryParams = app.utils.getQueryParams(queryString);
+      var queryParams = this.getArticleParams();
       Swag.registerHelpers(Handlebars);
       this.getArticle(queryParams);
       this.bindEvents();
@@ -847,10 +850,14 @@ app.detail = {
    * @param queryParams
    */
   getArticle: function(queryParams) {
-    if (_.has(queryParams, 'articleId')) {
-      var articleId = queryParams.articleId;
+    var url;
+    var message;
+    if (!_.isUndefined(queryParams.articleId)) {
+      url = queryParams.articleId;
+      url = (!_.isUndefined(queryParams.versionNumber)) ? url + '/' + queryParams.versionNumber : url;
+      url = (!_.isUndefined(queryParams.runNumber)) ? url + '/' + queryParams.runNumber : url;
       $.ajax({
-        url: app.API + 'api/article/' + articleId,
+        url: app.API + 'api/article/' + url,
         cache: false,
         dataType: 'json',
         success: function(article) {
@@ -868,7 +875,8 @@ app.detail = {
       });
     } else {
       this.errorTemplate = eLife.templates['error-render'];
-      $('#article').empty().html(this.errorTemplate());
+      message = 'No ArticleId was supplied. <br /><br />';
+      $('#article').empty().html(this.errorTemplate({message: message}));
     }
   },
   /**
@@ -926,6 +934,37 @@ app.detail = {
     this.renderArticle();
   },
 
+  /**
+   * Get information from the url for the article ID
+   * expected format
+   * article/articleId/version/run
+   */
+  getArticleParams: function() {
+    var queryParams = {};
+    var articleId;
+    var versionNumber;
+    var runNumber;
+    var url;
+    if (app.config.ISPP) {
+      articleId = '00387';
+      versionNumber = '1';
+      runNumber = '1';
+    } else {
+      url = window.location.pathname.split('/');
+      url = _.compact(url);
+      articleId = url[1];
+      versionNumber = url[2];
+      runNumber = url[3];
+    }
+
+    queryParams = {
+      articleId: articleId,
+      versionNumber: versionNumber,
+      runNumber: runNumber,
+    };
+
+    return queryParams;
+  },
 };
 
 app.detail.init();

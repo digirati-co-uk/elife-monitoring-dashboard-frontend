@@ -2,5 +2,6 @@
 
 var config = {
   API: '/',
+  ISPP: false,
 };
 
