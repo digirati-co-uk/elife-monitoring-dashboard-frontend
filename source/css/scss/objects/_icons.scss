@@ -1,83 +1,4 @@
-.glyph-header {
-  border-radius: 50%;
-  font-size: 2rem;
-  padding: 15px;
-}
-
-.glyphicon-warning-sign--mod {
-
-  @extend .glyph-header;
-
-  background-color: $Pink;
-  color: $Pink-txt;
-  padding: 13px 15px 17px;
-}
-
-.glyphicon-cog--mod {
-
-  @extend .glyph-header;
-
-  background-color: $Teal;
-  color: $Teal-txt;
-}
-
-.glyphicon-hand-down--mod {
-
-  @extend .glyph-header;
-
-  background-color: $LightGrey2;
-  color: $LightGrey2-txt;
-  padding: 16px 14px 14px 16px;
-}
-
-.glyphicon-time--mod {
-
-  @extend .glyph-header;
-
-  background-color: $Orange;
-  color: $Orange-txt;
-}
-
-.glyphicon-ok--mod {
-
-  @extend .glyph-header;
-
-  background-color: $Green;
-  color: $Green-txt;
-  padding: 15px;
-}
-
-.glyph-status {
-  border-radius: 50%;
-  margin-left: 5px;
-  padding: 5px;
-}
-
-.glyphicon-remove--stat {
-
-  @extend .glyph-status;
-
-  background-color: $Pink;
-  color: $Pink-txt;
-}
-
-.glyphicon-ok--stat {
-
-  @extend .glyph-status;
-
-  background-color: $Green;
-  color: $Green-txt;
-}
-
-.glyphicon-warning-sign--stat {
-
-  @extend .glyph-status;
-
-  background-color: $Orange;
-  color: $Orange-txt;
-  font-size: 1.1rem;
-  padding: 5px 6px 7px;
-}
+// Status icons - VOR/POA
 
 .poa {
   float: left;
@@ -154,5 +75,54 @@
 
 .reset-article-status-type {
   float: none;
+}
 
+
+// Icons - glyphicons in circles
+
+.e-icon {
+  // large
+  &.lg {
+    border-radius: 50%;
+    font-size: 2rem;
+    padding: 15px;
+  }
+  // medium
+  &.md {
+    border-radius: 50%;
+    font-size: 2rem;
+    padding: 15px;
+  }
+  // small
+  &.sm {
+    border-radius: 50%;
+    margin-left: 5px;
+    padding: 5px;
+  }
+
+  // green
+  &.success {
+    background-color: $Green;
+    color: $Green-txt;
+  }
+  // red
+  &.danger {
+    background-color: $Pink;
+    color: $Pink-txt;
+  }
+  // orange
+  &.warning {
+    background-color: $Orange;
+    color: $Orange-txt;
+  }
+  // blue
+  &.info {
+    background-color: $Teal;
+    color: $Teal-txt;
+  }
+  // grey
+  &.muted {
+    background-color: $LightGrey2;
+    color: $LightGrey2-txt;
+  }
 }

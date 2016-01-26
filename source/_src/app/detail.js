@@ -23,6 +23,8 @@ app.detail = {
    */
   bindEvents: function() {
     $('#article', '.detail-page').on('click', '.article-version-map-list .run-container .run a', this.updateRun.bind(this));
+
+    $('#article', '.detail-page').on('click', '.btn-publish', this.publish.bind(this));
   },
 
   /**
@@ -145,6 +147,18 @@ app.detail = {
 
     return queryParams;
   },
+
+  /**
+   * When 'Publish now' clicked
+   * Launch publish modal and update the list of queued items.
+   * @param e
+   */
+  publish: function(e) {
+    app.publish.initModal(false);
+    app.publish.populateQueue($(e.target), true);
+    app.publish.displayQueueList();
+  },
+
 };
 
 app.detail.init();

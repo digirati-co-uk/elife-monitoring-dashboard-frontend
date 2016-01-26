@@ -2,8 +2,16 @@
     <ol class="article-version-history-list">
         {{#each currentEvents.events as |events|}}
             <li>
-                <div class="column-1">
-                    <span class="glyphicon glyphicon-ok {{event-status}} glyphicon-ok--mod pull-left"></span>
+                <div class="column-1 {{event-status}}">
+                    {{#is event-status 'start'}}
+                        <span class="glyphicon e-icon lg warning glyphicon-exclamation-sign  pull-left" title="{{event-status}}"></span>
+                    {{/is}}
+                    {{#is event-status 'end'}}
+                        <span class="glyphicon e-icon lg success glyphicon-ok  pull-left" title="{{event-status}}"></span>
+                    {{/is}}
+                    {{#is event-status 'error'}}
+                        <span class="glyphicon e-icon lg danger glyphicon-remove  pull-left" title="{{event-status}}"></span>
+                    {{/is}}
                     <span>{{event-type}}</span>
                 </div>
                 <div class="column-2">

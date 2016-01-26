@@ -1,3 +1,4 @@
+{{> article-publish-modal}}
 <section class="article-detail">
     <div class="actions ">
         {{#if currentArticle.scheduled-publication-date}}
@@ -14,7 +15,11 @@
                 <span class="glyphicon glyphicon-eye-open"></span>
                 Preview
             </a>
-            <button class="btn btn-default">
+            <button class="btn btn-default publish btn-publish" data-toggle="modal" data-target="#publish-modal" type="button"
+                    data-article-title="{{ currentArticle.doi }}"
+                    data-article-id="{{ article.id }}"
+                    data-article-version="{{ currentVersion }}"
+                    data-article-run="{{ currentRun }}">
                 <span class="glyphicon glyphicon-globe"></span>
                 Publish Now
             </button>
