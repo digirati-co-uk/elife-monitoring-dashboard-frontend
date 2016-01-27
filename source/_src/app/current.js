@@ -23,9 +23,8 @@ app.current = {
     $('#articles', '.current-page').on('click', '.btn-publish-queued', this.publishQueued.bind(this));
     $('#articles', '.current-page').on('click', '.btn-publish', this.publish.bind(this));
 
-    //$('#articles', '.current-page').on('click', '#publish-action', this.performPublish.bind(this));
-
   },
+
   /**
    * Fetch articles and render on the page.
    * Renders both the 'summary' at the top of the page and the list below
@@ -52,6 +51,7 @@ app.current = {
 
     });
   },
+
   /**
    * Because the API returns data in any order and handlebars is limited we will sort here
    * Correct order: Error, In Progress, User input Required, Scheduled
@@ -109,110 +109,6 @@ app.current = {
     app.publish.populateQueue($(e.target).parents('tr'), true);
     app.publish.displayQueueList();
   },
-
-  //updateQueueListStatus: function(queuedArticles) {
-  //  this.queuePolled++;
-  //  app.queued = queuedArticles;
-  //  var total = 0;
-  //  var status = {completed: 0, error: 0};
-  //  var articleQueue = $('#articles-queue li');
-  //  var articlePublishStatusTemplate = eLife.templates['publish/article-publish-modal-status'];
-  //  var queuedItems = app.queued;
-  //
-  //  _.each(articleQueue, function(articleQueue, i) {
-  //    var articleId = $(articleQueue).data('id');
-  //    var articleVer = $(articleQueue).data('version');
-  //    var articleRun = $(articleQueue).data('run');
-  //    var displayInQueue = {id: articleId, version: articleVer, run: articleRun};
-  //    var queuedItem = _.find(queuedItems, displayInQueue);
-  //    switch (queuedItem.status) {
-  //      case 'published':
-  //        status.completed++;
-  //      break;
-  //      case 'error':
-  //        status.error++;
-  //      break;
-  //    }
-  //    $('.article-status', articleQueue).remove();
-  //    $(articleQueue).append(articlePublishStatusTemplate(queuedItem));
-  //  });
-  //
-  //  _.each(status, function(s) {
-  //    total = total + s;
-  //  });
-  //
-  //  if (this.queuePolled === 250 || _.contains(status, queuedItems.length) || status === queuedItems.length) {
-  //    app.isPublishing = false;
-  //    app.isAllPublished = true;
-  //    clearInterval(this.checkingStatus);
-  //    $('#publish-close').show();
-  //  }
-  //
-  //},
-
-
-
-  /**
-   * queue articles to the publishing service
-   * @param e
-   */
-  //performPublish: function(e) {
-  //  $('#publish-cancel').hide();
-  //  $('#publish-action').prop('disabled', true).addClass('disabled');
-  //  this.isPublishing = true;
-  //  this.queueArticles(app.queued);
-  //
-  //},
-
-  /**
-   * Queue articles to the service, set timeout to keep polling for the status
-   * @param queued
-   */
-  //queueArticles: function(queued) {
-  //  $.ajax({
-  //    type: 'POST',
-  //    contentType: 'application/json',
-  //    url: app.API + 'api/queue_article_publication',
-  //    data: JSON.stringify({articles: queued}),
-  //    success: function(data) {
-  //      app.current.updateQueueListStatus(data.articles);
-  //      setTimeout(app.current.checkArticleStatus(app.queued), app.publishTimeout);
-  //    },
-  //
-  //    error: function(data) {
-  //      this.queueArticleStatusErrorTemplate = eLife.templates['current/error-queue-articles'];
-  //      $('#publish-modal .modal-body').html(this.queueArticleStatusErrorTemplate(articles));
-  //      $('#publish-cancel').show();
-  //    },
-  //  });
-  //},
-
-  /**
-   * Poll service to find out what is happening
-   * @param queued
-   */
-  //checkArticleStatus: function(queued) {
-  //  app.current.updateQueueListStatus(queued);
-  //  this.checkingStatus = setInterval(function() {
-  //    $.ajax({
-  //      type: 'POST',
-  //      contentType: 'application/json',
-  //      url: app.API + 'api/article_publication_status',
-  //      data: JSON.stringify({articles: queued}),
-  //      success: function(data) {
-  //        app.current.updateQueueListStatus(data.articles);
-  //      },
-  //
-  //      error: function(data) {
-  //        this.checkArticleStatusErrorTemplate = eLife.templates['current/error-check-article-status'];
-  //        $('#publish-modal .modal-body').html(this.checkArticleStatusErrorTemplate(articles));
-  //        $('#publish-cancel').show();
-  //        this.isPublishing = false;
-  //        clearInterval(app.current.checkingStatus);
-  //      },
-  //    });
-  //  }, app.checkStatusInterval);
-  //},
 
 };
 

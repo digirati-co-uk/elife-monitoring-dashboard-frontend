@@ -36,8 +36,8 @@ app.detail = {
     var message;
     if (!_.isUndefined(queryParams.articleId)) {
       url = queryParams.articleId;
-      //url = (!_.isUndefined(queryParams.versionNumber)) ? url + '/' + queryParams.versionNumber : url;
-      //url = (!_.isUndefined(queryParams.runNumber)) ? url + '/' + queryParams.runNumber : url;
+      url = (!_.isUndefined(queryParams.versionNumber)) ? url + '/' + queryParams.versionNumber : url;
+      url = (!_.isUndefined(queryParams.runNumber)) ? url + '/' + queryParams.runNumber : url;
       $.ajax({
         url: app.API + 'api/article/' + url,
         cache: false,

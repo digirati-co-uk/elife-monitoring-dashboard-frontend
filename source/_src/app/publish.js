@@ -1,7 +1,7 @@
 'use strict';
 /**
- * This
- * @type {{init: app.publish.init, bindEvents: app.publish.bindEvents, renderArticles: app.publish.renderArticles, sortArticles: app.publish.sortArticles, toggleAddToQueueBtn: app.publish.toggleAddToQueueBtn, publishQueued: app.publish.publishQueued, publish: app.publish.publish, initModal: app.publish.initModal, populateQueue: app.publish.populateQueue, displayQueueList: app.publish.displayQueueList, updateQueueListStatus: app.publish.updateQueueListStatus, refreshPage: app.publish.refreshPage, resetModalButtons: app.publish.resetModalButtons, performPublish: app.publish.performPublish, queueArticles: app.publish.queueArticles, checkArticleStatus: app.publish.checkArticleStatus}}
+ * Controls the publishing on the dashboard and details page
+ * @type {{init: app.publish.init, bindEvents: app.publish.bindEvents, initModal: app.publish.initModal, populateQueue: app.publish.populateQueue, displayQueueList: app.publish.displayQueueList, refreshPage: app.publish.refreshPage, resetModalButtons: app.publish.resetModalButtons, performPublish: app.publish.performPublish, queueArticles: app.publish.queueArticles, checkArticleStatus: app.publish.checkArticleStatus, updateQueueListStatus: app.publish.updateQueueListStatus, finishPublishing: app.publish.finishPublishing}}
  */
 app.publish = {
   /**
@@ -23,12 +23,13 @@ app.publish = {
     $(document).on('hide.bs.modal', this.refreshPage.bind(this));
     $(document).on('click', '#publish-modal .close', this.refreshPage.bind(this));
     $(document).on('click', '#publish-modal #publish-cancel', this.refreshPage.bind(this));
-
-
     $(document).on('click', '#publish-modal #publish-action', this.performPublish.bind(this));
-
   },
 
+  /**
+   * Initialise modal, not actually loading the modal, thats done in bootstrap
+   * @param isMultiple
+   */
   initModal: function(isMultiple) {
     var btnText = (isMultiple) ? 'Publish All' : 'Publish';
     $('#articles-queue', '#publish-modal').empty();
@@ -58,7 +59,6 @@ app.publish = {
     }
   },
 
-
   /**
    * Update the queue list to the items in the queue
    * @param article
@@ -72,7 +72,6 @@ app.publish = {
     });
   },
 
-
   /**
    * refresh page on certain circumstances
    * @param e
@@ -84,7 +83,6 @@ app.publish = {
 
     this.resetModalButtons();
   },
-
 
   /**
    * Reset the modal buttons and publish checkboxes
@@ -137,7 +135,6 @@ app.publish = {
     });
   },
 
-
   /**
    * Poll service to find out what is happening
    * @param queued
@@ -165,10 +162,13 @@ app.publish = {
     }, app.checkStatusInterval);
   },
 
+  /**
+   * Update the queue with correct status icons and work out when publishing has finished
+   * @param queuedArticles
+   */
   updateQueueListStatus: function(queuedArticles) {
     this.queuePolled++;
     app.queued = queuedArticles;
-    var finishPublishing = false;
     var total = 0;
     var status = {completed: 0, error: 0};
     var articleQueue = $('#articles-queue li');
@@ -202,26 +202,25 @@ app.publish = {
       console.info('max polls reached');
       this.finishPublishing();
     }
+
     // all status's are complete or errors stop checking
-    if(total === queuedItems.length) {
+    if (total === queuedItems.length) {
       console.info('all queued items are either complete or errors');
       this.finishPublishing();
     }
-
-
-
-
   },
 
+  /**
+   * We've finished publushing - set some flags and tidy up
+   */
   finishPublishing: function() {
     app.isPublishing = false;
     app.isAllPublished = true;
     clearInterval(app.publish.checkingStatus);
     $('#publish-close', '#publish-modal').show();
     console.info('publishingFinished');
-  }
+  },
 
 };
 
 app.publish.init();
-

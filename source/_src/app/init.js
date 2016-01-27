@@ -9,6 +9,6 @@ var app = {
   checkStatusInterval: 800,
   pollLimit: 250,
   isPublishing: false,
-  isAllPublished: false
+  isAllPublished: false,
 };
 
