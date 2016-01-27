@@ -3,17 +3,15 @@
         {{#each currentEvents.events as |events|}}
             <li>
                 <div class="column-1">
-                    start (orange), end (green), error (red)
-                    {{#is publication-status 'start'}}
-                        <!--<span class="glyphicon glyphicon-ok {{event-status}} glyphicon-ok--mod pull-left"></span>-->
+                    {{#is event-status 'start'}}
+                        <span class="glyphicon e-icon lg warning glyphicon-exclamation-sign  pull-left" title="{{event-status}}"></span>
                     {{/is}}
-                    {{#is publication-status 'end'}}
-                        <!--<span class="glyphicon glyphicon-ok {{event-status}} glyphicon-ok--mod pull-left"></span>-->
+                    {{#is event-status 'end'}}
+                        <span class="glyphicon e-icon lg success glyphicon-ok  pull-left" title="{{event-status}}"></span>
                     {{/is}}
-                    {{#is publication-status 'error'}}
-                        <!--<span class="glyphicon glyphicon-warning {{event-status}} glyphicon-warning-sign--mod pull-left"></span>-->
+                    {{#is event-status 'error'}}
+                        <span class="glyphicon e-icon lg danger glyphicon-remove  pull-left" title="{{event-status}}"></span>
                     {{/is}}
-
                     <span>{{event-type}}</span>
                 </div>
                 <div class="column-2">
