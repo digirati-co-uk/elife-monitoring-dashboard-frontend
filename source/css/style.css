@@ -54,11 +54,13 @@ a:hover {
 \*------------------------------------*/
 /*------------------------------------*    $LAYOUT
 \*------------------------------------*/
-.current-page .pattern-helper {
+.current-page .pattern-helper,
+.detail-page .pattern-helper {
   display: none;
 }
 
-.current-page .publish-action {
+.current-page .publish-action,
+.detail-page .publish-action {
   display: inline-block;
 }
 

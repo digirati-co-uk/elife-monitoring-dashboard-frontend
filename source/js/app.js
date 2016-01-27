@@ -131,18 +131,22 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
     + "\n</tr>";
 },"useData":true}));
 
-Handlebars.registerPartial("article-publish-modal", Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<a href=\"#\" class=\"btn btn-default pattern-helper\" data-toggle=\"modal\" data-target=\"#publish-modal\">\n    Modal\n</a>\n<div class=\"modal fade\" id=\"publish-modal\" tabindex=\"-1\" role=\"dialog\" data-backdrop=\"static\" aria-labelledby=\"publish-modal\">\n    <div class=\"modal-dialog modal-sm\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"myModalLabel\">Publish article(s)</h4>\n            </div>\n            <div class=\"modal-body\">\n                Are you sure you want to publish the following article(s)?\n                <ol id=\"articles-queue\"></ol>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"publish-close\">Close</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"publish-cancel\">Cancel</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner publish-action\" id=\"publish-action\"></button>\n            </div>\n        </div>\n    </div>\n</div>";
-},"useData":true}));
-
 Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     return "            <button class=\"btn btn-default\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Re-Schedule\n            </button>\n            <button class=\"btn btn-default\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Cancel Schedule\n            </button>\n";
 },"3":function(container,depth0,helpers,partials,data) {
-    var stack1;
+    var stack1, helper, alias1=container.lambda, alias2=container.escapeExpression, alias3=depth0 != null ? depth0 : {}, alias4=helpers.helperMissing, alias5="function";
 
   return "            <a href=\""
-    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["preview-link"] : stack1), depth0))
-    + "\" target=\"_blank\" class=\"btn btn-default\">\n                <span class=\"glyphicon glyphicon-eye-open\"></span>\n                Preview\n            </a>\n            <button class=\"btn btn-default\">\n                <span class=\"glyphicon glyphicon-globe\"></span>\n                Publish Now\n            </button>\n            <button class=\"btn btn-default\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Schedule\n            </button>\n";
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["preview-link"] : stack1), depth0))
+    + "\" target=\"_blank\" class=\"btn btn-default\">\n                <span class=\"glyphicon glyphicon-eye-open\"></span>\n                Preview\n            </a>\n            <button class=\"btn btn-default publish btn-publish\" data-toggle=\"modal\" data-target=\"#publish-modal\" type=\"button\"\n                    data-article-title=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.doi : stack1), depth0))
+    + "\"\n                    data-article-id=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
+    + "\"\n                    data-article-version=\""
+    + alias2(((helper = (helper = helpers.currentVersion || (depth0 != null ? depth0.currentVersion : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias3,{"name":"currentVersion","hash":{},"data":data}) : helper)))
+    + "\"\n                    data-article-run=\""
+    + alias2(((helper = (helper = helpers.currentRun || (depth0 != null ? depth0.currentRun : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias3,{"name":"currentRun","hash":{},"data":data}) : helper)))
+    + "\">\n                <span class=\"glyphicon glyphicon-globe\"></span>\n                Publish Now\n            </button>\n            <button class=\"btn btn-default\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Schedule\n            </button>\n";
 },"5":function(container,depth0,helpers,partials,data) {
     var stack1;
 
@@ -176,7 +180,8 @@ Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(c
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=container.lambda, alias3=container.escapeExpression, alias4=helpers.helperMissing, alias5="function";
 
-  return "<section class=\"article-detail\">\n    <div class=\"actions \">\n"
+  return ((stack1 = container.invokePartial(partials["article-publish-modal"],depth0,{"name":"article-publish-modal","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + "<section class=\"article-detail\">\n    <div class=\"actions \">\n"
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["scheduled-publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
     + "    </div>\n    <table class=\"snapshot\">\n        <tr>\n            <td class=\"column-1\">\n                <span class=\"glyphicon glyphicon-file "
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.status : stack1),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.program(7, data, 0),"data":data})) != null ? stack1 : "")
@@ -194,12 +199,14 @@ Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(c
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["corresponding-authors"] : stack1),{"name":"if","hash":{},"fn":container.program(13, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.authors : stack1),{"name":"if","hash":{},"fn":container.program(15, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "                </dl>\n            </td>\n        </tr>\n    </table>\n</section>";
-},"useData":true}));
+},"usePartial":true,"useData":true}));
 
 Handlebars.registerPartial("article-version-history", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "            <li>\n                <div class=\"column-1\">\n"
+  return "            <li>\n                <div class=\"column-1 "
+    + alias4(((helper = (helper = helpers["event-status"] || (depth0 != null ? depth0["event-status"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"event-status","hash":{},"data":data}) : helper)))
+    + "\">\n"
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["event-status"] : depth0),"start",{"name":"is","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["event-status"] : depth0),"end",{"name":"is","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["event-status"] : depth0),"error",{"name":"is","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
@@ -284,45 +291,9 @@ Handlebars.registerPartial("article-version-list", Handlebars.template({"1":func
     + "    </ol>\n</section>";
 },"useData":true,"useDepths":true,"useBlockParams":true}));
 
-this["eLife"]["templates"]["current/article-publish-modal-status"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3=container.escapeExpression;
-
-  return "        <span class=\"glyphicon e-icon sm danger glyphicon-remove\"></span>\n        <br />\n        <span class=\"text-muted\">"
-    + alias3((helpers.capitalizeFirst || (depth0 && depth0.capitalizeFirst) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),{"name":"capitalizeFirst","hash":{},"data":data}))
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.message : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + " "
-    + alias3(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"message","hash":{},"data":data}) : helper)))
-    + "</span>\n";
-},"2":function(container,depth0,helpers,partials,data) {
-    return ":";
-},"4":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3=container.escapeExpression;
-
-  return "        <div class=\"throbber-loader throbber-loader--small \"></div>\n        <br />\n        <span class=\"text-muted\">"
-    + alias3((helpers.capitalizeFirst || (depth0 && depth0.capitalizeFirst) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),{"name":"capitalizeFirst","hash":{},"data":data}))
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.message : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + " "
-    + alias3(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"message","hash":{},"data":data}) : helper)))
-    + "</span>\n";
-},"6":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3=container.escapeExpression;
-
-  return "        <span class=\"glyphicon e-icon sm success glyphicon-ok\"></span>\n        <br />\n        <span class=\"text-muted\">"
-    + alias3((helpers.capitalizeFirst || (depth0 && depth0.capitalizeFirst) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),{"name":"capitalizeFirst","hash":{},"data":data}))
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.message : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + " "
-    + alias3(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"message","hash":{},"data":data}) : helper)))
-    + "</span>\n";
-},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
-
-  return "<span class=\"article-status\">\n"
-    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),"error",{"name":"is","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),"queued",{"name":"is","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),"ready to publish",{"name":"is","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),"published",{"name":"is","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "</span>\n\n";
-},"useData":true});
+Handlebars.registerPartial("article-publish-modal", Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "<a href=\"#\" class=\"btn btn-default pattern-helper\" data-toggle=\"modal\" data-target=\"#publish-modal\">\n    Modal\n</a>\n<div class=\"modal fade\" id=\"publish-modal\" tabindex=\"-1\" role=\"dialog\" data-backdrop=\"static\" aria-labelledby=\"publish-modal\">\n    <div class=\"modal-dialog modal-sm\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"myModalLabel\">Publish article(s)</h4>\n            </div>\n            <div class=\"modal-body\">\n                Are you sure you want to publish the following article(s)?\n                <ol id=\"articles-queue\"></ol>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"publish-close\">Close</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"publish-cancel\">Cancel</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner publish-action\" id=\"publish-action\"></button>\n            </div>\n        </div>\n    </div>\n</div>";
+},"useData":true}));
 
 this["eLife"]["templates"]["current/article-stats-template"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
@@ -399,7 +370,7 @@ this["eLife"]["templates"]["current/article"] = Handlebars.template({"1":functio
 },"7":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                    <caption>\n                        <span class=\"glyphicon e-icon lg danger glyphicon-warning-sign\"></span>\n                        <h4>Errors\n"
+  return "                    <caption>\n                        <span class=\"glyphicon e-icon lg danger glyphicon-warning-sign  pull-left\"></span>\n                        <h4>Errors\n"
     + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = blockParams[2][0]) != null ? stack1.length : stack1),{"name":"if","hash":{},"fn":container.program(8, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "                        </h4>\n                    </caption>\n";
 },"8":function(container,depth0,helpers,partials,data,blockParams) {
@@ -411,19 +382,19 @@ this["eLife"]["templates"]["current/article"] = Handlebars.template({"1":functio
 },"10":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                    <caption>\n                        <span class=\"glyphicon e-icon lg info glyphicon-cog\"></span>\n                        <h4>In Progress\n                            <small>("
+  return "                    <caption>\n                        <span class=\"glyphicon e-icon lg info glyphicon-cog  pull-left\"></span>\n                        <h4>In Progress\n                            <small>("
     + container.escapeExpression(container.lambda(((stack1 = blockParams[2][0]) != null ? stack1.length : stack1), depth0))
     + " Articles)</small>\n                        </h4>\n                    </caption>\n";
 },"12":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                    <caption>\n                        <span class=\"glyphicon e-icon lg muted glyphicon-hand-down \"></span>\n                        <h4>\n                            User Input Required\n"
+  return "                    <caption>\n                        <span class=\"glyphicon e-icon lg muted glyphicon-hand-down  pull-left\"></span>\n                        <h4>\n                            User Input Required\n"
     + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = blockParams[2][0]) != null ? stack1.length : stack1),{"name":"if","hash":{},"fn":container.program(8, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "                            <br>(Ready to Publish)\n                        </h4>\n                    </caption>\n";
 },"14":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                    <caption>\n                        <span class=\"glyphicon e-icon lg warning glyphicon-time\"></span>\n                        <h4>Scheduled\n"
+  return "                    <caption>\n                        <span class=\"glyphicon e-icon lg warning glyphicon-time  pull-left\"></span>\n                        <h4>Scheduled\n"
     + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = blockParams[2][0]) != null ? stack1.length : stack1),{"name":"if","hash":{},"fn":container.program(8, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "                        </h4>\n                    </caption>\n";
 },"16":function(container,depth0,helpers,partials,data,blockParams) {
@@ -470,6 +441,50 @@ this["eLife"]["templates"]["error-render"] = Handlebars.template({"compiler":[7,
 this["eLife"]["templates"]["loading-template"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     return "<div class=\"text-center\"><div class=\"throbber-loader throbber-loader--small \"></div></div>";
 },"useData":true});
+
+this["eLife"]["templates"]["publish/article-publish-modal-status"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3=container.escapeExpression;
+
+  return "        <span class=\"glyphicon e-icon sm danger glyphicon-remove\"></span>\n        <br />\n        <span class=\"text-muted\">"
+    + alias3((helpers.capitalizeFirst || (depth0 && depth0.capitalizeFirst) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),{"name":"capitalizeFirst","hash":{},"data":data}))
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.message : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + " "
+    + alias3(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"message","hash":{},"data":data}) : helper)))
+    + "</span>\n";
+},"2":function(container,depth0,helpers,partials,data) {
+    return ":";
+},"4":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3=container.escapeExpression;
+
+  return "        <div class=\"throbber-loader throbber-loader--small \"></div>\n        <br />\n        <span class=\"text-muted\">"
+    + alias3((helpers.capitalizeFirst || (depth0 && depth0.capitalizeFirst) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),{"name":"capitalizeFirst","hash":{},"data":data}))
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.message : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + " "
+    + alias3(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"message","hash":{},"data":data}) : helper)))
+    + "</span>\n";
+},"6":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3=container.escapeExpression;
+
+  return "        <span class=\"glyphicon e-icon sm success glyphicon-ok\"></span>\n        <br />\n        <span class=\"text-muted\">"
+    + alias3((helpers.capitalizeFirst || (depth0 && depth0.capitalizeFirst) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),{"name":"capitalizeFirst","hash":{},"data":data}))
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.message : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + " "
+    + alias3(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"message","hash":{},"data":data}) : helper)))
+    + "</span>\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "<span class=\"article-status "
+    + alias4(((helper = (helper = helpers["publication-status"] || (depth0 != null ? depth0["publication-status"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"publication-status","hash":{},"data":data}) : helper)))
+    + " "
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "\">\n"
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),"error",{"name":"is","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),"queued",{"name":"is","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),"ready to publish",{"name":"is","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),"published",{"name":"is","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "</span>\n\n";
+},"useData":true});
 Handlebars.registerHelper('elFormatUnixDate', function(date, format) {
   return moment.unix(date).format(format);
 });
@@ -508,6 +523,12 @@ var app = {
   ESCAPE_KEY: 27,
   API: config.API,
   config: config,
+  queued: [],
+  publishTimeout: 500,
+  checkStatusInterval: 800,
+  pollLimit: 250,
+  isPublishing: false,
+  isAllPublished: false
 };
 
 
@@ -573,14 +594,7 @@ app.current = {
    */
   init: function() {
     if ($('.current-page').length > 0) {
-      this.checkingStatus = '';
-      this.queuePolled = 0;
       this.articles = [];
-      this.queued = [];
-      this.isPublishing = false;
-      this.isAllPublished = false;
-      this.checkStatusInterval = 8000;
-      this.publishTimeout = 5000;
       Swag.registerHelpers(Handlebars);
       this.bindEvents();
       this.renderArticles();
@@ -597,12 +611,7 @@ app.current = {
     $('#articles', '.current-page').on('click', '.btn-publish-queued', this.publishQueued.bind(this));
     $('#articles', '.current-page').on('click', '.btn-publish', this.publish.bind(this));
 
-    $('#articles', '.current-page').on('click', '#publish-action', this.performPublish.bind(this));
-
-    $('#articles', '.current-page').on('keyup', '#publish-modal', this.refreshPage.bind(this));
-    $('#articles', '.current-page').on('click', '#publish-modal .close', this.refreshPage.bind(this));
-    $('#articles', '.current-page').on('click', '#publish-modal #publish-cancel', this.refreshPage.bind(this));
-    $('#articles', '.current-page').on('click', '#publish-modal #publish-close', this.refreshPage.bind(this));
+    //$('#articles', '.current-page').on('click', '#publish-action', this.performPublish.bind(this));
 
   },
   /**
@@ -665,7 +674,7 @@ app.current = {
       if (cnt === this.articles.uir.length) $('.btn-publish-queued').hide();
     }
 
-    this.populateQueue($(e.target));
+    app.publish.populateQueue($(e.target).parents('tr'));
   },
 
   /**
@@ -674,9 +683,9 @@ app.current = {
    *
    */
   publishQueued: function() {
-    var isMultiple = (_.size(this.queued) > 1) ? true : false;
-    this.initModal(isMultiple);
-    this.displayQueueList();
+    var isMultiple = (_.size(app.queued) > 1) ? true : false;
+    app.publish.initModal(isMultiple);
+    app.publish.displayQueueList();
   },
   /**
    * When 'Publish now' clicked
@@ -684,185 +693,114 @@ app.current = {
    * @param e
    */
   publish: function(e) {
-    this.initModal(false);
-    this.populateQueue($(e.target), true);
-    this.displayQueueList();
-  },
-  /**
-   * Show modal popup that contains publish status information
-   * @param isMultiple
-   */
-  initModal: function(isMultiple) {
-    var btnText = (isMultiple) ? 'Publish All' : 'Publish';
-    $('#articles-queue', '#publish-modal').empty();
-    $('#publish-action', '#publish-modal').empty().text(btnText);
-    $('#publish-close').hide();
-  },
-  /**
-   * Amend queued items.
-   * @param target
-   * @param publishNow
-   */
-  populateQueue: function(target, publishNow) {
-    var targetParent = target.parents('tr');
-    var articleId = targetParent.attr('data-article-id');
-    var articleVer = targetParent.attr('data-article-version');
-    var articleRun = targetParent.attr('data-article-run');
-    var addToQueue = {id: articleId, version: articleVer, run: articleRun};
-    if (publishNow) {
-      this.queued = [];
-      this.queued = app.utils.addObject(this.queued, addToQueue);
-    } else {
-      if (_.findWhere(this.queued, addToQueue)) {
-        this.queued = app.utils.removeObject(this.queued, addToQueue);
-      } else {
-        this.queued = app.utils.addObject(this.queued, addToQueue);
-      }
-    }
-  },
-  /**
-   * Update the queue list to the items in the queue
-   * @param article
-   */
-  displayQueueList: function(article) {
-    _.each(this.queued, function(article) {
-      var title = $('[data-article-id=' + article.id + ']').attr('data-article-title');
-      var listItem = $('<li>' + title + '</li>');
-      listItem.data({id: article.id, version: article.version, run: article.run});
-      $('#articles-queue').append(listItem);
-    });
-  },
-  /**
-   * Update the queue list status and update global status's
-   * @param queuedArticles
-   */
-  updateQueueListStatus: function(queuedArticles) {
-    this.queuePolled++;
-    this.queued = queuedArticles;
-    var total = 0;
-    var status = {completed: 0, error: 0};
-    var articleQueue = $('#articles-queue li');
-    var articlePublishStatusTemplate = eLife.templates['current/article-publish-modal-status'];
-    var queuedItems = this.queued;
-
-    _.each(articleQueue, function(articleQueue, i) {
-      var articleId = $(articleQueue).data('id');
-      var articleVer = $(articleQueue).data('version');
-      var articleRun = $(articleQueue).data('run');
-      var displayInQueue = {id: articleId, version: articleVer, run: articleRun};
-      var queuedItem = _.find(queuedItems, displayInQueue);
-      switch (queuedItem.status) {
-        case 'published':
-          status.completed++;
-        break;
-        case 'error':
-          status.error++;
-        break;
-      }
-      $('.article-status', articleQueue).remove();
-      $(articleQueue).append(articlePublishStatusTemplate(queuedItem));
-    });
-
-    _.each(status, function(s) {
-      total = total + s;
-    });
-
-    if (this.queuePolled === 250 || _.contains(status, queuedItems.length) || status === queuedItems.length) {
-      this.isPublishing = false;
-      this.isAllPublished = true;
-      clearInterval(this.checkingStatus);
-      $('#publish-close').show();
-    }
-
+    app.publish.initModal(false);
+    app.publish.populateQueue($(e.target).parents('tr'), true);
+    app.publish.displayQueueList();
   },
 
-  /**
-   * refresh page on certain circumstances
-   * @param e
-   */
-  refreshPage: function(e) {
-    if (this.isPublishing === true || this.isAllPublished === true || e.which === app.ESCAPE_KEY) {
-      location.reload(true);
-    }
+  //updateQueueListStatus: function(queuedArticles) {
+  //  this.queuePolled++;
+  //  app.queued = queuedArticles;
+  //  var total = 0;
+  //  var status = {completed: 0, error: 0};
+  //  var articleQueue = $('#articles-queue li');
+  //  var articlePublishStatusTemplate = eLife.templates['publish/article-publish-modal-status'];
+  //  var queuedItems = app.queued;
+  //
+  //  _.each(articleQueue, function(articleQueue, i) {
+  //    var articleId = $(articleQueue).data('id');
+  //    var articleVer = $(articleQueue).data('version');
+  //    var articleRun = $(articleQueue).data('run');
+  //    var displayInQueue = {id: articleId, version: articleVer, run: articleRun};
+  //    var queuedItem = _.find(queuedItems, displayInQueue);
+  //    switch (queuedItem.status) {
+  //      case 'published':
+  //        status.completed++;
+  //      break;
+  //      case 'error':
+  //        status.error++;
+  //      break;
+  //    }
+  //    $('.article-status', articleQueue).remove();
+  //    $(articleQueue).append(articlePublishStatusTemplate(queuedItem));
+  //  });
+  //
+  //  _.each(status, function(s) {
+  //    total = total + s;
+  //  });
+  //
+  //  if (this.queuePolled === 250 || _.contains(status, queuedItems.length) || status === queuedItems.length) {
+  //    app.isPublishing = false;
+  //    app.isAllPublished = true;
+  //    clearInterval(this.checkingStatus);
+  //    $('#publish-close').show();
+  //  }
+  //
+  //},
 
-    this.resetModalButtons();
-  },
 
-  /**
-   * Reset the modal buttons and publish checkboxes
-   */
-  resetModalButtons: function() {
-    $('#publish-modal #publish-action').prop('disabled', false).removeClass('disabled');
-    $('#articles-queue').empty();
-    $('.btn-publish-queued').hide();
-    $('.toggle-publish-all').each(function(i, e) {
-      $(e).prop('checked', false);
-    });
-
-    this.queued = [];
-  },
 
   /**
    * queue articles to the publishing service
    * @param e
    */
-  performPublish: function(e) {
-    $('#publish-cancel').hide();
-    $('#publish-action').prop('disabled', true).addClass('disabled');
-    this.isPublishing = true;
-    this.queueArticles(this.queued);
-
-  },
+  //performPublish: function(e) {
+  //  $('#publish-cancel').hide();
+  //  $('#publish-action').prop('disabled', true).addClass('disabled');
+  //  this.isPublishing = true;
+  //  this.queueArticles(app.queued);
+  //
+  //},
 
   /**
    * Queue articles to the service, set timeout to keep polling for the status
    * @param queued
    */
-  queueArticles: function(queued) {
-    $.ajax({
-      type: 'POST',
-      contentType: 'application/json',
-      url: app.API + 'api/queue_article_publication',
-      data: JSON.stringify({articles: queued}),
-      success: function(data) {
-        app.current.updateQueueListStatus(data.articles);
-        setTimeout(app.current.checkArticleStatus(app.current.queued), app.current.publishTimeout);
-      },
-
-      error: function(data) {
-        this.queueArticleStatusErrorTemplate = eLife.templates['current/error-queue-articles'];
-        $('#publish-modal .modal-body').html(this.queueArticleStatusErrorTemplate(articles));
-        $('#publish-cancel').show();
-      },
-    });
-  },
+  //queueArticles: function(queued) {
+  //  $.ajax({
+  //    type: 'POST',
+  //    contentType: 'application/json',
+  //    url: app.API + 'api/queue_article_publication',
+  //    data: JSON.stringify({articles: queued}),
+  //    success: function(data) {
+  //      app.current.updateQueueListStatus(data.articles);
+  //      setTimeout(app.current.checkArticleStatus(app.queued), app.publishTimeout);
+  //    },
+  //
+  //    error: function(data) {
+  //      this.queueArticleStatusErrorTemplate = eLife.templates['current/error-queue-articles'];
+  //      $('#publish-modal .modal-body').html(this.queueArticleStatusErrorTemplate(articles));
+  //      $('#publish-cancel').show();
+  //    },
+  //  });
+  //},
 
   /**
    * Poll service to find out what is happening
    * @param queued
    */
-  checkArticleStatus: function(queued) {
-    app.current.updateQueueListStatus(queued);
-    this.checkingStatus = setInterval(function() {
-      $.ajax({
-        type: 'POST',
-        contentType: 'application/json',
-        url: app.API + 'api/article_publication_status',
-        data: JSON.stringify({articles: queued}),
-        success: function(data) {
-          app.current.updateQueueListStatus(data.articles);
-        },
-
-        error: function(data) {
-          this.checkArticleStatusErrorTemplate = eLife.templates['current/error-check-article-status'];
-          $('#publish-modal .modal-body').html(this.checkArticleStatusErrorTemplate(articles));
-          $('#publish-cancel').show();
-          this.isPublishing = false;
-          clearInterval(app.current.checkingStatus);
-        },
-      });
-    }, this.checkStatusInterval);
-  },
+  //checkArticleStatus: function(queued) {
+  //  app.current.updateQueueListStatus(queued);
+  //  this.checkingStatus = setInterval(function() {
+  //    $.ajax({
+  //      type: 'POST',
+  //      contentType: 'application/json',
+  //      url: app.API + 'api/article_publication_status',
+  //      data: JSON.stringify({articles: queued}),
+  //      success: function(data) {
+  //        app.current.updateQueueListStatus(data.articles);
+  //      },
+  //
+  //      error: function(data) {
+  //        this.checkArticleStatusErrorTemplate = eLife.templates['current/error-check-article-status'];
+  //        $('#publish-modal .modal-body').html(this.checkArticleStatusErrorTemplate(articles));
+  //        $('#publish-cancel').show();
+  //        this.isPublishing = false;
+  //        clearInterval(app.current.checkingStatus);
+  //      },
+  //    });
+  //  }, app.checkStatusInterval);
+  //},
 
 };
 
@@ -893,6 +831,8 @@ app.detail = {
    */
   bindEvents: function() {
     $('#article', '.detail-page').on('click', '.article-version-map-list .run-container .run a', this.updateRun.bind(this));
+
+    $('#article', '.detail-page').on('click', '.btn-publish', this.publish.bind(this));
   },
 
   /**
@@ -1015,6 +955,18 @@ app.detail = {
 
     return queryParams;
   },
+
+  /**
+   * When 'Publish now' clicked
+   * Launch publish modal and update the list of queued items.
+   * @param e
+   */
+  publish: function(e) {
+    app.publish.initModal(false);
+    app.publish.populateQueue($(e.target), true);
+    app.publish.displayQueueList();
+  },
+
 };
 
 app.detail.init();

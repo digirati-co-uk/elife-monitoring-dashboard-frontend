@@ -6,14 +6,7 @@ app.current = {
    */
   init: function() {
     if ($('.current-page').length > 0) {
-      this.checkingStatus = '';
-      this.queuePolled = 0;
       this.articles = [];
-      this.queued = [];
-      this.isPublishing = false;
-      this.isAllPublished = false;
-      this.checkStatusInterval = 8000;
-      this.publishTimeout = 5000;
       Swag.registerHelpers(Handlebars);
       this.bindEvents();
       this.renderArticles();
@@ -30,12 +23,7 @@ app.current = {
     $('#articles', '.current-page').on('click', '.btn-publish-queued', this.publishQueued.bind(this));
     $('#articles', '.current-page').on('click', '.btn-publish', this.publish.bind(this));
 
-    $('#articles', '.current-page').on('click', '#publish-action', this.performPublish.bind(this));
-
-    $('#articles', '.current-page').on('keyup', '#publish-modal', this.refreshPage.bind(this));
-    $('#articles', '.current-page').on('click', '#publish-modal .close', this.refreshPage.bind(this));
-    $('#articles', '.current-page').on('click', '#publish-modal #publish-cancel', this.refreshPage.bind(this));
-    $('#articles', '.current-page').on('click', '#publish-modal #publish-close', this.refreshPage.bind(this));
+    //$('#articles', '.current-page').on('click', '#publish-action', this.performPublish.bind(this));
 
   },
   /**
@@ -98,7 +86,7 @@ app.current = {
       if (cnt === this.articles.uir.length) $('.btn-publish-queued').hide();
     }
 
-    this.populateQueue($(e.target));
+    app.publish.populateQueue($(e.target).parents('tr'));
   },
 
   /**
@@ -107,9 +95,9 @@ app.current = {
    *
    */
   publishQueued: function() {
-    var isMultiple = (_.size(this.queued) > 1) ? true : false;
-    this.initModal(isMultiple);
-    this.displayQueueList();
+    var isMultiple = (_.size(app.queued) > 1) ? true : false;
+    app.publish.initModal(isMultiple);
+    app.publish.displayQueueList();
   },
   /**
    * When 'Publish now' clicked
@@ -117,185 +105,114 @@ app.current = {
    * @param e
    */
   publish: function(e) {
-    this.initModal(false);
-    this.populateQueue($(e.target), true);
-    this.displayQueueList();
-  },
-  /**
-   * Show modal popup that contains publish status information
-   * @param isMultiple
-   */
-  initModal: function(isMultiple) {
-    var btnText = (isMultiple) ? 'Publish All' : 'Publish';
-    $('#articles-queue', '#publish-modal').empty();
-    $('#publish-action', '#publish-modal').empty().text(btnText);
-    $('#publish-close').hide();
-  },
-  /**
-   * Amend queued items.
-   * @param target
-   * @param publishNow
-   */
-  populateQueue: function(target, publishNow) {
-    var targetParent = target.parents('tr');
-    var articleId = targetParent.attr('data-article-id');
-    var articleVer = targetParent.attr('data-article-version');
-    var articleRun = targetParent.attr('data-article-run');
-    var addToQueue = {id: articleId, version: articleVer, run: articleRun};
-    if (publishNow) {
-      this.queued = [];
-      this.queued = app.utils.addObject(this.queued, addToQueue);
-    } else {
-      if (_.findWhere(this.queued, addToQueue)) {
-        this.queued = app.utils.removeObject(this.queued, addToQueue);
-      } else {
-        this.queued = app.utils.addObject(this.queued, addToQueue);
-      }
-    }
-  },
-  /**
-   * Update the queue list to the items in the queue
-   * @param article
-   */
-  displayQueueList: function(article) {
-    _.each(this.queued, function(article) {
-      var title = $('[data-article-id=' + article.id + ']').attr('data-article-title');
-      var listItem = $('<li>' + title + '</li>');
-      listItem.data({id: article.id, version: article.version, run: article.run});
-      $('#articles-queue').append(listItem);
-    });
-  },
-  /**
-   * Update the queue list status and update global status's
-   * @param queuedArticles
-   */
-  updateQueueListStatus: function(queuedArticles) {
-    this.queuePolled++;
-    this.queued = queuedArticles;
-    var total = 0;
-    var status = {completed: 0, error: 0};
-    var articleQueue = $('#articles-queue li');
-    var articlePublishStatusTemplate = eLife.templates['current/article-publish-modal-status'];
-    var queuedItems = this.queued;
-
-    _.each(articleQueue, function(articleQueue, i) {
-      var articleId = $(articleQueue).data('id');
-      var articleVer = $(articleQueue).data('version');
-      var articleRun = $(articleQueue).data('run');
-      var displayInQueue = {id: articleId, version: articleVer, run: articleRun};
-      var queuedItem = _.find(queuedItems, displayInQueue);
-      switch (queuedItem.status) {
-        case 'published':
-          status.completed++;
-        break;
-        case 'error':
-          status.error++;
-        break;
-      }
-      $('.article-status', articleQueue).remove();
-      $(articleQueue).append(articlePublishStatusTemplate(queuedItem));
-    });
-
-    _.each(status, function(s) {
-      total = total + s;
-    });
-
-    if (this.queuePolled === 250 || _.contains(status, queuedItems.length) || status === queuedItems.length) {
-      this.isPublishing = false;
-      this.isAllPublished = true;
-      clearInterval(this.checkingStatus);
-      $('#publish-close').show();
-    }
-
+    app.publish.initModal(false);
+    app.publish.populateQueue($(e.target).parents('tr'), true);
+    app.publish.displayQueueList();
   },
 
-  /**
-   * refresh page on certain circumstances
-   * @param e
-   */
-  refreshPage: function(e) {
-    if (this.isPublishing === true || this.isAllPublished === true || e.which === app.ESCAPE_KEY) {
-      location.reload(true);
-    }
+  //updateQueueListStatus: function(queuedArticles) {
+  //  this.queuePolled++;
+  //  app.queued = queuedArticles;
+  //  var total = 0;
+  //  var status = {completed: 0, error: 0};
+  //  var articleQueue = $('#articles-queue li');
+  //  var articlePublishStatusTemplate = eLife.templates['publish/article-publish-modal-status'];
+  //  var queuedItems = app.queued;
+  //
+  //  _.each(articleQueue, function(articleQueue, i) {
+  //    var articleId = $(articleQueue).data('id');
+  //    var articleVer = $(articleQueue).data('version');
+  //    var articleRun = $(articleQueue).data('run');
+  //    var displayInQueue = {id: articleId, version: articleVer, run: articleRun};
+  //    var queuedItem = _.find(queuedItems, displayInQueue);
+  //    switch (queuedItem.status) {
+  //      case 'published':
+  //        status.completed++;
+  //      break;
+  //      case 'error':
+  //        status.error++;
+  //      break;
+  //    }
+  //    $('.article-status', articleQueue).remove();
+  //    $(articleQueue).append(articlePublishStatusTemplate(queuedItem));
+  //  });
+  //
+  //  _.each(status, function(s) {
+  //    total = total + s;
+  //  });
+  //
+  //  if (this.queuePolled === 250 || _.contains(status, queuedItems.length) || status === queuedItems.length) {
+  //    app.isPublishing = false;
+  //    app.isAllPublished = true;
+  //    clearInterval(this.checkingStatus);
+  //    $('#publish-close').show();
+  //  }
+  //
+  //},
 
-    this.resetModalButtons();
-  },
 
-  /**
-   * Reset the modal buttons and publish checkboxes
-   */
-  resetModalButtons: function() {
-    $('#publish-modal #publish-action').prop('disabled', false).removeClass('disabled');
-    $('#articles-queue').empty();
-    $('.btn-publish-queued').hide();
-    $('.toggle-publish-all').each(function(i, e) {
-      $(e).prop('checked', false);
-    });
-
-    this.queued = [];
-  },
 
   /**
    * queue articles to the publishing service
    * @param e
    */
-  performPublish: function(e) {
-    $('#publish-cancel').hide();
-    $('#publish-action').prop('disabled', true).addClass('disabled');
-    this.isPublishing = true;
-    this.queueArticles(this.queued);
-
-  },
+  //performPublish: function(e) {
+  //  $('#publish-cancel').hide();
+  //  $('#publish-action').prop('disabled', true).addClass('disabled');
+  //  this.isPublishing = true;
+  //  this.queueArticles(app.queued);
+  //
+  //},
 
   /**
    * Queue articles to the service, set timeout to keep polling for the status
    * @param queued
    */
-  queueArticles: function(queued) {
-    $.ajax({
-      type: 'POST',
-      contentType: 'application/json',
-      url: app.API + 'api/queue_article_publication',
-      data: JSON.stringify({articles: queued}),
-      success: function(data) {
-        app.current.updateQueueListStatus(data.articles);
-        setTimeout(app.current.checkArticleStatus(app.current.queued), app.current.publishTimeout);
-      },
-
-      error: function(data) {
-        this.queueArticleStatusErrorTemplate = eLife.templates['current/error-queue-articles'];
-        $('#publish-modal .modal-body').html(this.queueArticleStatusErrorTemplate(articles));
-        $('#publish-cancel').show();
-      },
-    });
-  },
+  //queueArticles: function(queued) {
+  //  $.ajax({
+  //    type: 'POST',
+  //    contentType: 'application/json',
+  //    url: app.API + 'api/queue_article_publication',
+  //    data: JSON.stringify({articles: queued}),
+  //    success: function(data) {
+  //      app.current.updateQueueListStatus(data.articles);
+  //      setTimeout(app.current.checkArticleStatus(app.queued), app.publishTimeout);
+  //    },
+  //
+  //    error: function(data) {
+  //      this.queueArticleStatusErrorTemplate = eLife.templates['current/error-queue-articles'];
+  //      $('#publish-modal .modal-body').html(this.queueArticleStatusErrorTemplate(articles));
+  //      $('#publish-cancel').show();
+  //    },
+  //  });
+  //},
 
   /**
    * Poll service to find out what is happening
    * @param queued
    */
-  checkArticleStatus: function(queued) {
-    app.current.updateQueueListStatus(queued);
-    this.checkingStatus = setInterval(function() {
-      $.ajax({
-        type: 'POST',
-        contentType: 'application/json',
-        url: app.API + 'api/article_publication_status',
-        data: JSON.stringify({articles: queued}),
-        success: function(data) {
-          app.current.updateQueueListStatus(data.articles);
-        },
-
-        error: function(data) {
-          this.checkArticleStatusErrorTemplate = eLife.templates['current/error-check-article-status'];
-          $('#publish-modal .modal-body').html(this.checkArticleStatusErrorTemplate(articles));
-          $('#publish-cancel').show();
-          this.isPublishing = false;
-          clearInterval(app.current.checkingStatus);
-        },
-      });
-    }, this.checkStatusInterval);
-  },
+  //checkArticleStatus: function(queued) {
+  //  app.current.updateQueueListStatus(queued);
+  //  this.checkingStatus = setInterval(function() {
+  //    $.ajax({
+  //      type: 'POST',
+  //      contentType: 'application/json',
+  //      url: app.API + 'api/article_publication_status',
+  //      data: JSON.stringify({articles: queued}),
+  //      success: function(data) {
+  //        app.current.updateQueueListStatus(data.articles);
+  //      },
+  //
+  //      error: function(data) {
+  //        this.checkArticleStatusErrorTemplate = eLife.templates['current/error-check-article-status'];
+  //        $('#publish-modal .modal-body').html(this.checkArticleStatusErrorTemplate(articles));
+  //        $('#publish-cancel').show();
+  //        this.isPublishing = false;
+  //        clearInterval(app.current.checkingStatus);
+  //      },
+  //    });
+  //  }, app.checkStatusInterval);
+  //},
 
 };
 
