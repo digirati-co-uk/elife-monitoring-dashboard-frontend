@@ -190,63 +190,6 @@ a:hover {
   color: #777;
 }
 
-.glyph-header, .glyphicon-warning-sign--mod, .glyphicon-cog--mod, .glyphicon-hand-down--mod, .glyphicon-time--mod, .glyphicon-ok--mod {
-  border-radius: 50%;
-  font-size: 2rem;
-  padding: 15px;
-}
-
-.glyphicon-warning-sign--mod {
-  background-color: #ffc2bf;
-  color: #cc9c99;
-  padding: 13px 15px 17px;
-}
-
-.glyphicon-cog--mod {
-  background-color: #cff4ff;
-  color: #a5c3cc;
-}
-
-.glyphicon-hand-down--mod {
-  background-color: #ebebeb;
-  color: #969696;
-  padding: 16px 14px 14px 16px;
-}
-
-.glyphicon-time--mod {
-  background-color: #f5cca6;
-  color: #c4916c;
-}
-
-.glyphicon-ok--mod {
-  background-color: #deffcc;
-  color: #b1cca3;
-  padding: 15px;
-}
-
-.glyph-status, .glyphicon-remove--stat, .glyphicon-ok--stat, .glyphicon-warning-sign--stat {
-  border-radius: 50%;
-  margin-left: 5px;
-  padding: 5px;
-}
-
-.glyphicon-remove--stat {
-  background-color: #ffc2bf;
-  color: #cc9c99;
-}
-
-.glyphicon-ok--stat {
-  background-color: #deffcc;
-  color: #b1cca3;
-}
-
-.glyphicon-warning-sign--stat {
-  background-color: #f5cca6;
-  color: #c4916c;
-  font-size: 1.1rem;
-  padding: 5px 6px 7px;
-}
-
 .poa {
   float: left;
 }
@@ -325,6 +268,49 @@ a:hover {
 
 .reset-article-status-type {
   float: none;
+}
+
+.e-icon.lg {
+  border-radius: 50%;
+  font-size: 2rem;
+  padding: 15px;
+}
+
+.e-icon.md {
+  border-radius: 50%;
+  font-size: 2rem;
+  padding: 15px;
+}
+
+.e-icon.sm {
+  border-radius: 50%;
+  margin-left: 5px;
+  padding: 5px;
+}
+
+.e-icon.success {
+  background-color: #deffcc;
+  color: #b1cca3;
+}
+
+.e-icon.danger {
+  background-color: #ffc2bf;
+  color: #cc9c99;
+}
+
+.e-icon.warning {
+  background-color: #f5cca6;
+  color: #c4916c;
+}
+
+.e-icon.info {
+  background-color: #cff4ff;
+  color: #a5c3cc;
+}
+
+.e-icon.muted {
+  background-color: #ebebeb;
+  color: #969696;
 }
 
 /*------------------------------------*    $BUTTONS

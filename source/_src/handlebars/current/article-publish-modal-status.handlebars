@@ -1,6 +1,6 @@
 <span class="article-status">
     {{#is publication-status 'error'}}
-        <span class="glyphicon glyphicon-remove glyphicon-remove--stat"></span>
+        <span class="glyphicon e-icon sm danger glyphicon-remove"></span>
         <br />
         <span class="text-muted">{{capitalizeFirst publication-status}}{{#if message}}:{{/if}} {{message}}</span>
     {{/is}}
@@ -15,7 +15,7 @@
         <span class="text-muted">{{capitalizeFirst publication-status}}{{#if message}}:{{/if}} {{message}}</span>
     {{/is}}
     {{#is publication-status 'published'}}
-        <span class="glyphicon glyphicon-ok glyphicon-ok--stat"></span>
+        <span class="glyphicon e-icon sm success glyphicon-ok"></span>
         <br />
         <span class="text-muted">{{capitalizeFirst publication-status}}{{#if message}}:{{/if}} {{message}}</span>
     {{/is}}

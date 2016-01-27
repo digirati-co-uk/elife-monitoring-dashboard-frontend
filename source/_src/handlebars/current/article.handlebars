@@ -14,7 +14,7 @@
             <table class="article-snapshot-list">
                 {{#is articleSection 'error'}}
                     <caption>
-                        <span class="glyphicon glyphicon-warning-sign glyphicon-warning-sign--mod pull-left"></span>
+                        <span class="glyphicon e-icon lg danger glyphicon-warning-sign"></span>
                         <h4>Errors
                             {{# if articles.length}}
                                 <small>({{articles.length}} Articles)</small>
@@ -24,7 +24,7 @@
                 {{/is}}
                 {{#is articleSection 'inProgress'}}
                     <caption>
-                        <span class="glyphicon glyphicon-cog glyphicon-cog--mod pull-left"></span>
+                        <span class="glyphicon e-icon lg info glyphicon-cog"></span>
                         <h4>In Progress
                             <small>({{articles.length}} Articles)</small>
                         </h4>
@@ -32,7 +32,7 @@
                 {{/is}}
                 {{#is articleSection 'uir'}}
                     <caption>
-                        <span class="glyphicon glyphicon-hand-down glyphicon-hand-down--mod pull-left"></span>
+                        <span class="glyphicon e-icon lg muted glyphicon-hand-down "></span>
                         <h4>
                             User Input Required
                             {{# if articles.length}}
@@ -44,7 +44,7 @@
                 {{/is}}
                 {{#is articleSection 'scheduled'}}
                     <caption>
-                        <span class="glyphicon glyphicon-time glyphicon-time--mod pull-left"></span>
+                        <span class="glyphicon e-icon lg warning glyphicon-time"></span>
                         <h4>Scheduled
                             {{# if articles.length}}
                                 <small>({{articles.length}} Articles)</small>
