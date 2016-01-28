@@ -22,7 +22,7 @@ app.publish = {
   bindEvents: function() {
     $(document).on('hide.bs.modal', this.refreshPage.bind(this));
     $(document).on('click', '#publish-modal .close', this.refreshPage.bind(this));
-    $(document).on('click', '#publish-modal #publish-cancel', this.refreshPage.bind(this));
+    $(document).on('click', '#publish-modal #publish-close', this.refreshPage.bind(this));
     $(document).on('click', '#publish-modal #publish-action', this.performPublish.bind(this));
   },
 
@@ -34,7 +34,6 @@ app.publish = {
     var btnText = (isMultiple) ? 'Publish All' : 'Publish';
     $('#articles-queue', '#publish-modal').empty();
     $('#publish-action', '#publish-modal').empty().text(btnText);
-    $('#publish-close').hide();
   },
 
   /**
@@ -73,11 +72,12 @@ app.publish = {
   },
 
   /**
-   * refresh page on certain circumstances
+   * refresh page when
+   * user clicks and isPublishing or isAllPublished are true
    * @param e
    */
   refreshPage: function(e) {
-    if (app.isPublishing === true || app.isAllPublished === true || e.which === app.ESCAPE_KEY) {
+    if (app.isPublishing === true || app.isAllPublished === true) {
       location.reload(true);
     }
 
@@ -105,9 +105,8 @@ app.publish = {
    * @param e
    */
   performPublish: function(e) {
-    $('#publish-cancel', '#publish-modal').hide();
     $('#publish-action', '#publish-modal').prop('disabled', true).addClass('disabled');
-    this.isPublishing = true;
+    app.isPublishing = true;
     this.queueArticles(app.queued);
 
   },
@@ -130,7 +129,6 @@ app.publish = {
       error: function(data) {
         this.queueArticleStatusErrorTemplate = eLife.templates['current/error-queue-articles'];
         $('#publish-modal .modal-body').html(this.queueArticleStatusErrorTemplate(articles));
-        $('#publish-cancel').show();
       },
     });
   },
@@ -154,7 +152,6 @@ app.publish = {
         error: function(data) {
           this.checkArticleStatusErrorTemplate = eLife.templates['current/error-check-article-status'];
           $('#publish-modal .modal-body').html(this.checkArticleStatusErrorTemplate(articles));
-          $('#publish-cancel').show();
           this.isPublishing = false;
           clearInterval(app.publish.checkingStatus);
         },
@@ -217,7 +214,6 @@ app.publish = {
     app.isPublishing = false;
     app.isAllPublished = true;
     clearInterval(app.publish.checkingStatus);
-    $('#publish-close', '#publish-modal').show();
     console.info('publishingFinished');
   },
 

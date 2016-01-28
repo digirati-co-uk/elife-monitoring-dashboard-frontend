@@ -292,7 +292,7 @@ Handlebars.registerPartial("article-version-list", Handlebars.template({"1":func
 },"useData":true,"useDepths":true,"useBlockParams":true}));
 
 Handlebars.registerPartial("article-publish-modal", Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<a href=\"#\" class=\"btn btn-default pattern-helper\" data-toggle=\"modal\" data-target=\"#publish-modal\">\n    Modal\n</a>\n<div class=\"modal fade\" id=\"publish-modal\" tabindex=\"-1\" role=\"dialog\" data-backdrop=\"static\" aria-labelledby=\"publish-modal\">\n    <div class=\"modal-dialog modal-sm\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"myModalLabel\">Publish article(s)</h4>\n            </div>\n            <div class=\"modal-body\">\n                Are you sure you want to publish the following article(s)?\n                <ol id=\"articles-queue\"></ol>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"publish-close\">Close</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"publish-cancel\">Cancel</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner publish-action\" id=\"publish-action\"></button>\n            </div>\n        </div>\n    </div>\n</div>";
+    return "<a href=\"#\" class=\"btn btn-default pattern-helper\" data-toggle=\"modal\" data-target=\"#publish-modal\">\n    Modal\n</a>\n<div class=\"modal fade\" id=\"publish-modal\" tabindex=\"-1\" role=\"dialog\" data-backdrop=\"static\" aria-labelledby=\"publish-modal\">\n    <div class=\"modal-dialog modal-sm\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"myModalLabel\">Publish article(s)</h4>\n            </div>\n            <div class=\"modal-body\">\n                Are you sure you want to publish the following article(s)?\n                <ol id=\"articles-queue\"></ol>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"publish-close\">Close</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner publish-action\" id=\"publish-action\"></button>\n            </div>\n        </div>\n    </div>\n</div>";
 },"useData":true}));
 
 this["eLife"]["templates"]["current/article-stats-template"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams) {
@@ -528,7 +528,7 @@ var app = {
   checkStatusInterval: 800,
   pollLimit: 250,
   isPublishing: false,
-  isAllPublished: false
+  isAllPublished: false,
 };
 
 
@@ -588,8 +588,8 @@ app.utils = {
 };
 'use strict';
 /**
- * This
- * @type {{init: app.publish.init, bindEvents: app.publish.bindEvents, renderArticles: app.publish.renderArticles, sortArticles: app.publish.sortArticles, toggleAddToQueueBtn: app.publish.toggleAddToQueueBtn, publishQueued: app.publish.publishQueued, publish: app.publish.publish, initModal: app.publish.initModal, populateQueue: app.publish.populateQueue, displayQueueList: app.publish.displayQueueList, updateQueueListStatus: app.publish.updateQueueListStatus, refreshPage: app.publish.refreshPage, resetModalButtons: app.publish.resetModalButtons, performPublish: app.publish.performPublish, queueArticles: app.publish.queueArticles, checkArticleStatus: app.publish.checkArticleStatus}}
+ * Controls the publishing on the dashboard and details page
+ * @type {{init: app.publish.init, bindEvents: app.publish.bindEvents, initModal: app.publish.initModal, populateQueue: app.publish.populateQueue, displayQueueList: app.publish.displayQueueList, refreshPage: app.publish.refreshPage, resetModalButtons: app.publish.resetModalButtons, performPublish: app.publish.performPublish, queueArticles: app.publish.queueArticles, checkArticleStatus: app.publish.checkArticleStatus, updateQueueListStatus: app.publish.updateQueueListStatus, finishPublishing: app.publish.finishPublishing}}
  */
 app.publish = {
   /**
@@ -610,18 +610,18 @@ app.publish = {
   bindEvents: function() {
     $(document).on('hide.bs.modal', this.refreshPage.bind(this));
     $(document).on('click', '#publish-modal .close', this.refreshPage.bind(this));
-    $(document).on('click', '#publish-modal #publish-cancel', this.refreshPage.bind(this));
-
-
+    $(document).on('click', '#publish-modal #publish-close', this.refreshPage.bind(this));
     $(document).on('click', '#publish-modal #publish-action', this.performPublish.bind(this));
-
   },
 
+  /**
+   * Initialise modal, not actually loading the modal, thats done in bootstrap
+   * @param isMultiple
+   */
   initModal: function(isMultiple) {
     var btnText = (isMultiple) ? 'Publish All' : 'Publish';
     $('#articles-queue', '#publish-modal').empty();
     $('#publish-action', '#publish-modal').empty().text(btnText);
-    $('#publish-close').hide();
   },
 
   /**
@@ -646,7 +646,6 @@ app.publish = {
     }
   },
 
-
   /**
    * Update the queue list to the items in the queue
    * @param article
@@ -660,19 +659,18 @@ app.publish = {
     });
   },
 
-
   /**
-   * refresh page on certain circumstances
+   * refresh page when
+   * user clicks and isPublishing or isAllPublished are true
    * @param e
    */
   refreshPage: function(e) {
-    if (app.isPublishing === true || app.isAllPublished === true || e.which === app.ESCAPE_KEY) {
+    if (app.isPublishing === true || app.isAllPublished === true) {
       location.reload(true);
     }
 
     this.resetModalButtons();
   },
-
 
   /**
    * Reset the modal buttons and publish checkboxes
@@ -695,9 +693,8 @@ app.publish = {
    * @param e
    */
   performPublish: function(e) {
-    $('#publish-cancel', '#publish-modal').hide();
     $('#publish-action', '#publish-modal').prop('disabled', true).addClass('disabled');
-    this.isPublishing = true;
+    app.isPublishing = true;
     this.queueArticles(app.queued);
 
   },
@@ -720,11 +717,9 @@ app.publish = {
       error: function(data) {
         this.queueArticleStatusErrorTemplate = eLife.templates['current/error-queue-articles'];
         $('#publish-modal .modal-body').html(this.queueArticleStatusErrorTemplate(articles));
-        $('#publish-cancel').show();
       },
     });
   },
-
 
   /**
    * Poll service to find out what is happening
@@ -745,7 +740,6 @@ app.publish = {
         error: function(data) {
           this.checkArticleStatusErrorTemplate = eLife.templates['current/error-check-article-status'];
           $('#publish-modal .modal-body').html(this.checkArticleStatusErrorTemplate(articles));
-          $('#publish-cancel').show();
           this.isPublishing = false;
           clearInterval(app.publish.checkingStatus);
         },
@@ -753,10 +747,13 @@ app.publish = {
     }, app.checkStatusInterval);
   },
 
+  /**
+   * Update the queue with correct status icons and work out when publishing has finished
+   * @param queuedArticles
+   */
   updateQueueListStatus: function(queuedArticles) {
     this.queuePolled++;
     app.queued = queuedArticles;
-    var finishPublishing = false;
     var total = 0;
     var status = {completed: 0, error: 0};
     var articleQueue = $('#articles-queue li');
@@ -790,29 +787,27 @@ app.publish = {
       console.info('max polls reached');
       this.finishPublishing();
     }
+
     // all status's are complete or errors stop checking
-    if(total === queuedItems.length) {
+    if (total === queuedItems.length) {
       console.info('all queued items are either complete or errors');
       this.finishPublishing();
     }
-
-
-
-
   },
 
+  /**
+   * We've finished publushing - set some flags and tidy up
+   */
   finishPublishing: function() {
     app.isPublishing = false;
     app.isAllPublished = true;
     clearInterval(app.publish.checkingStatus);
-    $('#publish-close', '#publish-modal').show();
     console.info('publishingFinished');
-  }
+  },
 
 };
 
 app.publish.init();
-
 
 'use strict';
 
@@ -839,9 +834,8 @@ app.current = {
     $('#articles', '.current-page').on('click', '.btn-publish-queued', this.publishQueued.bind(this));
     $('#articles', '.current-page').on('click', '.btn-publish', this.publish.bind(this));
 
-    //$('#articles', '.current-page').on('click', '#publish-action', this.performPublish.bind(this));
-
   },
+
   /**
    * Fetch articles and render on the page.
    * Renders both the 'summary' at the top of the page and the list below
@@ -868,6 +862,7 @@ app.current = {
 
     });
   },
+
   /**
    * Because the API returns data in any order and handlebars is limited we will sort here
    * Correct order: Error, In Progress, User input Required, Scheduled
@@ -925,110 +920,6 @@ app.current = {
     app.publish.populateQueue($(e.target).parents('tr'), true);
     app.publish.displayQueueList();
   },
-
-  //updateQueueListStatus: function(queuedArticles) {
-  //  this.queuePolled++;
-  //  app.queued = queuedArticles;
-  //  var total = 0;
-  //  var status = {completed: 0, error: 0};
-  //  var articleQueue = $('#articles-queue li');
-  //  var articlePublishStatusTemplate = eLife.templates['publish/article-publish-modal-status'];
-  //  var queuedItems = app.queued;
-  //
-  //  _.each(articleQueue, function(articleQueue, i) {
-  //    var articleId = $(articleQueue).data('id');
-  //    var articleVer = $(articleQueue).data('version');
-  //    var articleRun = $(articleQueue).data('run');
-  //    var displayInQueue = {id: articleId, version: articleVer, run: articleRun};
-  //    var queuedItem = _.find(queuedItems, displayInQueue);
-  //    switch (queuedItem.status) {
-  //      case 'published':
-  //        status.completed++;
-  //      break;
-  //      case 'error':
-  //        status.error++;
-  //      break;
-  //    }
-  //    $('.article-status', articleQueue).remove();
-  //    $(articleQueue).append(articlePublishStatusTemplate(queuedItem));
-  //  });
-  //
-  //  _.each(status, function(s) {
-  //    total = total + s;
-  //  });
-  //
-  //  if (this.queuePolled === 250 || _.contains(status, queuedItems.length) || status === queuedItems.length) {
-  //    app.isPublishing = false;
-  //    app.isAllPublished = true;
-  //    clearInterval(this.checkingStatus);
-  //    $('#publish-close').show();
-  //  }
-  //
-  //},
-
-
-
-  /**
-   * queue articles to the publishing service
-   * @param e
-   */
-  //performPublish: function(e) {
-  //  $('#publish-cancel').hide();
-  //  $('#publish-action').prop('disabled', true).addClass('disabled');
-  //  this.isPublishing = true;
-  //  this.queueArticles(app.queued);
-  //
-  //},
-
-  /**
-   * Queue articles to the service, set timeout to keep polling for the status
-   * @param queued
-   */
-  //queueArticles: function(queued) {
-  //  $.ajax({
-  //    type: 'POST',
-  //    contentType: 'application/json',
-  //    url: app.API + 'api/queue_article_publication',
-  //    data: JSON.stringify({articles: queued}),
-  //    success: function(data) {
-  //      app.current.updateQueueListStatus(data.articles);
-  //      setTimeout(app.current.checkArticleStatus(app.queued), app.publishTimeout);
-  //    },
-  //
-  //    error: function(data) {
-  //      this.queueArticleStatusErrorTemplate = eLife.templates['current/error-queue-articles'];
-  //      $('#publish-modal .modal-body').html(this.queueArticleStatusErrorTemplate(articles));
-  //      $('#publish-cancel').show();
-  //    },
-  //  });
-  //},
-
-  /**
-   * Poll service to find out what is happening
-   * @param queued
-   */
-  //checkArticleStatus: function(queued) {
-  //  app.current.updateQueueListStatus(queued);
-  //  this.checkingStatus = setInterval(function() {
-  //    $.ajax({
-  //      type: 'POST',
-  //      contentType: 'application/json',
-  //      url: app.API + 'api/article_publication_status',
-  //      data: JSON.stringify({articles: queued}),
-  //      success: function(data) {
-  //        app.current.updateQueueListStatus(data.articles);
-  //      },
-  //
-  //      error: function(data) {
-  //        this.checkArticleStatusErrorTemplate = eLife.templates['current/error-check-article-status'];
-  //        $('#publish-modal .modal-body').html(this.checkArticleStatusErrorTemplate(articles));
-  //        $('#publish-cancel').show();
-  //        this.isPublishing = false;
-  //        clearInterval(app.current.checkingStatus);
-  //      },
-  //    });
-  //  }, app.checkStatusInterval);
-  //},
 
 };
 
