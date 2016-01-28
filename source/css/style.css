@@ -1,3 +1,7 @@
+/*------------------------------------*    Libs
+\*------------------------------------*/
+@import url(libs/bootstrap.min.css);
+@import url(libs/bootstrap-datetimepicker.min.css);
 /*------------------------------------*    $VARIABLES
 \*------------------------------------*/
 /*------------------------------------*    $RESET
@@ -54,13 +58,11 @@ a:hover {
 \*------------------------------------*/
 /*------------------------------------*    $LAYOUT
 \*------------------------------------*/
-.current-page .pattern-helper,
-.detail-page .pattern-helper {
+.current-page .pattern-helper {
   display: none;
 }
 
-.current-page .publish-action,
-.detail-page .publish-action {
+.current-page .publish-action {
   display: inline-block;
 }
 

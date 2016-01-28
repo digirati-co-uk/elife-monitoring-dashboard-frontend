@@ -19,10 +19,20 @@ module.exports = function(grunt) {
         //put all the prerequisites in a file
         files: {
           //app  js
+          'source/js/head.js': [
+            'source/_src/libs/head/html5shiv.min.js',
+            'source/_src/libs/head/respond.min.js',
+          ],
           'source/js/libs.js': [
+            'source/_src/libs/jquery.min.js',
+            'source/_src/libs/moment.min.js',
+            'source/_src/libs/moment-en-gb.js',
+            'source/_src/libs/bootstrap.min.js',
+            'source/_src/libs/bootstrap-datetimepicker.min.js',
             'source/_src/libs/underscore.js',
             'source/_src/libs/handlebars-v4.0.5.js',
             'source/_src/libs/swag.js',
+            'source/_src/libs/jquery.history.js',
           ],
           'source/js/app.js': [
             'source/_src/app/templates.js',
