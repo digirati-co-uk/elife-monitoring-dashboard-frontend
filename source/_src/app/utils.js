@@ -30,6 +30,26 @@ app.utils = {
   },
 
   /**
+   * Find last key of object
+   * @param list
+   * @returns {*}
+   */
+  findLastKey: function(list) {
+    var lastKey = false;
+    var cnt = 1;
+    var total = _.keys(list).length;
+    _.each(list, function(lst, key) {
+      if (cnt === total) {
+        lastKey = key;
+      }
+
+      cnt++;
+    });
+
+    return lastKey;
+  },
+
+  /**
    * Parse query string.
    * https://gist.github.com/ryoppy/5780748
    * ?a=b&c=d to {a: b, c: d}

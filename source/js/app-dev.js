@@ -564,6 +564,26 @@ app.utils = {
   },
 
   /**
+   * Find last key of object
+   * @param list
+   * @returns {*}
+   */
+  findLastKey: function(list) {
+    var lastKey = false;
+    var cnt = 1;
+    var total = _.keys(list).length;
+    _.each(list, function(lst, key) {
+      if (cnt === total) {
+        lastKey = key;
+      }
+
+      cnt++;
+    });
+
+    return lastKey;
+  },
+
+  /**
    * Parse query string.
    * https://gist.github.com/ryoppy/5780748
    * ?a=b&c=d to {a: b, c: d}
@@ -938,9 +958,10 @@ app.detail = {
       this.currentArticle = [];
       this.version = '';
       this.run = '';
-      var queryParams = this.getArticleParams();
+      this.queryParams = {};
       Swag.registerHelpers(Handlebars);
-      this.getArticle(queryParams);
+      this.getArticleParams();
+      this.getArticle();
       this.bindEvents();
     }
   },
@@ -956,15 +977,15 @@ app.detail = {
 
   /**
    * Get article from param in url
-   * @param queryParams
    */
-  getArticle: function(queryParams) {
+  getArticle: function() {
     var url;
     var message;
-    if (!_.isUndefined(queryParams.articleId)) {
-      url = queryParams.articleId;
-      //url = (!_.isUndefined(queryParams.versionNumber)) ? url + '/' + queryParams.versionNumber : url;
-      //url = (!_.isUndefined(queryParams.runNumber)) ? url + '/' + queryParams.runNumber : url;
+    if (!_.isUndefined(this.queryParams.articleId)) {
+      url = this.queryParams.articleId;
+      url = (!_.isNull(this.queryParams.versionNumber)) ? url + '/' + this.queryParams.versionNumber : url;
+      url = (!_.isNull(this.queryParams.runNumber)) ? url + '/' + this.queryParams.runNumber : url;
+      console.log(url);
       $.ajax({
         url: app.API + 'api/article/' + url,
         cache: false,
@@ -993,6 +1014,19 @@ app.detail = {
    */
   renderArticle: function() {
     if (this.article) {
+      var lastVersion;
+      var lastRun;
+      // need to define latest run and version
+      // if !this.queryParams.runNumber select the latest number from the latest versionNumber
+      // if !this.versionNumber.runNumber select the latest number from the latest versionNumber
+      if(_.isNull(this.queryParams.versionNumber) &&  _.isNull(this.queryParams.runNumber)) {
+        this.version = app.utils.findLastKey(this.article.versions);
+        if(this.version) {
+          this.run = app.utils.findLastKey(this.article.versions[this.version].runs);
+          this.article.versions[this.version].runs[this.run].isActive = true;
+        }
+
+      }
       this.articleTemplate = eLife.templates['detail/article'];
       $('#article').empty().html(this.articleTemplate(
           {
@@ -1047,32 +1081,31 @@ app.detail = {
    * Get information from the url for the article ID
    * expected format
    * article/articleId/version/run
+   * if there is nothing specified - ie no run/version, load the last version and the last run
    */
   getArticleParams: function() {
-    var queryParams = {};
     var articleId;
     var versionNumber;
     var runNumber;
     var url;
+    url = window.location.pathname.split('/');
+    url = _.compact(url);
+    articleId = (!_.isEmpty(url[1])) ? url[1] : null;
+    versionNumber = (!_.isEmpty(url[2])) ? url[2] : null;
+    runNumber = (!_.isEmpty(url[3])) ? url[3] : null;
+
+    // for use in the PP
     if (app.config.ISPP) {
       articleId = '00387';
-      versionNumber = '1';
-      runNumber = '1';
-    } else {
-      url = window.location.pathname.split('/');
-      url = _.compact(url);
-      articleId = url[1];
-      versionNumber = url[2];
-      runNumber = url[3];
+      versionNumber = null;
+      runNumber = null;
     }
 
-    queryParams = {
+    this.queryParams = {
       articleId: articleId,
       versionNumber: versionNumber,
       runNumber: runNumber,
     };
-
-    return queryParams;
   },
 
   /**
