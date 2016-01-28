@@ -10,7 +10,7 @@
                 <ol class="run-container">
                     {{#each versions.runs as |runs| }}
                         <li data-run="{{run-number}}" data-version="{{version-number}}" class="run {{#is version-number ../../currentVersion}}{{#is run-number ../../currentRun}}active{{/is}}{{/is}}">
-                            <a href="#">
+                            <a href="/article/{{../../article.id}}/{{version-number}}/{{run-number}}">
                                 {{currentArticle}}
                                 <span class="title">Run {{@key}}</span>
                                 <span class="date">{{elFormatUnixDate first-event-timestamp "MM/DD/YYYY HH:mm:ss" }}</span>

@@ -13,9 +13,13 @@ app.detail = {
       this.run = '';
       this.queryParams = {};
       Swag.registerHelpers(Handlebars);
-      this.getArticleParams();
+      this.setArticleParams();
       this.getArticle();
       this.bindEvents();
+
+      // Update this history event so that the state object contains the data
+      // for the homepage.
+      history.pushState(this.queryParams, '', this.formUrl());
     }
   },
 
@@ -24,8 +28,21 @@ app.detail = {
    */
   bindEvents: function() {
     $('#article', '.detail-page').on('click', '.article-version-map-list .run-container .run a', this.updateRun.bind(this));
-
     $('#article', '.detail-page').on('click', '.btn-publish', this.publish.bind(this));
+  },
+
+  /**
+   * Bind navigation events
+   */
+  bindNavigationEvents: function() {
+    $('.run-container li').on('click', function(e) {
+      e.preventDefault();
+      app.detail.queryParams.versionNumber = e.currentTarget.attributes['data-version'].value;
+      app.detail.queryParams.runNumber = e.currentTarget.attributes['data-run'].value;
+
+      // Create a new history item.
+      history.replaceState(app.detail.queryParams, '', app.detail.formUrl());
+    });
   },
 
   /**
@@ -35,12 +52,9 @@ app.detail = {
     var url;
     var message;
     if (!_.isUndefined(this.queryParams.articleId)) {
-      url = this.queryParams.articleId;
-      url = (!_.isNull(this.queryParams.versionNumber)) ? url + '/' + this.queryParams.versionNumber : url;
-      url = (!_.isNull(this.queryParams.runNumber)) ? url + '/' + this.queryParams.runNumber : url;
-      console.log(url);
+      url = this.formUrl();
       $.ajax({
-        url: app.API + 'api/article/' + url,
+        url: app.API + 'api/' + url,
         cache: false,
         dataType: 'json',
         success: function(article) {
@@ -69,17 +83,14 @@ app.detail = {
     if (this.article) {
       var lastVersion;
       var lastRun;
-      // need to define latest run and version
-      // if !this.queryParams.runNumber select the latest number from the latest versionNumber
-      // if !this.versionNumber.runNumber select the latest number from the latest versionNumber
-      if(_.isNull(this.queryParams.versionNumber) &&  _.isNull(this.queryParams.runNumber)) {
+      if (_.isNull(this.queryParams.versionNumber) &&  _.isNull(this.queryParams.runNumber)) {
         this.version = app.utils.findLastKey(this.article.versions);
-        if(this.version) {
+        if (this.version) {
           this.run = app.utils.findLastKey(this.article.versions[this.version].runs);
           this.article.versions[this.version].runs[this.run].isActive = true;
         }
-
       }
+
       this.articleTemplate = eLife.templates['detail/article'];
       $('#article').empty().html(this.articleTemplate(
           {
@@ -89,6 +100,8 @@ app.detail = {
             currentVersion: this.version,
             currentRun: this.run,
           }));
+
+      this.bindNavigationEvents();
     }
   },
 
@@ -136,12 +149,11 @@ app.detail = {
    * article/articleId/version/run
    * if there is nothing specified - ie no run/version, load the last version and the last run
    */
-  getArticleParams: function() {
+  setArticleParams: function() {
     var articleId;
     var versionNumber;
     var runNumber;
-    var url;
-    url = window.location.pathname.split('/');
+    var url = window.location.pathname.split('/');
     url = _.compact(url);
     articleId = (!_.isEmpty(url[1])) ? url[1] : null;
     versionNumber = (!_.isEmpty(url[2])) ? url[2] : null;
@@ -172,6 +184,18 @@ app.detail = {
     app.publish.displayQueueList();
   },
 
+  /**
+   * return the url as a string.
+   * @returns {string}
+   */
+  formUrl: function() {
+    var url = '';
+    url += 'article/';
+    url += this.queryParams.articleId;
+    url = (!_.isNull(this.queryParams.versionNumber)) ? url + '/' + this.queryParams.versionNumber : url;
+    url = (!_.isNull(this.queryParams.runNumber)) ? url + '/' + this.queryParams.runNumber : url;
+    return url;
+  },
 };
 
 app.detail.init();

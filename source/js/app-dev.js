@@ -270,7 +270,13 @@ Handlebars.registerPartial("article-version-list", Handlebars.template({"1":func
     + alias4(((helper = (helper = helpers["version-number"] || (depth0 != null ? depth0["version-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version-number","hash":{},"data":data}) : helper)))
     + "\" class=\"run "
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["version-number"] : depth0),(depths[2] != null ? depths[2].currentVersion : depths[2]),{"name":"is","hash":{},"fn":container.program(7, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\">\n                            <a href=\"#\">\n                                "
+    + "\">\n                            <a href=\"/article/"
+    + alias4(container.lambda(((stack1 = (depths[2] != null ? depths[2].article : depths[2])) != null ? stack1.id : stack1), depth0))
+    + "/"
+    + alias4(((helper = (helper = helpers["version-number"] || (depth0 != null ? depth0["version-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version-number","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers["run-number"] || (depth0 != null ? depth0["run-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-number","hash":{},"data":data}) : helper)))
+    + "\">\n                                "
     + alias4(((helper = (helper = helpers.currentArticle || (depth0 != null ? depth0.currentArticle : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"currentArticle","hash":{},"data":data}) : helper)))
     + "\n                                <span class=\"title\">Run "
     + alias4(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"key","hash":{},"data":data}) : helper)))
@@ -960,9 +966,13 @@ app.detail = {
       this.run = '';
       this.queryParams = {};
       Swag.registerHelpers(Handlebars);
-      this.getArticleParams();
+      this.setArticleParams();
       this.getArticle();
       this.bindEvents();
+
+      // Update this history event so that the state object contains the data
+      // for the homepage.
+      history.pushState(this.queryParams, '', this.formUrl());
     }
   },
 
@@ -971,8 +981,21 @@ app.detail = {
    */
   bindEvents: function() {
     $('#article', '.detail-page').on('click', '.article-version-map-list .run-container .run a', this.updateRun.bind(this));
-
     $('#article', '.detail-page').on('click', '.btn-publish', this.publish.bind(this));
+  },
+
+  /**
+   * Bind navigation events
+   */
+  bindNavigationEvents: function() {
+    $('.run-container li').on('click', function(e) {
+      e.preventDefault();
+      app.detail.queryParams.versionNumber = e.currentTarget.attributes['data-version'].value;
+      app.detail.queryParams.runNumber = e.currentTarget.attributes['data-run'].value;
+
+      // Create a new history item.
+      history.replaceState(app.detail.queryParams, '', app.detail.formUrl());
+    });
   },
 
   /**
@@ -982,12 +1005,9 @@ app.detail = {
     var url;
     var message;
     if (!_.isUndefined(this.queryParams.articleId)) {
-      url = this.queryParams.articleId;
-      url = (!_.isNull(this.queryParams.versionNumber)) ? url + '/' + this.queryParams.versionNumber : url;
-      url = (!_.isNull(this.queryParams.runNumber)) ? url + '/' + this.queryParams.runNumber : url;
-      console.log(url);
+      url = this.formUrl();
       $.ajax({
-        url: app.API + 'api/article/' + url,
+        url: app.API + 'api/' + url,
         cache: false,
         dataType: 'json',
         success: function(article) {
@@ -1016,17 +1036,14 @@ app.detail = {
     if (this.article) {
       var lastVersion;
       var lastRun;
-      // need to define latest run and version
-      // if !this.queryParams.runNumber select the latest number from the latest versionNumber
-      // if !this.versionNumber.runNumber select the latest number from the latest versionNumber
-      if(_.isNull(this.queryParams.versionNumber) &&  _.isNull(this.queryParams.runNumber)) {
+      if (_.isNull(this.queryParams.versionNumber) &&  _.isNull(this.queryParams.runNumber)) {
         this.version = app.utils.findLastKey(this.article.versions);
-        if(this.version) {
+        if (this.version) {
           this.run = app.utils.findLastKey(this.article.versions[this.version].runs);
           this.article.versions[this.version].runs[this.run].isActive = true;
         }
-
       }
+
       this.articleTemplate = eLife.templates['detail/article'];
       $('#article').empty().html(this.articleTemplate(
           {
@@ -1036,6 +1053,8 @@ app.detail = {
             currentVersion: this.version,
             currentRun: this.run,
           }));
+
+      this.bindNavigationEvents();
     }
   },
 
@@ -1083,12 +1102,11 @@ app.detail = {
    * article/articleId/version/run
    * if there is nothing specified - ie no run/version, load the last version and the last run
    */
-  getArticleParams: function() {
+  setArticleParams: function() {
     var articleId;
     var versionNumber;
     var runNumber;
-    var url;
-    url = window.location.pathname.split('/');
+    var url = window.location.pathname.split('/');
     url = _.compact(url);
     articleId = (!_.isEmpty(url[1])) ? url[1] : null;
     versionNumber = (!_.isEmpty(url[2])) ? url[2] : null;
@@ -1119,6 +1137,18 @@ app.detail = {
     app.publish.displayQueueList();
   },
 
+  /**
+   * return the url as a string.
+   * @returns {string}
+   */
+  formUrl: function() {
+    var url = '';
+    url += 'article/';
+    url += this.queryParams.articleId;
+    url = (!_.isNull(this.queryParams.versionNumber)) ? url + '/' + this.queryParams.versionNumber : url;
+    url = (!_.isNull(this.queryParams.runNumber)) ? url + '/' + this.queryParams.runNumber : url;
+    return url;
+  },
 };
 
 app.detail.init();
