@@ -801,6 +801,7 @@ app.detail = {
   init: function() {
     if ($('.detail-page').length > 0) {
       this.article = [];
+      this.errors = [];
       this.currentEvents = [];
       this.currentArticle = [];
       this.queryParams = {};
@@ -813,7 +814,7 @@ app.detail = {
   },
 
   setPageUrl: function() {
-    history.pushState(this.queryParams, '', this.formUrl());
+    this.updateUrl();
   },
   /**
    * Bind events
@@ -872,7 +873,7 @@ app.detail = {
    * Render article to template
    */
   renderArticle: function() {
-    if (this.article) {
+    if (this.article && _.isEmpty(this.errors)) {
       this.articleTemplate = eLife.templates['detail/article'];
       $('#article').empty().html(this.articleTemplate(
           {
@@ -882,6 +883,9 @@ app.detail = {
             currentVersion: this.queryParams.versionNumber,
             currentRun: this.queryParams.runNumber,
           }));
+    } else {
+      this.errorTemplate = eLife.templates['error-render'];
+      $('#article').empty().html(this.errorTemplate(this.errors));
     }
   },
 
@@ -889,10 +893,16 @@ app.detail = {
    * Set latest article
    */
   setLatestArticle: function() {
-    if (!this.queryParams.versionNumber && !this.queryParams.runNumber) {
+    if (!this.queryParams.versionNumber) {
       this.queryParams.versionNumber = app.utils.findLastKey(this.article.versions);
+    }
+
+    if (!this.queryParams.runNumber) {
       this.queryParams.runNumber = app.utils.findLastKey(this.article.versions[this.queryParams.versionNumber].runs);
     }
+
+    this.updateUrl();
+
   },
   /**
    * Find the current article from stored data
@@ -900,7 +910,12 @@ app.detail = {
    */
   getCurrentArticle: function() {
     this.setLatestArticle();
-    return this.article.versions[this.queryParams.versionNumber].details;
+    if (_.has(this.article.versions, this.queryParams.versionNumber)) {
+      return this.article.versions[this.queryParams.versionNumber].details;
+    } else {
+      this.errors = {message: 'There are no versions with this ID.<br /><br />'};
+      return false;
+    }
   },
 
   /**
@@ -908,8 +923,17 @@ app.detail = {
    * @returns {*}
    */
   getCurrentRun: function() {
+    var lastKey;
     this.setLatestArticle();
-    return this.article.versions[this.queryParams.versionNumber].runs[this.queryParams.runNumber];
+    if (_.has(this.article.versions, this.queryParams.versionNumber)) {
+      lastKey = app.utils.findLastKey(this.article.versions[this.queryParams.versionNumber].runs);
+      if (parseInt(this.queryParams.runNumber) <= parseInt(lastKey)) {
+        return this.article.versions[this.queryParams.versionNumber].runs[this.queryParams.runNumber];
+      } else {
+        this.errors = {message: 'There are no runs with this ID.<br /><br />'};
+        return false;
+      }
+    }
   },
 
   /**
@@ -984,7 +1008,7 @@ app.detail = {
    * return the url as a string.
    * @returns {string}
    */
-  formUrl: function() {
+  updateUrl: function() {
 
     var url = '';
     if (app.config.ISPP) {
@@ -996,17 +1020,13 @@ app.detail = {
     }
 
     url += this.queryParams.articleId;
-
-
-    if (_.isNull(this.queryParams.runNumber)) {
-      return url;
+    if (!_.isNull(this.queryParams.versionNumber) && _.isNull(this.queryParams.runNumber)) {
+      history.pushState(this.queryParams, '', url);
     }
-
 
     url = (!_.isNull(this.queryParams.versionNumber)) ? url + '/' + this.queryParams.versionNumber : url;
     url = (!_.isNull(this.queryParams.runNumber)) ? url + '/' + this.queryParams.runNumber : url;
-
-    return url;
+    history.pushState(this.queryParams, '', url);
   },
 };
 
