@@ -12,7 +12,6 @@
                     {{#each versions.runs as |runs| }}
                         <li class="run {{#is ../details.version-number ../../currentVersion}}{{#is run-number ../../currentRun}}active{{/is}}{{/is}}">
                             <a href="/article/{{../../article.id}}/{{../details.version-number}}/{{run-number}}" data-version="{{../details.version-number}}" data-run="{{run-number}}">
-                                {{currentArticle}}
                                 <span class="title">Run {{run-number}}</span>
                                 <span class="date">{{elFormatUnixDate first-event-timestamp "MM/DD/YYYY HH:mm:ss" }}</span>
                                 <span class="icon"><span class="glyphicon glyphicon-chevron-right"></span></span>

@@ -332,9 +332,7 @@ Handlebars.registerPartial("article-version-list", Handlebars.template({"1":func
     + alias4(alias3(((stack1 = (depths[1] != null ? depths[1].details : depths[1])) != null ? stack1["version-number"] : stack1), depth0))
     + "\" data-run=\""
     + alias4(((helper = (helper = helpers["run-number"] || (depth0 != null ? depth0["run-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias5 ? helper.call(alias1,{"name":"run-number","hash":{},"data":data}) : helper)))
-    + "\">\n                                "
-    + alias4(((helper = (helper = helpers.currentArticle || (depth0 != null ? depth0.currentArticle : depth0)) != null ? helper : alias2),(typeof helper === alias5 ? helper.call(alias1,{"name":"currentArticle","hash":{},"data":data}) : helper)))
-    + "\n                                <span class=\"title\">Run "
+    + "\">\n                                <span class=\"title\">Run "
     + alias4(((helper = (helper = helpers["run-number"] || (depth0 != null ? depth0["run-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias5 ? helper.call(alias1,{"name":"run-number","hash":{},"data":data}) : helper)))
     + "</span>\n                                <span class=\"date\">"
     + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["first-event-timestamp"] : depth0),"MM/DD/YYYY HH:mm:ss",{"name":"elFormatUnixDate","hash":{},"data":data}))
@@ -1038,7 +1036,6 @@ app.detail = {
   },
 
   setPageUrl: function() {
-    //@TODO redirect to latest url if no params
     history.pushState(this.queryParams, '', this.formUrl());
   },
   /**
@@ -1072,7 +1069,7 @@ app.detail = {
   getArticle: function() {
     var url;
     var message;
-    if (!_.isUndefined(this.queryParams.articleId)) {
+    if (!_.isNull(this.queryParams.articleId)) {
       $.ajax({
         url: app.API + 'api/article/' + this.queryParams.articleId,
         cache: false,
@@ -1189,8 +1186,8 @@ app.detail = {
     url = url.split('/');
     url = _.compact(url);
     articleId = (!_.isEmpty(url[1])) ? url[1] : null;
-    versionNumber = (!_.isEmpty(url[2])) ? url[2] : null;
-    runNumber = (!_.isEmpty(url[3])) ? url[3] : null;
+    versionNumber = (!_.isEmpty(url[2])) ? url[2] : '1';
+    runNumber = (!_.isEmpty(url[3])) ? url[3] : '1';
     this.queryParams = {
       articleId: articleId,
       versionNumber: versionNumber,
@@ -1214,11 +1211,20 @@ app.detail = {
    * @returns {string}
    */
   formUrl: function() {
+
     var url = '';
-    url += '/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/';
+    if (app.config.ISPP) {
+      url += '/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/';
+    }
+
+    if (_.isNull(this.queryParams.articleId)) {
+      return url;
+    }
+
     url += this.queryParams.articleId;
-    url = (!_.isNull(this.queryParams.versionNumber)) ? url + '/' + this.queryParams.versionNumber : url;
-    url = (!_.isNull(this.queryParams.runNumber)) ? url + '/' + this.queryParams.runNumber : url;
+    url = (!_.isNull(this.queryParams.versionNumber)) ? url + '/' + this.queryParams.versionNumber : url + '/1';
+    url = (!_.isNull(this.queryParams.runNumber)) ? url + '/' + this.queryParams.runNumber : url + '/1';
+
     return url;
   },
 };

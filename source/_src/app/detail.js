@@ -19,7 +19,6 @@ app.detail = {
   },
 
   setPageUrl: function() {
-    //@TODO redirect to latest url if no params
     history.pushState(this.queryParams, '', this.formUrl());
   },
   /**
@@ -53,7 +52,7 @@ app.detail = {
   getArticle: function() {
     var url;
     var message;
-    if (!_.isUndefined(this.queryParams.articleId)) {
+    if (!_.isNull(this.queryParams.articleId)) {
       $.ajax({
         url: app.API + 'api/article/' + this.queryParams.articleId,
         cache: false,
@@ -170,8 +169,8 @@ app.detail = {
     url = url.split('/');
     url = _.compact(url);
     articleId = (!_.isEmpty(url[1])) ? url[1] : null;
-    versionNumber = (!_.isEmpty(url[2])) ? url[2] : null;
-    runNumber = (!_.isEmpty(url[3])) ? url[3] : null;
+    versionNumber = (!_.isEmpty(url[2])) ? url[2] : '1';
+    runNumber = (!_.isEmpty(url[3])) ? url[3] : '1';
     this.queryParams = {
       articleId: articleId,
       versionNumber: versionNumber,
@@ -195,11 +194,20 @@ app.detail = {
    * @returns {string}
    */
   formUrl: function() {
+
     var url = '';
-    url += '/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/';
+    if (app.config.ISPP) {
+      url += '/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/';
+    }
+
+    if (_.isNull(this.queryParams.articleId)) {
+      return url;
+    }
+
     url += this.queryParams.articleId;
-    url = (!_.isNull(this.queryParams.versionNumber)) ? url + '/' + this.queryParams.versionNumber : url;
-    url = (!_.isNull(this.queryParams.runNumber)) ? url + '/' + this.queryParams.runNumber : url;
+    url = (!_.isNull(this.queryParams.versionNumber)) ? url + '/' + this.queryParams.versionNumber : url + '/1';
+    url = (!_.isNull(this.queryParams.runNumber)) ? url + '/' + this.queryParams.runNumber : url + '/1';
+
     return url;
   },
 };
