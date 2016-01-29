@@ -35,13 +35,11 @@ app.detail = {
    * Bind navigation events
    */
   bindNavigationEvents: function() {
-    $('.run-container li').on('click', function(e) {
+    $('.run-container li a').on('click', function(e) {
       e.preventDefault();
-      app.detail.queryParams.versionNumber = e.currentTarget.attributes['data-version'].value;
-      app.detail.queryParams.runNumber = e.currentTarget.attributes['data-run'].value;
 
       // Create a new history item.
-      history.replaceState(app.detail.queryParams, '', app.detail.formUrl());
+      history.replaceState(app.detail.queryParams, '', this.href);
     });
   },
 
@@ -52,9 +50,8 @@ app.detail = {
     var url;
     var message;
     if (!_.isUndefined(this.queryParams.articleId)) {
-      url = this.formUrl();
       $.ajax({
-        url: app.API + 'api/' + url,
+        url: app.API + 'api/article/' + this.queryParams.articleId,
         cache: false,
         dataType: 'json',
         success: function(article) {
@@ -81,8 +78,6 @@ app.detail = {
    */
   renderArticle: function() {
     if (this.article) {
-      var lastVersion;
-      var lastRun;
       if (_.isNull(this.queryParams.versionNumber) &&  _.isNull(this.queryParams.runNumber)) {
         this.version = app.utils.findLastKey(this.article.versions);
         if (this.version) {
@@ -162,8 +157,8 @@ app.detail = {
     // for use in the PP
     if (app.config.ISPP) {
       articleId = '00387';
-      versionNumber = null;
-      runNumber = null;
+      versionNumber = '1';
+      runNumber = '1';
     }
 
     this.queryParams = {
