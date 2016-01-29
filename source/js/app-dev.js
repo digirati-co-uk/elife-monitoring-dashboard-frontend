@@ -1067,7 +1067,6 @@ app.detail = {
    * Get article from param in url
    */
   getArticle: function() {
-    var url;
     var message;
     if (!_.isNull(this.queryParams.articleId)) {
       $.ajax({
@@ -1113,15 +1112,20 @@ app.detail = {
   },
 
   /**
+   * Set latest article
+   */
+  setLatestArticle: function() {
+    if (!this.queryParams.versionNumber && !this.queryParams.runNumber) {
+      this.queryParams.versionNumber = app.utils.findLastKey(this.article.versions);
+      this.queryParams.runNumber = app.utils.findLastKey(this.article.versions[this.queryParams.versionNumber].runs);
+    }
+  },
+  /**
    * Find the current article from stored data
    * @returns {*}
    */
   getCurrentArticle: function() {
-    if (!this.queryParams.versionNumber && !this.queryParams.runNumber) {
-      this.queryParams.versionNumber = app.utils.getNthObjectKey(this.article.versions, 0);
-      this.queryParams.runNumber = app.utils.getNthObjectKey(this.article.versions[this.queryParams.versionNumber].runs, 0);
-    }
-
+    this.setLatestArticle();
     return this.article.versions[this.queryParams.versionNumber].details;
   },
 
@@ -1130,11 +1134,7 @@ app.detail = {
    * @returns {*}
    */
   getCurrentRun: function() {
-    if (!this.queryParams.versionNumber && !this.queryParams.runNumber) {
-      this.queryParams.versionNumber = app.utils.getNthObjectKey(this.article.versions, 0);
-      this.queryParams.runNumber = app.utils.getNthObjectKey(this.article.versions[this.queryParams.versionNumber].runs, 0);
-    }
-
+    this.setLatestArticle();
     return this.article.versions[this.queryParams.versionNumber].runs[this.queryParams.runNumber];
   },
 
@@ -1186,8 +1186,8 @@ app.detail = {
     url = url.split('/');
     url = _.compact(url);
     articleId = (!_.isEmpty(url[1])) ? url[1] : null;
-    versionNumber = (!_.isEmpty(url[2])) ? url[2] : '1';
-    runNumber = (!_.isEmpty(url[3])) ? url[3] : '1';
+    versionNumber = (!_.isEmpty(url[2])) ? url[2] : null;
+    runNumber = (!_.isEmpty(url[3])) ? url[3] : null;
     this.queryParams = {
       articleId: articleId,
       versionNumber: versionNumber,
@@ -1222,8 +1222,15 @@ app.detail = {
     }
 
     url += this.queryParams.articleId;
-    url = (!_.isNull(this.queryParams.versionNumber)) ? url + '/' + this.queryParams.versionNumber : url + '/1';
-    url = (!_.isNull(this.queryParams.runNumber)) ? url + '/' + this.queryParams.runNumber : url + '/1';
+
+
+    if (_.isNull(this.queryParams.runNumber)) {
+      return url;
+    }
+
+
+    url = (!_.isNull(this.queryParams.versionNumber)) ? url + '/' + this.queryParams.versionNumber : url;
+    url = (!_.isNull(this.queryParams.runNumber)) ? url + '/' + this.queryParams.runNumber : url;
 
     return url;
   },
