@@ -986,6 +986,11 @@ app.detail = {
     articleId = (!_.isEmpty(url[1])) ? url[1] : null;
     versionNumber = (!_.isEmpty(url[2])) ? url[2] : null;
     runNumber = (!_.isEmpty(url[3])) ? url[3] : null;
+
+    if (app.config.ISPP) {
+      articleId = '00353';
+    }
+
     this.queryParams = {
       articleId: articleId,
       versionNumber: versionNumber,
