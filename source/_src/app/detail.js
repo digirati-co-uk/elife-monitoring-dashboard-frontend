@@ -232,12 +232,14 @@ app.detail = {
 
     url += this.queryParams.articleId;
     if (!_.isNull(this.queryParams.versionNumber) && _.isNull(this.queryParams.runNumber)) {
-      history.pushState(this.queryParams, '', url);
+      //@TODO this does't work in dashboard
+      //history.pushState(this.queryParams, '', url);
     }
 
     url = (!_.isNull(this.queryParams.versionNumber)) ? url + '/' + this.queryParams.versionNumber : url;
     url = (!_.isNull(this.queryParams.runNumber)) ? url + '/' + this.queryParams.runNumber : url;
-    history.pushState(this.queryParams, '', url);
+    //@TODO this does't work in dashboard
+    //history.pushState(this.queryParams, '', url);
   },
 };
 
