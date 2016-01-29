@@ -298,49 +298,51 @@ Handlebars.registerPartial("article-version-history", Handlebars.template({"1":f
 },"useData":true}));
 
 Handlebars.registerPartial("article-version-list", Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams,depths) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : {};
+    var stack1, alias1=depth0 != null ? depth0 : {};
 
-  return "            <li>\n                <span class=\"version-container\">\n                    <span class=\"version\">Version "
-    + container.escapeExpression(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"key","hash":{},"data":data,"blockParams":blockParams}) : helper)))
-    + "</span>\n                    <span class=\"status\"><span\n                            class=\"glyphicon reset-article-status-type "
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = ((stack1 = blockParams[0][0]) != null ? stack1.details : stack1)) != null ? stack1.status : stack1),{"name":"if","hash":{},"fn":container.program(2, data, 0, blockParams, depths),"inverse":container.program(4, data, 0, blockParams, depths),"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+  return "            <li class=\""
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || helpers.helperMissing).call(alias1,((stack1 = (depth0 != null ? depth0.details : depth0)) != null ? stack1["version-number"] : stack1),(depths[1] != null ? depths[1].currentVersion : depths[1]),{"name":"is","hash":{},"fn":container.program(2, data, 0, blockParams, depths),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + "\">\n                <span class=\"version-container\">\n                    <span class=\"version\">Version "
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.details : depth0)) != null ? stack1["version-number"] : stack1), depth0))
+    + "\n                    </span>\n                    <span class=\"status\"><span\n                            class=\"glyphicon reset-article-status-type "
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = ((stack1 = blockParams[0][0]) != null ? stack1.details : stack1)) != null ? stack1.status : stack1),{"name":"if","hash":{},"fn":container.program(4, data, 0, blockParams, depths),"inverse":container.program(6, data, 0, blockParams, depths),"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + " \"></span></span>\n                </span>\n                <ol class=\"run-container\">\n"
-    + ((stack1 = helpers.each.call(alias1,((stack1 = blockParams[0][0]) != null ? stack1.runs : stack1),{"name":"each","hash":{},"fn":container.program(6, data, 1, blockParams, depths),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(alias1,((stack1 = blockParams[0][0]) != null ? stack1.runs : stack1),{"name":"each","hash":{},"fn":container.program(8, data, 1, blockParams, depths),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "                </ol>\n\n            </li>\n";
-},"2":function(container,depth0,helpers,partials,data,blockParams) {
+},"2":function(container,depth0,helpers,partials,data) {
+    return "active";
+},"4":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
   return container.escapeExpression((helpers.lowercase || (depth0 && depth0.lowercase) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = ((stack1 = blockParams[1][0]) != null ? stack1.details : stack1)) != null ? stack1.status : stack1),{"name":"lowercase","hash":{},"data":data,"blockParams":blockParams}));
-},"4":function(container,depth0,helpers,partials,data) {
+},"6":function(container,depth0,helpers,partials,data) {
     return "no-article-status-type";
-},"6":function(container,depth0,helpers,partials,data,blockParams,depths) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+},"8":function(container,depth0,helpers,partials,data,blockParams,depths) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3=container.lambda, alias4=container.escapeExpression, alias5="function";
 
-  return "                        <li data-run=\""
-    + alias4(((helper = (helper = helpers["run-number"] || (depth0 != null ? depth0["run-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-number","hash":{},"data":data}) : helper)))
-    + "\" data-version=\""
-    + alias4(((helper = (helper = helpers["version-number"] || (depth0 != null ? depth0["version-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version-number","hash":{},"data":data}) : helper)))
-    + "\" class=\"run "
-    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["version-number"] : depth0),(depths[2] != null ? depths[2].currentVersion : depths[2]),{"name":"is","hash":{},"fn":container.program(7, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+  return "                        <li class=\"run "
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,((stack1 = (depths[1] != null ? depths[1].details : depths[1])) != null ? stack1["version-number"] : stack1),(depths[2] != null ? depths[2].currentVersion : depths[2]),{"name":"is","hash":{},"fn":container.program(9, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\">\n                            <a href=\"/article/"
-    + alias4(container.lambda(((stack1 = (depths[2] != null ? depths[2].article : depths[2])) != null ? stack1.id : stack1), depth0))
+    + alias4(alias3(((stack1 = (depths[2] != null ? depths[2].article : depths[2])) != null ? stack1.id : stack1), depth0))
     + "/"
-    + alias4(((helper = (helper = helpers["version-number"] || (depth0 != null ? depth0["version-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version-number","hash":{},"data":data}) : helper)))
+    + alias4(alias3(((stack1 = (depths[1] != null ? depths[1].details : depths[1])) != null ? stack1["version-number"] : stack1), depth0))
     + "/"
-    + alias4(((helper = (helper = helpers["run-number"] || (depth0 != null ? depth0["run-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-number","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers["run-number"] || (depth0 != null ? depth0["run-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias5 ? helper.call(alias1,{"name":"run-number","hash":{},"data":data}) : helper)))
+    + "\" data-version=\""
+    + alias4(alias3(((stack1 = (depths[1] != null ? depths[1].details : depths[1])) != null ? stack1["version-number"] : stack1), depth0))
+    + "\" data-run=\""
+    + alias4(((helper = (helper = helpers["run-number"] || (depth0 != null ? depth0["run-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias5 ? helper.call(alias1,{"name":"run-number","hash":{},"data":data}) : helper)))
     + "\">\n                                "
-    + alias4(((helper = (helper = helpers.currentArticle || (depth0 != null ? depth0.currentArticle : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"currentArticle","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.currentArticle || (depth0 != null ? depth0.currentArticle : depth0)) != null ? helper : alias2),(typeof helper === alias5 ? helper.call(alias1,{"name":"currentArticle","hash":{},"data":data}) : helper)))
     + "\n                                <span class=\"title\">Run "
-    + alias4(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"key","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers["run-number"] || (depth0 != null ? depth0["run-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias5 ? helper.call(alias1,{"name":"run-number","hash":{},"data":data}) : helper)))
     + "</span>\n                                <span class=\"date\">"
     + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["first-event-timestamp"] : depth0),"MM/DD/YYYY HH:mm:ss",{"name":"elFormatUnixDate","hash":{},"data":data}))
     + "</span>\n                                <span class=\"icon\"><span class=\"glyphicon glyphicon-chevron-right\"></span></span>\n                            </a>\n                        </li>\n";
-},"7":function(container,depth0,helpers,partials,data,blockParams,depths) {
+},"9":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1;
 
-  return ((stack1 = (helpers.is || (depth0 && depth0.is) || helpers.helperMissing).call(depth0 != null ? depth0 : {},(depth0 != null ? depth0["run-number"] : depth0),(depths[2] != null ? depths[2].currentRun : depths[2]),{"name":"is","hash":{},"fn":container.program(8, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "");
-},"8":function(container,depth0,helpers,partials,data) {
-    return "active";
+  return ((stack1 = (helpers.is || (depth0 && depth0.is) || helpers.helperMissing).call(depth0 != null ? depth0 : {},(depth0 != null ? depth0["run-number"] : depth0),(depths[2] != null ? depths[2].currentRun : depths[2]),{"name":"is","hash":{},"fn":container.program(2, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1;
 
@@ -663,6 +665,18 @@ app.utils = {
         .object()
         .value();
   },
+
+  /**
+   * inserts the string value (third parameter) before the specified integer index (second parameter) in the string str (first parameter), and then returns the new string without changing str
+   * @param str
+   * @param index
+   * @param value
+   * @returns {string}
+   */
+  insert: function(str, index, value) {
+    return str.substr(0, index) + value + str.substr(index);
+  },
+
 };
 'use strict';
 /**
@@ -1014,20 +1028,19 @@ app.detail = {
       this.article = [];
       this.currentEvents = [];
       this.currentArticle = [];
-      this.version = '';
-      this.run = '';
       this.queryParams = {};
       Swag.registerHelpers(Handlebars);
       this.setArticleParams();
+      this.setPageUrl();
       this.getArticle();
       this.bindEvents();
-
-      // Update this history event so that the state object contains the data
-      // for the homepage.
-      history.pushState(this.queryParams, '', this.formUrl());
     }
   },
 
+  setPageUrl: function() {
+    //@TODO redirect to latest url if no params
+    history.pushState(this.queryParams, '', this.formUrl());
+  },
   /**
    * Bind events
    */
@@ -1042,9 +1055,14 @@ app.detail = {
   bindNavigationEvents: function() {
     $('.run-container li a').on('click', function(e) {
       e.preventDefault();
+      var link = this.href;
+      if (app.config.ISPP) {
+        var extraUrl = 'patterns/04-pages-01-detail/04-pages-01-detail.html?/';
+        link = app.utils.insert(this.href, this.href.indexOf('article'), extraUrl);
+      }
 
       // Create a new history item.
-      history.replaceState(app.detail.queryParams, '', this.href);
+      history.replaceState(app.detail.queryParams, '', link);
     });
   },
 
@@ -1062,7 +1080,7 @@ app.detail = {
         success: function(article) {
           app.detail.article = article;
           app.detail.currentArticle = app.detail.getCurrentArticle();
-          app.detail.currentEvents = app.detail.getCurrentEvents();
+          app.detail.currentEvents = app.detail.getCurrentRun();
           app.detail.renderArticle();
         },
 
@@ -1083,22 +1101,14 @@ app.detail = {
    */
   renderArticle: function() {
     if (this.article) {
-      if (_.isNull(this.queryParams.versionNumber) &&  _.isNull(this.queryParams.runNumber)) {
-        this.version = app.utils.findLastKey(this.article.versions);
-        if (this.version) {
-          this.run = app.utils.findLastKey(this.article.versions[this.version].runs);
-          this.article.versions[this.version].runs[this.run].isActive = true;
-        }
-      }
-
       this.articleTemplate = eLife.templates['detail/article'];
       $('#article').empty().html(this.articleTemplate(
           {
             article: this.article,
             currentArticle: this.currentArticle,
             currentEvents: this.currentEvents,
-            currentVersion: this.version,
-            currentRun: this.run,
+            currentVersion: this.queryParams.versionNumber,
+            currentRun: this.queryParams.runNumber,
           }));
 
       this.bindNavigationEvents();
@@ -1110,25 +1120,25 @@ app.detail = {
    * @returns {*}
    */
   getCurrentArticle: function() {
-    if (!this.version && !this.run) {
-      this.version = app.utils.getNthObjectKey(this.article.versions, 0);
-      this.run = app.utils.getNthObjectKey(this.article.versions[this.version].runs, 0);
+    if (!this.queryParams.versionNumber && !this.queryParams.runNumber) {
+      this.queryParams.versionNumber = app.utils.getNthObjectKey(this.article.versions, 0);
+      this.queryParams.runNumber = app.utils.getNthObjectKey(this.article.versions[this.queryParams.versionNumber].runs, 0);
     }
 
-    return this.article.versions[this.version].details;
+    return this.article.versions[this.queryParams.versionNumber].details;
   },
 
   /**
    * Find the current list of events from stored data
    * @returns {*}
    */
-  getCurrentEvents: function() {
-    if (!this.version && !this.run) {
-      this.version = app.utils.getNthObjectKey(this.article.versions, 0);
-      this.run = app.utils.getNthObjectKey(this.article.versions[this.version].runs, 0);
+  getCurrentRun: function() {
+    if (!this.queryParams.versionNumber && !this.queryParams.runNumber) {
+      this.queryParams.versionNumber = app.utils.getNthObjectKey(this.article.versions, 0);
+      this.queryParams.runNumber = app.utils.getNthObjectKey(this.article.versions[this.queryParams.versionNumber].runs, 0);
     }
 
-    return this.article.versions[this.version].runs[this.run];
+    return this.article.versions[this.queryParams.versionNumber].runs[this.queryParams.runNumber];
   },
 
   /**
@@ -1136,11 +1146,27 @@ app.detail = {
    * @param e
    */
   updateRun: function(e) {
-    this.run = $(e.target).parents('[data-run]:first').attr('data-run');
-    this.version = $(e.target).parents('[data-version]:first').attr('data-version');
-    this.currentArticle = this.article.versions[this.version].details;
-    this.currentEvents = this.article.versions[this.version].runs[this.run];
+    this.queryParams.versionNumber = $(e.currentTarget).attr('data-version');
+    this.queryParams.runNumber = $(e.currentTarget).attr('data-run');
+    this.setCurrentArticle(this.article.versions[this.queryParams.versionNumber].details);
+    this.setCurrentRun(this.article.versions[this.queryParams.versionNumber].runs[this.queryParams.runNumber]);
     this.renderArticle();
+  },
+
+  /**
+   *
+   * @param details
+   */
+  setCurrentArticle: function(details) {
+    this.currentArticle = details;
+  },
+
+  /**
+   *
+   * @param details
+   */
+  setCurrentRun: function(run) {
+    this.currentEvents = run;
   },
 
   /**
@@ -1153,19 +1179,18 @@ app.detail = {
     var articleId;
     var versionNumber;
     var runNumber;
-    var url = window.location.pathname.split('/');
+    var url = window.location.pathname;
+    if (app.config.ISPP) {
+      // for use in the PP
+      url = window.location.search;
+      url = url.replace('?', '/');
+    }
+
+    url = url.split('/');
     url = _.compact(url);
     articleId = (!_.isEmpty(url[1])) ? url[1] : null;
     versionNumber = (!_.isEmpty(url[2])) ? url[2] : null;
     runNumber = (!_.isEmpty(url[3])) ? url[3] : null;
-
-    // for use in the PP
-    if (app.config.ISPP) {
-      articleId = '00387';
-      versionNumber = '1';
-      runNumber = '1';
-    }
-
     this.queryParams = {
       articleId: articleId,
       versionNumber: versionNumber,
@@ -1190,7 +1215,7 @@ app.detail = {
    */
   formUrl: function() {
     var url = '';
-    url += 'article/';
+    url += '/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/';
     url += this.queryParams.articleId;
     url = (!_.isNull(this.queryParams.versionNumber)) ? url + '/' + this.queryParams.versionNumber : url;
     url = (!_.isNull(this.queryParams.runNumber)) ? url + '/' + this.queryParams.runNumber : url;

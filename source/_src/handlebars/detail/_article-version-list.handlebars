@@ -1,18 +1,19 @@
 <section class="article-version-map">
     <ol class="article-version-map-list">
         {{#each article.versions as |versions|}}
-            <li>
+            <li class="{{#is details.version-number ../currentVersion}}active{{/is}}">
                 <span class="version-container">
-                    <span class="version">Version {{@key}}</span>
+                    <span class="version">Version {{details.version-number}}
+                    </span>
                     <span class="status"><span
                             class="glyphicon reset-article-status-type {{#if versions.details.status}}{{lowercase versions.details.status }}{{else}}no-article-status-type{{/if}} "></span></span>
                 </span>
                 <ol class="run-container">
                     {{#each versions.runs as |runs| }}
-                        <li data-run="{{run-number}}" data-version="{{version-number}}" class="run {{#is version-number ../../currentVersion}}{{#is run-number ../../currentRun}}active{{/is}}{{/is}}">
-                            <a href="/article/{{../../article.id}}/{{version-number}}/{{run-number}}">
+                        <li class="run {{#is ../details.version-number ../../currentVersion}}{{#is run-number ../../currentRun}}active{{/is}}{{/is}}">
+                            <a href="/article/{{../../article.id}}/{{../details.version-number}}/{{run-number}}" data-version="{{../details.version-number}}" data-run="{{run-number}}">
                                 {{currentArticle}}
-                                <span class="title">Run {{@key}}</span>
+                                <span class="title">Run {{run-number}}</span>
                                 <span class="date">{{elFormatUnixDate first-event-timestamp "MM/DD/YYYY HH:mm:ss" }}</span>
                                 <span class="icon"><span class="glyphicon glyphicon-chevron-right"></span></span>
                             </a>

@@ -9,20 +9,19 @@ app.detail = {
       this.article = [];
       this.currentEvents = [];
       this.currentArticle = [];
-      this.version = '';
-      this.run = '';
       this.queryParams = {};
       Swag.registerHelpers(Handlebars);
       this.setArticleParams();
+      this.setPageUrl();
       this.getArticle();
       this.bindEvents();
-
-      // Update this history event so that the state object contains the data
-      // for the homepage.
-      history.pushState(this.queryParams, '', this.formUrl());
     }
   },
 
+  setPageUrl: function() {
+    //@TODO redirect to latest url if no params
+    history.pushState(this.queryParams, '', this.formUrl());
+  },
   /**
    * Bind events
    */
@@ -37,9 +36,14 @@ app.detail = {
   bindNavigationEvents: function() {
     $('.run-container li a').on('click', function(e) {
       e.preventDefault();
+      var link = this.href;
+      if (app.config.ISPP) {
+        var extraUrl = 'patterns/04-pages-01-detail/04-pages-01-detail.html?/';
+        link = app.utils.insert(this.href, this.href.indexOf('article'), extraUrl);
+      }
 
       // Create a new history item.
-      history.replaceState(app.detail.queryParams, '', this.href);
+      history.replaceState(app.detail.queryParams, '', link);
     });
   },
 
@@ -57,7 +61,7 @@ app.detail = {
         success: function(article) {
           app.detail.article = article;
           app.detail.currentArticle = app.detail.getCurrentArticle();
-          app.detail.currentEvents = app.detail.getCurrentEvents();
+          app.detail.currentEvents = app.detail.getCurrentRun();
           app.detail.renderArticle();
         },
 
@@ -78,22 +82,14 @@ app.detail = {
    */
   renderArticle: function() {
     if (this.article) {
-      if (_.isNull(this.queryParams.versionNumber) &&  _.isNull(this.queryParams.runNumber)) {
-        this.version = app.utils.findLastKey(this.article.versions);
-        if (this.version) {
-          this.run = app.utils.findLastKey(this.article.versions[this.version].runs);
-          this.article.versions[this.version].runs[this.run].isActive = true;
-        }
-      }
-
       this.articleTemplate = eLife.templates['detail/article'];
       $('#article').empty().html(this.articleTemplate(
           {
             article: this.article,
             currentArticle: this.currentArticle,
             currentEvents: this.currentEvents,
-            currentVersion: this.version,
-            currentRun: this.run,
+            currentVersion: this.queryParams.versionNumber,
+            currentRun: this.queryParams.runNumber,
           }));
 
       this.bindNavigationEvents();
@@ -105,25 +101,25 @@ app.detail = {
    * @returns {*}
    */
   getCurrentArticle: function() {
-    if (!this.version && !this.run) {
-      this.version = app.utils.getNthObjectKey(this.article.versions, 0);
-      this.run = app.utils.getNthObjectKey(this.article.versions[this.version].runs, 0);
+    if (!this.queryParams.versionNumber && !this.queryParams.runNumber) {
+      this.queryParams.versionNumber = app.utils.getNthObjectKey(this.article.versions, 0);
+      this.queryParams.runNumber = app.utils.getNthObjectKey(this.article.versions[this.queryParams.versionNumber].runs, 0);
     }
 
-    return this.article.versions[this.version].details;
+    return this.article.versions[this.queryParams.versionNumber].details;
   },
 
   /**
    * Find the current list of events from stored data
    * @returns {*}
    */
-  getCurrentEvents: function() {
-    if (!this.version && !this.run) {
-      this.version = app.utils.getNthObjectKey(this.article.versions, 0);
-      this.run = app.utils.getNthObjectKey(this.article.versions[this.version].runs, 0);
+  getCurrentRun: function() {
+    if (!this.queryParams.versionNumber && !this.queryParams.runNumber) {
+      this.queryParams.versionNumber = app.utils.getNthObjectKey(this.article.versions, 0);
+      this.queryParams.runNumber = app.utils.getNthObjectKey(this.article.versions[this.queryParams.versionNumber].runs, 0);
     }
 
-    return this.article.versions[this.version].runs[this.run];
+    return this.article.versions[this.queryParams.versionNumber].runs[this.queryParams.runNumber];
   },
 
   /**
@@ -131,11 +127,27 @@ app.detail = {
    * @param e
    */
   updateRun: function(e) {
-    this.run = $(e.target).parents('[data-run]:first').attr('data-run');
-    this.version = $(e.target).parents('[data-version]:first').attr('data-version');
-    this.currentArticle = this.article.versions[this.version].details;
-    this.currentEvents = this.article.versions[this.version].runs[this.run];
+    this.queryParams.versionNumber = $(e.currentTarget).attr('data-version');
+    this.queryParams.runNumber = $(e.currentTarget).attr('data-run');
+    this.setCurrentArticle(this.article.versions[this.queryParams.versionNumber].details);
+    this.setCurrentRun(this.article.versions[this.queryParams.versionNumber].runs[this.queryParams.runNumber]);
     this.renderArticle();
+  },
+
+  /**
+   *
+   * @param details
+   */
+  setCurrentArticle: function(details) {
+    this.currentArticle = details;
+  },
+
+  /**
+   *
+   * @param details
+   */
+  setCurrentRun: function(run) {
+    this.currentEvents = run;
   },
 
   /**
@@ -148,19 +160,18 @@ app.detail = {
     var articleId;
     var versionNumber;
     var runNumber;
-    var url = window.location.pathname.split('/');
+    var url = window.location.pathname;
+    if (app.config.ISPP) {
+      // for use in the PP
+      url = window.location.search;
+      url = url.replace('?', '/');
+    }
+
+    url = url.split('/');
     url = _.compact(url);
     articleId = (!_.isEmpty(url[1])) ? url[1] : null;
     versionNumber = (!_.isEmpty(url[2])) ? url[2] : null;
     runNumber = (!_.isEmpty(url[3])) ? url[3] : null;
-
-    // for use in the PP
-    if (app.config.ISPP) {
-      articleId = '00387';
-      versionNumber = '1';
-      runNumber = '1';
-    }
-
     this.queryParams = {
       articleId: articleId,
       versionNumber: versionNumber,
@@ -185,7 +196,7 @@ app.detail = {
    */
   formUrl: function() {
     var url = '';
-    url += 'article/';
+    url += '/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/';
     url += this.queryParams.articleId;
     url = (!_.isNull(this.queryParams.versionNumber)) ? url + '/' + this.queryParams.versionNumber : url;
     url = (!_.isNull(this.queryParams.runNumber)) ? url + '/' + this.queryParams.runNumber : url;
