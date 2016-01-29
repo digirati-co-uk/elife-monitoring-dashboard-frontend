@@ -821,23 +821,22 @@ app.detail = {
   bindEvents: function() {
     $('#article', '.detail-page').on('click', '.article-version-map-list .run-container .run a', this.updateRun.bind(this));
     $('#article', '.detail-page').on('click', '.btn-publish', this.publish.bind(this));
+    $('#article').on('click', '.run-container li a', this.bindNavigationEvents.bind(this));
   },
 
   /**
    * Bind navigation events
    */
-  bindNavigationEvents: function() {
-    $('.run-container li a').on('click', function(e) {
-      e.preventDefault();
-      var link = this.href;
-      if (app.config.ISPP) {
-        var extraUrl = 'patterns/04-pages-01-detail/04-pages-01-detail.html?/';
-        link = app.utils.insert(this.href, this.href.indexOf('article'), extraUrl);
-      }
+  bindNavigationEvents: function(e) {
+    e.preventDefault();
+    var link = e.currentTarget.href;
+    if (app.config.ISPP) {
+      var extraUrl = 'patterns/04-pages-01-detail/04-pages-01-detail.html?/';
+      link = app.utils.insert(link, link.indexOf('article'), extraUrl);
+    }
 
-      // Create a new history item.
-      history.replaceState(app.detail.queryParams, '', link);
-    });
+    // Create a new history item.
+    history.replaceState(app.detail.queryParams, '', link);
   },
 
   /**
@@ -883,8 +882,6 @@ app.detail = {
             currentVersion: this.queryParams.versionNumber,
             currentRun: this.queryParams.runNumber,
           }));
-
-      this.bindNavigationEvents();
     }
   },
 
