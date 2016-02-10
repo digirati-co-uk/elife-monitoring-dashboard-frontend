@@ -13,14 +13,61 @@ app.detail = {
       this.queryParams = {};
       Swag.registerHelpers(Handlebars);
       this.setArticleParams();
-      this.setPageUrl();
       this.getArticle();
       this.bindEvents();
     }
   },
 
-  setPageUrl: function() {
-    this.updateUrl();
+  /**
+   * Generate page url
+   * if url is /articleid/version/run do nothing
+   * if url is /articleid/version find latest run and update the url
+   * if url is /articleid find latest version and then the latest run and update the url
+   * @returns {string}
+   */
+  updatePageUrl: function() {
+    this.setLatestArticle();
+    var extraUrl = 'patterns/04-pages-01-detail/04-pages-01-detail.html?/';
+    var articleId;
+    var versionNumber;
+    var runNumber;
+    var url;
+    var state = History.getState();
+    var hash = state.hash;
+    if (app.config.ISPP) {
+      hash = hash.replace(extraUrl, '');
+    }
+
+    url = hash;
+    hash = hash.split('/');
+    hash = _.compact(hash);
+    articleId = (!_.isEmpty(hash[1])) ? hash[1] : null;
+    versionNumber = (!_.isEmpty(hash[2])) ? hash[2] : null;
+    runNumber = (!_.isEmpty(hash[3])) ? hash[3] : null;
+
+    url = (url.slice(-1) === '/') ? url.slice(0, -1) : url;
+
+    if (_.isNull(versionNumber) && _.isNull(runNumber)) {
+      url += '/' + this.queryParams.versionNumber + '/' + this.queryParams.runNumber;
+    }
+
+    if (!_.isNull(versionNumber) && _.isNull(runNumber)) {
+      url += '/' + this.queryParams.runNumber;
+    }
+
+    console.log(url);
+    if (app.config.ISPP) {
+      url = '/' + extraUrl.slice(0, -1) + url;
+    }
+
+    console.info(url);
+    History.pushState(null, null, url);
+
+    //
+    //
+    //
+    // then deal with changes/updates from clicking the items on the left
+
   },
   /**
    * Bind events
@@ -36,6 +83,7 @@ app.detail = {
    */
   bindNavigationEvents: function(e) {
     e.preventDefault();
+    console.log('bindNavigationEvents');
     var link = e.currentTarget.href;
     if (app.config.ISPP) {
       var extraUrl = 'patterns/04-pages-01-detail/04-pages-01-detail.html?/';
@@ -43,7 +91,7 @@ app.detail = {
     }
 
     // Create a new history item.
-    history.replaceState(app.detail.queryParams, '', link);
+    //history.pushState(app.detail.queryParams, '', link);
   },
 
   /**
@@ -58,6 +106,7 @@ app.detail = {
         dataType: 'json',
         success: function(article) {
           app.detail.article = article;
+          app.detail.setLatestArticle();
           app.detail.currentArticle = app.detail.getCurrentArticle();
           app.detail.currentEvents = app.detail.getCurrentRun();
           app.detail.renderArticle();
@@ -93,21 +142,21 @@ app.detail = {
       this.errorTemplate = eLife.templates['error-render'];
       $('#article').empty().html(this.errorTemplate(this.errors));
     }
+    this.updatePageUrl();
   },
 
   /**
    * Set latest article
    */
   setLatestArticle: function() {
+    console.error('setLatestArticle');
     if (!this.queryParams.versionNumber) {
       this.queryParams.versionNumber = app.utils.findLastKey(this.article.versions);
     }
 
     if (!this.queryParams.runNumber) {
-      this.queryParams.runNumber = app.utils.findLastKey(this.article.versions[this.queryParams.versionNumber].runs);
+      this.queryParams.runNumber = (_.has(this.article.versions, this.queryParams.versionNumber)) ? app.utils.findLastKey(this.article.versions[this.queryParams.versionNumber].runs) : null;
     }
-
-    this.updateUrl();
 
   },
   /**
@@ -115,7 +164,7 @@ app.detail = {
    * @returns {*}
    */
   getCurrentArticle: function() {
-    this.setLatestArticle();
+    //this.setLatestArticle();
     if (_.has(this.article.versions, this.queryParams.versionNumber)) {
       return this.article.versions[this.queryParams.versionNumber].details;
     } else {
@@ -130,7 +179,7 @@ app.detail = {
    */
   getCurrentRun: function() {
     var lastKey;
-    this.setLatestArticle();
+    //this.setLatestArticle();
     if (_.has(this.article.versions, this.queryParams.versionNumber)) {
       lastKey = app.utils.findLastKey(this.article.versions[this.queryParams.versionNumber].runs);
       if (parseInt(this.queryParams.runNumber) <= parseInt(lastKey)) {
@@ -193,10 +242,6 @@ app.detail = {
     versionNumber = (!_.isEmpty(url[2])) ? url[2] : null;
     runNumber = (!_.isEmpty(url[3])) ? url[3] : null;
 
-    if (app.config.ISPP) {
-      articleId = '00353';
-    }
-
     this.queryParams = {
       articleId: articleId,
       versionNumber: versionNumber,
@@ -213,33 +258,6 @@ app.detail = {
     app.publish.initModal(false);
     app.publish.populateQueue($(e.target), true);
     app.publish.displayQueueList();
-  },
-
-  /**
-   * return the url as a string.
-   * @returns {string}
-   */
-  updateUrl: function() {
-
-    var url = '';
-    if (app.config.ISPP) {
-      url += '/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/';
-    }
-
-    if (_.isNull(this.queryParams.articleId)) {
-      return url;
-    }
-
-    url += this.queryParams.articleId;
-    if (!_.isNull(this.queryParams.versionNumber) && _.isNull(this.queryParams.runNumber)) {
-      //@TODO this does't work in dashboard
-      //history.pushState(this.queryParams, '', url);
-    }
-
-    url = (!_.isNull(this.queryParams.versionNumber)) ? url + '/' + this.queryParams.versionNumber : url;
-    url = (!_.isNull(this.queryParams.runNumber)) ? url + '/' + this.queryParams.runNumber : url;
-    //@TODO this does't work in dashboard
-    //history.pushState(this.queryParams, '', url);
   },
 };
 
