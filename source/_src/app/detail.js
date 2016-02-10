@@ -6,6 +6,7 @@ app.detail = {
    */
   init: function() {
     if ($('.detail-page').length > 0) {
+      this.extraUrl = 'patterns/04-pages-01-detail/04-pages-01-detail.html?/';
       this.article = [];
       this.errors = [];
       this.currentEvents = [];
@@ -27,7 +28,7 @@ app.detail = {
    */
   updatePageUrl: function() {
     this.setLatestArticle();
-    var extraUrl = 'patterns/04-pages-01-detail/04-pages-01-detail.html?/';
+
     var articleId;
     var versionNumber;
     var runNumber;
@@ -35,7 +36,7 @@ app.detail = {
     var state = History.getState();
     var hash = state.hash;
     if (app.config.ISPP) {
-      hash = hash.replace(extraUrl, '');
+      hash = hash.replace(this.extraUrl, '');
     }
 
     url = hash;
@@ -55,18 +56,12 @@ app.detail = {
       url += '/' + this.queryParams.runNumber;
     }
 
-    console.log(url);
     if (app.config.ISPP) {
-      url = '/' + extraUrl.slice(0, -1) + url;
+      url = '/' + this.extraUrl.slice(0, -1) + url;
     }
 
-    console.info(url);
     History.pushState(null, null, url);
 
-    //
-    //
-    //
-    // then deal with changes/updates from clicking the items on the left
 
   },
   /**
@@ -83,15 +78,16 @@ app.detail = {
    */
   bindNavigationEvents: function(e) {
     e.preventDefault();
-    console.log('bindNavigationEvents');
-    var link = e.currentTarget.href;
+    var version = $(e.currentTarget).attr('data-version');
+    var run = $(e.currentTarget).attr('data-run');
+    var url = '/article/' + this.queryParams.articleId + '/' + version + '/' + run;
+
     if (app.config.ISPP) {
-      var extraUrl = 'patterns/04-pages-01-detail/04-pages-01-detail.html?/';
-      link = app.utils.insert(link, link.indexOf('article'), extraUrl);
+      url = '/' + this.extraUrl.slice(0, -1) + url;
     }
 
     // Create a new history item.
-    //history.pushState(app.detail.queryParams, '', link);
+    history.pushState(null, null, url);
   },
 
   /**
@@ -149,7 +145,6 @@ app.detail = {
    * Set latest article
    */
   setLatestArticle: function() {
-    console.error('setLatestArticle');
     if (!this.queryParams.versionNumber) {
       this.queryParams.versionNumber = app.utils.findLastKey(this.article.versions);
     }
@@ -164,7 +159,6 @@ app.detail = {
    * @returns {*}
    */
   getCurrentArticle: function() {
-    //this.setLatestArticle();
     if (_.has(this.article.versions, this.queryParams.versionNumber)) {
       return this.article.versions[this.queryParams.versionNumber].details;
     } else {
@@ -179,7 +173,6 @@ app.detail = {
    */
   getCurrentRun: function() {
     var lastKey;
-    //this.setLatestArticle();
     if (_.has(this.article.versions, this.queryParams.versionNumber)) {
       lastKey = app.utils.findLastKey(this.article.versions[this.queryParams.versionNumber].runs);
       if (parseInt(this.queryParams.runNumber) <= parseInt(lastKey)) {
