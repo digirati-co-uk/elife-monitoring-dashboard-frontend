@@ -943,6 +943,16 @@ app.current = {
         $('#articles').empty().html(this.articleTemplate(app.current.sortArticles(articles)));
         this.articleStatsTemplate = eLife.templates['current/article-stats-template'];
         $('#articleStats').html(this.articleStatsTemplate(app.current.sortArticles(articles)));
+        if (app.config.ISPP) {
+          // to work in PP we need to amend the urls
+          _.each($('#articles table a'), function(a) {
+            var link = $(a).attr('href');
+            if (link.match(/article/)) {
+              link = '/patterns/04-pages-01-detail/04-pages-01-detail.html?' + link;
+              $(a).attr('href', link);
+            }
+          });
+        }
       },
 
       error: function(data) {
