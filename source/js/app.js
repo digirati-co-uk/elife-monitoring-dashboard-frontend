@@ -1078,8 +1078,6 @@ app.detail = {
     }
 
     History.pushState(null, null, url);
-
-
   },
   /**
    * Bind events
@@ -1155,6 +1153,7 @@ app.detail = {
       this.errorTemplate = eLife.templates['error-render'];
       $('#article').empty().html(this.errorTemplate(this.errors));
     }
+
     this.updatePageUrl();
   },
 
