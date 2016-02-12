@@ -229,7 +229,8 @@ Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(c
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=container.lambda, alias2=container.escapeExpression, alias3=depth0 != null ? depth0 : {}, alias4=helpers.helperMissing, alias5="function";
 
-  return ((stack1 = container.invokePartial(partials["article-publish-modal"],depth0,{"name":"article-publish-modal","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+  return "\n<div id=\"schedule-date-time\"></div>\n\n"
+    + ((stack1 = container.invokePartial(partials["article-publish-modal"],depth0,{"name":"article-publish-modal","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + ((stack1 = container.invokePartial(partials["article-schedule-modal"],depth0,{"name":"article-schedule-modal","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "<section class=\"article-detail\" data-article-id=\""
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
@@ -354,7 +355,7 @@ Handlebars.registerPartial("article-publish-modal", Handlebars.template({"compil
 },"useData":true}));
 
 Handlebars.registerPartial("article-schedule-modal", Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<a href=\"#\" class=\"btn btn-default pattern-helper\">\n    Modal\n</a>\n<div class=\"modal fade\" id=\"schedule-modal\" tabindex=\"-1\" role=\"dialog\" data-backdrop=\"static\" aria-labelledby=\"schedule-modal\">\n    <div class=\"modal-dialog modal-sm\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"myModalLabel\">Schedule article</h4>\n            </div>\n            <div class=\"modal-body\">\n                <p>When do you want to schedule this article?</p>\n                <br />\n                <div id=\"schedule-date-time\"></div>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"schedule-close\">Close</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner\" id=\"schedule-action\">Schedule</button>\n            </div>\n        </div>\n    </div>\n</div>";
+    return "<a href=\"#\" class=\"btn btn-default pattern-helper\">\n    Modal\n</a>\n<div class=\"modal fade\" id=\"schedule-modal\" tabindex=\"-1\" role=\"dialog\" data-backdrop=\"static\"\n     aria-labelledby=\"schedule-modal\">\n    <div class=\"modal-dialog modal-lg\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span\n                        aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"myModalLabel\">Schedule article</h4>\n            </div>\n            <div class=\"modal-body\">\n                <p>When do you want to schedule this article?</p>\n                <br/>\n                <div class=\"form-group\">\n                    <div class=\"col-sm-6\">\n                        <input id=\"\" name=\"\" class=\"form-control datepicker\" type=\"text\" placeholder=\"Date\">\n                    </div>\n                    <div class=\"col-sm-6\">\n                        <input id=\"\" name=\"\" class=\"form-control timepicker\" type=\"text\" placeholder=\"Time\">\n                    </div>\n                </div>\n                <br />\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"schedule-close\">Close</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner\" id=\"schedule-action\">Schedule</button>\n            </div>\n        </div>\n    </div>\n</div>";
 },"useData":true}));
 
 this["eLife"]["templates"]["current/article-stats-template"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams) {
@@ -563,9 +564,7 @@ this["eLife"]["templates"]["schedule/article-schedule-modal-status"] = Handlebar
     + container.escapeExpression(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"message","hash":{},"data":data}) : helper)))
     + "</p>";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
+    var stack1;
 
-  return container.escapeExpression((helpers.debug || (depth0 && depth0.debug) || alias2).call(alias1,(depth0 != null ? depth0.scheduled : depth0),{"name":"debug","hash":{},"data":data}))
-    + "\n"
-    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0.scheduled : depth0),true,{"name":"is","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "");
+  return ((stack1 = (helpers.is || (depth0 && depth0.is) || helpers.helperMissing).call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.scheduled : depth0),true,{"name":"is","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "");
 },"useData":true});

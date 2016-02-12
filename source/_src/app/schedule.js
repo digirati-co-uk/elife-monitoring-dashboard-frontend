@@ -12,7 +12,6 @@ app.schedule = {
       this.articleId = null;
       Swag.registerHelpers(Handlebars);
       this.bindEvents();
-      this.initDateTimePicker();
     }
   },
 
@@ -22,13 +21,14 @@ app.schedule = {
   bindEvents: function() {
     $(document).on('click', '#schedule-modal #schedule-action', this.performSchedule.bind(this));
     $(document).on('show.bs.modal', this.setParameters.bind(this));
+    $(document).on('show.bs.modal', this.initDateTimePicker.bind(this));
     $(document).on('click', '#schedule-modal .close', this.refreshPage.bind(this));
     $(document).on('click', '#schedule-modal #schedule-close', this.refreshPage.bind(this));
   },
 
   initDateTimePicker: function() {
-    console.log('initDateTimePicker');
-    $('#schedule-date-time').datetimepicker({inline: true, sideBySide: true});
+    $('.datepicker').pickadate();
+    $('.timepicker').pickatime();
   },
 
   setParameters: function(e) {
