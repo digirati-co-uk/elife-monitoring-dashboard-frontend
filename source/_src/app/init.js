@@ -8,6 +8,8 @@ var app = {
   publishTimeout: 500,
   checkStatusInterval: 800,
   pollLimit: 250,
+  isScheduling: false,
+  isAllScheduled: false,
   isPublishing: false,
   isAllPublished: false,
 };
