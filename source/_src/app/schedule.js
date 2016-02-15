@@ -10,6 +10,8 @@ app.schedule = {
   init: function() {
     if ($('.current-page').length > 0 || $('.detail-page').length > 0) {
       this.articleId = null;
+      this.scheduleDate = null;
+      this.scheduleTime = null;
       Swag.registerHelpers(Handlebars);
       this.bindEvents();
     }
@@ -26,20 +28,57 @@ app.schedule = {
     $(document).on('click', '#schedule-modal #schedule-close', this.refreshPage.bind(this));
   },
 
+  /**
+   * When the modal is loaded enable the date and time pickers.
+   */
   initDateTimePicker: function() {
-    $('.datepicker').pickadate();
-    $('.timepicker').pickatime();
+    $('#schedule-action').prop('disabled', true).addClass('disabled');
+    $('.datepicker').pickadate({
+      onSet: function(context) {
+        app.schedule.scheduleDate = context.select;
+        app.schedule.enableSchedule();
+      },
+    });
+    $('.timepicker').pickatime({
+      interval: 1,
+      formatSubmit: 'HH:i',
+      hiddenPrefix: 'schedule_time',
+      onSet: function(context) {
+        app.schedule.scheduleTime = $('input[name="schedule_time_submit"]').val();
+        app.schedule.enableSchedule();
+      },
+    });
+
   },
 
+  /**
+   * When both date and time have been set in the modal, allow scheduling
+   */
+  enableSchedule: function() {
+    if (!_.isNull(this.scheduleDate) && !_.isNull(this.scheduleTime)) {
+      $('#schedule-action').prop('disabled', false).removeClass('disabled');
+    }
+  },
+
+  /**
+   * Set the parameters for the article scheduling.
+   * @param e
+   */
   setParameters: function(e) {
     var articleId = $('.article-detail').attr('data-article-id');
     this.articleId = articleId;
   },
 
+  /**
+   * Schedule the article using the service
+   */
   performSchedule: function() {
-    app.isScheduling = true;
     console.log('scheduleArticle');
-    console.log(JSON.stringify({articleId: this.articleId, date: '12/12/12 11.12am'}));
+    app.isScheduling = true;
+
+    //@TODO the datetime format will probably need to be changed
+    var dateTime = moment(app.schedule.scheduleDate).format('DD-MM-YYYY') + ' ' + moment(app.schedule.scheduleTime, 'HH:mm').format('hh:mm A');
+    console.log(JSON.stringify({articleId: this.articleId, date: dateTime}));
     $('#schedule-modal #schedule-action').hide();
     $.ajax({
       type: 'POST',
@@ -62,6 +101,7 @@ app.schedule = {
       },
     });
   },
+
   /**
    * refresh page when
    * user closes modal and scheduling is not takign place.
