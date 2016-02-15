@@ -1,10 +1,15 @@
-{{#is scheduled true}}
+{{#if success}}
     <div class="alert alert-success">
-        <p>Success your article has been scheduled.</p>
+        {{#is actionType 'schedule-cancel'}}
+            <p>This article has been unscheduled.</p>
+        {{/is}}
+        {{#isnt actionType 'schedule-cancel'}}
+            <p>Success your article has been scheduled.</p>
+        {{/isnt}}
     </div>
 {{else}}
     <div class="alert alert-danger">
         <p>An error has occured, please try again.</p>
         {{#if message}}<p>{{message}}</p>{{/if}}
     </div>
-{{/is}}
+{{/if}}

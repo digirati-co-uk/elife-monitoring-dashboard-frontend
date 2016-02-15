@@ -12,6 +12,7 @@ app.schedule = {
       this.articleId = null;
       this.scheduleDate = null;
       this.scheduleTime = null;
+      this.scheduleActionType = null;
       Swag.registerHelpers(Handlebars);
       this.bindEvents();
     }
@@ -22,8 +23,10 @@ app.schedule = {
    */
   bindEvents: function() {
     $(document).on('click', '#schedule-modal #schedule-action', this.performSchedule.bind(this));
+    $(document).on('click', '#schedule-modal #schedule-cancel', this.performSchedule.bind(this));
     $(document).on('show.bs.modal', this.setParameters.bind(this));
     $(document).on('show.bs.modal', this.initDateTimePicker.bind(this));
+    $(document).on('hide.bs.modal', this.resetParameters.bind(this));
     $(document).on('click', '#schedule-modal .close', this.refreshPage.bind(this));
     $(document).on('click', '#schedule-modal #schedule-close', this.refreshPage.bind(this));
   },
@@ -55,6 +58,8 @@ app.schedule = {
    * When both date and time have been set in the modal, allow scheduling
    */
   enableSchedule: function() {
+    console.log(this.scheduleDate);
+    console.log(this.scheduleTime);
     if (!_.isNull(this.scheduleDate) && !_.isNull(this.scheduleTime)) {
       $('#schedule-action').prop('disabled', false).removeClass('disabled');
     }
@@ -66,9 +71,31 @@ app.schedule = {
    */
   setParameters: function(e) {
     var articleId = $('.article-detail').attr('data-article-id');
+    var data = {actionType: 'schedule'};
     this.articleId = articleId;
+    this.scheduleActionType = $(e.relatedTarget).attr('id');
+    this.articleModalBodyTemplate = eLife.templates['schedule/article-schedule-modal-body'];
+    if (this.scheduleActionType === 'schedule-cancel') {
+      $('#schedule-action', '#schedule-modal').addClass('hidden');
+      $('#schedule-cancel', '#schedule-modal').removeClass('hidden');
+      data.actionType = 'cancel';
+    } else if (this.scheduleActionType === 'schedule-amend' || this.scheduleActionType === 'schedule') {
+      $('#schedule-action', '#schedule-modal').removeClass('hidden');
+      $('#schedule-cancel', '#schedule-modal').addClass('hidden');
+      data.actionType = 'schedule';
+    }
+
+    $('#schedule-modal .modal-body').html(this.articleModalBodyTemplate(data));
   },
 
+  /**
+   * reset parameters on modal close
+   */
+  resetParameters: function() {
+    console.log('reset')
+    this.scheduleDate = null;
+    this.scheduleTime = null;
+  },
   /**
    * Schedule the article using the service
    */
@@ -84,18 +111,21 @@ app.schedule = {
       type: 'POST',
       contentType: 'application/json',
       url: app.API + 'api/schedule_article_publication',
-      data: JSON.stringify({articleId: this.articleId, date: '12/12/12 11.12am'}),
+      data: JSON.stringify({articleId: this.articleId, date: dateTime}),
       success: function(data) {
+        console.log(data.scheduled)
+        var template = {success: data.scheduled, actionType: app.schedule.scheduleActionType};
         this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
-        $('#schedule-modal .modal-body').html(this.queueArticleStatusTemplate(data));
+        console.log(template);
+        $('#schedule-modal .modal-body').html(this.queueArticleStatusTemplate(template));
         app.isScheduling = false;
         app.isAllScheduled = true;
       },
 
       error: function(data) {
-        var status = {scheduled: false, message: 'There was an error talking to the API.'};
+        var template = {success: true, actionType: app.schedule.scheduleActionType, message: 'There was an error talking to the API.'};
         this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
-        $('#schedule-modal .modal-body').html(this.queueArticleStatusTemplate(status));
+        $('#schedule-modal .modal-body').html(this.queueArticleStatusTemplate(template));
         app.isScheduling = false;
         app.isAllScheduled = true;
       },

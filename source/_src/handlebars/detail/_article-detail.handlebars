@@ -1,6 +1,3 @@
-
-<div id="schedule-date-time"></div>
-
 {{> article-publish-modal}}
 {{> article-schedule-modal}}
 <section class="article-detail" data-article-id="{{ article.id }}">
@@ -10,7 +7,7 @@
                 <span class="glyphicon glyphicon-calendar"></span>
                 Re-Schedule
             </button>
-            <button class="btn btn-default schedule" id="schedule-cancel">
+            <button class="btn btn-default schedule" id="schedule-cancel" data-toggle="modal" data-target="#schedule-modal">
                 <span class="glyphicon glyphicon-calendar"></span>
                 Cancel Schedule
             </button>
