@@ -2,6 +2,9 @@
 \*------------------------------------*/
 @import url(libs/bootstrap.min.css);
 @import url(libs/bootstrap-datetimepicker.min.css);
+@import url(libs/pickadate/classic.css);
+@import url(libs/pickadate/classic.date.css);
+@import url(libs/pickadate/classic.time.css);
 /*------------------------------------*    $VARIABLES
 \*------------------------------------*/
 /*------------------------------------*    $RESET

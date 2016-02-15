@@ -184,7 +184,7 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
 },"useData":true}));
 
 Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    return "            <button class=\"btn btn-default\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Re-Schedule\n            </button>\n            <button class=\"btn btn-default\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Cancel Schedule\n            </button>\n";
+    return "            <button class=\"btn btn-default schedule\" id=\"schedule-amend\" data-toggle=\"modal\" data-target=\"#schedule-modal\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Re-Schedule\n            </button>\n            <button class=\"btn btn-default schedule\" id=\"schedule-cancel\" data-toggle=\"modal\" data-target=\"#schedule-modal\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Cancel Schedule\n            </button>\n";
 },"3":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=container.lambda, alias2=container.escapeExpression;
 
@@ -198,7 +198,7 @@ Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(c
     + alias2(((helper = (helper = helpers.currentVersion || (depth0 != null ? depth0.currentVersion : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"currentVersion","hash":{},"data":data}) : helper)))
     + "\"\n                    data-article-run=\""
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.currentEvents : depth0)) != null ? stack1["run-id"] : stack1), depth0))
-    + "\">\n                <span class=\"glyphicon glyphicon-globe\"></span>\n                Publish Now\n            </button>\n            <button class=\"btn btn-default\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Schedule\n            </button>\n";
+    + "\">\n                <span class=\"glyphicon glyphicon-globe\"></span>\n                Publish Now\n            </button>\n            <button class=\"btn btn-default schedule\" id=\"schedule\" data-toggle=\"modal\" data-target=\"#schedule-modal\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Schedule\n            </button>\n";
 },"5":function(container,depth0,helpers,partials,data) {
     var stack1;
 
@@ -230,26 +230,29 @@ Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(c
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.authors : stack1), depth0))
     + "</dd>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=container.lambda, alias3=container.escapeExpression, alias4=helpers.helperMissing, alias5="function";
+    var stack1, helper, alias1=container.lambda, alias2=container.escapeExpression, alias3=depth0 != null ? depth0 : {}, alias4=helpers.helperMissing, alias5="function";
 
   return ((stack1 = container.invokePartial(partials["article-publish-modal"],depth0,{"name":"article-publish-modal","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-    + "<section class=\"article-detail\">\n    <div class=\"actions \">\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["scheduled-publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
+    + ((stack1 = container.invokePartial(partials["article-schedule-modal"],depth0,{"name":"article-schedule-modal","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + "<section class=\"article-detail\" data-article-id=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
+    + "\">\n    <div class=\"actions\">\n"
+    + ((stack1 = helpers["if"].call(alias3,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["scheduled-publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
     + "    </div>\n    <table class=\"snapshot\">\n        <tr>\n            <td class=\"column-1\">\n                <span class=\"glyphicon glyphicon-file "
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.status : stack1),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.program(7, data, 0),"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias3,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.status : stack1),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.program(7, data, 0),"data":data})) != null ? stack1 : "")
     + "\"></span>\n                <h6>"
-    + alias3(alias2(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.doi : stack1), depth0))
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.doi : stack1), depth0))
     + "</h6>\n                <p>"
-    + alias3(alias2(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.title : stack1), depth0))
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.title : stack1), depth0))
     + "</p>\n            </td>\n            <td class=\"column-2\">\n                <dl>\n                    <dt><i>Version:</i></dt>\n                    <dd><strong>"
-    + alias3(((helper = (helper = helpers.currentVersion || (depth0 != null ? depth0.currentVersion : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias1,{"name":"currentVersion","hash":{},"data":data}) : helper)))
+    + alias2(((helper = (helper = helpers.currentVersion || (depth0 != null ? depth0.currentVersion : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias3,{"name":"currentVersion","hash":{},"data":data}) : helper)))
     + "</strong></dd>\n                    <dt><i>Run:</i></dt>\n                    <dd><strong>"
-    + alias3(((helper = (helper = helpers.currentRun || (depth0 != null ? depth0.currentRun : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias1,{"name":"currentRun","hash":{},"data":data}) : helper)))
+    + alias2(((helper = (helper = helpers.currentRun || (depth0 != null ? depth0.currentRun : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias3,{"name":"currentRun","hash":{},"data":data}) : helper)))
     + "</strong></dd>\n                </dl>\n            </td>\n        </tr>\n    </table>\n    <table class=\"detail\">\n        <tr>\n            <td class=\"column-1\">\n                <dl>\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["article-type"] : stack1),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["corresponding-authors"] : stack1),{"name":"if","hash":{},"fn":container.program(13, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.authors : stack1),{"name":"if","hash":{},"fn":container.program(15, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias3,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["article-type"] : stack1),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias3,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias3,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["corresponding-authors"] : stack1),{"name":"if","hash":{},"fn":container.program(13, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias3,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.authors : stack1),{"name":"if","hash":{},"fn":container.program(15, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "                </dl>\n            </td>\n        </tr>\n    </table>\n</section>";
 },"usePartial":true,"useData":true}));
 
@@ -351,6 +354,10 @@ Handlebars.registerPartial("article-version-list", Handlebars.template({"1":func
 
 Handlebars.registerPartial("article-publish-modal", Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     return "<a href=\"#\" class=\"btn btn-default pattern-helper\" data-toggle=\"modal\" data-target=\"#publish-modal\">\n    Modal\n</a>\n<div class=\"modal fade\" id=\"publish-modal\" tabindex=\"-1\" role=\"dialog\" data-backdrop=\"static\" aria-labelledby=\"publish-modal\">\n    <div class=\"modal-dialog modal-sm\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"myModalLabel\">Publish article(s)</h4>\n            </div>\n            <div class=\"modal-body\">\n                Are you sure you want to publish the following article(s)?\n                <ol id=\"articles-queue\"></ol>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"publish-close\">Close</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner publish-action\" id=\"publish-action\"></button>\n            </div>\n        </div>\n    </div>\n</div>";
+},"useData":true}));
+
+Handlebars.registerPartial("article-schedule-modal", Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "<a href=\"#\" class=\"btn btn-default pattern-helper\">\n    Modal\n</a>\n<div class=\"modal fade\" id=\"schedule-modal\" tabindex=\"-1\" role=\"dialog\" data-backdrop=\"static\"\n     aria-labelledby=\"schedule-modal\">\n    <div class=\"modal-dialog modal-lg\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span\n                        aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"myModalLabel\">Schedule article</h4>\n            </div>\n            <div class=\"modal-body\"></div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"schedule-close\">Close</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner hidden\" id=\"schedule-action\">Schedule</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner hidden\" id=\"schedule-cancel\">Cancel</button>\n            </div>\n        </div>\n    </div>\n</div>";
 },"useData":true}));
 
 this["eLife"]["templates"]["current/article-stats-template"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams) {
@@ -543,6 +550,46 @@ this["eLife"]["templates"]["publish/article-publish-modal-status"] = Handlebars.
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),"published",{"name":"is","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "</span>\n\n";
 },"useData":true});
+
+this["eLife"]["templates"]["schedule/article-schedule-modal-body"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    return "<p>When do you want to schedule this article?</p>\n<br/>\n<div class=\"form-group\">\n    <div class=\"col-sm-6\">\n        <input id=\"\" name=\"\" class=\"form-control datepicker\" type=\"text\" placeholder=\"Date\">\n    </div>\n    <div class=\"col-sm-6\">\n        <input id=\"\" name=\"\" class=\"form-control timepicker\" type=\"text\" placeholder=\"Time\">\n    </div>\n</div>\n<br/>\n";
+},"3":function(container,depth0,helpers,partials,data) {
+    return "<div class=\"alert alert-warning\">\n    <p>Are you sure you want to cancel the publication of this article?</p>\n</div>\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
+
+  return ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0.actionType : depth0),"schedule",{"name":"is","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0.actionType : depth0),"cancel",{"name":"is","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"useData":true});
+
+this["eLife"]["templates"]["schedule/article-schedule-modal-status"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
+
+  return "    <div class=\"alert alert-success\">\n"
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0.actionType : depth0),"schedule-cancel",{"name":"is","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.isnt || (depth0 && depth0.isnt) || alias2).call(alias1,(depth0 != null ? depth0.actionType : depth0),"schedule-cancel",{"name":"isnt","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "    </div>\n";
+},"2":function(container,depth0,helpers,partials,data) {
+    return "            <p>This article has been unscheduled.</p>\n";
+},"4":function(container,depth0,helpers,partials,data) {
+    return "            <p>Success your article has been scheduled.</p>\n";
+},"6":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "    <div class=\"alert alert-danger\">\n        <p>An error has occured, please try again.</p>\n        "
+    + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.message : depth0),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n    </div>\n";
+},"7":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "<p>"
+    + container.escapeExpression(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"message","hash":{},"data":data}) : helper)))
+    + "</p>";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.success : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(6, data, 0),"data":data})) != null ? stack1 : "");
+},"useData":true});
 Handlebars.registerHelper('elFormatUnixDate', function(date, format) {
   return moment.unix(date).format(format);
 });
@@ -577,6 +624,8 @@ var config = {
 
 'use strict';
 
+
+
 var app = {
   ESCAPE_KEY: 27,
   API: config.API,
@@ -585,6 +634,8 @@ var app = {
   publishTimeout: 500,
   checkStatusInterval: 800,
   pollLimit: 250,
+  isScheduling: false,
+  isAllScheduled: false,
   isPublishing: false,
   isAllPublished: false,
 };
@@ -898,6 +949,153 @@ app.publish = {
 };
 
 app.publish.init();
+
+'use strict';
+/**
+ * Controls the publishing on the dashboard and details page
+ * @type {{init: app.publish.init, bindEvents: app.publish.bindEvents, initModal: app.publish.initModal, populateQueue: app.publish.populateQueue, displayQueueList: app.publish.displayQueueList, refreshPage: app.publish.refreshPage, resetModalButtons: app.publish.resetModalButtons, performPublish: app.publish.performPublish, queueArticles: app.publish.queueArticles, checkArticleStatus: app.publish.checkArticleStatus, updateQueueListStatus: app.publish.updateQueueListStatus, finishPublishing: app.publish.finishPublishing}}
+ */
+app.schedule = {
+  /**
+   * Initialise the methods for the Detail page
+   */
+  init: function() {
+    if ($('.current-page').length > 0 || $('.detail-page').length > 0) {
+      this.articleId = null;
+      this.scheduleDate = null;
+      this.scheduleTime = null;
+      this.scheduleActionType = null;
+      Swag.registerHelpers(Handlebars);
+      this.bindEvents();
+    }
+  },
+
+  /**
+   * Bind events
+   */
+  bindEvents: function() {
+    $(document).on('click', '#schedule-modal #schedule-action', this.performSchedule.bind(this));
+    $(document).on('click', '#schedule-modal #schedule-cancel', this.performSchedule.bind(this));
+    $(document).on('show.bs.modal', this.setParameters.bind(this));
+    $(document).on('show.bs.modal', this.initDateTimePicker.bind(this));
+    $(document).on('hide.bs.modal', this.resetParameters.bind(this));
+    $(document).on('click', '#schedule-modal .close', this.refreshPage.bind(this));
+    $(document).on('click', '#schedule-modal #schedule-close', this.refreshPage.bind(this));
+  },
+
+  /**
+   * When the modal is loaded enable the date and time pickers.
+   */
+  initDateTimePicker: function() {
+    $('#schedule-action').prop('disabled', true).addClass('disabled');
+    $('.datepicker').pickadate({
+      onSet: function(context) {
+        app.schedule.scheduleDate = context.select;
+        app.schedule.enableSchedule();
+      },
+    });
+    $('.timepicker').pickatime({
+      interval: 1,
+      formatSubmit: 'HH:i',
+      hiddenPrefix: 'schedule_time',
+      onSet: function(context) {
+        app.schedule.scheduleTime = $('input[name="schedule_time_submit"]').val();
+        app.schedule.enableSchedule();
+      },
+    });
+
+  },
+
+  /**
+   * When both date and time have been set in the modal, allow scheduling
+   */
+  enableSchedule: function() {
+    console.log(this.scheduleDate);
+    console.log(this.scheduleTime);
+    if (!_.isNull(this.scheduleDate) && !_.isNull(this.scheduleTime)) {
+      $('#schedule-action').prop('disabled', false).removeClass('disabled');
+    }
+  },
+
+  /**
+   * Set the parameters for the article scheduling.
+   * @param e
+   */
+  setParameters: function(e) {
+    var articleId = $('.article-detail').attr('data-article-id');
+    var data = {actionType: 'schedule'};
+    this.articleId = articleId;
+    this.scheduleActionType = $(e.relatedTarget).attr('id');
+    this.articleModalBodyTemplate = eLife.templates['schedule/article-schedule-modal-body'];
+    if (this.scheduleActionType === 'schedule-cancel') {
+      $('#schedule-action', '#schedule-modal').addClass('hidden');
+      $('#schedule-cancel', '#schedule-modal').removeClass('hidden');
+      data.actionType = 'cancel';
+    } else if (this.scheduleActionType === 'schedule-amend' || this.scheduleActionType === 'schedule') {
+      $('#schedule-action', '#schedule-modal').removeClass('hidden');
+      $('#schedule-cancel', '#schedule-modal').addClass('hidden');
+      data.actionType = 'schedule';
+    }
+
+    $('#schedule-modal .modal-body').html(this.articleModalBodyTemplate(data));
+  },
+
+  /**
+   * reset parameters on modal close
+   */
+  resetParameters: function() {
+    console.log('reset')
+    this.scheduleDate = null;
+    this.scheduleTime = null;
+  },
+  /**
+   * Schedule the article using the service
+   */
+  performSchedule: function() {
+    console.log('scheduleArticle');
+    app.isScheduling = true;
+
+    //@TODO the datetime format will probably need to be changed
+    var dateTime = moment(app.schedule.scheduleDate).format('DD-MM-YYYY') + ' ' + moment(app.schedule.scheduleTime, 'HH:mm').format('hh:mm A');
+    console.log(JSON.stringify({articleId: this.articleId, date: dateTime}));
+    $('#schedule-modal #schedule-action').hide();
+    $.ajax({
+      type: 'POST',
+      contentType: 'application/json',
+      url: app.API + 'api/schedule_article_publication',
+      data: JSON.stringify({articleId: this.articleId, date: dateTime}),
+      success: function(data) {
+        console.log(data.scheduled)
+        var template = {success: data.scheduled, actionType: app.schedule.scheduleActionType};
+        this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
+        console.log(template);
+        $('#schedule-modal .modal-body').html(this.queueArticleStatusTemplate(template));
+        app.isScheduling = false;
+        app.isAllScheduled = true;
+      },
+
+      error: function(data) {
+        var template = {success: true, actionType: app.schedule.scheduleActionType, message: 'There was an error talking to the API.'};
+        this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
+        $('#schedule-modal .modal-body').html(this.queueArticleStatusTemplate(template));
+        app.isScheduling = false;
+        app.isAllScheduled = true;
+      },
+    });
+  },
+
+  /**
+   * refresh page when
+   * user closes modal and scheduling is not takign place.
+   */
+  refreshPage: function() {
+    if (app.isScheduling === false && app.isAllScheduled === true) {
+      location.reload(true);
+    }
+  },
+};
+
+app.schedule.init();
 
 'use strict';
 

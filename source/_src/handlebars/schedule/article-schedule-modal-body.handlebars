@@ -1,0 +1,18 @@
+{{#is actionType 'schedule'}}
+<p>When do you want to schedule this article?</p>
+<br/>
+<div class="form-group">
+    <div class="col-sm-6">
+        <input id="" name="" class="form-control datepicker" type="text" placeholder="Date">
+    </div>
+    <div class="col-sm-6">
+        <input id="" name="" class="form-control timepicker" type="text" placeholder="Time">
+    </div>
+</div>
+<br/>
+{{/is}}
+{{#is actionType 'cancel'}}
+<div class="alert alert-warning">
+    <p>Are you sure you want to cancel the publication of this article?</p>
+</div>
+{{/is}}
