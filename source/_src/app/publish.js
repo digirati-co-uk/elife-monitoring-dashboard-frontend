@@ -62,7 +62,7 @@ app.publish = {
    * Update the queue list to the items in the queue
    * @param article
    */
-  displayQueueList: function(article) {
+  displayQueueList: function() {
     _.each(app.queued, function(article) {
       var title = $('[data-article-id=' + article.id + ']').attr('data-article-title');
       var listItem = $('<li>' + title + '</li>');

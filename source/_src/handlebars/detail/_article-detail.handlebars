@@ -1,13 +1,15 @@
 {{> article-publish-modal}}
 {{> article-schedule-modal}}
-<section class="article-detail" data-article-id="{{ article.id }}">
+<section class="article-detail">
     <div class="actions">
         {{#if currentArticle.scheduled-publication-date}}
-            <button class="btn btn-default schedule" id="schedule-amend" data-toggle="modal" data-target="#schedule-modal">
+            <button class="btn btn-default schedule" id="schedule-amend" data-toggle="modal" data-target="#schedule-modal"
+                    data-article-id="{{ article.id }}">
                 <span class="glyphicon glyphicon-calendar"></span>
                 Re-Schedule
             </button>
-            <button class="btn btn-default schedule" id="schedule-cancel" data-toggle="modal" data-target="#schedule-modal">
+            <button class="btn btn-default schedule" id="schedule-cancel" data-toggle="modal" data-target="#schedule-modal"
+                    data-article-id="{{ article.id }}">
                 <span class="glyphicon glyphicon-calendar"></span>
                 Cancel Schedule
             </button>
@@ -24,7 +26,8 @@
                 <span class="glyphicon glyphicon-globe"></span>
                 Publish Now
             </button>
-            <button class="btn btn-default schedule" id="schedule" data-toggle="modal" data-target="#schedule-modal">
+            <button class="btn btn-default schedule" id="schedule" data-toggle="modal" data-target="#schedule-modal"
+                    data-article-id="{{ article.id }}">
                 <span class="glyphicon glyphicon-calendar"></span>
                 Schedule
             </button>

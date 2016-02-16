@@ -36,7 +36,11 @@ app.schedule = {
    */
   initDateTimePicker: function() {
     $('#schedule-action').prop('disabled', true).addClass('disabled');
+    var yesterday = new Date((new Date()).valueOf()-1000*60*60*24);
     $('.datepicker').pickadate({
+      disable: [
+        { from: [0,0,0], to: yesterday }
+      ],
       onSet: function(context) {
         app.schedule.scheduleDate = context.select;
         app.schedule.enableSchedule();
@@ -58,8 +62,6 @@ app.schedule = {
    * When both date and time have been set in the modal, allow scheduling
    */
   enableSchedule: function() {
-    console.log(this.scheduleDate);
-    console.log(this.scheduleTime);
     if (!_.isNull(this.scheduleDate) && !_.isNull(this.scheduleTime)) {
       $('#schedule-action').prop('disabled', false).removeClass('disabled');
     }
@@ -70,7 +72,7 @@ app.schedule = {
    * @param e
    */
   setParameters: function(e) {
-    var articleId = $('.article-detail').attr('data-article-id');
+    var articleId = $(e.relatedTarget).attr('data-article-id');
     var data = {actionType: 'schedule'};
     this.articleId = articleId;
     this.scheduleActionType = $(e.relatedTarget).attr('id');
@@ -92,7 +94,6 @@ app.schedule = {
    * reset parameters on modal close
    */
   resetParameters: function() {
-    console.log('reset')
     this.scheduleDate = null;
     this.scheduleTime = null;
   },
@@ -100,7 +101,6 @@ app.schedule = {
    * Schedule the article using the service
    */
   performSchedule: function() {
-    console.log('scheduleArticle');
     app.isScheduling = true;
 
     //@TODO the datetime format will probably need to be changed
