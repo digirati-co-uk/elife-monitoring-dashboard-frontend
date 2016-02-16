@@ -1224,7 +1224,10 @@ app.current = {
 app.current.init();
 
 'use strict';
-
+/**
+ * Article Details page
+ * @type {{init: app.detail.init, updatePageUrl: app.detail.updatePageUrl, bindEvents: app.detail.bindEvents, bindNavigationEvents: app.detail.bindNavigationEvents, getArticle: app.detail.getArticle, renderArticle: app.detail.renderArticle, setLatestArticle: app.detail.setLatestArticle, getCurrentArticle: app.detail.getCurrentArticle, getCurrentRun: app.detail.getCurrentRun, updateRun: app.detail.updateRun, setCurrentArticle: app.detail.setCurrentArticle, setCurrentRun: app.detail.setCurrentRun, setArticleParams: app.detail.setArticleParams, publish: app.detail.publish}}
+ */
 app.detail = {
   /**
    * Initialise the methods for the Detail page
@@ -1294,6 +1297,16 @@ app.detail = {
     $('#article', '.detail-page').on('click', '.article-version-map-list .run-container .run a', this.updateRun.bind(this));
     $('#article', '.detail-page').on('click', '.btn-publish', this.publish.bind(this));
     $('#article').on('click', '.run-container li a', this.bindNavigationEvents.bind(this));
+    $(window).on('statechange', this.stateChange.bind(this));
+  },
+
+  /**
+   * On back/forwards update the article
+   * @param e
+   */
+  stateChange: function(e) {
+    this.setArticleParams();
+    this.getArticle();
   },
 
   /**
