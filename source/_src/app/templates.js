@@ -271,7 +271,7 @@ Handlebars.registerPartial("article-version-history", Handlebars.template({"1":f
     + "                    <span>"
     + alias4(((helper = (helper = helpers["event-type"] || (depth0 != null ? depth0["event-type"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"event-type","hash":{},"data":data}) : helper)))
     + "</span>\n                </div>\n                <div class=\"column-2\">\n                    <dl>\n                        <dt><i>Timestamp:</i></dt>\n                        <dd class=\"divide\">"
-    + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["event-timestamp"] : depth0),"MM/DD/YYYY",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["event-timestamp"] : depth0),"DD/MM/YYYY",{"name":"elFormatUnixDate","hash":{},"data":data}))
     + "</dd>\n                        <dd class=\"divide\">"
     + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["event-timestamp"] : depth0),"HH:mm:ss",{"name":"elFormatUnixDate","hash":{},"data":data}))
     + "</dd>\n                    </dl>\n                    <dl>\n                        <dt><i>Message:</i></dt>\n                        <dd>"
@@ -341,7 +341,7 @@ Handlebars.registerPartial("article-version-list", Handlebars.template({"1":func
     + "\">\n                                <span class=\"title\">Run "
     + alias4(((helper = (helper = helpers["run-number"] || (depth0 != null ? depth0["run-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias5 ? helper.call(alias1,{"name":"run-number","hash":{},"data":data}) : helper)))
     + "</span>\n                                <span class=\"date\">"
-    + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["first-event-timestamp"] : depth0),"MM/DD/YYYY HH:mm:ss",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["first-event-timestamp"] : depth0),"DD/MM/YYYY HH:mm:ss",{"name":"elFormatUnixDate","hash":{},"data":data}))
     + "</span>\n                                <span class=\"icon\"><span class=\"glyphicon glyphicon-chevron-right\"></span></span>\n                            </a>\n                        </li>\n";
 },"9":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1;
