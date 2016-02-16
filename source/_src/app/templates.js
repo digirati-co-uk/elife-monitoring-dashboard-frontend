@@ -378,7 +378,7 @@ this["eLife"]["templates"]["current/article-stats-template"] = Handlebars.templa
 },"5":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                <div class=\"col-sm-3\">\n                    <a href=\"#in-progress-list\">\n                        <span class=\"glyphicon e-icon lg info glyphicon-cog\"></span>\n                    </a>\n                    <div class=\"text-center\">\n                        <a href=\"#in-progress-list\">\n                            <span class=\"val\">"
+  return "                <div class=\"col-sm-3\">\n                    <a href=\"#in-progress-list\">\n                        <span class=\"glyphicon e-icon lg info glyphicon-cog\"></span>\n                    </a>\n                    <div class=\"text-center\">\n                        <a href=\"#inProgress-list\">\n                            <span class=\"val\">"
     + container.escapeExpression(container.lambda(((stack1 = blockParams[2][0]) != null ? stack1.length : stack1), depth0))
     + "</span><br>\n                            <span class=\"desc\">Articles are in Progress</span>\n                        </a>\n                    </div>\n                </div>\n";
 },"7":function(container,depth0,helpers,partials,data,blockParams) {
