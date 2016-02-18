@@ -635,6 +635,12 @@ a:hover {
   padding: 15px 0 15px 65px;
 }
 
+.article-snapshot-list caption.sticky {
+  -webkit-box-shadow: 0px 18px 17px -23px rgba(0, 0, 0, 0.51);
+  -moz-box-shadow: 0px 18px 17px -23px rgba(0, 0, 0, 0.51);
+  box-shadow: 0px 18px 17px -23px rgba(0, 0, 0, 0.51);
+}
+
 @media (max-width: 767px) {
   .article-snapshot-list tbody {
     display: block;
