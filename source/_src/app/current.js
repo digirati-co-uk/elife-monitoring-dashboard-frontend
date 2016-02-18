@@ -23,6 +23,8 @@ app.current = {
     $('#articles', '.current-page').on('click', '.btn-publish-queued', this.publishQueued.bind(this));
     $('#articles', '.current-page').on('click', '.btn-publish', this.publish.bind(this));
 
+    $(window).on('scroll', this.stickyHeaders.bind(this));
+
   },
 
   /**
@@ -60,6 +62,66 @@ app.current = {
       },
 
     });
+  },
+
+  stickyHeaders: function(e) {
+    console.log('stickyheaders');
+    console.log(e);
+
+
+    $('.sticky').each(function() {
+
+      var width = $(this).outerWidth();
+      var caption = $('.sticky-header', this);
+      var scrolled = $(document).scrollTop();
+      var fromTop = $(this).offset().top;
+      var scrollDuration = $(this).outerHeight();
+      var fromTopHeight = fromTop + scrollDuration;
+
+
+      //if position from top == header position to top and within the range of the elements position from top and elements position from top + height stick the header to the top of page if not unstick
+
+      console.info('_______________');
+      console.info(scrolled + ' >= ' + fromTop + ' && ' + scrolled + ' <= ' + fromTopHeight);
+      console.log('how far scrolled  ' + scrolled);
+      console.log('position from top of page ' + fromTop)
+      console.log('scroll duration ' + scrollDuration)
+      console.log('height of caption ' + caption.outerHeight())
+      console.log('position from top of page plus height minus height of caption ' + fromTopHeight)
+
+      if(scrollDuration > 230) {
+        if (scrolled >= fromTop && scrolled <= fromTopHeight) {
+          console.error('MAKE CAPTION STICKY NOW')
+          $(caption).addClass('sticky').css('width', width + 'px');
+        }
+        else {
+          $(caption).removeClass('sticky').css('width', '');
+        }
+      }
+
+
+    });
+
+    //$('.article-snapshot-list caption.test').affix({
+    //  offset: {
+    //    top: function(e) {
+    //      var offset = $(e).offset().top;
+    //      console.log('offset ' + $(e).offset().top)
+    //      return offset;
+    //    },
+        //bottom: function(e) {
+        //  var topOfDiv = $(e).offset().top;
+        //  var bottomOfVisibleWindow = $(window).height();
+        //  var bottom = bottomOfVisibleWindow + topOfDiv;
+        //  if(bottom < 0) {
+        //    bottom = 0;
+        //  }
+        //  console.log('topOfDiv ' + topOfDiv, 'bottomOfVisibleWindow ' + bottomOfVisibleWindow)
+        //  console.log('bottom ' + bottom)
+        //  return bottom;
+        //},
+    //  },
+    //});
   },
 
   /**

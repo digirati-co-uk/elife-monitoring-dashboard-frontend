@@ -626,6 +626,10 @@ a:hover {
   width: 100%;
 }
 
+.article-snapshot-list caption {
+  background-color: #fff;
+}
+
 .article-snapshot-list caption h4 {
   margin: 0;
   padding: 15px 0 15px 65px;
@@ -4695,6 +4699,12 @@ section.article-version-history {
     -webkit-box-shadow: #e67e22 0 0 0px 25px inset;
     box-shadow: #e67e22 0 0 0px 25px inset;
   }
+}
+
+.sticky-header.sticky {
+  position: fixed;
+  top: 0px;
+  z-index: 1;
 }
 
 /*# sourceMappingURL=style.css.map */
