@@ -23,6 +23,8 @@ app.current = {
     $('#articles', '.current-page').on('click', '.btn-publish-queued', this.publishQueued.bind(this));
     $('#articles', '.current-page').on('click', '.btn-publish', this.publish.bind(this));
 
+    $(window).on('scroll', this.stickyHeaders.bind(this));
+
   },
 
   /**
@@ -59,6 +61,24 @@ app.current = {
         $('#articles').empty().html(this.errorTemplate(data));
       },
 
+    });
+  },
+
+  stickyHeaders: function(e) {
+    $('.sticky').each(function() {
+      var width = $(this).outerWidth();
+      var caption = $('.sticky-header', this);
+      var scrolled = $(document).scrollTop();
+      var fromTop = $(this).offset().top;
+      var scrollDuration = $(this).outerHeight();
+      var fromTopHeight = fromTop + scrollDuration;
+      if ($('table tr', this).length >= 2) {
+        if (scrolled >= fromTop && scrolled <= fromTopHeight) {
+          $(caption).addClass('sticky').css('width', width + 'px');
+        } else {
+          $(caption).removeClass('sticky').css('width', '');
+        }
+      }
     });
   },
 

@@ -424,7 +424,7 @@ this["eLife"]["templates"]["current/article"] = Handlebars.template({"1":functio
 
   return "        <section class=\""
     + alias2(alias1(blockParams[1][1], depth0))
-    + "-list\" id=\""
+    + "-list sticky\" id=\""
     + alias2(alias1(blockParams[1][1], depth0))
     + "-list\">\n"
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias4).call(alias3,blockParams[1][1],"uir",{"name":"is","hash":{},"fn":container.program(5, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
@@ -441,7 +441,7 @@ this["eLife"]["templates"]["current/article"] = Handlebars.template({"1":functio
 },"7":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                    <caption>\n                        <span class=\"glyphicon e-icon lg danger glyphicon-warning-sign  pull-left\"></span>\n                        <h4>Errors\n"
+  return "                    <caption class=\"sticky-header\">\n                        <span class=\"glyphicon e-icon lg danger glyphicon-warning-sign  pull-left\"></span>\n                        <h4>Errors\n"
     + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = blockParams[2][0]) != null ? stack1.length : stack1),{"name":"if","hash":{},"fn":container.program(8, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "                        </h4>\n                    </caption>\n";
 },"8":function(container,depth0,helpers,partials,data,blockParams) {
@@ -453,19 +453,19 @@ this["eLife"]["templates"]["current/article"] = Handlebars.template({"1":functio
 },"10":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                    <caption>\n                        <span class=\"glyphicon e-icon lg info glyphicon-cog  pull-left\"></span>\n                        <h4>In Progress\n                            <small>("
+  return "                    <caption class=\"sticky-header\">\n                        <span class=\"glyphicon e-icon lg info glyphicon-cog  pull-left\"></span>\n                        <h4>In Progress\n                            <small>("
     + container.escapeExpression(container.lambda(((stack1 = blockParams[2][0]) != null ? stack1.length : stack1), depth0))
     + " Articles)</small>\n                        </h4>\n                    </caption>\n";
 },"12":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                    <caption>\n                        <span class=\"glyphicon e-icon lg muted glyphicon-hand-down  pull-left\"></span>\n                        <h4>\n                            User Input Required\n"
+  return "                    <caption class=\"sticky-header\">\n                        <span class=\"glyphicon e-icon lg muted glyphicon-hand-down  pull-left\"></span>\n                        <h4>\n                            User Input Required\n"
     + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = blockParams[2][0]) != null ? stack1.length : stack1),{"name":"if","hash":{},"fn":container.program(8, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "                            <br>(Ready to Publish)\n                        </h4>\n                    </caption>\n";
 },"14":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                    <caption>\n                        <span class=\"glyphicon e-icon lg warning glyphicon-time  pull-left\"></span>\n                        <h4>Scheduled\n"
+  return "                    <caption class=\"sticky-header\">\n                        <span class=\"glyphicon e-icon lg warning glyphicon-time  pull-left\"></span>\n                        <h4>Scheduled\n"
     + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = blockParams[2][0]) != null ? stack1.length : stack1),{"name":"if","hash":{},"fn":container.program(8, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "                        </h4>\n                    </caption>\n";
 },"16":function(container,depth0,helpers,partials,data,blockParams) {
@@ -1128,6 +1128,8 @@ app.current = {
     $('#articles', '.current-page').on('click', '.btn-publish-queued', this.publishQueued.bind(this));
     $('#articles', '.current-page').on('click', '.btn-publish', this.publish.bind(this));
 
+    $(window).on('scroll', this.stickyHeaders.bind(this));
+
   },
 
   /**
@@ -1164,6 +1166,24 @@ app.current = {
         $('#articles').empty().html(this.errorTemplate(data));
       },
 
+    });
+  },
+
+  stickyHeaders: function(e) {
+    $('.sticky').each(function() {
+      var width = $(this).outerWidth();
+      var caption = $('.sticky-header', this);
+      var scrolled = $(document).scrollTop();
+      var fromTop = $(this).offset().top;
+      var scrollDuration = $(this).outerHeight();
+      var fromTopHeight = fromTop + scrollDuration;
+      if ($('table tr', this).length >= 2) {
+        if (scrolled >= fromTop && scrolled <= fromTopHeight) {
+          $(caption).addClass('sticky').css('width', width + 'px');
+        } else {
+          $(caption).removeClass('sticky').css('width', '');
+        }
+      }
     });
   },
 
