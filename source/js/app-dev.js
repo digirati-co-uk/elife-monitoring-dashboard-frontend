@@ -1173,14 +1173,17 @@ app.current = {
     $('.sticky').each(function() {
       var width = $(this).outerWidth();
       var caption = $('.sticky-header', this);
+      var captionHeight = $('.sticky-header', this).outerHeight();
       var scrolled = $(document).scrollTop();
       var fromTop = $(this).offset().top;
-      var scrollDuration = $(this).outerHeight();
+      var scrollDuration = $('tbody', this).outerHeight();
       var fromTopHeight = fromTop + scrollDuration;
       if ($('table tr', this).length >= 2) {
         if (scrolled >= fromTop && scrolled <= fromTopHeight) {
+          $(this).css('padding-top', captionHeight + 'px');
           $(caption).addClass('sticky').css('width', width + 'px');
         } else {
+          $(this).css('padding-top', '0px');
           $(caption).removeClass('sticky').css('width', '');
         }
       }
