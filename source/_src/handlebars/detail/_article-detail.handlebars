@@ -2,6 +2,12 @@
 {{> article-schedule-modal}}
 <section class="article-detail">
     <div class="actions">
+        {{#if currentArticle.preview-link}}
+            <a href="{{currentArticle.preview-link}}" target="_blank" class="btn btn-default">
+                <span class="glyphicon glyphicon-eye-open"></span>
+                Preview
+            </a>
+        {{/if}}
         {{#if currentArticle.scheduled-publication-date}}
             <button class="btn btn-default schedule" id="schedule-amend" data-toggle="modal" data-target="#schedule-modal"
                     data-article-id="{{ article.id }}">
@@ -14,10 +20,6 @@
                 Cancel Schedule
             </button>
         {{else}}
-            <a href="{{currentArticle.preview-link}}" target="_blank" class="btn btn-default">
-                <span class="glyphicon glyphicon-eye-open"></span>
-                Preview
-            </a>
             <button class="btn btn-default publish btn-publish" data-toggle="modal" data-target="#publish-modal" type="button"
                     data-article-title="{{ currentArticle.doi }}"
                     data-article-id="{{ article.id }}"
