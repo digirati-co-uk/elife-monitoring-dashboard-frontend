@@ -28,6 +28,7 @@
 * ```npm start``` to start php server
 * ```grunt``` to start build, and live reload.
 * run test services.
+* Atoms, Molecules, Organisms, Templates are all 'static' html. Pages are entirely controlled by the JS, making any changes to the html in the js templates will need to be copied over into the static versions.
 
 
 ---
