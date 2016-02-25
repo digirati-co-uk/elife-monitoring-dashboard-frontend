@@ -8,7 +8,14 @@ module.exports = function(grunt) {
     ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
 
     // Task configuration.
-
+    shell: {
+      patternlabserve: {
+        command: "php -S localhost:8000 -t public/"
+      },
+      patternlab: {
+        command: "php core/builder.php -g"
+      }
+    },
     // Concatenate all JS into one file
     concat: {
       options: {
@@ -68,19 +75,6 @@ module.exports = function(grunt) {
         },
       },
     },
-    uglify: {
-      options: {
-        banner: '<%= banner %>',
-      },
-      libs: {
-        src: ['source/js/libs.js'],
-        dest: 'source/js/libs.js',
-      },
-      app: {
-        src: ['source/js/app.js'],
-        dest: 'source/js/app.js',
-      },
-    },
 
     sass: {
       dev: {
@@ -111,28 +105,42 @@ module.exports = function(grunt) {
       }
     },
 
+
+
     // Watches styles and specs for changes
     watch: {
-      css: {
-        files: ['source/css/scss/**/*.scss'],
-        tasks: ['sass'],
-        options: {nospawn: false},
+      options: {
+        livereload: true,
+      },
+      html: {
+        files: ['source/_patterns/**/*.mustache', 'source/_patterns/**/*.json', 'source/_data/*.json'],
+        tasks: ['shell:patternlab'],
+        options: {
+          spawn: false
+        }
       },
       js: {
         files: ['source/_src/**/*.js'],
-        tasks: ['concat'],
-        options: {nospawn: false},
+        tasks: ['concat','shell:patternlab'],
+        options: {
+          spawn: false
+        }
       },
       handlebars: {
         files: ['source/_src/handlebars/**/*.handlebars'],
-        tasks: ['handlebars', 'concat'],
+        tasks: ['handlebars', 'concat','shell:patternlab'],
+        options: {nospawn: false},
+      },
+      css: {
+        files: ['source/css/scss/**/*.scss'],
+        tasks: ['sass','shell:patternlab'],
         options: {nospawn: false},
       },
     },
   });
   [
+    'grunt-shell',
     'grunt-contrib-concat',
-    'grunt-contrib-uglify',
     'grunt-contrib-watch',
     'grunt-contrib-handlebars',
     'grunt-sass',
@@ -142,6 +150,6 @@ module.exports = function(grunt) {
   });
 
   // Register the default tasks
-  grunt.registerTask('default', ['handlebars', 'concat', 'sass', 'watch']);
-  grunt.registerTask('deploy', ['handlebars', 'concat', 'uglify', 'sass']);
+  grunt.registerTask('serve', ['shell:patternlabserve']);
+  grunt.registerTask('default', ['handlebars', 'concat', 'sass', 'shell:patternlab', 'watch']);
 };
