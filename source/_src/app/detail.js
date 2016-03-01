@@ -247,6 +247,13 @@ app.detail = {
     versionNumber = (!_.isEmpty(url[2])) ? url[2] : null;
     runNumber = (!_.isEmpty(url[3])) ? url[3] : null;
 
+    /* If you have come through the PP nav we need to force some id's */
+    if (app.config.ISPP && url[0] !== 'article') {
+      articleId = '001929';
+      versionNumber = '2';
+      runNumber = '2';
+    }
+
     this.queryParams = {
       articleId: articleId,
       versionNumber: versionNumber,

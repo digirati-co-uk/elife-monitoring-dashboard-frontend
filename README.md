@@ -1,33 +1,38 @@
-## Monitoring Dashboard
+# Monitoring Dashboard
 
-### installing
+---
 
-after cloning or downloading and extracting, from the root of the project:
-* ```npm install```
-* ```mkdir public```
-* ```cp -r core/styleguide/ public/styleguide/```
-* ```php core/builder.php -g```
+# Requirements:
 
-then see [patternlab readme](patternlab-README.md)
+* [Homebrew](http://brew.sh/) (OSX only)
+* [Node](https://nodejs.org/en/)
+* PHP
+* [Live Reload](http://livereload.com/) - [Chrome plugin](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei)
+* [Dashboard Test Services](https://github.com/elifesciences/elife-dashboard)
+
+---
+
+# Installation
+
+**On First Installation**
+* Install node, if on OSX run ```brew install node```
+* Install ```npm install```
+* Setup test services, see [Dashboard Test Services](https://github.com/elifesciences/elife-dashboard)
 
 
-### running
+---
 
-* in different terminal windows
-* cd into root ```php core/builder.php -wr``` to autoload on file changes
-* cd into root ```grunt``` to run build task
-* cd into /public ```php -S localhost:8000```
+# Development
+
+* Ensure Live Reload is running.
+* ```npm start``` to start php server
+* ```grunt``` to start build, and live reload.
+* run test services.
+* Atoms, Molecules, Organisms, Templates are all 'static' html. Pages are entirely controlled by the JS, making any changes to the html in the js templates will need to be copied over into the static versions.
 
 
-if you'd like to  test the publishing process:
-* in the public folder start a php server 
+---
 
-```bash
-php -S localhost:8000
-```
+# Documentation
 
- (change port if in conflict)
-
-* optionally run a watch and reload task 'php core/builder.php -wr'. See [advanced auto generate](http://patternlab.io/docs/advanced-auto-regenerate.html)
-
-alternatively if you'd just like to view the Patterns in the library, open 'public/index.html'
+See [patternlab readme](patternlab-README.md)

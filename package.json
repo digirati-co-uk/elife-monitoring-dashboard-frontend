@@ -15,8 +15,8 @@
   },
   "devDependencies": {
     "grunt": "latest",
+    "grunt-shell": "^1.1.2",
     "grunt-contrib-concat": "latest",
-    "grunt-contrib-uglify": "latest",
     "grunt-contrib-watch": "latest",
     "grunt-contrib-handlebars": "latest",
     "grunt-sass": "^1.0.0",
@@ -27,5 +27,10 @@
     "js" : "source/js/",
     "scss" : "source/css/scss/",
     "css" : "source/css/"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "preinstall": "php core/builder.php -gpwr",
+    "start": "php -S localhost:8000 -t public/"
   }
 }
