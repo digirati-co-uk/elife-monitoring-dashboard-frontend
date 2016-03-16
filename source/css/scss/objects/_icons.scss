@@ -19,7 +19,8 @@
     display: block;
     font-size: 1.3rem;
     margin-top: 5px;
-    padding: 2px 5px 5px;
+    padding: 5px 5px 5px;
+    font-family: $font-family-monospace;
   }
 
 }
@@ -43,7 +44,8 @@
     display: block;
     font-size: 1.3rem;
     margin-top: 5px;
-    padding: 2px 5px 5px;
+    padding: 5px 5px 5px;
+    font-family: $font-family-monospace;
   }
 
 }
@@ -66,9 +68,10 @@
     content: "...";
     text-align: center;
     display: block;
-    font-size: 1.3rem;
+    font-size: 1rem;
     margin-top: 5px;
-    padding: 2px 5px 5px;
+    padding: 5px 5px 5px;
+    font-family: $font-family-monospace;
   }
 
 }

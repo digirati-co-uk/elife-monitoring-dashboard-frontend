@@ -100,11 +100,10 @@ module.exports = function(grunt) {
           }
         },
         files: {
-          "source/_src/app/templates.js": ["source/_src/handlebars/**/*.handlebars"]
+          "source/_src/app/templates.js": ["source/_src/handlebars/**/*.handlebars"],
         }
       }
     },
-
 
 
     // Watches styles and specs for changes
@@ -121,19 +120,19 @@ module.exports = function(grunt) {
       },
       js: {
         files: ['source/_src/**/*.js'],
-        tasks: ['concat','shell:patternlab'],
+        tasks: ['concat', 'shell:patternlab'],
         options: {
           spawn: false
         }
       },
       handlebars: {
         files: ['source/_src/handlebars/**/*.handlebars'],
-        tasks: ['handlebars', 'concat','shell:patternlab'],
+        tasks: ['handlebars', 'concat', 'shell:patternlab'],
         options: {nospawn: false},
       },
       css: {
         files: ['source/css/scss/**/*.scss'],
-        tasks: ['sass','shell:patternlab'],
+        tasks: ['sass', 'shell:patternlab'],
         options: {nospawn: false},
       },
     },

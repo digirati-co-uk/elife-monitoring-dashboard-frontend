@@ -6,3 +6,4 @@ latest-change.txt
 *.sass-cache/
 .idea/
 node_modules/
+npm-debug.log
