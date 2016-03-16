@@ -180,24 +180,16 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
     + "\n</tr>";
 },"useData":true}));
 
-Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+Handlebars.registerPartial("article-detail-actions", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "            <a href=\""
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["preview-link"] : stack1), depth0))
     + "\" target=\"_blank\" class=\"btn btn-default\">\n                <span class=\"glyphicon glyphicon-eye-open\"></span>\n                Preview\n            </a>\n";
 },"3":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
-
-  return "            <button class=\"btn btn-default schedule\" id=\"schedule-amend\" data-toggle=\"modal\" data-target=\"#schedule-modal\"\n                    data-article-id=\""
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
-    + "\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Re-Schedule\n            </button>\n            <button class=\"btn btn-default schedule\" id=\"schedule-cancel\" data-toggle=\"modal\" data-target=\"#schedule-modal\"\n                    data-article-id=\""
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
-    + "\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Cancel Schedule\n            </button>\n";
-},"5":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=container.lambda, alias2=container.escapeExpression;
 
-  return "            <button class=\"btn btn-default publish btn-publish\" data-toggle=\"modal\" data-target=\"#publish-modal\" type=\"button\"\n                    data-article-title=\""
+  return "            <button class=\"btn btn-default publish btn-publish\" data-toggle=\"modal\" data-target=\"#publish-modal\"\n                    type=\"button\"\n                    data-article-title=\""
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.doi : stack1), depth0))
     + "\"\n                    data-article-id=\""
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
@@ -205,34 +197,42 @@ Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(c
     + alias2(((helper = (helper = helpers.currentVersion || (depth0 != null ? depth0.currentVersion : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"currentVersion","hash":{},"data":data}) : helper)))
     + "\"\n                    data-article-run=\""
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.currentEvents : depth0)) != null ? stack1["run-id"] : stack1), depth0))
-    + "\">\n                <span class=\"glyphicon glyphicon-globe\"></span>\n                Publish Now\n            </button>\n            <button class=\"btn btn-default schedule\" id=\"schedule\" data-toggle=\"modal\" data-target=\"#schedule-modal\"\n                    data-article-id=\""
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
-    + "\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Schedule\n            </button>\n";
-},"7":function(container,depth0,helpers,partials,data) {
+    + "\">\n                <span class=\"glyphicon glyphicon-globe\"></span>\n                Publish Now\n            </button>\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : {};
+
+  return "<div class=\"row\">\n    <div class=\"col-md-12 text-right\">\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["preview-link"] : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "        <span class=\"article-detail-actions\"></span>\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["scheduled-publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "    </div>\n</div>\n";
+},"useData":true}));
+
+Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return container.escapeExpression((helpers.lowercase || (depth0 && depth0.lowercase) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.status : stack1),{"name":"lowercase","hash":{},"data":data}));
-},"9":function(container,depth0,helpers,partials,data) {
+},"3":function(container,depth0,helpers,partials,data) {
     return "no-article-status-type";
-},"11":function(container,depth0,helpers,partials,data) {
+},"5":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "                        <dt><i>Article type:</i></dt>\n                        <dd>"
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["article-type"] : stack1), depth0))
     + "</dd>\n";
-},"13":function(container,depth0,helpers,partials,data) {
+},"7":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "                        <dt><i>Publication date:</i></dt>\n                        <dd>"
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["publication-date"] : stack1), depth0))
     + "</dd>\n";
-},"15":function(container,depth0,helpers,partials,data) {
+},"9":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "                        <dt><i>Corresponding authors:</i></dt>\n                        <dd>"
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["corresponding-authors"] : stack1), depth0))
     + "</dd>\n";
-},"17":function(container,depth0,helpers,partials,data) {
+},"11":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "                        <dt><i>Authors:</i></dt>\n                        <dd>"
@@ -243,11 +243,8 @@ Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(c
 
   return ((stack1 = container.invokePartial(partials["article-publish-modal"],depth0,{"name":"article-publish-modal","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + ((stack1 = container.invokePartial(partials["article-schedule-modal"],depth0,{"name":"article-schedule-modal","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-    + "<section class=\"article-detail\">\n    <div class=\"actions\">\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["preview-link"] : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["scheduled-publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.program(5, data, 0),"data":data})) != null ? stack1 : "")
-    + "    </div>\n    <table class=\"snapshot\">\n        <tr>\n            <td class=\"column-1\">\n                <span class=\"glyphicon glyphicon-file "
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.status : stack1),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.program(9, data, 0),"data":data})) != null ? stack1 : "")
+    + "<section class=\"article-detail\">\n    <table class=\"snapshot\">\n        <tr>\n            <td class=\"column-1\">\n                <span class=\"glyphicon glyphicon-file "
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.status : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
     + "\"></span>\n                <h6>"
     + alias3(alias2(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.doi : stack1), depth0))
     + "</h6>\n                <p>"
@@ -257,10 +254,10 @@ Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(c
     + "</strong></dd>\n                    <dt><i>Run:</i></dt>\n                    <dd><strong>"
     + alias3(((helper = (helper = helpers.currentRun || (depth0 != null ? depth0.currentRun : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias1,{"name":"currentRun","hash":{},"data":data}) : helper)))
     + "</strong></dd>\n                </dl>\n            </td>\n        </tr>\n    </table>\n    <table class=\"detail\">\n        <tr>\n            <td class=\"column-1\">\n                <dl>\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["article-type"] : stack1),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(13, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["corresponding-authors"] : stack1),{"name":"if","hash":{},"fn":container.program(15, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.authors : stack1),{"name":"if","hash":{},"fn":container.program(17, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["article-type"] : stack1),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["corresponding-authors"] : stack1),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.authors : stack1),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "                </dl>\n            </td>\n        </tr>\n    </table>\n</section>";
 },"usePartial":true,"useData":true}));
 
@@ -491,13 +488,32 @@ this["eLife"]["templates"]["current/error-queue-articles"] = Handlebars.template
 this["eLife"]["templates"]["detail/article"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "<div class=\"col-md-3\">\n"
-    + ((stack1 = container.invokePartial(partials["article-version-list"],depth0,{"name":"article-version-list","data":data,"indent":"    ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-    + "</div>\n<div class=\"col-md-9\">\n"
-    + ((stack1 = container.invokePartial(partials["article-detail"],depth0,{"name":"article-detail","hash":{"section":(depth0 != null ? depth0.articleDetail : depth0)},"data":data,"indent":"    ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-    + ((stack1 = container.invokePartial(partials["article-version-history"],depth0,{"name":"article-version-history","data":data,"indent":"    ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-    + "</div>";
+  return ((stack1 = container.invokePartial(partials["article-detail-actions"],depth0,{"name":"article-detail-actions","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + "<div class=\"row\">\n    <div class=\"col-md-3\">\n"
+    + ((stack1 = container.invokePartial(partials["article-version-list"],depth0,{"name":"article-version-list","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + "    </div>\n    <div class=\"col-md-9\">\n"
+    + ((stack1 = container.invokePartial(partials["article-detail"],depth0,{"name":"article-detail","hash":{"section":(depth0 != null ? depth0.articleDetail : depth0)},"data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + ((stack1 = container.invokePartial(partials["article-version-history"],depth0,{"name":"article-version-history","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + "    </div>\n</div>";
 },"usePartial":true,"useData":true});
+
+this["eLife"]["templates"]["detail/buttons-reschedule"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
+
+  return "<button class=\"btn btn-default schedule\" id=\"schedule-amend\" data-toggle=\"modal\"\n        data-target=\"#schedule-modal\"\n        data-article-id=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
+    + "\">\n    <span class=\"glyphicon glyphicon-calendar\"></span>\n    Re-Schedule\n</button>\n<button class=\"btn btn-default schedule\" id=\"schedule-cancel\" data-toggle=\"modal\"\n        data-target=\"#schedule-modal\"\n        data-article-id=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
+    + "\">\n    <span class=\"glyphicon glyphicon-calendar\"></span>\n    Cancel Schedule\n</button>";
+},"useData":true});
+
+this["eLife"]["templates"]["detail/buttons-schedule"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "<button class=\"btn btn-default schedule\" id=\"schedule\" data-toggle=\"modal\" data-target=\"#schedule-modal\"\n        data-article-id=\""
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
+    + "\">\n    <span class=\"glyphicon glyphicon-calendar\"></span>\n    Schedule\n</button>";
+},"useData":true});
 
 this["eLife"]["templates"]["error-render"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;

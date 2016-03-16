@@ -18,6 +18,7 @@ app.detail = {
       Swag.registerHelpers(Handlebars);
       this.setArticleParams();
       this.getArticle();
+      this.getDetailActions();
       this.bindEvents();
     }
   },
@@ -101,6 +102,38 @@ app.detail = {
     history.pushState(null, null, url);
   },
 
+  /**
+   * Determine which action buttons to show for this page
+   */
+  getDetailActions: function() {
+    if (!_.isNull(this.queryParams.articleId)) {
+      this.buttonsScheduleTemplate = eLife.templates['detail/buttons-schedule'];
+      this.buttonsReScheduleTemplate = eLife.templates['detail/buttons-reschedule'];
+      var articleIds = [];
+      articleIds.push(this.queryParams.articleId);
+      $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        url: app.API + 'api/article_scheduled_status',
+        data: JSON.stringify({articles: articleIds}),
+        success: function(data) {
+          if (data.articles.length === 1) {
+            var scheduleStatus = data.articles[0];
+            if (_.isNumber(scheduleStatus.scheduled)) {
+              $('.article-detail-actions').empty().html(app.detail.buttonsReScheduleTemplate({article: app.detail.article}));
+            } else {
+              $('.article-detail-actions').empty().html(app.detail.buttonsScheduleTemplate({article: app.detail.article}));
+            }
+          }
+        },
+
+        error: function(data) {
+          console.log('Error retrieving article scheduled status');
+        },
+
+      });
+    }
+  },
   /**
    * Get article from param in url
    */
