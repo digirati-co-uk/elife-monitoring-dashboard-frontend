@@ -8524,10 +8524,6 @@ a:hover {
   margin-bottom: 20px;
 }
 
-.nav-tabs li {
-  background-color: #ebebeb;
-}
-
 .nav-tabs li:not(:first-child) a {
   border-left: 0;
 }
@@ -8537,6 +8533,8 @@ a:hover {
 }
 
 .nav-tabs li a {
+  margin-right: 0px;
+  background-color: #ebebeb;
   border-radius: 0;
   border: 1px solid #ddd;
   color: #616161;

@@ -1,6 +1,67 @@
 /*! eLife - v0.0.1 - 
 * https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend
 * Copyright (c) 2016 eLife; Licensed  */
+(function($) {
+  'use strict';
+
+  //Datepicker - https://eonasdan.github.io/bootstrap-datetimepicker/#linked-pickers
+  $('#datetimepicker-start').datetimepicker({
+    format: 'DD-MM-YY',
+  });
+  $('#datetimepicker-end').datetimepicker({
+    format: 'DD-MM-YY',
+    useCurrent: false, //Important! See issue #1075
+  });
+  $('#datetimepicker-start').on('dp.change', function(e) {
+    $('#datetimepicker-end').data('DateTimePicker').minDate(e.date);
+  });
+
+  $('#datetimepicker-end').on('dp.change', function(e) {
+    $('#datetimepicker-start').data('DateTimePicker').maxDate(e.date);
+  });
+
+})(jQuery);
+
+(function($) {
+  'use strict';
+
+  //Filter Box
+  $('.filter .dropdown-menu').on({
+    click: function(e) {
+      //Stop modal from closing if clicked anywhere inside
+      e.stopPropagation();
+    },
+  });
+
+})(jQuery);
+
+'use strict';
+
+var config = {
+  API: '/',
+  ISPP: false,
+};
+
+
+'use strict';
+var app = {
+  ESCAPE_KEY: 27,
+  API: config.API,
+  config: config,
+  queued: [],
+  publishTimeout: 500,
+  checkStatusInterval: 800,
+  pollLimit: 250,
+  isScheduling: false,
+  isAllScheduled: false,
+  isPublishing: false,
+  isAllPublished: false,
+  colorAdvanceArticle: '#cde1f1',
+  colorArticle: '#f1f1f1',
+  colorText: '#111',
+};
+
+
 this["eLife"] = this["eLife"] || {};
 this["eLife"]["templates"] = this["eLife"]["templates"] || {};
 
@@ -371,6 +432,149 @@ Handlebars.registerPartial("article-schedule-modal", Handlebars.template({"compi
     return "<a href=\"#\" class=\"btn btn-default pattern-helper\">\n    Modal\n</a>\n<div class=\"modal fade\" id=\"schedule-modal\" tabindex=\"-1\" role=\"dialog\" data-backdrop=\"static\"\n     aria-labelledby=\"schedule-modal\">\n    <div class=\"modal-dialog modal-lg\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span\n                        aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"myModalLabel\">Schedule article</h4>\n            </div>\n            <div class=\"modal-body\"></div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"schedule-close\">Close</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner hidden\" id=\"schedule-action\">Schedule</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner hidden\" id=\"schedule-cancel\">Cancel</button>\n            </div>\n        </div>\n    </div>\n</div>";
 },"useData":true}));
 
+Handlebars.registerPartial("scheduled-article-item", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    return container.escapeExpression((helpers.lowercase || (depth0 && depth0.lowercase) || helpers.helperMissing).call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.status : depth0),{"name":"lowercase","hash":{},"data":data}));
+},"3":function(container,depth0,helpers,partials,data) {
+    return "no-article-status-type";
+},"5":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return container.escapeExpression(((helper = (helper = helpers.doi || (depth0 != null ? depth0.doi : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"doi","hash":{},"data":data}) : helper)));
+},"7":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "Not yet available ("
+    + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"id","hash":{},"data":data}) : helper)))
+    + "\n                )";
+},"9":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "            <p>\n                <a href=\"/article/"
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + "\">"
+    + alias4(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
+    + "</a>\n            </p>\n";
+},"11":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.doi : depth0),{"name":"if","hash":{},"fn":container.program(12, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"12":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "                    <dt>\n                        <a href=\"/article/"
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + "\"><i>Version:</i></a>\n                    </dt>\n                    <dd>\n                        <a href=\"/article/"
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + "\">"
+    + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
+    + "</a>\n                    </dd>\n";
+},"14":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "                <dt>\n                    <a href=\"/article/"
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + "\"><i>Article type:</i></a>\n                </dt>\n                <dd>\n                    <a href=\"/article/"
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + "\">"
+    + alias4(((helper = (helper = helpers["article-type"] || (depth0 != null ? depth0["article-type"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"article-type","hash":{},"data":data}) : helper)))
+    + "</a>\n                </dd>\n";
+},"16":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "                <dt>\n                    <a href=\"/article/"
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + "\"><i>Publication date:</i></a>\n                </dt>\n                <dd>\n                    <a href=\"/article/"
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + "\">"
+    + alias4(((helper = (helper = helpers["publication-date"] || (depth0 != null ? depth0["publication-date"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"publication-date","hash":{},"data":data}) : helper)))
+    + "</a>\n                </dd>\n";
+},"18":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "                <dt>\n                    <a href=\"/article/"
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + "\"><i>Corresponding authors:</i></a>\n                </dt>\n                <dd>\n                    <a href=\"/article/"
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + "\">"
+    + alias4(((helper = (helper = helpers["corresponding-authors"] || (depth0 != null ? depth0["corresponding-authors"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"corresponding-authors","hash":{},"data":data}) : helper)))
+    + "</a>\n                </dd>\n";
+},"20":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.escapeExpression, alias2=container.lambda;
+
+  return "        <td class=\"column-3\">\n            <p><strong>SCHEDULED<br/>"
+    + alias1((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || helpers.helperMissing).call(depth0 != null ? depth0 : {},(depth0 != null ? depth0["scheduled-date"] : depth0),"DD/MM/YYYY HH:mmA",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + "</strong></p><br/>\n            <button class=\"btn btn-default schedule\" id=\"schedule-amend\" data-toggle=\"modal\"\n                    data-target=\"#schedule-modal\"\n                    data-article-id=\""
+    + alias1(alias2(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
+    + "\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Re-Schedule\n            </button>\n            <button class=\"btn btn-default schedule\" id=\"schedule-cancel\" data-toggle=\"modal\"\n                    data-target=\"#schedule-modal\"\n                    data-article-id=\""
+    + alias1(alias2(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
+    + "\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Cancel\n            </button>\n        </td>\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "<tr>\n    <td class=\"column-1\">\n        <a href=\"/article/"
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + "\" class=\"hidden-xs\">\n            <span class=\"glyphicon glyphicon-file "
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.status : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
+    + "\"></span>\n        </a>\n        <h6>\n            <a href=\"/article/"
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
+    + "/"
+    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + "\">"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.doi : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.program(7, data, 0),"data":data})) != null ? stack1 : "")
+    + "</a>\n        </h6>\n"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.title : depth0),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "    </td>\n    <td class=\"column-2\">\n        <dl>\n"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.version : depth0),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0["article-type"] : depth0),{"name":"if","hash":{},"fn":container.program(14, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0["publication-date"] : depth0),{"name":"if","hash":{},"fn":container.program(16, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0["corresponding-authors"] : depth0),{"name":"if","hash":{},"fn":container.program(18, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "        </dl>\n    </td>\n"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0["scheduled-date"] : depth0),{"name":"if","hash":{},"fn":container.program(20, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n</tr>";
+},"useData":true}));
+
 this["eLife"]["templates"]["current/article-stats-template"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
@@ -601,57 +805,33 @@ this["eLife"]["templates"]["schedule/article-schedule-modal-status"] = Handlebar
 
   return ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.success : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(6, data, 0),"data":data})) != null ? stack1 : "");
 },"useData":true});
+
+this["eLife"]["templates"]["scheduled/scheduled-actions"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "\n        <button class=\"btn btn-default\"><span class=\"glyphicon glyphicon-time\" aria-hidden=\"true\"></span> Add Scheduled Article</button>";
+},"useData":true});
+
+this["eLife"]["templates"]["scheduled/scheduled-content-calendar"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "<!--<div class=\"row\">-->\n    <!--<div class=\"col-md-8 col-md-offset-2\">-->\n        <div id=\"calendar\"></div>\n    <!--</div>-->\n<!--</div>-->";
+},"useData":true});
+
+this["eLife"]["templates"]["scheduled/scheduled-content-list"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return ((stack1 = container.invokePartial(partials["scheduled-article-item"],depth0,{"name":"scheduled-article-item","data":data,"indent":"            ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "");
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "<section class=\"scheduled-list sticky\" id=\"scheduled-list\">\n    <table class=\"article-snapshot-list\">\n        <tbody>\n"
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.scheduled : depth0)) != null ? stack1.articles : stack1),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "        </tbody>\n    </table>\n</section>";
+},"usePartial":true,"useData":true});
+
+this["eLife"]["templates"]["scheduled/scheduled-switcher"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "<div class=\"btn-group\">\n    <button type=\"button\" class=\"btn btn-default schedule-page-switch\" data-switch=\"list\"><span\n            class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></span> List\n    </button>\n    <button type=\"button\" class=\"btn btn-default schedule-page-switch\" data-switch=\"calendar\"><span\n            class=\"glyphicon glyphicon-calendar\" aria-hidden=\"true\"></span> Calendar\n    </button>\n</div>";
+},"useData":true});
 Handlebars.registerHelper('elFormatUnixDate', function(date, format) {
   return moment.unix(date).format(format);
 });
-(function($) {
-  'use strict';
-
-  //Datepicker - https://eonasdan.github.io/bootstrap-datetimepicker/#linked-pickers
-  $('#datetimepicker-start').datetimepicker({
-    format: 'DD-MM-YY',
-  });
-  $('#datetimepicker-end').datetimepicker({
-    format: 'DD-MM-YY',
-    useCurrent: false, //Important! See issue #1075
-  });
-  $('#datetimepicker-start').on('dp.change', function(e) {
-    $('#datetimepicker-end').data('DateTimePicker').minDate(e.date);
-  });
-
-  $('#datetimepicker-end').on('dp.change', function(e) {
-    $('#datetimepicker-start').data('DateTimePicker').maxDate(e.date);
-  });
-
-})(jQuery);
-
-'use strict';
-
-var config = {
-  API: '/',
-  ISPP: false,
-};
-
-
-'use strict';
-
-
-
-var app = {
-  ESCAPE_KEY: 27,
-  API: config.API,
-  config: config,
-  queued: [],
-  publishTimeout: 500,
-  checkStatusInterval: 800,
-  pollLimit: 250,
-  isScheduling: false,
-  isAllScheduled: false,
-  isPublishing: false,
-  isAllPublished: false,
-};
-
-
 'use strict';
 
 app.utils = {
@@ -678,8 +858,10 @@ app.utils = {
       if (i === n) {
         nth = key;
       }
+
       i++;
     });
+
     return nth;
   },
 
@@ -738,6 +920,7 @@ app.utils = {
   },
 
 };
+
 'use strict';
 /**
  * Controls the publishing on the dashboard and details page
@@ -1107,6 +1290,20 @@ app.schedule = {
 };
 
 app.schedule.init();
+
+'use strict';
+
+app.archive = {
+  init: function() {
+    //if ($('.archive-page').length > 0) {}
+  },
+
+  bindEvents: function() {
+
+  },
+
+};
+
 
 'use strict';
 
@@ -1535,17 +1732,192 @@ app.detail = {
 app.detail.init();
 
 'use strict';
-
-app.archive = {
+/**
+ * Controls the future Scheduling page
+ * @type {{init: app.scheduled.init, bindEvents: app.scheduled.bindEvents, renderSwitcher: app.scheduled.renderSwitcher, renderActions: app.scheduled.renderActions, clickSwitchPage: app.scheduled.clickSwitchPage, switchPage: app.scheduled.switchPage, fetchScheduledArticles: app.scheduled.fetchScheduledArticles, renderCalendar: app.scheduled.renderCalendar, updateCalendar: app.scheduled.updateCalendar, convertArticlesToCalendar: app.scheduled.convertArticlesToCalendar}}
+ */
+app.scheduled = {
+  /**
+   * Initialise the methods for the scheduled page
+   */
   init: function() {
-    if ($('.archive-page').length > 0) {
-
+    if ($('.scheduled-page').length > 0) {
+      this.scheduledContentListTemplate = eLife.templates['scheduled/scheduled-content-list'];
+      this.scheduledContentCalendarTemplate = eLife.templates['scheduled/scheduled-content-calendar'];
+      this.scheduledActionsTemplate = eLife.templates['scheduled/scheduled-actions'];
+      this.scheduledSwitcherTemplate = eLife.templates['scheduled/scheduled-switcher'];
+      this.dateStart = moment().format('X');
+      this.dateEnd = moment().add(1, 'months').format('X');
+      this.$el = $('.scheduled-page');
+      this.currentView = (!_.isUndefined($('.scheduled-page').attr('data-page-type'))) ? $('.scheduled-page').attr('data-page-type') : 'calendar';
+      this.scheduled = [];
+      Swag.registerHelpers(Handlebars);
+      this.bindEvents();
+      this.renderSwitcher();
+      this.renderActions();
+      this.switchPage(this.currentView);
     }
   },
 
+  /**
+   * Bind events
+   */
   bindEvents: function() {
+    $(this.$el).on('click', '.schedule-page-switch', this.clickSwitchPage.bind(this));
+  },
 
+  /**
+   * Render the list / Calender switcher
+   */
+  renderSwitcher: function() {
+    $('.schedule-page__switcher', this.$el).html(this.scheduledSwitcherTemplate());
+  },
+
+  /**
+   * Render the 'add scheduled articles' button
+   */
+  renderActions: function() {
+    $('.schedule-page__actions', this.$el).html(this.scheduledActionsTemplate());
+  },
+
+  /**
+   * Click to switch the page
+   * @param e
+   */
+  clickSwitchPage: function(e) {
+    this.currentView = $(e.currentTarget).attr('data-switch');
+    this.switchPage(this.currentView);
+  },
+
+  /**
+   * switch page content view
+   * @param pageType
+   */
+  switchPage: function(pageType) {
+
+    if (pageType === 'list') {
+      var fetchScheduledArticles = this.fetchScheduledArticles(this.dateStart, this.dateEnd);
+      fetchScheduledArticles.done(function(data) {
+        $('.schedule-page__content', this.$el).empty().html(app.scheduled.scheduledContentListTemplate({scheduled: app.scheduled.scheduled}));
+      });
+    }
+
+    if (pageType === 'calendar') {
+      $('.schedule-page__content', this.$el).empty().html(app.scheduled.scheduledContentCalendarTemplate({scheduled: app.scheduled.scheduled}));
+      this.renderCalendar();
+    }
+
+  },
+
+  /**
+   * Fetch Scheduled articles from the API - depending on list or calendar the start/end dates will be different
+   * @param start
+   * @param end
+   */
+  fetchScheduledArticles: function(start, end) {
+    //console.log('start ' + moment.unix(start).format('dddd, MMMM Do YYYY, h:mm:ss a'));
+    //console.log('end ' + moment.unix(end).format('dddd, MMMM Do YYYY, h:mm:ss a'));
+    return $.ajax({
+      url: app.API + 'api/article_schedule_for_range/from/' + start + '/to/' + end + '/',
+      cache: false,
+      dataType: 'json',
+      success: function(data) {
+        app.scheduled.scheduled = data;
+      },
+
+      error: function(data) {
+        this.errorTemplate = eLife.templates['error-render'];
+        $('.schedule-page__content').empty().html(this.errorTemplate(data));
+      },
+    });
+  },
+
+  /**
+   * Render the calendar for the calendar view
+   */
+  renderCalendar: function() {
+    $('#calendar').fullCalendar({
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay',
+      },
+      eventRender: function(event, element) {
+        //Show tooltip when hovering over an event title
+        var toolTipContent = '<strong>' + event.title + '</strong><br/>' + moment(event.start).format('MMMM Do YYYY') + ' ' + moment(event.start).format('h:mm a');
+        element.qtip({
+          content: toolTipContent,
+          style: 'qtip-light',
+          position: {
+            my: 'bottom center',
+            at: 'top center',
+            target: 'mouse',
+            viewport: $('#fullcalendar'),
+            adjust: {
+              x: 0,
+              y: -10,
+              mouse: false,
+              scroll: false,
+            },
+          },
+        });
+      },
+
+      viewRender: function(view, element) {
+        // this event fires once the calendar has completed loading and when the date is changed - thus calling the new events
+        app.scheduled.dateStart = moment(view.start).format('X');
+        app.scheduled.dateEnd = moment(view.end).format('X');
+        app.scheduled.updateCalendar(app.scheduled.dateStart, app.scheduled.dateEnd);
+      },
+
+      timeFormat: 'HH:mm a',
+      firstDay: 1,
+      aspectRatio: 2,
+      defaultView: 'month',
+      fixedWeekCount: false,
+      editable: true,
+
+    });
+  },
+
+  /**
+   * Called when the calendar is loaded, or the dates are changed
+   * Fetches new articles according to the date requested and updtes the calendar to show them
+   * @param start
+   * @param end
+   */
+  updateCalendar: function(start, end) {
+    var fetchScheduledArticles = this.fetchScheduledArticles(start, end);
+    fetchScheduledArticles.done(function(data) {
+      $('#calendar').fullCalendar('removeEvents');
+      $('#calendar').fullCalendar('addEventSource', app.scheduled.convertArticlesToCalendar(app.scheduled.scheduled.articles));
+      $('#calendar').fullCalendar('rerenderEvents');
+    });
+  },
+
+  /**
+   * Convert the data from the API to a format recognised by the calendar.
+   * @param articles
+   * @returns {Array}
+   */
+  convertArticlesToCalendar: function(articles) {
+    var calendarArticles = [];
+    _.each(articles, function(a) {
+      var calendarArticle = [];
+      calendarArticle.title = (a['is-advance']) ? a.id : a.doi;
+      calendarArticle.backgroundColor = (a['is-advance']) ? app.colorAdvanceArticle : app.colorArticle;
+      calendarArticle.borderColor = (a['is-advance']) ? app.colorAdvanceArticle : app.colorArticle;
+      calendarArticle.textColor = app.colorText;
+      calendarArticle.start = moment.unix(a['scheduled-publication-date']);
+      if (!(a['is-advance'])) {
+        calendarArticle.url = (app.config.ISPP) ? '/patterns/04-pages-01-detail/04-pages-01-detail.html?article/' + a.id : 'article/' + a.id;
+      }
+      calendarArticles.push(calendarArticle);
+    });
+
+    return calendarArticles;
   },
 
 };
 
+app.scheduled.init();

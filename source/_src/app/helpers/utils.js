@@ -24,8 +24,10 @@ app.utils = {
       if (i === n) {
         nth = key;
       }
+
       i++;
     });
+
     return nth;
   },
 

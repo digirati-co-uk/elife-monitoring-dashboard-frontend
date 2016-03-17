@@ -1,3 +1,6 @@
+/**
+ * @TODO is this needed?
+ */
 (function($) {
   'use strict';
 
