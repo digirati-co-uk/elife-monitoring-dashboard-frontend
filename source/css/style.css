@@ -7798,12 +7798,14 @@ a:hover {
 /*------------------------------------*    $LAYOUT
 \*------------------------------------*/
 .current-page .pattern-helper,
-.detail-page .pattern-helper {
+.detail-page .pattern-helper,
+.scheduled-page .pattern-helper {
   display: none;
 }
 
 .current-page .publish-action,
-.detail-page .publish-action {
+.detail-page .publish-action,
+.scheduled-page .publish-action {
   display: inline-block;
 }
 

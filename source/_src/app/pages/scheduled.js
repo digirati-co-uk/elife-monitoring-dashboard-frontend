@@ -16,7 +16,7 @@ app.scheduled = {
       this.dateStart = moment().format('X');
       this.dateEnd = moment().add(1, 'months').format('X');
       this.$el = $('.scheduled-page');
-      this.currentView = (!_.isUndefined($('.scheduled-page').attr('data-page-type'))) ? $('.scheduled-page').attr('data-page-type') : 'calendar';
+      this.currentView = (!_.isUndefined($('.scheduled-page').attr('data-page-type'))) ? $('.scheduled-page').attr('data-page-type') : 'list';
       this.scheduled = [];
       Swag.registerHelpers(Handlebars);
       this.bindEvents();

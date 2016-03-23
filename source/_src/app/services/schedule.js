@@ -8,7 +8,7 @@ app.schedule = {
    * Initialise the methods for the Detail page
    */
   init: function() {
-    if ($('.current-page').length > 0 || $('.detail-page').length > 0) {
+    if ($('.current-page').length > 0 || $('.detail-page').length > 0 || $('.scheduled-page').length > 0) {
       this.articleId = null;
       this.scheduleDate = null;
       this.scheduleTime = null;
@@ -29,6 +29,8 @@ app.schedule = {
     $(document).on('hide.bs.modal', this.resetParameters.bind(this));
     $(document).on('click', '#schedule-modal .close', this.refreshPage.bind(this));
     $(document).on('click', '#schedule-modal #schedule-close', this.refreshPage.bind(this));
+    $(document).on('keyup', '#schedule-modal #schedule-id', this.checkScheduleId.bind(this));
+    $(document).on('keyup', '#schedule-modal #schedule-id', this.validateScheduleForm.bind(this));
   },
 
   /**
@@ -36,10 +38,10 @@ app.schedule = {
    */
   initDateTimePicker: function() {
     $('#schedule-action').prop('disabled', true).addClass('disabled');
-    var yesterday = new Date((new Date()).valueOf()-1000*60*60*24);
+    var yesterday = new Date((new Date()).valueOf() - 1000 * 60 * 60 * 24);
     $('.datepicker').pickadate({
       disable: [
-        { from: [0,0,0], to: yesterday }
+        {from: [0, 0, 0], to: yesterday},
       ],
       onSet: function(context) {
         app.schedule.scheduleDate = context.select;
@@ -51,7 +53,7 @@ app.schedule = {
       formatSubmit: 'HH:i',
       hiddenPrefix: 'schedule_time',
       onSet: function(context) {
-        app.schedule.scheduleTime = $('input[name="schedule_time_submit"]').val();
+        app.schedule.scheduleTime = $('#schedule-time', '#schedule-modal').val();
         app.schedule.enableSchedule();
       },
     });
@@ -62,8 +64,42 @@ app.schedule = {
    * When both date and time have been set in the modal, allow scheduling
    */
   enableSchedule: function() {
-    if (!_.isNull(this.scheduleDate) && !_.isNull(this.scheduleTime)) {
+    this.validateScheduleForm();
+  },
+
+  validateScheduleForm: function() {
+    var errors = 0;
+
+    if (this.scheduleActionType === 'future-schedule' && !app.utils.isNumeric($('#schedule-id', '#schedule-modal').val())) {
+      errors++;
+    }
+
+    if (_.isNull(this.scheduleDate)) {
+      errors++;
+    }
+
+    if (_.isNull(this.scheduleTime)) {
+      errors++;
+    }
+
+    if (errors === 0) {
       $('#schedule-action').prop('disabled', false).removeClass('disabled');
+    } else {
+      $('#schedule-action').prop('disabled', true).addClass('disabled');
+    }
+  },
+
+  /**
+   * Ensure schedule-id is numeric
+   * @param e
+   */
+  checkScheduleId: function(e) {
+    var val = $(e.currentTarget).val();
+    var $parent = $(e.currentTarget).parents('.form-group');
+    if (!app.utils.isNumeric(val)) {
+      $parent.addClass('has-error');
+    } else {
+      $parent.removeClass('has-error');
     }
   },
 
@@ -73,7 +109,7 @@ app.schedule = {
    */
   setParameters: function(e) {
     var articleId = $(e.relatedTarget).attr('data-article-id');
-    var data = {actionType: 'schedule'};
+    var data = {actionType: 'schedule', includeArticleId: false};
     this.articleId = articleId;
     this.scheduleActionType = $(e.relatedTarget).attr('id');
     this.articleModalBodyTemplate = eLife.templates['schedule/article-schedule-modal-body'];
@@ -81,10 +117,14 @@ app.schedule = {
       $('#schedule-action', '#schedule-modal').addClass('hidden');
       $('#schedule-cancel', '#schedule-modal').removeClass('hidden');
       data.actionType = 'cancel';
-    } else if (this.scheduleActionType === 'schedule-amend' || this.scheduleActionType === 'schedule') {
+    } else if (this.scheduleActionType === 'schedule-amend' || this.scheduleActionType === 'schedule' || this.scheduleActionType === 'future-schedule') {
       $('#schedule-action', '#schedule-modal').removeClass('hidden');
       $('#schedule-cancel', '#schedule-modal').addClass('hidden');
       data.actionType = 'schedule';
+    }
+
+    if (this.scheduleActionType === 'future-schedule') {
+      data.showArticleField = true;
     }
 
     $('#schedule-modal .modal-body').html(this.articleModalBodyTemplate(data));
@@ -102,18 +142,19 @@ app.schedule = {
    */
   performSchedule: function() {
     app.isScheduling = true;
+    if (this.scheduleActionType === 'future-schedule') {
+      this.articleId = $('#schedule-id', '#schedule-modal').val();
+    }
 
-    //@TODO the datetime format will probably need to be changed
     var dateTime = moment(app.schedule.scheduleDate).format('DD-MM-YYYY') + ' ' + moment(app.schedule.scheduleTime, 'HH:mm').format('hh:mm A');
-    console.log(JSON.stringify({articleId: this.articleId, date: dateTime}));
     $('#schedule-modal #schedule-action').hide();
     $.ajax({
       type: 'POST',
       contentType: 'application/json',
       url: app.API + 'api/schedule_article_publication',
-      data: JSON.stringify({articleId: this.articleId, date: dateTime}),
+      data: JSON.stringify({articleId: this.articleId, date: moment(dateTime, 'DD-MM-YYYY HH:mm A').format('X')}),
       success: function(data) {
-        console.log(data.scheduled)
+        console.log(data.scheduled);
         var template = {success: data.scheduled, actionType: app.schedule.scheduleActionType};
         this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
         console.log(template);
@@ -123,7 +164,11 @@ app.schedule = {
       },
 
       error: function(data) {
-        var template = {success: true, actionType: app.schedule.scheduleActionType, message: 'There was an error talking to the API.'};
+        var template = {
+          success: true,
+          actionType: app.schedule.scheduleActionType,
+          message: 'There was an error talking to the API.',
+        };
         this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
         $('#schedule-modal .modal-body').html(this.queueArticleStatusTemplate(template));
         app.isScheduling = false;

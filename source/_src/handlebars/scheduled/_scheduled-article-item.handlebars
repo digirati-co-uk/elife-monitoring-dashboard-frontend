@@ -51,18 +51,18 @@
             {{/if}}
         </dl>
     </td>
-    {{#if scheduled-date}}
+    {{#if scheduled-publication-date}}
         <td class="column-3">
-            <p><strong>SCHEDULED<br/>{{elFormatUnixDate scheduled-date "DD/MM/YYYY HH:mmA" }}</strong></p><br/>
+            <p><strong>SCHEDULED<br/>{{elFormatUnixDate scheduled-publication-date "DD/MM/YYYY HH:mmA" }}</strong></p><br/>
             <button class="btn btn-default schedule" id="schedule-amend" data-toggle="modal"
                     data-target="#schedule-modal"
-                    data-article-id="{{ article.id }}">
+                    data-article-id="{{ id }}">
                 <span class="glyphicon glyphicon-calendar"></span>
                 Re-Schedule
             </button>
             <button class="btn btn-default schedule" id="schedule-cancel" data-toggle="modal"
                     data-target="#schedule-modal"
-                    data-article-id="{{ article.id }}">
+                    data-article-id="{{ id }}">
                 <span class="glyphicon glyphicon-calendar"></span>
                 Cancel
             </button>
