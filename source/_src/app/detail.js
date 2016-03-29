@@ -14,13 +14,20 @@ app.detail = {
       this.errors = [];
       this.currentEvents = [];
       this.currentArticle = [];
+      this.scheduleStatus = [];
       this.queryParams = {};
       Swag.registerHelpers(Handlebars);
+      this.renderLoader();
       this.setArticleParams();
       this.getArticle();
       this.getDetailActions();
       this.bindEvents();
     }
+  },
+
+  renderLoader: function() {
+    this.loadingTemplate = eLife.templates['loading-template'];
+    $('#article').empty().html(this.loadingTemplate());
   },
 
   /**
@@ -119,11 +126,7 @@ app.detail = {
         success: function(data) {
           if (data.articles.length === 1) {
             var scheduleStatus = data.articles[0];
-            if (_.isNumber(scheduleStatus.scheduled)) {
-              $('.article-detail-actions').empty().html(app.detail.buttonsReScheduleTemplate({article: app.detail.article}));
-            } else {
-              $('.article-detail-actions').empty().html(app.detail.buttonsScheduleTemplate({article: app.detail.article}));
-            }
+            app.detail.scheduleStatus = scheduleStatus;
           }
         },
 
@@ -132,6 +135,21 @@ app.detail = {
         },
 
       });
+    }
+  },
+  /**
+   * Determine which action buttons to show for this page
+   */
+  renderDetailActions: function() {
+    if (this.scheduleStatus) {
+      console.log(this.scheduleStatus);
+      console.log(this.scheduleStatus.scheduled);
+      console.log($('.article-detail-actions', '#article'));
+      if (_.isNumber(this.scheduleStatus.scheduled)) {
+        $('.article-detail-actions', '#article').empty().html(app.detail.buttonsReScheduleTemplate({article: app.detail.article}));
+      } else {
+        $('.article-detail-actions', '#article').empty().html(app.detail.buttonsScheduleTemplate({article: app.detail.article}));
+      }
     }
   },
   /**
@@ -150,6 +168,7 @@ app.detail = {
           app.detail.currentArticle = app.detail.getCurrentArticle();
           app.detail.currentEvents = app.detail.getCurrentRun();
           app.detail.renderArticle();
+          app.detail.renderDetailActions();
         },
 
         error: function(data) {
@@ -177,6 +196,7 @@ app.detail = {
             currentEvents: this.currentEvents,
             currentVersion: this.queryParams.versionNumber,
             currentRun: this.queryParams.runNumber,
+            scheduleStatus: this.scheduleStatus,
           }));
     } else {
       this.errorTemplate = eLife.templates['error-render'];
@@ -282,7 +302,7 @@ app.detail = {
 
     /* If you have come through the PP nav we need to force some id's */
     if (app.config.ISPP && url[0] !== 'article') {
-      articleId = '001929';
+      articleId = '00353';
       versionNumber = '2';
       runNumber = '2';
     }

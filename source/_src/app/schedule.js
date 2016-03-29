@@ -103,15 +103,14 @@ app.schedule = {
   performSchedule: function() {
     app.isScheduling = true;
 
-    //@TODO the datetime format will probably need to be changed
     var dateTime = moment(app.schedule.scheduleDate).format('DD-MM-YYYY') + ' ' + moment(app.schedule.scheduleTime, 'HH:mm').format('hh:mm A');
-    console.log(JSON.stringify({articleId: this.articleId, date: dateTime}));
+    console.log(JSON.stringify({articleId: this.articleId, date: moment(dateTime, 'DD-MM-YYYY HH:mm A').format('X')}));
     $('#schedule-modal #schedule-action').hide();
     $.ajax({
       type: 'POST',
       contentType: 'application/json',
       url: app.API + 'api/schedule_article_publication',
-      data: JSON.stringify({articleId: this.articleId, date: dateTime}),
+      data: JSON.stringify({articleId: this.articleId, date: moment(dateTime, 'DD-MM-YYYY HH:mm A').format('X')}),
       success: function(data) {
         console.log(data.scheduled)
         var template = {success: data.scheduled, actionType: app.schedule.scheduleActionType};
