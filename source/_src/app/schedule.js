@@ -102,13 +102,21 @@ app.schedule = {
    */
   performSchedule: function() {
     app.isScheduling = true;
-    var dateTime = moment(app.schedule.scheduleDate).format('DD-MM-YYYY') + ' ' + moment(app.schedule.scheduleTime, 'HH:mm').format('hh:mm A');
+    var scheduleData = {};
+    if (this.scheduleActionType !== 'schedule-cancel') {
+      var dateTime = moment(app.schedule.scheduleDate).format('DD-MM-YYYY') + ' ' + moment(app.schedule.scheduleTime, 'HH:mm').format('hh:mm A');
+      scheduleData = {article: {'article-identifier': this.articleId, scheduled: moment(dateTime, 'DD-MM-YYYY HH:mm A').format('X')}};
+    } else {
+      scheduleData = {article: {'article-identifier': this.articleId, scheduled: null}};
+    }
+
     $('#schedule-modal #schedule-action').hide();
+    $('#schedule-modal #schedule-cancel').hide();
     $.ajax({
       type: 'POST',
       contentType: 'application/json',
       url: app.API + 'api/schedule_article_publication',
-      data: JSON.stringify({article: {'article-identifier': this.articleId, scheduled: moment(dateTime, 'DD-MM-YYYY HH:mm A').format('X')}}),
+      data: JSON.stringify(scheduleData),
       success: function(data) {
         console.log(data);
         var template = {actionType: app.schedule.scheduleActionType};

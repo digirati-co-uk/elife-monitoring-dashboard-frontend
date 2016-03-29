@@ -30,10 +30,6 @@
                         <dt><i>Publication date:</i></dt>
                         <dd>{{currentArticle.publication-date}}{{!--{{elFormatUnixDate currentArticle.publication-date "MM/DD/YYYY HH:mm:ss" }}--}}</dd>
                     {{/if}}
-                    {{#if scheduleStatus.scheduled}}
-                        <dt><i>Scheduled date:</i></dt>
-                        <dd>{{elFormatUnixDate scheduleStatus.scheduled "DD/MM/YYYY HH:mm:ss" }}</dd>
-                    {{/if}}
                     {{#if currentArticle.corresponding-authors}}
                         <dt><i>Corresponding authors:</i></dt>
                         <dd>{{currentArticle.corresponding-authors}}</dd>
