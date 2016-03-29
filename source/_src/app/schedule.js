@@ -102,20 +102,18 @@ app.schedule = {
    */
   performSchedule: function() {
     app.isScheduling = true;
-
     var dateTime = moment(app.schedule.scheduleDate).format('DD-MM-YYYY') + ' ' + moment(app.schedule.scheduleTime, 'HH:mm').format('hh:mm A');
-    console.log(JSON.stringify({articleId: this.articleId, date: moment(dateTime, 'DD-MM-YYYY HH:mm A').format('X')}));
     $('#schedule-modal #schedule-action').hide();
     $.ajax({
       type: 'POST',
       contentType: 'application/json',
       url: app.API + 'api/schedule_article_publication',
-      data: JSON.stringify({articleId: this.articleId, date: moment(dateTime, 'DD-MM-YYYY HH:mm A').format('X')}),
+      data: JSON.stringify({article: {'article-identifier': this.articleId, scheduled: moment(dateTime, 'DD-MM-YYYY HH:mm A').format('X')}}),
       success: function(data) {
-        console.log(data.scheduled)
-        var template = {success: data.scheduled, actionType: app.schedule.scheduleActionType};
+        console.log(data);
+        var template = {actionType: app.schedule.scheduleActionType};
+        template.success = (data.result == 'success') ? true : false;
         this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
-        console.log(template);
         $('#schedule-modal .modal-body').html(this.queueArticleStatusTemplate(template));
         app.isScheduling = false;
         app.isAllScheduled = true;
