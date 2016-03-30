@@ -141,7 +141,8 @@ app.detail = {
    * Determine which action buttons to show for this page
    */
   renderDetailActions: function() {
-    console.log(this.scheduleStatus)
+    console.log('renderDetailActions')
+    console.log(this.scheduleStatus);
     if (this.scheduleStatus) {
       if (_.isNumber(this.scheduleStatus.scheduled)) {
         $('.article-detail-actions', '#article').empty().html(app.detail.buttonsReScheduleTemplate({article: app.detail.article}));
@@ -166,7 +167,6 @@ app.detail = {
           app.detail.currentArticle = app.detail.getCurrentArticle();
           app.detail.currentEvents = app.detail.getCurrentRun();
           app.detail.renderArticle();
-          app.detail.renderDetailActions();
         },
 
         error: function(data) {
@@ -196,6 +196,8 @@ app.detail = {
             currentRun: this.queryParams.runNumber,
             scheduleStatus: this.scheduleStatus,
           }));
+
+      this.renderDetailActions();
     } else {
       this.errorTemplate = eLife.templates['error-render'];
       $('#article').empty().html(this.errorTemplate(this.errors));

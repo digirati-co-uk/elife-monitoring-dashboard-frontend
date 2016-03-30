@@ -187,7 +187,7 @@ Handlebars.registerPartial("article-detail-actions", Handlebars.template({"1":fu
     var stack1;
 
   return "            <p><span class=\"text-muted\">Scheduled for <em><strong>"
-    + container.escapeExpression((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.scheduleStatus : depth0)) != null ? stack1.scheduled : stack1),"do MMMM YYYY HH:mma",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + container.escapeExpression((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.scheduleStatus : depth0)) != null ? stack1.scheduled : stack1),"Do MMMM YYYY hh:mma",{"name":"elFormatUnixDate","hash":{},"data":data}))
     + "</strong></em></span></p>\n";
 },"3":function(container,depth0,helpers,partials,data) {
     var stack1;
@@ -507,19 +507,6 @@ this["eLife"]["templates"]["detail/article-detail"] = Handlebars.template({"comp
     + "    </div>\n</div>";
 },"usePartial":true,"useData":true});
 
-this["eLife"]["templates"]["detail/article-scheduled"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    var stack1;
-
-  return "    <p><span class=\"text-muted\">Scheduled for <em><strong>"
-    + container.escapeExpression((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.scheduleStatus : depth0)) != null ? stack1.scheduled : stack1),"do MMMM YYYY HH:mma",{"name":"elFormatUnixDate","hash":{},"data":data}))
-    + "</strong></em></span></p>\n";
-},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1;
-
-  return "\n"
-    + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.scheduleStatus : depth0)) != null ? stack1.scheduled : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
-},"useData":true});
-
 this["eLife"]["templates"]["detail/article"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 
@@ -608,24 +595,6 @@ this["eLife"]["templates"]["publish/article-publish-modal-status"] = Handlebars.
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),"ready to publish",{"name":"is","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["publication-status"] : depth0),"published",{"name":"is","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "</span>\n\n";
-},"useData":true});
-
-this["eLife"]["templates"]["publish/button-publish"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=container.lambda, alias2=container.escapeExpression;
-
-  return "    <button class=\"btn btn-default publish btn-publish\" data-toggle=\"modal\" data-target=\"#publish-modal\"\n            type=\"button\"\n            data-article-title=\""
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.doi : stack1), depth0))
-    + "\"\n            data-article-id=\""
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
-    + "\"\n            data-article-version=\""
-    + alias2(((helper = (helper = helpers.currentVersion || (depth0 != null ? depth0.currentVersion : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"currentVersion","hash":{},"data":data}) : helper)))
-    + "\"\n            data-article-run=\""
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.currentEvents : depth0)) != null ? stack1["run-id"] : stack1), depth0))
-    + "\">\n        <span class=\"glyphicon glyphicon-globe\"></span>\n        Publish Now\n    </button>\n";
-},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1;
-
-  return ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["scheduled-publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"useData":true});
 
 this["eLife"]["templates"]["schedule/article-schedule-modal-body"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
@@ -1484,7 +1453,8 @@ app.detail = {
    * Determine which action buttons to show for this page
    */
   renderDetailActions: function() {
-    console.log(this.scheduleStatus)
+    console.log('renderDetailActions')
+    console.log(this.scheduleStatus);
     if (this.scheduleStatus) {
       if (_.isNumber(this.scheduleStatus.scheduled)) {
         $('.article-detail-actions', '#article').empty().html(app.detail.buttonsReScheduleTemplate({article: app.detail.article}));
@@ -1509,7 +1479,6 @@ app.detail = {
           app.detail.currentArticle = app.detail.getCurrentArticle();
           app.detail.currentEvents = app.detail.getCurrentRun();
           app.detail.renderArticle();
-          app.detail.renderDetailActions();
         },
 
         error: function(data) {
@@ -1539,6 +1508,8 @@ app.detail = {
             currentRun: this.queryParams.runNumber,
             scheduleStatus: this.scheduleStatus,
           }));
+
+      this.renderDetailActions();
     } else {
       this.errorTemplate = eLife.templates['error-render'];
       $('#article').empty().html(this.errorTemplate(this.errors));
