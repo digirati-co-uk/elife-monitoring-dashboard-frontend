@@ -141,6 +141,7 @@ app.detail = {
    * Determine which action buttons to show for this page
    */
   renderDetailActions: function() {
+    console.log(this.scheduleStatus)
     if (this.scheduleStatus) {
       if (_.isNumber(this.scheduleStatus.scheduled)) {
         $('.article-detail-actions', '#article').empty().html(app.detail.buttonsReScheduleTemplate({article: app.detail.article}));

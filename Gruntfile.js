@@ -32,8 +32,7 @@ module.exports = function(grunt) {
           ],
           'source/js/libs.js': [
             'source/_src/libs/jquery.min.js',
-            'source/_src/libs/moment.min.js',
-            'source/_src/libs/moment-en-gb.js',
+            'source/_src/libs/moment.js',
             'source/_src/libs/bootstrap.min.js',
             'source/_src/libs/bootstrap-datetimepicker.min.js',
             'source/_src/libs/pickadate/lib/picker.js',

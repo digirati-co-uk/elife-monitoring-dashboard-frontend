@@ -33,7 +33,9 @@ app.schedule = {
     $(document).on('click', '#schedule-modal #schedule-close', this.refreshPage.bind(this));
   },
 
-
+  /**
+   * set the time when time is entred
+   */
   setTime: function() {
     app.schedule.scheduleTime = $('input[name="schedule_hour_submit"]').val() + ':' + $('input[name="schedule_minute_submit"]').val() + ' ' + $('select[name="schedule_ampm_submit"] option:selected').val();
     app.schedule.enableSchedule();
@@ -54,7 +56,7 @@ app.schedule = {
         app.schedule.enableSchedule();
       },
     });
-    
+
   },
 
   /**
@@ -103,8 +105,10 @@ app.schedule = {
     app.isScheduling = true;
     var scheduleData = {};
     if (this.scheduleActionType !== 'schedule-cancel') {
-      var dateTime = moment(app.schedule.scheduleDate).format('DD-MM-YYYY') + ' ' + moment(app.schedule.scheduleTime, 'HH:mm').format('hh:mm A');
-      scheduleData = {article: {'article-identifier': this.articleId, scheduled: moment(dateTime, 'DD-MM-YYYY HH:mm A').format('X')}};
+      var dateTime = moment(app.schedule.scheduleDate).format('DD-MM-YYYY') + ' ' + app.schedule.scheduleTime;
+      dateTime = moment(dateTime, 'DD-MM-YYYY hh:mm a');
+      var scheduled = moment(dateTime).add(1, 'hour').format('X')
+      scheduleData = {article: {'article-identifier': this.articleId, scheduled: scheduled}};
     } else {
       scheduleData = {article: {'article-identifier': this.articleId, scheduled: null}};
     }
