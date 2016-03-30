@@ -9,9 +9,12 @@ app.schedule = {
    */
   init: function() {
     if ($('.current-page').length > 0 || $('.detail-page').length > 0 || $('.scheduled-page').length > 0) {
+      this.articleModalBodyTemplate = eLife.templates['schedule/article-schedule-modal-body'];
+      this.articleModalFooterTemplate = eLife.templates['schedule/article-schedule-modal-footer'];
       this.articleId = null;
       this.scheduleDate = null;
       this.scheduleTime = null;
+      this.scheduleDateTime = null;
       this.scheduleActionType = null;
       Swag.registerHelpers(Handlebars);
       this.bindEvents();
@@ -26,6 +29,7 @@ app.schedule = {
     $(document).on('click', '#schedule-modal #schedule-cancel', this.performSchedule.bind(this));
     $(document).on('show.bs.modal', this.setParameters.bind(this));
     $(document).on('show.bs.modal', this.initDateTimePicker.bind(this));
+    $(document).on('show.bs.modal', this.updateModal.bind(this));
     $(document).on('hide.bs.modal', this.resetParameters.bind(this));
     $(document).on('keyup', '.timepicker', this.setTime.bind(this));
     $(document).on('change', '.ampmpicker', this.setTime.bind(this));
@@ -71,20 +75,36 @@ app.schedule = {
   validateScheduleForm: function() {
     var errors = 0;
 
+    // is it for the future - if so we need an id to add
     if (this.scheduleActionType === 'future-schedule' && !app.utils.isNumeric($('#schedule-id', '#schedule-modal').val())) {
       errors++;
     }
 
+    // do we have a date?
     if (_.isNull(this.scheduleDate)) {
       errors++;
     }
 
-    if (!app.utils.isNumeric($('#schedule_hour_submit', '#schedule-modal').val())) {
+    // check for hours
+    var hasHours = app.utils.isNumeric($('#schedule_hour_submit', '#schedule-modal').val());
+    if (!hasHours) {
       errors++;
     }
 
-    if (!app.utils.isNumeric($('#schedule_minute_submit', '#schedule-modal').val())) {
+    // check for minutes
+    var hasMinutes = app.utils.isNumeric($('#schedule_minute_submit', '#schedule-modal').val());
+    if (!hasMinutes) {
       errors++;
+    }
+
+    // check this time isn't in the past
+    if (!_.isNull(this.scheduleDate) && hasHours && hasMinutes) {
+      this.scheduleDateTime = moment(moment(app.schedule.scheduleDate).format('DD-MM-YYYY') + ' ' + app.schedule.scheduleTime, 'DD-MM-YYYY hh:mm a');
+      var scheduledTime = moment(this.scheduleDateTime).format('x');
+      var now = moment().format('x');
+      if (scheduledTime <= now) {
+        errors++;
+      }
     }
 
     if (errors === 0) {
@@ -107,32 +127,48 @@ app.schedule = {
       $parent.removeClass('has-error');
     }
   },
-
   /**
    * Set the parameters for the article scheduling.
    * @param e
    */
   setParameters: function(e) {
+    this.setModalTitle($(e.relatedTarget));
     var articleId = $(e.relatedTarget).attr('data-article-id');
     var data = {actionType: 'schedule', includeArticleId: false};
     this.articleId = articleId;
     this.scheduleActionType = $(e.relatedTarget).attr('id');
-    this.articleModalBodyTemplate = eLife.templates['schedule/article-schedule-modal-body'];
     if (this.scheduleActionType === 'schedule-cancel') {
-      $('#schedule-action', '#schedule-modal').addClass('hidden');
-      $('#schedule-cancel', '#schedule-modal').removeClass('hidden');
       data.actionType = 'cancel';
     } else if (this.scheduleActionType === 'schedule-amend' || this.scheduleActionType === 'schedule' || this.scheduleActionType === 'future-schedule') {
-      $('#schedule-action', '#schedule-modal').removeClass('hidden');
-      $('#schedule-cancel', '#schedule-modal').addClass('hidden');
       data.actionType = 'schedule';
     }
 
     if (this.scheduleActionType === 'future-schedule') {
-      data.showArticleField = true;
+      data.showArticleIdField = true;
     }
 
     $('#schedule-modal .modal-body').html(this.articleModalBodyTemplate(data));
+    $('#schedule-modal .modal-footer').html(this.articleModalFooterTemplate(data));
+
+  },
+
+  /**
+   * Display additional information in the modal
+   * @param e
+   */
+  updateModal: function(e) {
+    var articleDoi = $('#article-' + this.articleId + ' .article-doi').text();
+    $('.article-cancel-info', '#schedule-modal').html(articleDoi);
+  },
+
+  /**
+   * if custom data provided amend title
+   */
+  setModalTitle: function($target) {
+    var title = $target.attr('data-title');
+    if (!_.isUndefined(title)) {
+      $('.modal-title', '#schedule-modal').html(title);
+    }
   },
 
   /**
@@ -141,6 +177,7 @@ app.schedule = {
   resetParameters: function() {
     this.scheduleDate = null;
     this.scheduleTime = null;
+    this.scheduleDateTime = null;
   },
   /**
    * Schedule the article using the service
@@ -153,10 +190,7 @@ app.schedule = {
 
     var scheduleData = {};
     if (this.scheduleActionType !== 'schedule-cancel') {
-      var dateTime = moment(app.schedule.scheduleDate).format('DD-MM-YYYY') + ' ' + app.schedule.scheduleTime;
-      dateTime = moment(dateTime, 'DD-MM-YYYY hh:mm a');
-      var scheduled = moment(dateTime).format('X');
-      scheduleData = {article: {'article-identifier': this.articleId, scheduled: scheduled}};
+      scheduleData = {article: {'article-identifier': this.articleId, scheduled: moment(this.scheduleDateTime).format('X')}};
     } else {
       scheduleData = {article: {'article-identifier': this.articleId, scheduled: null}};
     }
@@ -174,6 +208,7 @@ app.schedule = {
         template.success = (data.result == 'success') ? true : false;
         this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
         $('#schedule-modal .modal-body').html(this.queueArticleStatusTemplate(template));
+        $('#schedule-close', '#schedule-modal').text('Close');
         app.isScheduling = false;
         app.isAllScheduled = true;
       },

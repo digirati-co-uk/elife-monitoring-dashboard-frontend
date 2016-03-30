@@ -13,6 +13,7 @@ app.scheduled = {
       this.scheduledContentCalendarTemplate = eLife.templates['scheduled/scheduled-content-calendar'];
       this.scheduledActionsTemplate = eLife.templates['scheduled/scheduled-actions'];
       this.scheduledSwitcherTemplate = eLife.templates['scheduled/scheduled-switcher'];
+      this.loadingTemplate = eLife.templates['loading-template'];
       this.dateStart = moment().format('X');
       this.dateEnd = moment().add(1, 'months').format('X');
       this.$el = $('.scheduled-page');
@@ -34,10 +35,17 @@ app.scheduled = {
   },
 
   /**
+   * Render the loading icon
+   */
+  renderLoader: function() {
+    $('.schedule-page__content', this.$el).empty().html(this.loadingTemplate());
+  },
+
+  /**
    * Render the list / Calender switcher
    */
   renderSwitcher: function() {
-    $('.schedule-page__switcher', this.$el).html(this.scheduledSwitcherTemplate());
+    $('.schedule-page__switcher', this.$el).html(this.scheduledSwitcherTemplate({currentView: this.currentView}));
   },
 
   /**
@@ -61,7 +69,8 @@ app.scheduled = {
    * @param pageType
    */
   switchPage: function(pageType) {
-
+    this.renderLoader();
+    this.renderSwitcher();
     if (pageType === 'list') {
       var fetchScheduledArticles = this.fetchScheduledArticles(this.dateStart, this.dateEnd);
       fetchScheduledArticles.done(function(data) {
@@ -89,6 +98,7 @@ app.scheduled = {
       cache: false,
       dataType: 'json',
       success: function(data) {
+        console.log(data)
         app.scheduled.scheduled = data;
       },
 
@@ -142,7 +152,7 @@ app.scheduled = {
       aspectRatio: 2,
       defaultView: 'month',
       fixedWeekCount: false,
-      editable: true,
+      editable: false,
 
     });
   },
@@ -154,8 +164,10 @@ app.scheduled = {
    * @param end
    */
   updateCalendar: function(start, end) {
+    $('#calendar', this.$el).before(this.loadingTemplate());
     var fetchScheduledArticles = this.fetchScheduledArticles(start, end);
     fetchScheduledArticles.done(function(data) {
+      $('.loading-template', this.$el).remove();
       $('#calendar').fullCalendar('removeEvents');
       $('#calendar').fullCalendar('addEventSource', app.scheduled.convertArticlesToCalendar(app.scheduled.scheduled.articles));
       $('#calendar').fullCalendar('rerenderEvents');

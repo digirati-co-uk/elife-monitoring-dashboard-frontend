@@ -11,8 +11,8 @@ var app = {
   isAllScheduled: false,
   isPublishing: false,
   isAllPublished: false,
-  colorAdvanceArticle: '#cde1f1',
-  colorArticle: '#f1f1f1',
+  colorAdvanceArticle: '#f1f1f1',
+  colorArticle: '#cde1f1',
   colorText: '#111',
 };
 

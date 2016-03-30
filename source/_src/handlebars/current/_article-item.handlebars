@@ -4,7 +4,7 @@
     data-article-run="{{ run-id }}">
     <td class="column-1">
         <a href="/article/{{id}}/{{ version }}/{{ run }}" class="hidden-xs">
-            <span class="glyphicon glyphicon-file {{#if status}}{{lowercase status }}{{else}}no-article-status-type{{/if}}"></span>
+            <span class="fa fa-file {{#if status}}{{lowercase status }}{{else}}no-article-status-type{{/if}}"></span>
         </a>
         <h6>
             <a href="/article/{{id}}/{{ version }}/{{ run }}">{{#if doi}}{{ doi }}{{else}}Not yet available ({{id}}){{/if}}</a>
@@ -71,12 +71,12 @@
     {{#is section 'uir'}}
         <td class="column-3">
             <a href="{{preview-link}}" target="_blank" class="btn btn-default preview">
-                <span class="glyphicon glyphicon-eye-open"></span>
+                <span class="fa fa-eye"></span>
                 Preview
             </a>
             <button class="btn btn-default publish btn-publish" data-toggle="modal" data-target="#publish-modal"
                     type="button">
-                <span class="glyphicon glyphicon-globe"></span>
+                <span class="fa fa-globe"></span>
                 Publish Now
             </button>
             <div class="checkbox">

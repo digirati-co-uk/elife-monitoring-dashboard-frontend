@@ -1,5 +1,5 @@
 {{#is actionType 'schedule'}}
-    {{#if showArticleField}}
+    {{#if showArticleIdField}}
         <p>Please enter the ID of the article you wish to publish:</p>
         <br/>
         <div class="form-group">
@@ -12,6 +12,7 @@
         <br/>
     {{/if}}
     <p>When do you want to schedule this article?</p>
+    <p class="article-cancel-info"></p>
     <br/>
     <div class="form-group">
         <div class="col-sm-12">
@@ -47,5 +48,6 @@
 {{#is actionType 'cancel'}}
     <div class="alert alert-warning">
         <p>Are you sure you want to cancel the publication of this article?</p>
+        <p class="article-cancel-info"></p>
     </div>
 {{/is}}

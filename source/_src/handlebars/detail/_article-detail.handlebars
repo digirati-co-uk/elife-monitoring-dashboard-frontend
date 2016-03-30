@@ -1,11 +1,11 @@
 {{> article-publish-modal}}
 {{> article-schedule-modal}}
-<section class="article-detail">
+<section class="article-detail"  id="article-{{article.id}}">
     <table class="snapshot">
         <tr>
             <td class="column-1">
-                <span class="glyphicon glyphicon-file {{#if currentArticle.status}}{{lowercase currentArticle.status }}{{else}}no-article-status-type{{/if}}"></span>
-                <h6>{{currentArticle.doi}}</h6>
+                <span class="fa fa-file {{#if currentArticle.status}}{{lowercase currentArticle.status }}{{else}}no-article-status-type{{/if}}"></span>
+                <h6 class="article-doi">{{currentArticle.doi}}</h6>
                 <p>{{currentArticle.title}}</p>
             </td>
             <td class="column-2">
