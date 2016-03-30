@@ -27,8 +27,16 @@ app.schedule = {
     $(document).on('show.bs.modal', this.setParameters.bind(this));
     $(document).on('show.bs.modal', this.initDateTimePicker.bind(this));
     $(document).on('hide.bs.modal', this.resetParameters.bind(this));
+    $(document).on('keyup', '.timepicker', this.setTime.bind(this));
+    $(document).on('change', '.ampmpicker', this.setTime.bind(this));
     $(document).on('click', '#schedule-modal .close', this.refreshPage.bind(this));
     $(document).on('click', '#schedule-modal #schedule-close', this.refreshPage.bind(this));
+  },
+
+
+  setTime: function() {
+    app.schedule.scheduleTime = $('input[name="schedule_hour_submit"]').val() + ':' + $('input[name="schedule_minute_submit"]').val() + ' ' + $('select[name="schedule_ampm_submit"] option:selected').val();
+    app.schedule.enableSchedule();
   },
 
   /**
@@ -46,16 +54,7 @@ app.schedule = {
         app.schedule.enableSchedule();
       },
     });
-    $('.timepicker').pickatime({
-      interval: 1,
-      formatSubmit: 'HH:i',
-      hiddenPrefix: 'schedule_time',
-      onSet: function(context) {
-        app.schedule.scheduleTime = $('input[name="schedule_time_submit"]').val();
-        app.schedule.enableSchedule();
-      },
-    });
-
+    
   },
 
   /**

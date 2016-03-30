@@ -587,7 +587,7 @@ this["eLife"]["templates"]["publish/article-publish-modal-status"] = Handlebars.
 },"useData":true});
 
 this["eLife"]["templates"]["schedule/article-schedule-modal-body"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    return "<p>When do you want to schedule this article?</p>\n<br/>\n<div class=\"form-group\">\n    <div class=\"col-sm-6\">\n        <input id=\"\" name=\"\" class=\"form-control datepicker\" type=\"text\" placeholder=\"Date\">\n    </div>\n    <div class=\"col-sm-6\">\n        <input id=\"\" name=\"\" class=\"form-control timepicker\" type=\"text\" placeholder=\"Time\">\n    </div>\n</div>\n<br/>\n";
+    return "<p>When do you want to schedule this article?</p>\n<br/>\n<div class=\"form-group\">\n    <div class=\"col-sm-6\">\n        <input id=\"\" name=\"\" class=\"form-control datepicker\" type=\"text\" placeholder=\"Date\">\n    </div>\n    <div class=\"col-sm-2\">\n        <input id=\"\" name=\"schedule_hour_submit\" class=\"form-control timepicker hourpicker\" type=\"number\" placeholder=\"Hour\">\n    </div>\n    <div class=\"col-sm-2\">\n        <input id=\"\" name=\"schedule_minute_submit\" class=\"form-control timepicker minutepicker\" type=\"number\" placeholder=\"Minute\">\n    </div>\n    <div class=\"col-sm-2\">\n        <select class=\"form-control timepicker ampmpicker\" name=\"schedule_ampm_submit\">\n            <option value=\"am\">am</option>\n            <option value=\"pm\" selected=\"selected\">pm</option>\n        </select>\n    </div>\n</div>\n<br/>\n";
 },"3":function(container,depth0,helpers,partials,data) {
     return "<div class=\"alert alert-warning\">\n    <p>Are you sure you want to cancel the publication of this article?</p>\n</div>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -761,6 +761,16 @@ app.utils = {
   insert: function(str, index, value) {
     return str.substr(0, index) + value + str.substr(index);
   },
+
+  /**
+   * Test if a string is all numeric or not
+   * @param string
+   * @returns {boolean}
+   */
+  isNumeric: function(string) {
+    var hasNumber = /^\d+$/;
+    return hasNumber.test(string);
+  }
 
 };
 'use strict';
@@ -1015,8 +1025,16 @@ app.schedule = {
     $(document).on('show.bs.modal', this.setParameters.bind(this));
     $(document).on('show.bs.modal', this.initDateTimePicker.bind(this));
     $(document).on('hide.bs.modal', this.resetParameters.bind(this));
+    $(document).on('keyup', '.timepicker', this.setTime.bind(this));
+    $(document).on('change', '.ampmpicker', this.setTime.bind(this));
     $(document).on('click', '#schedule-modal .close', this.refreshPage.bind(this));
     $(document).on('click', '#schedule-modal #schedule-close', this.refreshPage.bind(this));
+  },
+
+
+  setTime: function() {
+    app.schedule.scheduleTime = $('input[name="schedule_hour_submit"]').val() + ':' + $('input[name="schedule_minute_submit"]').val() + ' ' + $('select[name="schedule_ampm_submit"] option:selected').val();
+    app.schedule.enableSchedule();
   },
 
   /**
@@ -1034,16 +1052,7 @@ app.schedule = {
         app.schedule.enableSchedule();
       },
     });
-    $('.timepicker').pickatime({
-      interval: 1,
-      formatSubmit: 'HH:i',
-      hiddenPrefix: 'schedule_time',
-      onSet: function(context) {
-        app.schedule.scheduleTime = $('input[name="schedule_time_submit"]').val();
-        app.schedule.enableSchedule();
-      },
-    });
-
+    
   },
 
   /**

@@ -10,7 +10,7 @@ module.exports = function(grunt) {
     // Task configuration.
     shell: {
       patternlabserve: {
-        command: "php -S localhost:8000 -t public/"
+        command: "php -S localhost:8001 -t public/"
       },
       patternlab: {
         command: "php core/builder.php -g"

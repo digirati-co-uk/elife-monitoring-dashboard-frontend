@@ -83,4 +83,14 @@ app.utils = {
     return str.substr(0, index) + value + str.substr(index);
   },
 
+  /**
+   * Test if a string is all numeric or not
+   * @param string
+   * @returns {boolean}
+   */
+  isNumeric: function(string) {
+    var hasNumber = /^\d+$/;
+    return hasNumber.test(string);
+  }
+
 };
