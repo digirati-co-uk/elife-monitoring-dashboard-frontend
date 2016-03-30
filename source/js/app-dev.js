@@ -1116,7 +1116,7 @@ app.schedule = {
     if (this.scheduleActionType !== 'schedule-cancel') {
       var dateTime = moment(app.schedule.scheduleDate).format('DD-MM-YYYY') + ' ' + app.schedule.scheduleTime;
       dateTime = moment(dateTime, 'DD-MM-YYYY hh:mm a');
-      var scheduled = moment(dateTime).add(1, 'hour').format('X')
+      var scheduled = moment(dateTime).format('X');
       scheduleData = {article: {'article-identifier': this.articleId, scheduled: scheduled}};
     } else {
       scheduleData = {article: {'article-identifier': this.articleId, scheduled: null}};
