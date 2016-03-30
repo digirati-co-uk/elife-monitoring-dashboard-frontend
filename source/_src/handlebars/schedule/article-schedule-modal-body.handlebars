@@ -14,11 +14,32 @@
     <p>When do you want to schedule this article?</p>
     <br/>
     <div class="form-group">
-        <div class="col-sm-6">
+        <div class="col-sm-12">
             <input id="schedule-date" name="date" class="form-control datepicker" type="text" placeholder="Date">
         </div>
-        <div class="col-sm-6">
-            <input id="schedule-time" name="time" class="form-control timepicker" type="text" placeholder="Time">
+    </div>
+    <br/>
+    <br/>
+    <div class="form-group">
+        <div class="col-sm-12">
+            <div class="timepicker">
+                <div class="timepicker-hour">
+                    <input id="schedule_hour_submit" name="schedule_hour_submit"
+                           class="form-control timepicker hourpicker"
+                           type="number" placeholder="Hour">
+                </div>
+                <div class="timepicker-divider">:</div>
+                <div class="timepicker-minute">
+                    <input id="schedule_minute_submit" name="schedule_minute_submit"
+                           class="form-control timepicker minutepicker" type="number" placeholder="Minute">
+                </div>
+                <div class="timepicker-ampm">
+                    <select class="form-control timepicker ampmpicker" name="schedule_ampm_submit">
+                        <option value="am">am</option>
+                        <option value="pm" selected="selected">pm</option>
+                    </select>
+                </div>
+            </div>
         </div>
     </div>
     <br/>

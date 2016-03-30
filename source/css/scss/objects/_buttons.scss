@@ -2,6 +2,10 @@
     $BUTTONS
 \*------------------------------------*/
 
+.btn {
+  text-decoration: none;
+}
+
 .btn-grey {
   background-color: $LightGrey7;
   border-color: $LightGrey7;

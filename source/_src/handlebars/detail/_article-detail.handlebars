@@ -1,40 +1,6 @@
 {{> article-publish-modal}}
 {{> article-schedule-modal}}
 <section class="article-detail">
-    <div class="actions">
-        {{#if currentArticle.preview-link}}
-            <a href="{{currentArticle.preview-link}}" target="_blank" class="btn btn-default">
-                <span class="glyphicon glyphicon-eye-open"></span>
-                Preview
-            </a>
-        {{/if}}
-        {{#if currentArticle.scheduled-publication-date}}
-            <button class="btn btn-default schedule" id="schedule-amend" data-toggle="modal" data-target="#schedule-modal"
-                    data-article-id="{{ article.id }}">
-                <span class="glyphicon glyphicon-calendar"></span>
-                Re-Schedule
-            </button>
-            <button class="btn btn-default schedule" id="schedule-cancel" data-toggle="modal" data-target="#schedule-modal"
-                    data-article-id="{{ article.id }}">
-                <span class="glyphicon glyphicon-calendar"></span>
-                Cancel Schedule
-            </button>
-        {{else}}
-            <button class="btn btn-default publish btn-publish" data-toggle="modal" data-target="#publish-modal" type="button"
-                    data-article-title="{{ currentArticle.doi }}"
-                    data-article-id="{{ article.id }}"
-                    data-article-version="{{ currentVersion }}"
-                    data-article-run="{{ currentEvents.run-id }}">
-                <span class="glyphicon glyphicon-globe"></span>
-                Publish Now
-            </button>
-            <button class="btn btn-default schedule" id="schedule" data-toggle="modal" data-target="#schedule-modal"
-                    data-article-id="{{ article.id }}">
-                <span class="glyphicon glyphicon-calendar"></span>
-                Schedule
-            </button>
-        {{/if}}
-    </div>
     <table class="snapshot">
         <tr>
             <td class="column-1">

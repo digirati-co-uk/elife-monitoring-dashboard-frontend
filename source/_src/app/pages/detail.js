@@ -14,12 +14,20 @@ app.detail = {
       this.errors = [];
       this.currentEvents = [];
       this.currentArticle = [];
+      this.scheduleStatus = [];
       this.queryParams = {};
       Swag.registerHelpers(Handlebars);
+      this.renderLoader();
       this.setArticleParams();
       this.getArticle();
+      this.getDetailActions();
       this.bindEvents();
     }
+  },
+
+  renderLoader: function() {
+    this.loadingTemplate = eLife.templates['loading-template'];
+    $('#article').empty().html(this.loadingTemplate());
   },
 
   /**
@@ -102,6 +110,48 @@ app.detail = {
   },
 
   /**
+   * Determine which action buttons to show for this page
+   */
+  getDetailActions: function() {
+    if (!_.isNull(this.queryParams.articleId)) {
+      this.buttonsScheduleTemplate = eLife.templates['detail/buttons-schedule'];
+      this.buttonsReScheduleTemplate = eLife.templates['detail/buttons-reschedule'];
+      var articleIds = [];
+      articleIds.push(this.queryParams.articleId);
+      $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        url: app.API + 'api/article_scheduled_status',
+        data: JSON.stringify({articles: articleIds}),
+        success: function(data) {
+          if (data.articles.length === 1) {
+            var scheduleStatus = data.articles[0];
+            app.detail.scheduleStatus = scheduleStatus;
+          }
+        },
+
+        error: function(data) {
+          console.log('Error retrieving article scheduled status');
+        },
+
+      });
+    }
+  },
+  /**
+   * Determine which action buttons to show for this page
+   */
+  renderDetailActions: function() {
+    console.log('renderDetailActions')
+    console.log(this.scheduleStatus);
+    if (this.scheduleStatus) {
+      if (_.isNumber(this.scheduleStatus.scheduled)) {
+        $('.article-detail-actions', '#article').empty().html(app.detail.buttonsReScheduleTemplate({article: app.detail.article}));
+      } else {
+        $('.article-detail-actions', '#article').empty().html(app.detail.buttonsScheduleTemplate({article: app.detail.article}));
+      }
+    }
+  },
+  /**
    * Get article from param in url
    */
   getArticle: function() {
@@ -144,7 +194,10 @@ app.detail = {
             currentEvents: this.currentEvents,
             currentVersion: this.queryParams.versionNumber,
             currentRun: this.queryParams.runNumber,
+            scheduleStatus: this.scheduleStatus,
           }));
+
+      this.renderDetailActions();
     } else {
       this.errorTemplate = eLife.templates['error-render'];
       $('#article').empty().html(this.errorTemplate(this.errors));
@@ -249,7 +302,7 @@ app.detail = {
 
     /* If you have come through the PP nav we need to force some id's */
     if (app.config.ISPP && url[0] !== 'article') {
-      articleId = '001929';
+      articleId = '00353';
       versionNumber = '2';
       runNumber = '2';
     }

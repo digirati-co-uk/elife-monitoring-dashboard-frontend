@@ -244,24 +244,22 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
     + "\n</tr>";
 },"useData":true}));
 
-Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+Handlebars.registerPartial("article-detail-actions", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "            <p><span class=\"text-muted\">Scheduled for <em><strong>"
+    + container.escapeExpression((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.scheduleStatus : depth0)) != null ? stack1.scheduled : stack1),"Do MMMM YYYY hh:mma",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + "</strong></em></span></p>\n";
+},"3":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "            <a href=\""
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["preview-link"] : stack1), depth0))
     + "\" target=\"_blank\" class=\"btn btn-default\">\n                <span class=\"glyphicon glyphicon-eye-open\"></span>\n                Preview\n            </a>\n";
-},"3":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
-
-  return "            <button class=\"btn btn-default schedule\" id=\"schedule-amend\" data-toggle=\"modal\" data-target=\"#schedule-modal\"\n                    data-article-id=\""
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
-    + "\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Re-Schedule\n            </button>\n            <button class=\"btn btn-default schedule\" id=\"schedule-cancel\" data-toggle=\"modal\" data-target=\"#schedule-modal\"\n                    data-article-id=\""
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
-    + "\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Cancel Schedule\n            </button>\n";
 },"5":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=container.lambda, alias2=container.escapeExpression;
 
-  return "            <button class=\"btn btn-default publish btn-publish\" data-toggle=\"modal\" data-target=\"#publish-modal\" type=\"button\"\n                    data-article-title=\""
+  return "            <button class=\"btn btn-default publish btn-publish\" data-toggle=\"modal\" data-target=\"#publish-modal\"\n                    type=\"button\"\n                    data-article-title=\""
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.doi : stack1), depth0))
     + "\"\n                    data-article-id=\""
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
@@ -269,34 +267,44 @@ Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(c
     + alias2(((helper = (helper = helpers.currentVersion || (depth0 != null ? depth0.currentVersion : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"currentVersion","hash":{},"data":data}) : helper)))
     + "\"\n                    data-article-run=\""
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.currentEvents : depth0)) != null ? stack1["run-id"] : stack1), depth0))
-    + "\">\n                <span class=\"glyphicon glyphicon-globe\"></span>\n                Publish Now\n            </button>\n            <button class=\"btn btn-default schedule\" id=\"schedule\" data-toggle=\"modal\" data-target=\"#schedule-modal\"\n                    data-article-id=\""
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
-    + "\">\n                <span class=\"glyphicon glyphicon-calendar\"></span>\n                Schedule\n            </button>\n";
-},"7":function(container,depth0,helpers,partials,data) {
+    + "\">\n                <span class=\"glyphicon glyphicon-globe\"></span>\n                Publish Now\n            </button>\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : {};
+
+  return "<div class=\"row\">\n    <div class=\"col-md-6\">\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.scheduleStatus : depth0)) != null ? stack1.scheduled : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "    </div>\n    <div class=\"col-md-6 text-right\">\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["preview-link"] : stack1),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "        <span class=\"article-detail-actions\"></span>\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["scheduled-publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "    </div>\n</div>\n";
+},"useData":true}));
+
+Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return container.escapeExpression((helpers.lowercase || (depth0 && depth0.lowercase) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.status : stack1),{"name":"lowercase","hash":{},"data":data}));
-},"9":function(container,depth0,helpers,partials,data) {
+},"3":function(container,depth0,helpers,partials,data) {
     return "no-article-status-type";
-},"11":function(container,depth0,helpers,partials,data) {
+},"5":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "                        <dt><i>Article type:</i></dt>\n                        <dd>"
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["article-type"] : stack1), depth0))
     + "</dd>\n";
-},"13":function(container,depth0,helpers,partials,data) {
+},"7":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "                        <dt><i>Publication date:</i></dt>\n                        <dd>"
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["publication-date"] : stack1), depth0))
     + "</dd>\n";
-},"15":function(container,depth0,helpers,partials,data) {
+},"9":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "                        <dt><i>Corresponding authors:</i></dt>\n                        <dd>"
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["corresponding-authors"] : stack1), depth0))
     + "</dd>\n";
-},"17":function(container,depth0,helpers,partials,data) {
+},"11":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "                        <dt><i>Authors:</i></dt>\n                        <dd>"
@@ -307,11 +315,8 @@ Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(c
 
   return ((stack1 = container.invokePartial(partials["article-publish-modal"],depth0,{"name":"article-publish-modal","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + ((stack1 = container.invokePartial(partials["article-schedule-modal"],depth0,{"name":"article-schedule-modal","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-    + "<section class=\"article-detail\">\n    <div class=\"actions\">\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["preview-link"] : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["scheduled-publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.program(5, data, 0),"data":data})) != null ? stack1 : "")
-    + "    </div>\n    <table class=\"snapshot\">\n        <tr>\n            <td class=\"column-1\">\n                <span class=\"glyphicon glyphicon-file "
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.status : stack1),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.program(9, data, 0),"data":data})) != null ? stack1 : "")
+    + "<section class=\"article-detail\">\n    <table class=\"snapshot\">\n        <tr>\n            <td class=\"column-1\">\n                <span class=\"glyphicon glyphicon-file "
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.status : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
     + "\"></span>\n                <h6>"
     + alias3(alias2(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.doi : stack1), depth0))
     + "</h6>\n                <p>"
@@ -321,10 +326,10 @@ Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(c
     + "</strong></dd>\n                    <dt><i>Run:</i></dt>\n                    <dd><strong>"
     + alias3(((helper = (helper = helpers.currentRun || (depth0 != null ? depth0.currentRun : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias1,{"name":"currentRun","hash":{},"data":data}) : helper)))
     + "</strong></dd>\n                </dl>\n            </td>\n        </tr>\n    </table>\n    <table class=\"detail\">\n        <tr>\n            <td class=\"column-1\">\n                <dl>\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["article-type"] : stack1),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(13, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["corresponding-authors"] : stack1),{"name":"if","hash":{},"fn":container.program(15, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.authors : stack1),{"name":"if","hash":{},"fn":container.program(17, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["article-type"] : stack1),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["corresponding-authors"] : stack1),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.authors : stack1),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "                </dl>\n            </td>\n        </tr>\n    </table>\n</section>";
 },"usePartial":true,"useData":true}));
 
@@ -429,7 +434,7 @@ Handlebars.registerPartial("article-publish-modal", Handlebars.template({"compil
 },"useData":true}));
 
 Handlebars.registerPartial("article-schedule-modal", Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<a href=\"#\" class=\"btn btn-default pattern-helper\">\n    Modal\n</a>\n<div class=\"modal fade\" id=\"schedule-modal\" tabindex=\"-1\" role=\"dialog\" data-backdrop=\"static\"\n     aria-labelledby=\"schedule-modal\">\n    <div class=\"modal-dialog modal-lg\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span\n                        aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"myModalLabel\">Schedule article</h4>\n            </div>\n            <div class=\"modal-body\"></div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"schedule-close\">Close</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner hidden\" id=\"schedule-action\">Schedule</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner hidden\" id=\"schedule-cancel\">Cancel</button>\n            </div>\n        </div>\n    </div>\n</div>";
+    return "<a href=\"#\" class=\"btn btn-default pattern-helper\">\n    Modal\n</a>\n<div class=\"modal fade\" id=\"schedule-modal\" tabindex=\"-1\" role=\"dialog\" data-backdrop=\"static\"\n     aria-labelledby=\"schedule-modal\">\n    <div class=\"modal-dialog modal-md\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span\n                        aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"myModalLabel\">Schedule article</h4>\n            </div>\n            <div class=\"modal-body\"></div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"schedule-close\">Close</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner hidden\" id=\"schedule-action\">Schedule</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner hidden\" id=\"schedule-cancel\">Cancel</button>\n            </div>\n        </div>\n    </div>\n</div>";
 },"useData":true}));
 
 Handlebars.registerPartial("scheduled-article-item", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
@@ -445,7 +450,7 @@ Handlebars.registerPartial("scheduled-article-item", Handlebars.template({"1":fu
 
   return "Not yet available ("
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"id","hash":{},"data":data}) : helper)))
-    + "\n                )";
+    + ")";
 },"9":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
@@ -695,16 +700,46 @@ this["eLife"]["templates"]["current/error-queue-articles"] = Handlebars.template
     return "<div class=\"alert alert-danger\">\n    An error has occurred while queueing the article(s) requested. Please cancel and try again.\n</div>";
 },"useData":true});
 
+this["eLife"]["templates"]["detail/article-detail"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "<div class=\"row\">\n    <div class=\"col-md-3\">\n"
+    + ((stack1 = container.invokePartial(partials["article-version-list"],depth0,{"name":"article-version-list","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + "    </div>\n    <div class=\"col-md-9\">\n"
+    + ((stack1 = container.invokePartial(partials["article-info"],depth0,{"name":"article-info","hash":{"section":(depth0 != null ? depth0.articleDetail : depth0)},"data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + ((stack1 = container.invokePartial(partials["article-version-history"],depth0,{"name":"article-version-history","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + "    </div>\n</div>";
+},"usePartial":true,"useData":true});
+
 this["eLife"]["templates"]["detail/article"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "<div class=\"col-md-3\">\n"
-    + ((stack1 = container.invokePartial(partials["article-version-list"],depth0,{"name":"article-version-list","data":data,"indent":"    ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-    + "</div>\n<div class=\"col-md-9\">\n"
-    + ((stack1 = container.invokePartial(partials["article-detail"],depth0,{"name":"article-detail","hash":{"section":(depth0 != null ? depth0.articleDetail : depth0)},"data":data,"indent":"    ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-    + ((stack1 = container.invokePartial(partials["article-version-history"],depth0,{"name":"article-version-history","data":data,"indent":"    ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-    + "</div>";
+  return ((stack1 = container.invokePartial(partials["article-detail-actions"],depth0,{"name":"article-detail-actions","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + "<div class=\"row\">\n    <div class=\"col-md-3\">\n"
+    + ((stack1 = container.invokePartial(partials["article-version-list"],depth0,{"name":"article-version-list","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + "    </div>\n    <div class=\"col-md-9\">\n"
+    + ((stack1 = container.invokePartial(partials["article-detail"],depth0,{"name":"article-detail","hash":{"section":(depth0 != null ? depth0.articleDetail : depth0)},"data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + ((stack1 = container.invokePartial(partials["article-version-history"],depth0,{"name":"article-version-history","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + "    </div>\n</div>";
 },"usePartial":true,"useData":true});
+
+this["eLife"]["templates"]["detail/buttons-reschedule"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
+
+  return "<button class=\"btn btn-default schedule\" id=\"schedule-amend\" data-toggle=\"modal\"\n        data-target=\"#schedule-modal\"\n        data-article-id=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
+    + "\">\n    <span class=\"glyphicon glyphicon-calendar\"></span>\n    Re-Schedule\n</button>\n<button class=\"btn btn-default schedule\" id=\"schedule-cancel\" data-toggle=\"modal\"\n        data-target=\"#schedule-modal\"\n        data-article-id=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
+    + "\">\n    <span class=\"glyphicon glyphicon-calendar\"></span>\n    Cancel Schedule\n</button>";
+},"useData":true});
+
+this["eLife"]["templates"]["detail/buttons-schedule"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "<button class=\"btn btn-default schedule\" id=\"schedule\" data-toggle=\"modal\" data-target=\"#schedule-modal\"\n        data-article-id=\""
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
+    + "\">\n    <span class=\"glyphicon glyphicon-calendar\"></span>\n    Schedule\n</button>";
+},"useData":true});
 
 this["eLife"]["templates"]["error-render"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
@@ -770,7 +805,7 @@ this["eLife"]["templates"]["schedule/article-schedule-modal-body"] = Handlebars.
     var stack1;
 
   return ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.showArticleField : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "    <p>When do you want to schedule this article?</p>\n    <br/>\n    <div class=\"form-group\">\n        <div class=\"col-sm-6\">\n            <input id=\"schedule-date\" name=\"date\" class=\"form-control datepicker\" type=\"text\" placeholder=\"Date\">\n        </div>\n        <div class=\"col-sm-6\">\n            <input id=\"schedule-time\" name=\"time\" class=\"form-control timepicker\" type=\"text\" placeholder=\"Time\">\n        </div>\n    </div>\n    <br/>\n";
+    + "    <p>When do you want to schedule this article?</p>\n    <br/>\n    <div class=\"form-group\">\n        <div class=\"col-sm-12\">\n            <input id=\"schedule-date\" name=\"date\" class=\"form-control datepicker\" type=\"text\" placeholder=\"Date\">\n        </div>\n    </div>\n    <br/>\n    <br/>\n    <div class=\"form-group\">\n        <div class=\"col-sm-12\">\n            <div class=\"timepicker\">\n                <div class=\"timepicker-hour\">\n                    <input id=\"schedule_hour_submit\" name=\"schedule_hour_submit\"\n                           class=\"form-control timepicker hourpicker\"\n                           type=\"number\" placeholder=\"Hour\">\n                </div>\n                <div class=\"timepicker-divider\">:</div>\n                <div class=\"timepicker-minute\">\n                    <input id=\"schedule_minute_submit\" name=\"schedule_minute_submit\"\n                           class=\"form-control timepicker minutepicker\" type=\"number\" placeholder=\"Minute\">\n                </div>\n                <div class=\"timepicker-ampm\">\n                    <select class=\"form-control timepicker ampmpicker\" name=\"schedule_ampm_submit\">\n                        <option value=\"am\">am</option>\n                        <option value=\"pm\" selected=\"selected\">pm</option>\n                    </select>\n                </div>\n            </div>\n        </div>\n    </div>\n    <br/>\n";
 },"2":function(container,depth0,helpers,partials,data) {
     return "        <p>Please enter the ID of the article you wish to publish:</p>\n        <br/>\n        <div class=\"form-group\">\n            <div class=\"col-sm-12\">\n                <input id=\"schedule-id\" name=\"id\" class=\"form-control\" type=\"text\" placeholder=\"Article ID\">\n            </div>\n        </div>\n        <br/>\n        <hr/>\n        <br/>\n";
 },"4":function(container,depth0,helpers,partials,data) {
@@ -1191,10 +1226,20 @@ app.schedule = {
     $(document).on('show.bs.modal', this.setParameters.bind(this));
     $(document).on('show.bs.modal', this.initDateTimePicker.bind(this));
     $(document).on('hide.bs.modal', this.resetParameters.bind(this));
+    $(document).on('keyup', '.timepicker', this.setTime.bind(this));
+    $(document).on('change', '.ampmpicker', this.setTime.bind(this));
     $(document).on('click', '#schedule-modal .close', this.refreshPage.bind(this));
     $(document).on('click', '#schedule-modal #schedule-close', this.refreshPage.bind(this));
     $(document).on('keyup', '#schedule-modal #schedule-id', this.checkScheduleId.bind(this));
     $(document).on('keyup', '#schedule-modal #schedule-id', this.validateScheduleForm.bind(this));
+  },
+
+  /**
+   * set the time when time is entred
+   */
+  setTime: function() {
+    app.schedule.scheduleTime = $('input[name="schedule_hour_submit"]').val() + ':' + $('input[name="schedule_minute_submit"]').val() + ' ' + $('select[name="schedule_ampm_submit"] option:selected').val();
+    app.schedule.enableSchedule();
   },
 
   /**
@@ -1209,15 +1254,6 @@ app.schedule = {
       ],
       onSet: function(context) {
         app.schedule.scheduleDate = context.select;
-        app.schedule.enableSchedule();
-      },
-    });
-    $('.timepicker').pickatime({
-      interval: 1,
-      formatSubmit: 'HH:i',
-      hiddenPrefix: 'schedule_time',
-      onSet: function(context) {
-        app.schedule.scheduleTime = $('#schedule-time', '#schedule-modal').val();
         app.schedule.enableSchedule();
       },
     });
@@ -1242,7 +1278,11 @@ app.schedule = {
       errors++;
     }
 
-    if (_.isNull(this.scheduleTime)) {
+    if (!app.utils.isNumeric($('#schedule_hour_submit', '#schedule-modal').val())) {
+      errors++;
+    }
+
+    if (!app.utils.isNumeric($('#schedule_minute_submit', '#schedule-modal').val())) {
       errors++;
     }
 
@@ -1310,18 +1350,28 @@ app.schedule = {
       this.articleId = $('#schedule-id', '#schedule-modal').val();
     }
 
-    var dateTime = moment(app.schedule.scheduleDate).format('DD-MM-YYYY') + ' ' + moment(app.schedule.scheduleTime, 'HH:mm').format('hh:mm A');
+    var scheduleData = {};
+    if (this.scheduleActionType !== 'schedule-cancel') {
+      var dateTime = moment(app.schedule.scheduleDate).format('DD-MM-YYYY') + ' ' + app.schedule.scheduleTime;
+      dateTime = moment(dateTime, 'DD-MM-YYYY hh:mm a');
+      var scheduled = moment(dateTime).format('X');
+      scheduleData = {article: {'article-identifier': this.articleId, scheduled: scheduled}};
+    } else {
+      scheduleData = {article: {'article-identifier': this.articleId, scheduled: null}};
+    }
+
     $('#schedule-modal #schedule-action').hide();
+    $('#schedule-modal #schedule-cancel').hide();
     $.ajax({
       type: 'POST',
       contentType: 'application/json',
       url: app.API + 'api/schedule_article_publication',
-      data: JSON.stringify({articleId: this.articleId, date: moment(dateTime, 'DD-MM-YYYY HH:mm A').format('X')}),
+      data: JSON.stringify(scheduleData),
       success: function(data) {
-        console.log(data.scheduled);
-        var template = {success: data.scheduled, actionType: app.schedule.scheduleActionType};
+        console.log(data);
+        var template = {actionType: app.schedule.scheduleActionType};
+        template.success = (data.result == 'success') ? true : false;
         this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
-        console.log(template);
         $('#schedule-modal .modal-body').html(this.queueArticleStatusTemplate(template));
         app.isScheduling = false;
         app.isAllScheduled = true;
@@ -1353,7 +1403,6 @@ app.schedule = {
 };
 
 app.schedule.init();
-
 'use strict';
 
 app.archive = {
@@ -1533,12 +1582,20 @@ app.detail = {
       this.errors = [];
       this.currentEvents = [];
       this.currentArticle = [];
+      this.scheduleStatus = [];
       this.queryParams = {};
       Swag.registerHelpers(Handlebars);
+      this.renderLoader();
       this.setArticleParams();
       this.getArticle();
+      this.getDetailActions();
       this.bindEvents();
     }
+  },
+
+  renderLoader: function() {
+    this.loadingTemplate = eLife.templates['loading-template'];
+    $('#article').empty().html(this.loadingTemplate());
   },
 
   /**
@@ -1621,6 +1678,48 @@ app.detail = {
   },
 
   /**
+   * Determine which action buttons to show for this page
+   */
+  getDetailActions: function() {
+    if (!_.isNull(this.queryParams.articleId)) {
+      this.buttonsScheduleTemplate = eLife.templates['detail/buttons-schedule'];
+      this.buttonsReScheduleTemplate = eLife.templates['detail/buttons-reschedule'];
+      var articleIds = [];
+      articleIds.push(this.queryParams.articleId);
+      $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        url: app.API + 'api/article_scheduled_status',
+        data: JSON.stringify({articles: articleIds}),
+        success: function(data) {
+          if (data.articles.length === 1) {
+            var scheduleStatus = data.articles[0];
+            app.detail.scheduleStatus = scheduleStatus;
+          }
+        },
+
+        error: function(data) {
+          console.log('Error retrieving article scheduled status');
+        },
+
+      });
+    }
+  },
+  /**
+   * Determine which action buttons to show for this page
+   */
+  renderDetailActions: function() {
+    console.log('renderDetailActions')
+    console.log(this.scheduleStatus);
+    if (this.scheduleStatus) {
+      if (_.isNumber(this.scheduleStatus.scheduled)) {
+        $('.article-detail-actions', '#article').empty().html(app.detail.buttonsReScheduleTemplate({article: app.detail.article}));
+      } else {
+        $('.article-detail-actions', '#article').empty().html(app.detail.buttonsScheduleTemplate({article: app.detail.article}));
+      }
+    }
+  },
+  /**
    * Get article from param in url
    */
   getArticle: function() {
@@ -1663,7 +1762,10 @@ app.detail = {
             currentEvents: this.currentEvents,
             currentVersion: this.queryParams.versionNumber,
             currentRun: this.queryParams.runNumber,
+            scheduleStatus: this.scheduleStatus,
           }));
+
+      this.renderDetailActions();
     } else {
       this.errorTemplate = eLife.templates['error-render'];
       $('#article').empty().html(this.errorTemplate(this.errors));
@@ -1768,7 +1870,7 @@ app.detail = {
 
     /* If you have come through the PP nav we need to force some id's */
     if (app.config.ISPP && url[0] !== 'article') {
-      articleId = '001929';
+      articleId = '00353';
       versionNumber = '2';
       runNumber = '2';
     }
