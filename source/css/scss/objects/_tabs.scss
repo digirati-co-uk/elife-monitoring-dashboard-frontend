@@ -4,7 +4,6 @@
   margin-bottom: 20px;
 
   li {
-    background-color: $LightGrey2;
 
     &:not(:first-child) {
 
@@ -23,6 +22,8 @@
     }
 
     a {
+      margin-right: 0px;
+      background-color: $LightGrey2;
       border-radius: 0;
       border: 1px solid $LightGrey4;
       color: $DarkGrey;

@@ -22,7 +22,7 @@ module.exports = function(grunt) {
         banner: '<%= banner %>',
         stripBanners: true,
       },
-      dist: {
+      js: {
         //put all the prerequisites in a file
         files: {
           //app  js
@@ -42,34 +42,48 @@ module.exports = function(grunt) {
             'source/_src/libs/handlebars-v4.0.5.js',
             'source/_src/libs/swag.js',
             'source/_src/libs/jquery.history.js',
+            'source/_src/libs/fullcalendar/fullcalendar.js',
+            'source/_src/libs/jquery.qtip.custom/jquery.qtip.js',
           ],
           'source/js/app.js': [
-            'source/_src/app/templates.js',
-            'source/_src/app/templates-helpers.js',
             'source/_src/app/datepicker.js',
-            'source/_src/app/dropdown.js',
+            'source/_src/app/dropdowns.js',
             'source/_src/app/config.js',
             'source/_src/app/init.js',
-            'source/_src/app/utils.js',
-            'source/_src/app/publish.js',
-            'source/_src/app/schedule.js',
-            'source/_src/app/current.js',
-            'source/_src/app/detail.js',
-            'source/_src/app/archive.js',
+            'source/_src/app/templates.js',
+            'source/_src/app/helpers/templates-helpers.js',
+            'source/_src/app/helpers/utils.js',
+            'source/_src/app/services/publish.js',
+            'source/_src/app/services/schedule.js',
+            'source/_src/app/pages/archive.js',
+            'source/_src/app/pages/current.js',
+            'source/_src/app/pages/detail.js',
+            'source/_src/app/pages/scheduled.js'
           ],
           'source/js/app-dev.js': [
-            'source/_src/app/templates.js',
-            'source/_src/app/templates-helpers.js',
             'source/_src/app/datepicker.js',
-            'source/_src/app/dropdown.js',
+            'source/_src/app/dropdowns.js',
             'source/_src/app/config-dev.js',
             'source/_src/app/init.js',
-            'source/_src/app/utils.js',
-            'source/_src/app/publish.js',
-            'source/_src/app/schedule.js',
-            'source/_src/app/current.js',
-            'source/_src/app/detail.js',
-            'source/_src/app/archive.js',
+            'source/_src/app/templates.js',
+            'source/_src/app/helpers/templates-helpers.js',
+            'source/_src/app/helpers/utils.js',
+            'source/_src/app/services/publish.js',
+            'source/_src/app/services/schedule.js',
+            'source/_src/app/pages/archive.js',
+            'source/_src/app/pages/current.js',
+            'source/_src/app/pages/detail.js',
+            'source/_src/app/pages/scheduled.js'
+          ],
+        },
+      },
+      css: {
+        //put all the prerequisites in a file
+        files: {
+          //app  js
+          'source/css/libs.css': [
+            'source/_src/libs/fullcalendar/fullcalendar.css',
+            'source/_src/libs/jquery.qtip.custom/jquery.qtip.css',
           ],
         },
       },

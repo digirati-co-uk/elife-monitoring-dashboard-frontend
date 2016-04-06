@@ -1,0 +1,73 @@
+<tr id="article-{{id}}">
+    <td class="column-1">
+        <a href="/article/{{id}}/{{ version }}/{{ run }}" class="hidden-xs">
+            <span class="fa fa-file {{#if status}}{{lowercase status }}{{else}}no-article-status-type{{/if}}"></span>
+        </a>
+        <h6>
+            <a href="/article/{{id}}/{{ version }}/{{ run }}" class="article-doi">{{#if doi}}{{ doi }}{{else}}Not yet available ({{id}}){{/if}}</a>
+        </h6>
+        {{#if title}}
+            <p>
+                <a href="/article/{{id}}/{{ version }}/{{ run }}">{{ title }}</a>
+            </p>
+        {{/if}}
+    </td>
+    <td class="column-2">
+        <dl>
+            {{#if version}}
+                {{#if doi}}
+                    <dt>
+                        <a href="/article/{{id}}/{{ version }}/{{ run }}"><i>Version:</i></a>
+                    </dt>
+                    <dd>
+                        <a href="/article/{{id}}/{{ version }}/{{ run }}">{{ version }}</a>
+                    </dd>
+                {{/if}}
+            {{/if}}
+            {{#if article-type}}
+                <dt>
+                    <a href="/article/{{id}}/{{ version }}/{{ run }}"><i>Article type:</i></a>
+                </dt>
+                <dd>
+                    <a href="/article/{{id}}/{{ version }}/{{ run }}">{{ article-type }}</a>
+                </dd>
+            {{/if}}
+            {{#if publication-date}}
+                <dt>
+                    <a href="/article/{{id}}/{{ version }}/{{ run }}"><i>Publication date:</i></a>
+                </dt>
+                <dd>
+                    <a href="/article/{{id}}/{{ version }}/{{ run }}">{{publication-date}}{{!--{{elFormatUnixDate publication-date "Do MMMM YYYY" }}--}}</a>
+                </dd>
+            {{/if}}
+            {{#if corresponding-authors}}
+                <dt>
+                    <a href="/article/{{id}}/{{ version }}/{{ run }}"><i>Corresponding authors:</i></a>
+                </dt>
+                <dd>
+                    <a href="/article/{{id}}/{{ version }}/{{ run }}">{{ corresponding-authors }}</a>
+                </dd>
+            {{/if}}
+        </dl>
+    </td>
+    {{#if scheduled-publication-date}}
+        <td class="column-3">
+            <p><strong>SCHEDULED<br/>{{elFormatUnixDate scheduled-publication-date "DD/MM/YYYY HH:mmA" }}</strong></p><br/>
+            <button class="btn btn-default schedule" id="schedule-amend" data-toggle="modal"
+                    data-target="#schedule-modal"
+                    data-article-id="{{ id }}"
+                    data-title="Re-schedule Article">
+                <span class="fa fa-calendar"></span>
+                Re-Schedule
+            </button>
+            <button class="btn btn-default schedule" id="schedule-cancel" data-toggle="modal"
+                    data-target="#schedule-modal"
+                    data-article-id="{{ id }}"
+                    data-title="Cancel Schedule">
+                <span class="fa fa-calendar-minus-o"></span>
+                Cancel
+            </button>
+        </td>
+    {{/if}}
+
+</tr>

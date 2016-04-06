@@ -69,8 +69,11 @@
 @import "libs/pickadate/classic.date.css";
 @import "libs/pickadate/classic.time.css";
 
+@import "libs/fontawesome/font-awesome";
+
 @import "scss/generic/variables";
 @import "scss/generic/reset";
+@import "scss/generic/z-index";
 
 /*------------------------------------*\
     $GLOBAL ELEMENTS
@@ -96,6 +99,7 @@
 @import "scss/objects/breadcrumbs";
 @import "scss/objects/icons";
 @import "scss/objects/buttons";
+@import "scss/objects/calendar";
 @import "scss/objects/links";
 @import "scss/objects/lists";
 @import "scss/objects/tables";
@@ -103,6 +107,7 @@
 @import "scss/objects/sections";
 @import "scss/objects/dropdowns";
 @import "scss/objects/datepicker";
+@import "scss/objects/timepicker";
 @import "scss/objects/modals";
 @import "scss/objects/spinners";
 @import "scss/objects/sticky";

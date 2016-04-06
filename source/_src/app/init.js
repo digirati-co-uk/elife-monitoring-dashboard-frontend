@@ -1,7 +1,4 @@
 'use strict';
-
-
-
 var app = {
   ESCAPE_KEY: 27,
   API: config.API,
@@ -14,5 +11,8 @@ var app = {
   isAllScheduled: false,
   isPublishing: false,
   isAllPublished: false,
+  colorAdvanceArticle: '#f1f1f1',
+  colorArticle: '#cde1f1',
+  colorText: '#111',
 };
 

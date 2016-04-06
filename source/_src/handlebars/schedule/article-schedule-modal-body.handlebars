@@ -1,27 +1,53 @@
 {{#is actionType 'schedule'}}
-<p>When do you want to schedule this article?</p>
-<br/>
-<div class="form-group">
-    <div class="col-sm-6">
-        <input id="" name="" class="form-control datepicker" type="text" placeholder="Date">
+    {{#if showArticleIdField}}
+        <p>Please enter the ID of the article you wish to publish:</p>
+        <br/>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <input id="schedule-id" name="id" class="form-control" type="text" placeholder="Article ID">
+            </div>
+        </div>
+        <br/>
+        <hr/>
+        <br/>
+    {{/if}}
+    <p>When do you want to schedule this article?</p>
+    <p class="article-cancel-info"></p>
+    <br/>
+    <div class="form-group">
+        <div class="col-sm-12">
+            <input id="schedule-date" name="date" class="form-control datepicker" type="text" placeholder="Date">
+        </div>
     </div>
-    <div class="col-sm-2">
-        <input id="" name="schedule_hour_submit" class="form-control timepicker hourpicker" type="number" placeholder="Hour">
+    <br/>
+    <br/>
+    <div class="form-group">
+        <div class="col-sm-12">
+            <div class="timepicker">
+                <div class="timepicker-hour">
+                    <input id="schedule_hour_submit" name="schedule_hour_submit"
+                           class="form-control timepicker hourpicker"
+                           type="number" placeholder="Hour">
+                </div>
+                <div class="timepicker-divider">:</div>
+                <div class="timepicker-minute">
+                    <input id="schedule_minute_submit" name="schedule_minute_submit"
+                           class="form-control timepicker minutepicker" type="number" placeholder="Minute">
+                </div>
+                <div class="timepicker-ampm">
+                    <select class="form-control timepicker ampmpicker" name="schedule_ampm_submit">
+                        <option value="am">am</option>
+                        <option value="pm" selected="selected">pm</option>
+                    </select>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-sm-2">
-        <input id="" name="schedule_minute_submit" class="form-control timepicker minutepicker" type="number" placeholder="Minute">
-    </div>
-    <div class="col-sm-2">
-        <select class="form-control timepicker ampmpicker" name="schedule_ampm_submit">
-            <option value="am">am</option>
-            <option value="pm" selected="selected">pm</option>
-        </select>
-    </div>
-</div>
-<br/>
+    <br/>
 {{/is}}
 {{#is actionType 'cancel'}}
-<div class="alert alert-warning">
-    <p>Are you sure you want to cancel the publication of this article?</p>
-</div>
+    <div class="alert alert-warning">
+        <p>Are you sure you want to cancel the publication of this article?</p>
+        <p class="article-cancel-info"></p>
+    </div>
 {{/is}}
