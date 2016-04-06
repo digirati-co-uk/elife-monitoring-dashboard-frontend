@@ -25,16 +25,10 @@ module.exports = function(grunt) {
       js: {
         //put all the prerequisites in a file
         files: {
-          //app  js
-          'source/js/head.js': [
-            'source/_src/libs/head/html5shiv.min.js',
-            'source/_src/libs/head/respond.min.js',
-          ],
           'source/js/libs.js': [
             'source/_src/libs/jquery.min.js',
             'source/_src/libs/moment.js',
             'source/_src/libs/bootstrap.min.js',
-            'source/_src/libs/bootstrap-datetimepicker.min.js',
             'source/_src/libs/pickadate/lib/picker.js',
             'source/_src/libs/pickadate/lib/picker.date.js',
             'source/_src/libs/pickadate/lib/picker.time.js',
@@ -46,8 +40,6 @@ module.exports = function(grunt) {
             'source/_src/libs/jquery.qtip.custom/jquery.qtip.js',
           ],
           'source/js/app.js': [
-            'source/_src/app/datepicker.js',
-            'source/_src/app/dropdowns.js',
             'source/_src/app/config.js',
             'source/_src/app/init.js',
             'source/_src/app/templates.js',
@@ -61,8 +53,6 @@ module.exports = function(grunt) {
             'source/_src/app/pages/scheduled.js'
           ],
           'source/js/app-dev.js': [
-            'source/_src/app/datepicker.js',
-            'source/_src/app/dropdowns.js',
             'source/_src/app/config-dev.js',
             'source/_src/app/init.js',
             'source/_src/app/templates.js',
@@ -146,6 +136,11 @@ module.exports = function(grunt) {
       css: {
         files: ['source/css/scss/**/*.scss'],
         tasks: ['sass', 'shell:patternlab'],
+        options: {nospawn: false},
+      },
+      patternlab: {
+        files: ['source/js/patternlibrary.js'],
+        tasks: ['shell:patternlab'],
         options: {nospawn: false},
       },
     },

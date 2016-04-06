@@ -1,0 +1,83 @@
+// @TODO refactor
+
+// Status icons - VOR/POA
+
+.poa {
+  float: left;
+
+  @media #{$mobile} {
+    display: none;
+  }
+
+  &:before {
+    font-size: 3rem;
+    padding-left: 4px;
+  }
+
+  &:after {
+    background-color: $Black2;
+    color: white;
+    content: "POA";
+    display: block;
+    font-size: 1.3rem;
+    margin-top: 5px;
+    padding: 5px 5px 5px;
+    font-family: $font-family-monospace;
+  }
+
+}
+
+.vor {
+  float: left;
+
+  @media #{$mobile} {
+    display: none;
+  }
+
+  &:before {
+    font-size: 3rem;
+    padding-left: 4px;
+  }
+
+  &:after {
+    background-color: $Black3;
+    color: white;
+    content: "VOR";
+    display: block;
+    font-size: 1.3rem;
+    margin-top: 5px;
+    padding: 5px 5px 5px;
+    font-family: $font-family-monospace;
+  }
+
+}
+
+.no-article-status-type {
+  float: left;
+
+  @media #{$mobile} {
+    display: none;
+  }
+
+  &:before {
+    font-size: 3rem;
+    padding-left: 4px;
+  }
+
+  &:after {
+    background-color: $Black3;
+    color: white;
+    content: "...";
+    text-align: center;
+    display: block;
+    font-size: 1rem;
+    margin-top: 5px;
+    padding: 5px 5px 5px;
+    font-family: $font-family-monospace;
+  }
+
+}
+
+.reset-article-status-type {
+  float: none;
+}

@@ -52,7 +52,7 @@
     </td>
     {{#if scheduled-publication-date}}
         <td class="column-3">
-            <p><strong>SCHEDULED<br/>{{elFormatUnixDate scheduled-publication-date "DD/MM/YYYY HH:mmA" }}</strong></p><br/>
+            <p><strong><span class="text-uppercase">Scheduled</span><br/>{{elFormatUnixDate scheduled-publication-date "DD/MM/YYYY h:mma" }}</strong></p><br/>
             <button class="btn btn-default schedule" id="schedule-amend" data-toggle="modal"
                     data-target="#schedule-modal"
                     data-article-id="{{ id }}"

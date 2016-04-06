@@ -71,13 +71,14 @@ app.detail = {
       url = '/' + this.extraUrl.slice(0, -1) + url;
     }
 
-    History.pushState(null, null, url);
+    History.replaceState(null, null, url);
+    // History.pushState(null, null, url);
   },
   /**
    * Bind events
    */
   bindEvents: function() {
-    $('#article', '.detail-page').on('click', '.article-version-map-list .run-container .run a', this.updateRun.bind(this));
+    $('#article', '.detail-page').on('click', '.version-run-nav-list .run-container .run a', this.updateRun.bind(this));
     $('#article', '.detail-page').on('click', '.btn-publish', this.publish.bind(this));
     $('#article').on('click', '.run-container li a', this.bindNavigationEvents.bind(this));
     $(window).on('statechange', this.stateChange.bind(this));
@@ -144,7 +145,7 @@ app.detail = {
     console.log('renderDetailActions')
     console.log(this.scheduleStatus);
     if (this.scheduleStatus) {
-      if (_.isNumber(this.scheduleStatus.scheduled)) {
+      if (this.scheduleStatus.scheduled > 0) {
         $('.article-detail-actions', '#article').empty().html(app.detail.buttonsReScheduleTemplate({article: app.detail.article}));
       } else {
         $('.article-detail-actions', '#article').empty().html(app.detail.buttonsScheduleTemplate({article: app.detail.article}));
@@ -303,8 +304,8 @@ app.detail = {
     /* If you have come through the PP nav we need to force some id's */
     if (app.config.ISPP && url[0] !== 'article') {
       articleId = '00353';
-      versionNumber = '2';
-      runNumber = '2';
+      versionNumber = '1';
+      runNumber = '1';
     }
 
     this.queryParams = {

@@ -1,13 +1,16 @@
-'use strict';
+/**
+ * Archive page
+ */
 
-app.archive = {
-  init: function() {
-    //if ($('.archive-page').length > 0) {}
-  },
+(function($) {
+  'use strict';
 
-  bindEvents: function() {
+  //Filter Box
+  $('.filter .dropdown-menu').on({
+    click: function(e) {
+      //Stop modal from closing if clicked anywhere inside
+      e.stopPropagation();
+    },
+  });
 
-  },
-
-};
-
+})(jQuery);

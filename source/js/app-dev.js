@@ -1,40 +1,6 @@
 /*! eLife - v0.0.1 - 
 * https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend
 * Copyright (c) 2016 eLife; Licensed  */
-(function($) {
-  'use strict';
-
-  //Datepicker - https://eonasdan.github.io/bootstrap-datetimepicker/#linked-pickers
-  $('#datetimepicker-start').datetimepicker({
-    format: 'DD-MM-YY',
-  });
-  $('#datetimepicker-end').datetimepicker({
-    format: 'DD-MM-YY',
-    useCurrent: false, //Important! See issue #1075
-  });
-  $('#datetimepicker-start').on('dp.change', function(e) {
-    $('#datetimepicker-end').data('DateTimePicker').minDate(e.date);
-  });
-
-  $('#datetimepicker-end').on('dp.change', function(e) {
-    $('#datetimepicker-start').data('DateTimePicker').maxDate(e.date);
-  });
-
-})(jQuery);
-
-(function($) {
-  'use strict';
-
-  //Filter Box
-  $('.filter .dropdown-menu').on({
-    click: function(e) {
-      //Stop modal from closing if clicked anywhere inside
-      e.stopPropagation();
-    },
-  });
-
-})(jQuery);
-
 'use strict';
 
 var config = {
@@ -249,7 +215,7 @@ Handlebars.registerPartial("article-detail-actions", Handlebars.template({"1":fu
     var stack1;
 
   return "            <p><span class=\"text-muted\">Scheduled for <em><strong>"
-    + container.escapeExpression((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.scheduleStatus : depth0)) != null ? stack1.scheduled : stack1),"Do MMMM YYYY hh:mma",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + container.escapeExpression((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.scheduleStatus : depth0)) != null ? stack1.scheduled : stack1),"MMMM D, YYYY h:mma",{"name":"elFormatUnixDate","hash":{},"data":data}))
     + "</strong></em></span></p>\n";
 },"3":function(container,depth0,helpers,partials,data) {
     var stack1;
@@ -427,7 +393,7 @@ Handlebars.registerPartial("article-version-list", Handlebars.template({"1":func
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1;
 
-  return "<section class=\"article-version-map\">\n    <ol class=\"article-version-map-list\">\n"
+  return "<section class=\"version-run-nav\">\n    <ol class=\"version-run-nav-list\">\n"
     + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.versions : stack1),{"name":"each","hash":{},"fn":container.program(1, data, 1, blockParams, depths),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "    </ol>\n</section>";
 },"useData":true,"useDepths":true,"useBlockParams":true}));
@@ -545,8 +511,8 @@ Handlebars.registerPartial("scheduled-article-item", Handlebars.template({"1":fu
 },"20":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3=container.escapeExpression, alias4="function";
 
-  return "        <td class=\"column-3\">\n            <p><strong>SCHEDULED<br/>"
-    + alias3((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["scheduled-publication-date"] : depth0),"DD/MM/YYYY HH:mmA",{"name":"elFormatUnixDate","hash":{},"data":data}))
+  return "        <td class=\"column-3\">\n            <p><strong><span class=\"text-uppercase\">Scheduled</span><br/>"
+    + alias3((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["scheduled-publication-date"] : depth0),"DD/MM/YYYY h:mma",{"name":"elFormatUnixDate","hash":{},"data":data}))
     + "</strong></p><br/>\n            <button class=\"btn btn-default schedule\" id=\"schedule-amend\" data-toggle=\"modal\"\n                    data-target=\"#schedule-modal\"\n                    data-article-id=\""
     + alias3(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias4 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\"\n                    data-title=\"Re-schedule Article\">\n                <span class=\"fa fa-calendar\"></span>\n                Re-Schedule\n            </button>\n            <button class=\"btn btn-default schedule\" id=\"schedule-cancel\" data-toggle=\"modal\"\n                    data-target=\"#schedule-modal\"\n                    data-article-id=\""
@@ -656,11 +622,11 @@ this["eLife"]["templates"]["current/article"] = Handlebars.template({"1":functio
     + ((stack1 = helpers.each.call(alias3,blockParams[1][0],{"name":"each","hash":{},"fn":container.program(16, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "                </tbody>\n            </table>\n        </section>\n";
 },"5":function(container,depth0,helpers,partials,data) {
-    return "                <button href=\"#\" class=\"btn btn-default publish-all btn-publish-queued\" data-toggle=\"modal\"\n                        data-target=\"#publish-modal\" type=\"button\">\n                    <span class=\"fa fa-globe\"></span>\n                    Publish All Selected\n                </button>\n";
+    return "                <button href=\"#\" class=\"btn btn-default btn-publish-all-selected btn-publish-queued\" data-toggle=\"modal\"\n                        data-target=\"#publish-modal\" type=\"button\">\n                    <span class=\"fa fa-globe\"></span>\n                    Publish All Selected\n                </button>\n";
 },"7":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                    <caption class=\"sticky-header\">\n                        <span class=\"fa e-icon lg danger fa-warning  pull-left\"></span>\n                        <h4>Errors\n"
+  return "                    <caption class=\"sticky-header\">\n                        <span class=\"fa e-icon md danger fa-warning  pull-left\"></span>\n                        <h4>Errors\n"
     + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = blockParams[2][0]) != null ? stack1.length : stack1),{"name":"if","hash":{},"fn":container.program(8, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "                        </h4>\n                    </caption>\n";
 },"8":function(container,depth0,helpers,partials,data,blockParams) {
@@ -672,19 +638,19 @@ this["eLife"]["templates"]["current/article"] = Handlebars.template({"1":functio
 },"10":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                    <caption class=\"sticky-header\">\n                        <span class=\"fa e-icon lg info fa-cog  pull-left\"></span>\n                        <h4>In Progress\n                            <small>("
+  return "                    <caption class=\"sticky-header\">\n                        <span class=\"fa e-icon md info fa-cog  pull-left\"></span>\n                        <h4>In Progress\n                            <small>("
     + container.escapeExpression(container.lambda(((stack1 = blockParams[2][0]) != null ? stack1.length : stack1), depth0))
     + " Articles)</small>\n                        </h4>\n                    </caption>\n";
 },"12":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                    <caption class=\"sticky-header\">\n                        <span class=\"fa e-icon lg muted fa-hand-o-down  pull-left\"></span>\n                        <h4>\n                            User Input Required\n"
+  return "                    <caption class=\"sticky-header\">\n                        <span class=\"fa e-icon md muted fa-hand-o-down  pull-left\"></span>\n                        <h4>\n                            User Input Required\n"
     + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = blockParams[2][0]) != null ? stack1.length : stack1),{"name":"if","hash":{},"fn":container.program(8, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "                            <br>(Ready to Publish)\n                        </h4>\n                    </caption>\n";
 },"14":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                    <caption class=\"sticky-header\">\n                        <span class=\"fa e-icon lg warning fa-clock-o  pull-left\"></span>\n                        <h4>Scheduled\n"
+  return "                    <caption class=\"sticky-header\">\n                        <span class=\"fa e-icon md warning fa-clock-o  pull-left\"></span>\n                        <h4>Scheduled\n"
     + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = blockParams[2][0]) != null ? stack1.length : stack1),{"name":"if","hash":{},"fn":container.program(8, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "                        </h4>\n                    </caption>\n";
 },"16":function(container,depth0,helpers,partials,data,blockParams) {
@@ -869,7 +835,7 @@ this["eLife"]["templates"]["scheduled/scheduled-actions"] = Handlebars.template(
 },"usePartial":true,"useData":true});
 
 this["eLife"]["templates"]["scheduled/scheduled-content-calendar"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<div id=\"calendar\"></div>\n<br/>\n<p>\n    <span class=\"fc-event\" style=\"background-color:#cde1f1;border-color:#cde1f1;color:#111;display:inline-block;\"><strong>13:40 pm</strong> 10.7554/eLife.09672</span> <br>\n    <strong>Advanced Article</strong> <br> Articles which have been scheduled but which are not yet in eLife Continuum system.\n</p>\n<br>\n<p>\n    <span class=\"fc-event\" style=\"background-color:#f1f1f1;border-color:#f1f1f1;color:#111;display:inline-block;\"><strong>14:17 pm</strong> 09672</span> <br>\n    <strong>Article</strong> <br> Scheduled Articles which are in the eLife Continuum system.\n</p>";
+    return "<div id=\"schedule-calendar\" class=\"calendar\"></div>\n<br/>\n<p>\n    <span class=\"fc-event\" style=\"background-color:#cde1f1;border-color:#cde1f1;color:#111;display:inline-block;\"><strong>3:40pm</strong> 09672 (Adv.)</span> <br>\n    <strong>Advance Article</strong> <br> Articles which have been scheduled but which are not yet in eLife Continuum system.\n</p>\n<br>\n<p>\n    <span class=\"fc-event\" style=\"background-color:#f1f1f1;border-color:#f1f1f1;color:#111;display:inline-block;\"><strong>4:17pm</strong> 09672</span> <br>\n    <strong>Article</strong> <br> Scheduled Articles which are in the eLife Continuum system.\n</p>";
 },"useData":true});
 
 this["eLife"]["templates"]["scheduled/scheduled-content-list"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
@@ -1287,6 +1253,7 @@ app.schedule = {
       disable: [
         {from: [0, 0, 0], to: yesterday},
       ],
+      format: 'mmmm d, yyyy',
       onSet: function(context) {
         app.schedule.scheduleDate = context.select;
         app.schedule.enableSchedule();
@@ -1302,6 +1269,9 @@ app.schedule = {
     this.validateScheduleForm();
   },
 
+  /**
+   * Validate the scheduler form
+   */
   validateScheduleForm: function() {
     var errors = 0;
 
@@ -1316,15 +1286,37 @@ app.schedule = {
     }
 
     // check for hours
-    var hasHours = app.utils.isNumeric($('#schedule_hour_submit', '#schedule-modal').val());
+    var hours = parseInt($('#schedule_hour_submit', '#schedule-modal').val());
+    var hasHours = app.utils.isNumeric(hours);
     if (!hasHours) {
       errors++;
+    } else {
+      if (hours < 0)
+      {
+        errors++;
+      }
+
+      if (hours > 12)
+      {
+        errors++;
+      }
     }
 
     // check for minutes
-    var hasMinutes = app.utils.isNumeric($('#schedule_minute_submit', '#schedule-modal').val());
+    var minutes = parseInt($('#schedule_minute_submit', '#schedule-modal').val());
+    var hasMinutes = app.utils.isNumeric(minutes);
     if (!hasMinutes) {
       errors++;
+    } else {
+      if (minutes < 0)
+      {
+        errors++;
+      }
+
+      if (minutes > 60)
+      {
+        errors++;
+      }
     }
 
     // check this time isn't in the past
@@ -1433,10 +1425,9 @@ app.schedule = {
       url: app.API + 'api/schedule_article_publication',
       data: JSON.stringify(scheduleData),
       success: function(data) {
-        console.log(data);
+        this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
         var template = {actionType: app.schedule.scheduleActionType};
         template.success = (data.result == 'success') ? true : false;
-        this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
         $('#schedule-modal .modal-body').html(this.queueArticleStatusTemplate(template));
         $('#schedule-close', '#schedule-modal').text('Close');
         app.isScheduling = false;
@@ -1469,19 +1460,18 @@ app.schedule = {
 };
 
 app.schedule.init();
-'use strict';
+(function($) {
+  'use strict';
 
-app.archive = {
-  init: function() {
-    //if ($('.archive-page').length > 0) {}
-  },
+  //Filter Box
+  $('.filter .dropdown-menu').on({
+    click: function(e) {
+      //Stop modal from closing if clicked anywhere inside
+      e.stopPropagation();
+    },
+  });
 
-  bindEvents: function() {
-
-  },
-
-};
-
+})(jQuery);
 
 'use strict';
 
@@ -1529,6 +1519,7 @@ app.current = {
         $('#articles').empty().html(this.articleTemplate(app.current.sortArticles(articles)));
         this.articleStatsTemplate = eLife.templates['current/article-stats-template'];
         $('#articleStats').html(this.articleStatsTemplate(app.current.sortArticles(articles)));
+        $('.btn-publish-queued').hide();
         if (app.config.ISPP) {
           // to work in PP we need to amend the urls
           _.each($('#articles table a'), function(a) {
@@ -1705,13 +1696,14 @@ app.detail = {
       url = '/' + this.extraUrl.slice(0, -1) + url;
     }
 
-    History.pushState(null, null, url);
+    History.replaceState(null, null, url);
+    // History.pushState(null, null, url);
   },
   /**
    * Bind events
    */
   bindEvents: function() {
-    $('#article', '.detail-page').on('click', '.article-version-map-list .run-container .run a', this.updateRun.bind(this));
+    $('#article', '.detail-page').on('click', '.version-run-nav-list .run-container .run a', this.updateRun.bind(this));
     $('#article', '.detail-page').on('click', '.btn-publish', this.publish.bind(this));
     $('#article').on('click', '.run-container li a', this.bindNavigationEvents.bind(this));
     $(window).on('statechange', this.stateChange.bind(this));
@@ -1778,7 +1770,7 @@ app.detail = {
     console.log('renderDetailActions')
     console.log(this.scheduleStatus);
     if (this.scheduleStatus) {
-      if (_.isNumber(this.scheduleStatus.scheduled)) {
+      if (this.scheduleStatus.scheduled > 0) {
         $('.article-detail-actions', '#article').empty().html(app.detail.buttonsReScheduleTemplate({article: app.detail.article}));
       } else {
         $('.article-detail-actions', '#article').empty().html(app.detail.buttonsScheduleTemplate({article: app.detail.article}));
@@ -1937,8 +1929,8 @@ app.detail = {
     /* If you have come through the PP nav we need to force some id's */
     if (app.config.ISPP && url[0] !== 'article') {
       articleId = '00353';
-      versionNumber = '2';
-      runNumber = '2';
+      versionNumber = '1';
+      runNumber = '1';
     }
 
     this.queryParams = {
@@ -1965,6 +1957,7 @@ app.detail.init();
 'use strict';
 /**
  * Controls the future Scheduling page
+ * Dont forget any changes to the calendar js will need to be copied over to the patternportfolio.js file
  * @type {{init: app.scheduled.init, bindEvents: app.scheduled.bindEvents, renderSwitcher: app.scheduled.renderSwitcher, renderActions: app.scheduled.renderActions, clickSwitchPage: app.scheduled.clickSwitchPage, switchPage: app.scheduled.switchPage, fetchScheduledArticles: app.scheduled.fetchScheduledArticles, renderCalendar: app.scheduled.renderCalendar, updateCalendar: app.scheduled.updateCalendar, convertArticlesToCalendar: app.scheduled.convertArticlesToCalendar}}
  */
 app.scheduled = {
@@ -1978,8 +1971,8 @@ app.scheduled = {
       this.scheduledActionsTemplate = eLife.templates['scheduled/scheduled-actions'];
       this.scheduledSwitcherTemplate = eLife.templates['scheduled/scheduled-switcher'];
       this.loadingTemplate = eLife.templates['loading-template'];
-      this.dateStart = moment().format('X');
-      this.dateEnd = moment().add(1, 'months').format('X');
+      this.listDateStart = moment().format('X');
+      this.listDateEnd = moment().add(1, 'years').format('X');
       this.$el = $('.scheduled-page');
       this.currentView = (!_.isUndefined($('.scheduled-page').attr('data-page-type'))) ? $('.scheduled-page').attr('data-page-type') : 'list';
       this.scheduled = [];
@@ -2036,7 +2029,7 @@ app.scheduled = {
     this.renderLoader();
     this.renderSwitcher();
     if (pageType === 'list') {
-      var fetchScheduledArticles = this.fetchScheduledArticles(this.dateStart, this.dateEnd);
+      var fetchScheduledArticles = this.fetchScheduledArticles(this.listDateStart, this.listDateEnd);
       fetchScheduledArticles.done(function(data) {
         $('.schedule-page__content', this.$el).empty().html(app.scheduled.scheduledContentListTemplate({scheduled: app.scheduled.scheduled}));
       });
@@ -2055,14 +2048,14 @@ app.scheduled = {
    * @param end
    */
   fetchScheduledArticles: function(start, end) {
-    //console.log('start ' + moment.unix(start).format('dddd, MMMM Do YYYY, h:mm:ss a'));
-    //console.log('end ' + moment.unix(end).format('dddd, MMMM Do YYYY, h:mm:ss a'));
+    console.log('start ' + moment.unix(start).format('dddd, MMMM Do YYYY, h:mm:ss a'));
+    console.log('end ' + moment.unix(end).format('dddd, MMMM Do YYYY, h:mm:ss a'));
     return $.ajax({
       url: app.API + 'api/article_schedule_for_range/from/' + start + '/to/' + end + '/',
       cache: false,
       dataType: 'json',
       success: function(data) {
-        console.log(data)
+        console.log(data);
         app.scheduled.scheduled = data;
       },
 
@@ -2077,7 +2070,7 @@ app.scheduled = {
    * Render the calendar for the calendar view
    */
   renderCalendar: function() {
-    $('#calendar').fullCalendar({
+    $('#schedule-calendar').fullCalendar({
       header: {
         left: 'prev,next today',
         center: 'title',
@@ -2085,9 +2078,10 @@ app.scheduled = {
       },
       eventRender: function(event, element) {
         //Show tooltip when hovering over an event title
-        var toolTipContent = '<strong>' + event.title + '</strong><br/>' + moment(event.start).format('MMMM Do YYYY') + ' ' + moment(event.start).format('h:mm a');
+        var toolTipContent = '<strong>' + event.title + '</strong><br/>' + moment(event.start).format('MMMM d, YYYY') + ' ' + moment(event.start).format('h:mm a');
         element.qtip({
           content: toolTipContent,
+          hide: { fixed: true, delay: 200 },
           style: 'qtip-light',
           position: {
             my: 'bottom center',
@@ -2106,12 +2100,12 @@ app.scheduled = {
 
       viewRender: function(view, element) {
         // this event fires once the calendar has completed loading and when the date is changed - thus calling the new events
-        app.scheduled.dateStart = moment(view.start).format('X');
-        app.scheduled.dateEnd = moment(view.end).format('X');
-        app.scheduled.updateCalendar(app.scheduled.dateStart, app.scheduled.dateEnd);
+        var start = moment(view.start).format('X');
+        var end = moment(view.end).format('X');
+        app.scheduled.updateCalendar(start, end);
       },
 
-      timeFormat: 'HH:mm a',
+      timeFormat: 'h:mma',
       firstDay: 1,
       aspectRatio: 2,
       defaultView: 'month',
@@ -2128,13 +2122,13 @@ app.scheduled = {
    * @param end
    */
   updateCalendar: function(start, end) {
-    $('#calendar', this.$el).before(this.loadingTemplate());
+    $('#schedule-calendar', this.$el).before(this.loadingTemplate());
     var fetchScheduledArticles = this.fetchScheduledArticles(start, end);
     fetchScheduledArticles.done(function(data) {
       $('.loading-template', this.$el).remove();
-      $('#calendar').fullCalendar('removeEvents');
-      $('#calendar').fullCalendar('addEventSource', app.scheduled.convertArticlesToCalendar(app.scheduled.scheduled.articles));
-      $('#calendar').fullCalendar('rerenderEvents');
+      $('#schedule-calendar').fullCalendar('removeEvents');
+      $('#schedule-calendar').fullCalendar('addEventSource', app.scheduled.convertArticlesToCalendar(app.scheduled.scheduled.articles));
+      $('#schedule-calendar').fullCalendar('rerenderEvents');
     });
   },
 
@@ -2147,7 +2141,7 @@ app.scheduled = {
     var calendarArticles = [];
     _.each(articles, function(a) {
       var calendarArticle = [];
-      calendarArticle.title = (a['is-advance']) ? a.id : a.doi;
+      calendarArticle.title = (a['is-advance']) ? a.id + ' (Adv.)' : a.id;
       calendarArticle.backgroundColor = (a['is-advance']) ? app.colorAdvanceArticle : app.colorArticle;
       calendarArticle.borderColor = (a['is-advance']) ? app.colorAdvanceArticle : app.colorArticle;
       calendarArticle.textColor = app.colorText;
@@ -2157,7 +2151,7 @@ app.scheduled = {
       }
       calendarArticles.push(calendarArticle);
     });
-
+    console.log(calendarArticles)
     return calendarArticles;
   },
 

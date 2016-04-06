@@ -57,6 +57,7 @@ app.schedule = {
       disable: [
         {from: [0, 0, 0], to: yesterday},
       ],
+      format: 'mmmm d, yyyy',
       onSet: function(context) {
         app.schedule.scheduleDate = context.select;
         app.schedule.enableSchedule();
@@ -72,6 +73,9 @@ app.schedule = {
     this.validateScheduleForm();
   },
 
+  /**
+   * Validate the scheduler form
+   */
   validateScheduleForm: function() {
     var errors = 0;
 
@@ -86,15 +90,37 @@ app.schedule = {
     }
 
     // check for hours
-    var hasHours = app.utils.isNumeric($('#schedule_hour_submit', '#schedule-modal').val());
+    var hours = parseInt($('#schedule_hour_submit', '#schedule-modal').val());
+    var hasHours = app.utils.isNumeric(hours);
     if (!hasHours) {
       errors++;
+    } else {
+      if (hours < 0)
+      {
+        errors++;
+      }
+
+      if (hours > 12)
+      {
+        errors++;
+      }
     }
 
     // check for minutes
-    var hasMinutes = app.utils.isNumeric($('#schedule_minute_submit', '#schedule-modal').val());
+    var minutes = parseInt($('#schedule_minute_submit', '#schedule-modal').val());
+    var hasMinutes = app.utils.isNumeric(minutes);
     if (!hasMinutes) {
       errors++;
+    } else {
+      if (minutes < 0)
+      {
+        errors++;
+      }
+
+      if (minutes > 60)
+      {
+        errors++;
+      }
     }
 
     // check this time isn't in the past
@@ -203,10 +229,9 @@ app.schedule = {
       url: app.API + 'api/schedule_article_publication',
       data: JSON.stringify(scheduleData),
       success: function(data) {
-        console.log(data);
+        this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
         var template = {actionType: app.schedule.scheduleActionType};
         template.success = (data.result == 'success') ? true : false;
-        this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
         $('#schedule-modal .modal-body').html(this.queueArticleStatusTemplate(template));
         $('#schedule-close', '#schedule-modal').text('Close');
         app.isScheduling = false;

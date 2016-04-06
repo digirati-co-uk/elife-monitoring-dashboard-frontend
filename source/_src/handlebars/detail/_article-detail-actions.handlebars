@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-6">
         {{#if scheduleStatus.scheduled}}
-            <p><span class="text-muted">Scheduled for <em><strong>{{elFormatUnixDate scheduleStatus.scheduled "Do MMMM YYYY hh:mma" }}</strong></em></span></p>
+            <p><span class="text-muted">Scheduled for <em><strong>{{elFormatUnixDate scheduleStatus.scheduled "MMMM D, YYYY h:mma" }}</strong></em></span></p>
         {{/if}}
     </div>
     <div class="col-md-6 text-right">

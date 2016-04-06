@@ -1,6 +1,7 @@
 'use strict';
 /**
  * Controls the future Scheduling page
+ * Dont forget any changes to the calendar js will need to be copied over to the patternportfolio.js file
  * @type {{init: app.scheduled.init, bindEvents: app.scheduled.bindEvents, renderSwitcher: app.scheduled.renderSwitcher, renderActions: app.scheduled.renderActions, clickSwitchPage: app.scheduled.clickSwitchPage, switchPage: app.scheduled.switchPage, fetchScheduledArticles: app.scheduled.fetchScheduledArticles, renderCalendar: app.scheduled.renderCalendar, updateCalendar: app.scheduled.updateCalendar, convertArticlesToCalendar: app.scheduled.convertArticlesToCalendar}}
  */
 app.scheduled = {
@@ -14,8 +15,8 @@ app.scheduled = {
       this.scheduledActionsTemplate = eLife.templates['scheduled/scheduled-actions'];
       this.scheduledSwitcherTemplate = eLife.templates['scheduled/scheduled-switcher'];
       this.loadingTemplate = eLife.templates['loading-template'];
-      this.dateStart = moment().format('X');
-      this.dateEnd = moment().add(1, 'months').format('X');
+      this.listDateStart = moment().format('X');
+      this.listDateEnd = moment().add(1, 'years').format('X');
       this.$el = $('.scheduled-page');
       this.currentView = (!_.isUndefined($('.scheduled-page').attr('data-page-type'))) ? $('.scheduled-page').attr('data-page-type') : 'list';
       this.scheduled = [];
@@ -72,7 +73,7 @@ app.scheduled = {
     this.renderLoader();
     this.renderSwitcher();
     if (pageType === 'list') {
-      var fetchScheduledArticles = this.fetchScheduledArticles(this.dateStart, this.dateEnd);
+      var fetchScheduledArticles = this.fetchScheduledArticles(this.listDateStart, this.listDateEnd);
       fetchScheduledArticles.done(function(data) {
         $('.schedule-page__content', this.$el).empty().html(app.scheduled.scheduledContentListTemplate({scheduled: app.scheduled.scheduled}));
       });
@@ -91,14 +92,14 @@ app.scheduled = {
    * @param end
    */
   fetchScheduledArticles: function(start, end) {
-    //console.log('start ' + moment.unix(start).format('dddd, MMMM Do YYYY, h:mm:ss a'));
-    //console.log('end ' + moment.unix(end).format('dddd, MMMM Do YYYY, h:mm:ss a'));
+    console.log('start ' + moment.unix(start).format('dddd, MMMM Do YYYY, h:mm:ss a'));
+    console.log('end ' + moment.unix(end).format('dddd, MMMM Do YYYY, h:mm:ss a'));
     return $.ajax({
       url: app.API + 'api/article_schedule_for_range/from/' + start + '/to/' + end + '/',
       cache: false,
       dataType: 'json',
       success: function(data) {
-        console.log(data)
+        console.log(data);
         app.scheduled.scheduled = data;
       },
 
@@ -113,7 +114,7 @@ app.scheduled = {
    * Render the calendar for the calendar view
    */
   renderCalendar: function() {
-    $('#calendar').fullCalendar({
+    $('#schedule-calendar').fullCalendar({
       header: {
         left: 'prev,next today',
         center: 'title',
@@ -121,9 +122,10 @@ app.scheduled = {
       },
       eventRender: function(event, element) {
         //Show tooltip when hovering over an event title
-        var toolTipContent = '<strong>' + event.title + '</strong><br/>' + moment(event.start).format('MMMM Do YYYY') + ' ' + moment(event.start).format('h:mm a');
+        var toolTipContent = '<strong>' + event.title + '</strong><br/>' + moment(event.start).format('MMMM d, YYYY') + ' ' + moment(event.start).format('h:mm a');
         element.qtip({
           content: toolTipContent,
+          hide: { fixed: true, delay: 200 },
           style: 'qtip-light',
           position: {
             my: 'bottom center',
@@ -142,12 +144,12 @@ app.scheduled = {
 
       viewRender: function(view, element) {
         // this event fires once the calendar has completed loading and when the date is changed - thus calling the new events
-        app.scheduled.dateStart = moment(view.start).format('X');
-        app.scheduled.dateEnd = moment(view.end).format('X');
-        app.scheduled.updateCalendar(app.scheduled.dateStart, app.scheduled.dateEnd);
+        var start = moment(view.start).format('X');
+        var end = moment(view.end).format('X');
+        app.scheduled.updateCalendar(start, end);
       },
 
-      timeFormat: 'HH:mm a',
+      timeFormat: 'h:mma',
       firstDay: 1,
       aspectRatio: 2,
       defaultView: 'month',
@@ -164,13 +166,13 @@ app.scheduled = {
    * @param end
    */
   updateCalendar: function(start, end) {
-    $('#calendar', this.$el).before(this.loadingTemplate());
+    $('#schedule-calendar', this.$el).before(this.loadingTemplate());
     var fetchScheduledArticles = this.fetchScheduledArticles(start, end);
     fetchScheduledArticles.done(function(data) {
       $('.loading-template', this.$el).remove();
-      $('#calendar').fullCalendar('removeEvents');
-      $('#calendar').fullCalendar('addEventSource', app.scheduled.convertArticlesToCalendar(app.scheduled.scheduled.articles));
-      $('#calendar').fullCalendar('rerenderEvents');
+      $('#schedule-calendar').fullCalendar('removeEvents');
+      $('#schedule-calendar').fullCalendar('addEventSource', app.scheduled.convertArticlesToCalendar(app.scheduled.scheduled.articles));
+      $('#schedule-calendar').fullCalendar('rerenderEvents');
     });
   },
 
@@ -183,7 +185,7 @@ app.scheduled = {
     var calendarArticles = [];
     _.each(articles, function(a) {
       var calendarArticle = [];
-      calendarArticle.title = (a['is-advance']) ? a.id : a.doi;
+      calendarArticle.title = (a['is-advance']) ? a.id + ' (Adv.)' : a.id;
       calendarArticle.backgroundColor = (a['is-advance']) ? app.colorAdvanceArticle : app.colorArticle;
       calendarArticle.borderColor = (a['is-advance']) ? app.colorAdvanceArticle : app.colorArticle;
       calendarArticle.textColor = app.colorText;
@@ -193,7 +195,7 @@ app.scheduled = {
       }
       calendarArticles.push(calendarArticle);
     });
-
+    console.log(calendarArticles)
     return calendarArticles;
   },
 

@@ -1,0 +1,47 @@
+<div class="">
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="schedule-page__switcher">
+                <div class="btn-group">
+                    <button type="button" class="btn {{^showCalendar}}btn-primary{{/showCalendar}}{{#showCalendar}}btn-default{{/showCalendar}} schedule-page-switch" data-switch="list"><span
+                            class="fa fa-list-ul" aria-hidden="true"></span> List
+                    </button>
+                    <button type="button" class="btn {{^showCalendar}}btn-default{{/showCalendar}}{{#showCalendar}}btn-primary{{/showCalendar}} schedule-page-switch" data-switch="calendar"><span
+                            class="fa fa-calendar" aria-hidden="true"></span> Calendar
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="schedule-page__actions">
+                <p class="text-right">
+                    <button class="btn btn-default schedule" id="future-schedule" data-toggle="modal"
+                            data-target="#schedule-modal" data-title="Add Scheduled Article">
+                        <span class="fa fa-clock-o"></span>
+                        Add Scheduled Article
+                    </button>
+                </p>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="schedule-page__content">
+        {{^ showCalendar}}
+            {{>organisms-article-list(class: 'scheduled', hidecaption: true, showScheduleButtons: true)}}
+        {{/showCalendar}}
+        {{# showCalendar}}
+            <div id="demo-calendar"></div>
+            <div class="schedule-page__content">
+                <br>
+                <p>
+                    <span class="fc-event" style="background-color:#cde1f1;border-color:#cde1f1;color:#111;display:inline-block;"><strong>3:40pm</strong> 09672 (Adv.)</span> <br>
+                    <strong>Advance Article</strong> <br> Articles which have been scheduled but which are not yet in eLife Continuum system.
+                </p>
+                <br>
+                <p>
+                    <span class="fc-event" style="background-color:#f1f1f1;border-color:#f1f1f1;color:#111;display:inline-block;"><strong>4:17pm</strong> 09672</span> <br>
+                    <strong>Article</strong> <br> Scheduled Articles which are in the eLife Continuum system.
+                </p></div>
+        {{/showCalendar}}
+    </div>
+</div>
