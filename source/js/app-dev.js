@@ -38,8 +38,8 @@
 'use strict';
 
 var config = {
-  API: 'http://127.0.0.1:8008/',
-  //API: 'http://127.0.0.1:5000/',
+  //API: 'http://127.0.0.1:8008/',
+  API: 'http://127.0.0.1:5000/',
   ISPP: true,
 };
 
@@ -1422,7 +1422,7 @@ app.schedule = {
     if (this.scheduleActionType !== 'schedule-cancel') {
       scheduleData = {article: {'article-identifier': this.articleId, scheduled: moment(this.scheduleDateTime).format('X')}};
     } else {
-      scheduleData = {article: {'article-identifier': this.articleId, scheduled: null}};
+      scheduleData = {article: {'article-identifier': this.articleId, scheduled: false}};
     }
 
     $('#schedule-modal #schedule-action').hide();

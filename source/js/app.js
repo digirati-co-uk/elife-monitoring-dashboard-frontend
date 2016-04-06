@@ -1421,7 +1421,7 @@ app.schedule = {
     if (this.scheduleActionType !== 'schedule-cancel') {
       scheduleData = {article: {'article-identifier': this.articleId, scheduled: moment(this.scheduleDateTime).format('X')}};
     } else {
-      scheduleData = {article: {'article-identifier': this.articleId, scheduled: null}};
+      scheduleData = {article: {'article-identifier': this.articleId, scheduled: false}};
     }
 
     $('#schedule-modal #schedule-action').hide();
