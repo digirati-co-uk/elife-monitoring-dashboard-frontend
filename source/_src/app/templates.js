@@ -184,7 +184,7 @@ Handlebars.registerPartial("article-detail-actions", Handlebars.template({"1":fu
     var stack1;
 
   return "            <p><span class=\"text-muted\">Scheduled for <em><strong>"
-    + container.escapeExpression((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.scheduleStatus : depth0)) != null ? stack1.scheduled : stack1),"MMMM d, YYYY hh:mma",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + container.escapeExpression((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.scheduleStatus : depth0)) != null ? stack1.scheduled : stack1),"MMMM D, YYYY hh:mma",{"name":"elFormatUnixDate","hash":{},"data":data}))
     + "</strong></em></span></p>\n";
 },"3":function(container,depth0,helpers,partials,data) {
     var stack1;

@@ -144,7 +144,7 @@ app.detail = {
     console.log('renderDetailActions')
     console.log(this.scheduleStatus);
     if (this.scheduleStatus) {
-      if (_.isNumber(this.scheduleStatus.scheduled)) {
+      if (this.scheduleStatus.scheduled > 0) {
         $('.article-detail-actions', '#article').empty().html(app.detail.buttonsReScheduleTemplate({article: app.detail.article}));
       } else {
         $('.article-detail-actions', '#article').empty().html(app.detail.buttonsScheduleTemplate({article: app.detail.article}));
