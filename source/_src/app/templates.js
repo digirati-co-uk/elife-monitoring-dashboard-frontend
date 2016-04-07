@@ -184,7 +184,7 @@ Handlebars.registerPartial("article-detail-actions", Handlebars.template({"1":fu
     var stack1;
 
   return "            <p><span class=\"text-muted\">Scheduled for <em><strong>"
-    + container.escapeExpression((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.scheduleStatus : depth0)) != null ? stack1.scheduled : stack1),"Do MMMM YYYY hh:mma",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + container.escapeExpression((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.scheduleStatus : depth0)) != null ? stack1.scheduled : stack1),"MMMM d, YYYY hh:mma",{"name":"elFormatUnixDate","hash":{},"data":data}))
     + "</strong></em></span></p>\n";
 },"3":function(container,depth0,helpers,partials,data) {
     var stack1;
@@ -480,8 +480,8 @@ Handlebars.registerPartial("scheduled-article-item", Handlebars.template({"1":fu
 },"20":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3=container.escapeExpression, alias4="function";
 
-  return "        <td class=\"column-3\">\n            <p><strong>SCHEDULED<br/>"
-    + alias3((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["scheduled-publication-date"] : depth0),"DD/MM/YYYY HH:mmA",{"name":"elFormatUnixDate","hash":{},"data":data}))
+  return "        <td class=\"column-3\">\n            <p><strong><span class=\"text-uppercase\">Scheduled</span><br/>"
+    + alias3((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["scheduled-publication-date"] : depth0),"DD/MM/YYYY h:mma",{"name":"elFormatUnixDate","hash":{},"data":data}))
     + "</strong></p><br/>\n            <button class=\"btn btn-default schedule\" id=\"schedule-amend\" data-toggle=\"modal\"\n                    data-target=\"#schedule-modal\"\n                    data-article-id=\""
     + alias3(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias4 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\"\n                    data-title=\"Re-schedule Article\">\n                <span class=\"fa fa-calendar\"></span>\n                Re-Schedule\n            </button>\n            <button class=\"btn btn-default schedule\" id=\"schedule-cancel\" data-toggle=\"modal\"\n                    data-target=\"#schedule-modal\"\n                    data-article-id=\""
@@ -804,7 +804,7 @@ this["eLife"]["templates"]["scheduled/scheduled-actions"] = Handlebars.template(
 },"usePartial":true,"useData":true});
 
 this["eLife"]["templates"]["scheduled/scheduled-content-calendar"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<div id=\"calendar\"></div>\n<br/>\n<p>\n    <span class=\"fc-event\" style=\"background-color:#cde1f1;border-color:#cde1f1;color:#111;display:inline-block;\"><strong>13:40 pm</strong> 10.7554/eLife.09672</span> <br>\n    <strong>Advanced Article</strong> <br> Articles which have been scheduled but which are not yet in eLife Continuum system.\n</p>\n<br>\n<p>\n    <span class=\"fc-event\" style=\"background-color:#f1f1f1;border-color:#f1f1f1;color:#111;display:inline-block;\"><strong>14:17 pm</strong> 09672</span> <br>\n    <strong>Article</strong> <br> Scheduled Articles which are in the eLife Continuum system.\n</p>";
+    return "<div id=\"calendar\"></div>\n<br/>\n<p>\n    <span class=\"fc-event\" style=\"background-color:#cde1f1;border-color:#cde1f1;color:#111;display:inline-block;\"><strong>3:40pm</strong> 09672 (Adv.)</span> <br>\n    <strong>Advance Article</strong> <br> Articles which have been scheduled but which are not yet in eLife Continuum system.\n</p>\n<br>\n<p>\n    <span class=\"fc-event\" style=\"background-color:#f1f1f1;border-color:#f1f1f1;color:#111;display:inline-block;\"><strong>4:17pm</strong> 09672</span> <br>\n    <strong>Article</strong> <br> Scheduled Articles which are in the eLife Continuum system.\n</p>";
 },"useData":true});
 
 this["eLife"]["templates"]["scheduled/scheduled-content-list"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {

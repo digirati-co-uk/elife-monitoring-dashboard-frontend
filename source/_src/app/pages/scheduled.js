@@ -15,7 +15,7 @@ app.scheduled = {
       this.scheduledSwitcherTemplate = eLife.templates['scheduled/scheduled-switcher'];
       this.loadingTemplate = eLife.templates['loading-template'];
       this.dateStart = moment().format('X');
-      this.dateEnd = moment().add(1, 'months').format('X');
+      this.dateEnd = moment().add(1, 'years').format('X');
       this.$el = $('.scheduled-page');
       this.currentView = (!_.isUndefined($('.scheduled-page').attr('data-page-type'))) ? $('.scheduled-page').attr('data-page-type') : 'list';
       this.scheduled = [];
@@ -91,8 +91,8 @@ app.scheduled = {
    * @param end
    */
   fetchScheduledArticles: function(start, end) {
-    //console.log('start ' + moment.unix(start).format('dddd, MMMM Do YYYY, h:mm:ss a'));
-    //console.log('end ' + moment.unix(end).format('dddd, MMMM Do YYYY, h:mm:ss a'));
+    console.log('start ' + moment.unix(start).format('dddd, MMMM Do YYYY, h:mm:ss a'));
+    console.log('end ' + moment.unix(end).format('dddd, MMMM Do YYYY, h:mm:ss a'));
     return $.ajax({
       url: app.API + 'api/article_schedule_for_range/from/' + start + '/to/' + end + '/',
       cache: false,
@@ -121,7 +121,7 @@ app.scheduled = {
       },
       eventRender: function(event, element) {
         //Show tooltip when hovering over an event title
-        var toolTipContent = '<strong>' + event.title + '</strong><br/>' + moment(event.start).format('MMMM Do YYYY') + ' ' + moment(event.start).format('h:mm a');
+        var toolTipContent = '<strong>' + event.title + '</strong><br/>' + moment(event.start).format('MMMM d, YYYY') + ' ' + moment(event.start).format('h:mm a');
         element.qtip({
           content: toolTipContent,
           style: 'qtip-light',
@@ -147,7 +147,7 @@ app.scheduled = {
         app.scheduled.updateCalendar(app.scheduled.dateStart, app.scheduled.dateEnd);
       },
 
-      timeFormat: 'HH:mm a',
+      timeFormat: 'h:mma',
       firstDay: 1,
       aspectRatio: 2,
       defaultView: 'month',
@@ -183,7 +183,7 @@ app.scheduled = {
     var calendarArticles = [];
     _.each(articles, function(a) {
       var calendarArticle = [];
-      calendarArticle.title = (a['is-advance']) ? a.id : a.doi;
+      calendarArticle.title = (a['is-advance']) ? a.id + ' (Adv.)' : a.id;
       calendarArticle.backgroundColor = (a['is-advance']) ? app.colorAdvanceArticle : app.colorArticle;
       calendarArticle.borderColor = (a['is-advance']) ? app.colorAdvanceArticle : app.colorArticle;
       calendarArticle.textColor = app.colorText;
