@@ -1730,7 +1730,8 @@ app.detail = {
       url = '/' + this.extraUrl.slice(0, -1) + url;
     }
 
-    History.pushState(null, null, url);
+    History.replaceState(null, null, url);
+    // History.pushState(null, null, url);
   },
   /**
    * Bind events
@@ -2087,7 +2088,7 @@ app.scheduled = {
       cache: false,
       dataType: 'json',
       success: function(data) {
-        console.log(data)
+        console.log(data);
         app.scheduled.scheduled = data;
       },
 

@@ -98,7 +98,7 @@ app.scheduled = {
       cache: false,
       dataType: 'json',
       success: function(data) {
-        console.log(data)
+        console.log(data);
         app.scheduled.scheduled = data;
       },
 
