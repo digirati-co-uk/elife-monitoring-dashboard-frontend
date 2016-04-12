@@ -124,6 +124,7 @@ app.scheduled = {
         var toolTipContent = '<strong>' + event.title + '</strong><br/>' + moment(event.start).format('MMMM d, YYYY') + ' ' + moment(event.start).format('h:mm a');
         element.qtip({
           content: toolTipContent,
+          hide: { fixed: true, delay: 200 },
           style: 'qtip-light',
           position: {
             my: 'bottom center',
