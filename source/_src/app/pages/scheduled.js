@@ -14,8 +14,8 @@ app.scheduled = {
       this.scheduledActionsTemplate = eLife.templates['scheduled/scheduled-actions'];
       this.scheduledSwitcherTemplate = eLife.templates['scheduled/scheduled-switcher'];
       this.loadingTemplate = eLife.templates['loading-template'];
-      this.dateStart = moment().format('X');
-      this.dateEnd = moment().add(1, 'years').format('X');
+      this.listDateStart = moment().format('X');
+      this.listDateEnd = moment().add(1, 'years').format('X');
       this.$el = $('.scheduled-page');
       this.currentView = (!_.isUndefined($('.scheduled-page').attr('data-page-type'))) ? $('.scheduled-page').attr('data-page-type') : 'list';
       this.scheduled = [];
@@ -72,7 +72,7 @@ app.scheduled = {
     this.renderLoader();
     this.renderSwitcher();
     if (pageType === 'list') {
-      var fetchScheduledArticles = this.fetchScheduledArticles(this.dateStart, this.dateEnd);
+      var fetchScheduledArticles = this.fetchScheduledArticles(this.listDateStart, this.listDateEnd);
       fetchScheduledArticles.done(function(data) {
         $('.schedule-page__content', this.$el).empty().html(app.scheduled.scheduledContentListTemplate({scheduled: app.scheduled.scheduled}));
       });
@@ -143,9 +143,9 @@ app.scheduled = {
 
       viewRender: function(view, element) {
         // this event fires once the calendar has completed loading and when the date is changed - thus calling the new events
-        app.scheduled.dateStart = moment(view.start).format('X');
-        app.scheduled.dateEnd = moment(view.end).format('X');
-        app.scheduled.updateCalendar(app.scheduled.dateStart, app.scheduled.dateEnd);
+        var start = moment(view.start).format('X');
+        var end = moment(view.end).format('X');
+        app.scheduled.updateCalendar(start, end);
       },
 
       timeFormat: 'h:mma',
