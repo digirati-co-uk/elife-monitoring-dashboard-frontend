@@ -1,6 +1,7 @@
-/*! eLife - v0.0.1 - 
-* https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend
-* Copyright (c) 2016 eLife; Licensed  */
+/* eLife - v0.0.1 */
+/* https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend */
+/* Copyright (c) 2016 eLife; */
+
 'use strict';
 
 var config = {
@@ -929,6 +930,7 @@ app.utils = {
    * Parse query string.
    * https://gist.github.com/ryoppy/5780748
    * ?a=b&c=d to {a: b, c: d}
+   * TODO remove .map feature
    * @param {String} (option) queryString
    * @return {Object} query params
    */

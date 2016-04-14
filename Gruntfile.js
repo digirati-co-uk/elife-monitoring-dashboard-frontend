@@ -1,11 +1,11 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
+    banner: '/* <%= pkg.title || pkg.name %> - v<%= pkg.version %> */' +
     '\n' +
-    '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
-    '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-    ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
+    '/* <%= pkg.homepage ? "" + pkg.homepage + "" : "" %> */' +
+    '\n' +
+    '/* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;'  + ' */\n\n',
 
     // Task configuration.
     shell: {
@@ -26,44 +26,44 @@ module.exports = function(grunt) {
         //put all the prerequisites in a file
         files: {
           'source/js/libs.js': [
-            'source/_src/libs/jquery.min.js',
-            'source/_src/libs/moment.js',
-            'source/_src/libs/bootstrap.min.js',
-            'source/_src/libs/pickadate/lib/picker.js',
-            'source/_src/libs/pickadate/lib/picker.date.js',
-            'source/_src/libs/pickadate/lib/picker.time.js',
-            'source/_src/libs/underscore.js',
-            'source/_src/libs/handlebars-v4.0.5.js',
-            'source/_src/libs/swag.js',
-            'source/_src/libs/jquery.history.js',
-            'source/_src/libs/fullcalendar/fullcalendar.js',
-            'source/_src/libs/jquery.qtip.custom/jquery.qtip.js',
+            'source/libs/jquery.min.js',
+            'source/libs/moment.js',
+            'source/libs/bootstrap.min.js',
+            'source/libs/pickadate/lib/picker.js',
+            'source/libs/pickadate/lib/picker.date.js',
+            'source/libs/pickadate/lib/picker.time.js',
+            'source/libs/underscore.js',
+            'source/libs/handlebars-v4.0.5.js',
+            'source/libs/swag.js',
+            'source/libs/jquery.history.js',
+            'source/libs/fullcalendar/fullcalendar.js',
+            'source/libs/jquery.qtip.custom/jquery.qtip.js',
           ],
           'source/js/app.js': [
-            'source/_src/app/config.js',
-            'source/_src/app/init.js',
-            'source/_src/app/templates.js',
-            'source/_src/app/helpers/templates-helpers.js',
-            'source/_src/app/helpers/utils.js',
-            'source/_src/app/services/publish.js',
-            'source/_src/app/services/schedule.js',
-            'source/_src/app/pages/archive.js',
-            'source/_src/app/pages/current.js',
-            'source/_src/app/pages/detail.js',
-            'source/_src/app/pages/scheduled.js'
+            'source/_app/config.js',
+            'source/_app/init.js',
+            'source/_app/templates.js',
+            'source/_app/helpers/templates-helpers.js',
+            'source/_app/helpers/utils.js',
+            'source/_app/services/publish.js',
+            'source/_app/services/schedule.js',
+            'source/_app/pages/archive.js',
+            'source/_app/pages/current.js',
+            'source/_app/pages/detail.js',
+            'source/_app/pages/scheduled.js',
           ],
           'source/js/app-dev.js': [
-            'source/_src/app/config-dev.js',
-            'source/_src/app/init.js',
-            'source/_src/app/templates.js',
-            'source/_src/app/helpers/templates-helpers.js',
-            'source/_src/app/helpers/utils.js',
-            'source/_src/app/services/publish.js',
-            'source/_src/app/services/schedule.js',
-            'source/_src/app/pages/archive.js',
-            'source/_src/app/pages/current.js',
-            'source/_src/app/pages/detail.js',
-            'source/_src/app/pages/scheduled.js'
+            'source/_app/config-dev.js',
+            'source/_app/init.js',
+            'source/_app/templates.js',
+            'source/_app/helpers/templates-helpers.js',
+            'source/_app/helpers/utils.js',
+            'source/_app/services/publish.js',
+            'source/_app/services/schedule.js',
+            'source/_app/pages/archive.js',
+            'source/_app/pages/current.js',
+            'source/_app/pages/detail.js',
+            'source/_app/pages/scheduled.js',
           ],
         },
       },
@@ -72,8 +72,12 @@ module.exports = function(grunt) {
         files: {
           //app  js
           'source/css/libs.css': [
-            'source/_src/libs/fullcalendar/fullcalendar.css',
-            'source/_src/libs/jquery.qtip.custom/jquery.qtip.css',
+            'source/libs/fullcalendar/fullcalendar.css',
+            'source/libs/jquery.qtip.custom/jquery.qtip.css',
+            'source/libs/pickadate/lib/themes/classic.css',
+            'source/libs/pickadate/lib/themes/classic.date.css',
+            'source/libs/pickadate/lib/themes/classic.time.css',
+            'source/libs/fontawesome/font-awesome.css',
           ],
         },
       },
@@ -82,7 +86,7 @@ module.exports = function(grunt) {
     sass: {
       dev: {
         files: {
-          'source/css/style.css': 'source/css/style.scss',
+          'source/css/style.css': 'source/scss/style.scss',
         },
         options: {
           //includePaths: ['source/css/scss/incs'],
@@ -99,11 +103,11 @@ module.exports = function(grunt) {
         options: {
           namespace: "eLife.templates",
           processName: function(filePath) {
-            return filePath.replace(/^source\/_src\/handlebars\//, '').replace(/\.handlebars/, '');
+            return filePath.replace(/^source\/_app\/handlebars\//, '').replace(/\.handlebars/, '');
           }
         },
         files: {
-          "source/_src/app/templates.js": ["source/_src/handlebars/**/*.handlebars"],
+          "source/_app/templates.js": ["source/_app/handlebars/**/*.handlebars"],
         }
       }
     },
@@ -122,19 +126,20 @@ module.exports = function(grunt) {
         }
       },
       js: {
-        files: ['source/_src/**/*.js'],
+        files: ['source/_app/**/*.js'],
         tasks: ['concat', 'shell:patternlab'],
         options: {
           spawn: false
         }
       },
       handlebars: {
-        files: ['source/_src/handlebars/**/*.handlebars'],
+        files: ['source/_app/handlebars/**/*.handlebars'],
+        files: ['source/_app/handlebars/**/*.handlebars'],
         tasks: ['handlebars', 'concat', 'shell:patternlab'],
         options: {nospawn: false},
       },
       css: {
-        files: ['source/css/scss/**/*.scss'],
+        files: ['source/scss/**/*.scss'],
         tasks: ['sass', 'shell:patternlab'],
         options: {nospawn: false},
       },
