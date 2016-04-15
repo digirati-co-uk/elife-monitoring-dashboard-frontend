@@ -2,34 +2,34 @@
     Core
 \*------------------------------------*/
 
-@import "scss/core/global-classes";
-@import "scss/core/variables";
-@import "scss/core/variables-bootstrap";
-@import "scss/core/z-index";
+@import "core/global-classes";
+@import "core/variables";
+@import "core/variables-bootstrap";
+@import "core/z-index";
 
-@import "scss/bootstrap";
+@import "bootstrap";
 
-@import "scss/layout/scheduled";
-@import "scss/layout/archive";
+@import "layout/scheduled";
+@import "layout/archive";
 
-@import "scss/patterns/atoms/buttons";
-@import "scss/patterns/atoms/button-publish-all-selected";
-@import "scss/patterns/atoms/icon-file";
-@import "scss/patterns/atoms/icon-circle";
-@import "scss/patterns/atoms/loader";
-@import "scss/patterns/atoms/sticky";
+@import "patterns/atoms/buttons";
+@import "patterns/atoms/button-publish-all-selected";
+@import "patterns/atoms/icon-file";
+@import "patterns/atoms/icon-circle";
+@import "patterns/atoms/loader";
+@import "patterns/atoms/sticky";
 
-@import "scss/patterns/molecules/articles-queue";
-@import "scss/patterns/molecules/loading-template";
-@import "scss/patterns/molecules/nav";
-@import "scss/patterns/molecules/tabs";
-@import "scss/patterns/molecules/timepicker";
-@import "scss/patterns/molecules/version-run-nav";
+@import "patterns/molecules/articles-queue";
+@import "patterns/molecules/loading-template";
+@import "patterns/molecules/nav";
+@import "patterns/molecules/tabs";
+@import "patterns/molecules/timepicker";
+@import "patterns/molecules/version-run-nav";
 
-@import "scss/patterns/organisms/header";
+@import "patterns/organisms/header";
 
 
-@import "scss/toberefactored";
+@import "toberefactored";
 
 
 

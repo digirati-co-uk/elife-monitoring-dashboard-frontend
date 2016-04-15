@@ -8375,14 +8375,12 @@ Its currently used in the schedule modal popup
 .current-page .pattern-helper,
 .detail-page .pattern-helper,
 .scheduled-page .pattern-helper {
-  border: 1px solid green;
   display: none;
 }
 
 .current-page .publish-action,
 .detail-page .publish-action,
 .scheduled-page .publish-action {
-  border: 1px solid red;
   display: inline-block;
 }
 

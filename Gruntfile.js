@@ -28,7 +28,10 @@ module.exports = function(grunt) {
           'source/js/libs.js': [
             'source/_libs/jquery.min.js',
             'source/_libs/moment.js',
-            'source/_libs/bootstrap.min.js',
+            'source/_libs/bootstrap/assets/javascripts/bootstrap/collapse.js',
+            'source/_libs/bootstrap/assets/javascripts/bootstrap/dropdown.js',
+            'source/_libs/bootstrap/assets/javascripts/bootstrap/modal.js',
+            'source/_libs/bootstrap/assets/javascripts/bootstrap/transition.js',
             'source/_libs/pickadate/lib/picker.js',
             'source/_libs/pickadate/lib/picker.date.js',
             'source/_libs/pickadate/lib/picker.time.js',
@@ -86,7 +89,7 @@ module.exports = function(grunt) {
     sass: {
       dev: {
         files: {
-          'source/css/style.css': 'source/scss/style.scss',
+          'source/css/style.css': 'source/_scss/style.scss',
         },
         options: {
           //includePaths: ['source/css/scss/incs'],
@@ -139,7 +142,7 @@ module.exports = function(grunt) {
         options: {nospawn: false},
       },
       css: {
-        files: ['source/scss/**/*.scss'],
+        files: ['source/_scss/**/*.scss'],
         tasks: ['sass', 'shell:patternlab'],
         options: {nospawn: false},
       },
