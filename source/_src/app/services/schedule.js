@@ -221,6 +221,7 @@ app.schedule = {
       scheduleData = {article: {'article-identifier': this.articleId, scheduled: false}};
     }
 
+    console.log(scheduleData);
     $('#schedule-modal #schedule-action').hide();
     $('#schedule-modal #schedule-cancel').hide();
     $.ajax({

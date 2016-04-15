@@ -7,7 +7,8 @@
             <span class="fa fa-file {{#if status}}{{lowercase status }}{{else}}no-article-status-type{{/if}}"></span>
         </a>
         <h6>
-            <a href="/article/{{id}}/{{ version }}/{{ run }}">{{#if doi}}{{ doi }}{{else}}Not yet available ({{id}}){{/if}}</a>
+            <a href="/article/{{id}}/{{ version }}/{{ run }}">{{#if doi}}{{ doi }}{{else}}Not yet available ({{id}}
+                ){{/if}}</a>
         </h6>
         {{#if title}}
             <p>
@@ -68,12 +69,18 @@
             </p>
         </td>
     {{/isnt}}
-    {{#is section 'uir'}}
-        <td class="column-3">
+
+    <td class="column-3">
+        {{#is section 'uir'}}
             <a href="{{preview-link}}" target="_blank" class="btn btn-default preview">
                 <span class="fa fa-eye"></span>
                 Preview
             </a>
+            <button class="btn btn-default schedule" id="schedule" data-toggle="modal" data-target="#schedule-modal"
+                    data-article-id="{{ id }}">
+                <span class="fa fa-calendar"></span>
+                Schedule
+            </button>
             <button class="btn btn-default publish btn-publish" data-toggle="modal" data-target="#publish-modal"
                     type="button">
                 <span class="fa fa-globe"></span>
@@ -84,7 +91,34 @@
                     <input type="checkbox" class="toggle-publish-all"> Batch Publishing
                 </label>
             </div>
-        </td>
-    {{/is}}
+        {{/is}}
+        {{#is section 'scheduled'}}
+            {{#if scheduled-publication-date}}
+                <p><strong><span
+                        class="text-uppercase">Scheduled</span><br/>{{elFormatUnixDate scheduled-publication-date "DD/MM/YYYY h:mma" }}
+                </strong></p><br/>
+                <button class="btn btn-default schedule" id="schedule-amend" data-toggle="modal"
+                        data-target="#schedule-modal"
+                        data-article-id="{{ id }}"
+                        data-title="Re-schedule Article">
+                    <span class="fa fa-calendar"></span>
+                    Re-Schedule
+                </button>
+                <button class="btn btn-default schedule" id="schedule-cancel" data-toggle="modal"
+                        data-target="#schedule-modal"
+                        data-article-id="{{ id }}"
+                        data-title="Cancel Schedule">
+                    <span class="fa fa-calendar-minus-o"></span>
+                    Cancel
+                </button>
+            {{/if}}
+            {{^if scheduled-publication-date}}
+            <!--<p><strong><span
+                    class="text-uppercase"></span>
+            </strong></p>-->
+            {{/if}}
+        {{/is}}
+    </td>
+
 
 </tr>

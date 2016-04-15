@@ -1,7 +1,6 @@
+{{> article-publish-modal}}
+{{> article-schedule-modal}}
 {{#each this as |articles articleSection|}}
-    {{#is articleSection 'uir'}}
-        {{> article-publish-modal}}
-    {{/is}}
     {{# if articles.length}}
         <section class="{{articleSection}}-list sticky" id="{{articleSection}}-list">
             {{#is articleSection 'uir'}}
