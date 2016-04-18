@@ -42,7 +42,7 @@ app.detail = {
 
     var articleId;
     var versionNumber;
-    var runNumber;
+    var runId;
     var url;
     var state = History.getState();
     var hash = state.hash;
@@ -55,16 +55,16 @@ app.detail = {
     hash = _.compact(hash);
     articleId = (!_.isEmpty(hash[1])) ? hash[1] : null;
     versionNumber = (!_.isEmpty(hash[2])) ? hash[2] : null;
-    runNumber = (!_.isEmpty(hash[3])) ? hash[3] : null;
+    runId = (!_.isEmpty(hash[3])) ? hash[3] : null;
 
     url = (url.slice(-1) === '/') ? url.slice(0, -1) : url;
 
-    if (_.isNull(versionNumber) && _.isNull(runNumber)) {
-      url += '/' + this.queryParams.versionNumber + '/' + this.queryParams.runNumber;
+    if (_.isNull(versionNumber) && _.isNull(runId)) {
+      url += '/' + this.queryParams.versionNumber + '/' + this.queryParams.runId;
     }
 
-    if (!_.isNull(versionNumber) && _.isNull(runNumber)) {
-      url += '/' + this.queryParams.runNumber;
+    if (!_.isNull(versionNumber) && _.isNull(runId)) {
+      url += '/' + this.queryParams.runId;
     }
 
     if (app.config.ISPP) {
@@ -117,6 +117,7 @@ app.detail = {
     if (!_.isNull(this.queryParams.articleId)) {
       this.buttonsScheduleTemplate = eLife.templates['detail/buttons-schedule'];
       this.buttonsReScheduleTemplate = eLife.templates['detail/buttons-reschedule'];
+      this.articlesScheduledForTemplate = eLife.templates['detail/article-scheduled-for'];
       var articleIds = [];
       articleIds.push(this.queryParams.articleId);
       $.ajax({
@@ -128,6 +129,7 @@ app.detail = {
           if (data.articles.length === 1) {
             var scheduleStatus = data.articles[0];
             app.detail.scheduleStatus = scheduleStatus;
+            app.detail.renderDetailActions();
           }
         },
 
@@ -142,11 +144,10 @@ app.detail = {
    * Determine which action buttons to show for this page
    */
   renderDetailActions: function() {
-    console.log('renderDetailActions')
-    console.log(this.scheduleStatus);
     if (this.scheduleStatus) {
       if (this.scheduleStatus.scheduled > 0) {
         $('.article-detail-actions', '#article').empty().html(app.detail.buttonsReScheduleTemplate({article: app.detail.article}));
+        $('.article-detail-scheduled', '#article').empty().html(app.detail.articlesScheduledForTemplate({scheduleStatus: this.scheduleStatus}));
       } else {
         $('.article-detail-actions', '#article').empty().html(app.detail.buttonsScheduleTemplate({article: app.detail.article}));
       }
@@ -194,7 +195,7 @@ app.detail = {
             currentArticle: this.currentArticle,
             currentEvents: this.currentEvents,
             currentVersion: this.queryParams.versionNumber,
-            currentRun: this.queryParams.runNumber,
+            currentRun: this.queryParams.runId,
             scheduleStatus: this.scheduleStatus,
           }));
 
@@ -215,8 +216,14 @@ app.detail = {
       this.queryParams.versionNumber = app.utils.findLastKey(this.article.versions);
     }
 
-    if (!this.queryParams.runNumber) {
-      this.queryParams.runNumber = (_.has(this.article.versions, this.queryParams.versionNumber)) ? app.utils.findLastKey(this.article.versions[this.queryParams.versionNumber].runs) : null;
+    if (!this.queryParams.runId) {
+      if(_.has(this.article.versions, this.queryParams.versionNumber)) {
+        var lastKey = app.utils.findLastKey(this.article.versions[this.queryParams.versionNumber].runs);
+        var runId = this.article.versions[this.queryParams.versionNumber].runs[lastKey]['run-id'];
+        this.queryParams.runId = runId;
+      } else {
+        this.queryParams.runId = null;
+      }
     }
 
   },
@@ -238,11 +245,9 @@ app.detail = {
    * @returns {*}
    */
   getCurrentRun: function() {
-    var lastKey;
     if (_.has(this.article.versions, this.queryParams.versionNumber)) {
-      lastKey = app.utils.findLastKey(this.article.versions[this.queryParams.versionNumber].runs);
-      if (parseInt(this.queryParams.runNumber) <= parseInt(lastKey)) {
-        return this.article.versions[this.queryParams.versionNumber].runs[this.queryParams.runNumber];
+      if (_.findWhere(this.article.versions[this.queryParams.versionNumber].runs, {'run-id': this.queryParams.runId})) {
+        return _.findWhere(this.article.versions[this.queryParams.versionNumber].runs, {'run-id': this.queryParams.runId});
       } else {
         this.errors = {message: 'There are no runs with this ID.<br /><br />'};
         return false;
@@ -256,9 +261,11 @@ app.detail = {
    */
   updateRun: function(e) {
     this.queryParams.versionNumber = $(e.currentTarget).attr('data-version');
-    this.queryParams.runNumber = $(e.currentTarget).attr('data-run');
+    this.queryParams.runId = $(e.currentTarget).attr('data-run');
     this.setCurrentArticle(this.article.versions[this.queryParams.versionNumber].details);
-    this.setCurrentRun(this.article.versions[this.queryParams.versionNumber].runs[this.queryParams.runNumber]);
+    if (_.findWhere(this.article.versions[this.queryParams.versionNumber].runs, {'run-id': this.queryParams.runId})) {
+      this.setCurrentRun(_.findWhere(this.article.versions[this.queryParams.versionNumber].runs, {'run-id': this.queryParams.runId}));
+    }
     this.renderArticle();
   },
 
@@ -287,7 +294,7 @@ app.detail = {
   setArticleParams: function() {
     var articleId;
     var versionNumber;
-    var runNumber;
+    var runId;
     var url = window.location.pathname;
     if (app.config.ISPP) {
       // for use in the PP
@@ -299,19 +306,19 @@ app.detail = {
     url = _.compact(url);
     articleId = (!_.isEmpty(url[1])) ? url[1] : null;
     versionNumber = (!_.isEmpty(url[2])) ? url[2] : null;
-    runNumber = (!_.isEmpty(url[3])) ? url[3] : null;
+    runId = (!_.isEmpty(url[3])) ? url[3] : null;
 
     /* If you have come through the PP nav we need to force some id's */
     if (app.config.ISPP && url[0] !== 'article') {
       articleId = '00353';
       versionNumber = '1';
-      runNumber = '1';
+      runId = 'c03211f7-6e1e-492d-9312-e0a80857873c';
     }
 
     this.queryParams = {
       articleId: articleId,
       versionNumber: versionNumber,
-      runNumber: runNumber,
+      runId: runId,
     };
   },
 
