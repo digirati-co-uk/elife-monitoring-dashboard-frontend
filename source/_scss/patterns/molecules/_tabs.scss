@@ -1,0 +1,43 @@
+/* @TODO page tabs */
+.nav-tabs {
+  border: 0;
+  margin-bottom: 20px;
+
+  li {
+
+    &:not(:first-child) {
+
+      a {
+        border-left: 0;
+      }
+
+    }
+
+    &.active:not(:first-child) {
+
+      a {
+        border-left: 0;
+      }
+
+    }
+
+    a {
+      margin-right: 0px;
+      background-color: $LightGrey2;
+      border-radius: 0;
+      border: 1px solid $LightGrey4;
+      color: $DarkGrey;
+      padding: 10px 40px;
+      text-decoration: none;
+
+      &:hover {
+        background-color: white;
+        border-color: $LightGrey4;
+        color: $DarkGrey;
+      }
+
+    }
+
+  }
+
+}

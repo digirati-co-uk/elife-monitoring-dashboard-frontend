@@ -1,6 +1,6 @@
 {
-	"article-version-map" : {
-		"class": "col-sm-4 col-md-3" 
+	"version-run-nav" : {
+		"class": "col-sm-4 col-md-3"
 	},
 	"article-version-history" : {
 		"class": "col-sm-8 col-md-8 col-md-offset-1"

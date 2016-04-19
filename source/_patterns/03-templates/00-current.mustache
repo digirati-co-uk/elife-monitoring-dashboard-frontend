@@ -1,12 +1,8 @@
-{{> organisms-section-map }}
+{{> organisms-status-summary }}
 <div id="articles">
-    {{> organisms-error}}
-    {{> organisms-in-progress}}
-    {{> organisms-user-input-required}}
-    {{> organisms-scheduled}}
+    {{>organisms-article-list(error: true, class: 'error')}}
+    {{>organisms-article-list(inprogress: true, class: 'inprogress')}}
+    {{>organisms-article-list(uir: true, class: 'uir')}}
+    {{>organisms-article-list(scheduled: true, class: 'scheduled')}}
 </div>
-
-<a href="#" class="download-as">
-    <span class="fa fa-download"></span>
-    <span>Download as CSV</span>
-</a>
+{{>atoms-download-as}}

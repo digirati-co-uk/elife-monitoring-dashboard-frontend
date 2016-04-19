@@ -1,27 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="{{ htmlClass }}" lang="en" xml:lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
     <title>{{ title }}</title>
 
-      <link href="../../css/libs.css?{{ cacheBuster }}" rel="stylesheet" media="all" />
-      <link href="../../css/style.css?{{ cacheBuster }}" rel="stylesheet" media="all" />
-
-      <!--[if lt IE 9]>
-      <script src="../../../js/head.js"></script>
-      <![endif]-->
-
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <link href="../../css/libs.css?{{ cacheBuster }}" rel="stylesheet" media="all" />
+    <link href="../../css/style.css?{{ cacheBuster }}" rel="stylesheet" media="all" />
 
     <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
       {% pattern-lab-head %}
 	<!-- End Pattern Lab -->
 
   </head>
-  <body class="{{ bodyClass }}">
+  <body class="{{ bodyClass }} is-pp">
 

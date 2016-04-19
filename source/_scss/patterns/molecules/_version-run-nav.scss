@@ -1,0 +1,130 @@
+// reset fix/remove list styles
+.version-run-nav-list,
+.version-run-nav-list.run-container {
+  list-style: none;
+  padding: 0px;
+  ul, li, ol {
+    list-style: none;
+    padding-left: 0px;
+  }
+}
+
+.version-run-nav-list {
+  // background colours & borders
+  background-color: $LightGrey6;
+  border: 1px solid $LightGrey5;
+
+
+  li .version-container {
+    background-color: $LightGrey5;
+    border-top: 1px solid $LightGrey5;
+    border-bottom: 1px solid $LightGrey5;
+  }
+
+  li:first-child .version-container {
+    border-top: 0px;
+  }
+
+  .run-container li:last-of-type a {
+    border-bottom: 0px;
+  }
+
+  .run-container li {
+    &:nth-child(even) {
+      background-color: lighten($LightGrey5, 14%);
+    }
+
+    &:hover,
+    &.active {
+      background-color: lighten($LightGrey5, 5%);
+      .icon {
+        color: $Black1
+      }
+    }
+
+    &.active {
+      background-color: lighten($Blue, 35%);
+      .icon {
+        color: $Black1
+      }
+    }
+
+    a {
+      border-bottom: 1px solid $LightGrey5;
+    }
+  }
+
+  //typography
+  .run-container .run {
+    a {
+      text-decoration: none;
+      color: $Black1;
+    }
+
+    .date {
+      font-size: 1.1rem;
+      color: $Black3;
+    }
+
+    .icon {
+      font-size: 1.2rem;
+      color: $Black3;
+    }
+  }
+
+  // structure
+  // convert sections to 'blocks'
+  .version-container,
+  .run-container .run a {
+    display: block;
+    width: 100%;
+    padding: 5px 10px;
+  }
+
+  //align items
+  .version-container .version,
+  .version-container .status,
+  .run-container .run a > span {
+    display: table-cell;
+    vertical-align: middle;
+  }
+  .version-container,
+  .run-container .run a {
+    display: table;
+  }
+
+  .version-container {
+    display: table;
+
+    .version {
+      width: 80%;
+    }
+
+    .status {
+      width: 20%;
+      text-align: right;
+      vertical-align: middle;
+    }
+
+    .glyphicon {
+      top: -3px;
+    }
+  }
+
+  .run-container .run {
+    .title {
+      width: 40%;
+    }
+
+    .date {
+      width: 50%;
+      text-align: right;
+    }
+
+    .icon {
+      width: 10%;
+      text-align: right;
+    }
+  }
+
+}

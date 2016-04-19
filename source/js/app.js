@@ -1,39 +1,6 @@
-/*! eLife - v0.0.1 - 
-* https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend
-* Copyright (c) 2016 eLife; Licensed  */
-(function($) {
-  'use strict';
-
-  //Datepicker - https://eonasdan.github.io/bootstrap-datetimepicker/#linked-pickers
-  $('#datetimepicker-start').datetimepicker({
-    format: 'DD-MM-YY',
-  });
-  $('#datetimepicker-end').datetimepicker({
-    format: 'DD-MM-YY',
-    useCurrent: false, //Important! See issue #1075
-  });
-  $('#datetimepicker-start').on('dp.change', function(e) {
-    $('#datetimepicker-end').data('DateTimePicker').minDate(e.date);
-  });
-
-  $('#datetimepicker-end').on('dp.change', function(e) {
-    $('#datetimepicker-start').data('DateTimePicker').maxDate(e.date);
-  });
-
-})(jQuery);
-
-(function($) {
-  'use strict';
-
-  //Filter Box
-  $('.filter .dropdown-menu').on({
-    click: function(e) {
-      //Stop modal from closing if clicked anywhere inside
-      e.stopPropagation();
-    },
-  });
-
-})(jQuery);
+/* eLife - v0.0.1 */
+/* https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend */
+/* Copyright (c) 2016 eLife; */
 
 'use strict';
 
@@ -78,7 +45,7 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
 
   return "Not yet available ("
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"id","hash":{},"data":data}) : helper)))
-    + "\n                )";
+    + ")";
 },"9":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
@@ -87,7 +54,7 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
     + "/"
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
     + "/"
-    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers["run-id"] || (depth0 != null ? depth0["run-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-id","hash":{},"data":data}) : helper)))
     + "\">"
     + alias4(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
     + "</a>\n            </p>\n";
@@ -103,13 +70,13 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
     + "/"
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
     + "/"
-    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers["run-id"] || (depth0 != null ? depth0["run-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-id","hash":{},"data":data}) : helper)))
     + "\"><i>Version:</i></a>\n                    </dt>\n                    <dd>\n                        <a href=\"/article/"
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "/"
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
     + "/"
-    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers["run-id"] || (depth0 != null ? depth0["run-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-id","hash":{},"data":data}) : helper)))
     + "\">"
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
     + "</a>\n                    </dd>\n";
@@ -121,13 +88,13 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
     + "/"
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
     + "/"
-    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers["run-id"] || (depth0 != null ? depth0["run-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-id","hash":{},"data":data}) : helper)))
     + "\"><i>Article type:</i></a>\n                </dt>\n                <dd>\n                    <a href=\"/article/"
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "/"
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
     + "/"
-    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers["run-id"] || (depth0 != null ? depth0["run-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-id","hash":{},"data":data}) : helper)))
     + "\">"
     + alias4(((helper = (helper = helpers["article-type"] || (depth0 != null ? depth0["article-type"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"article-type","hash":{},"data":data}) : helper)))
     + "</a>\n                </dd>\n";
@@ -139,13 +106,13 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
     + "/"
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
     + "/"
-    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers["run-id"] || (depth0 != null ? depth0["run-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-id","hash":{},"data":data}) : helper)))
     + "\"><i>Publication date:</i></a>\n                </dt>\n                <dd>\n                    <a href=\"/article/"
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "/"
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
     + "/"
-    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers["run-id"] || (depth0 != null ? depth0["run-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-id","hash":{},"data":data}) : helper)))
     + "\">"
     + alias4(((helper = (helper = helpers["publication-date"] || (depth0 != null ? depth0["publication-date"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"publication-date","hash":{},"data":data}) : helper)))
     + "</a>\n                </dd>\n";
@@ -157,13 +124,13 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
     + "/"
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
     + "/"
-    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers["run-id"] || (depth0 != null ? depth0["run-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-id","hash":{},"data":data}) : helper)))
     + "\"><i>Corresponding authors:</i></a>\n                </dt>\n                <dd>\n                    <a href=\"/article/"
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "/"
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
     + "/"
-    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers["run-id"] || (depth0 != null ? depth0["run-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-id","hash":{},"data":data}) : helper)))
     + "\">"
     + alias4(((helper = (helper = helpers["corresponding-authors"] || (depth0 != null ? depth0["corresponding-authors"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"corresponding-authors","hash":{},"data":data}) : helper)))
     + "</a>\n                </dd>\n";
@@ -182,7 +149,7 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
     + "/"
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
     + "/"
-    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers["run-id"] || (depth0 != null ? depth0["run-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-id","hash":{},"data":data}) : helper)))
     + "\">"
     + alias4((helpers.uppercase || (depth0 && depth0.uppercase) || alias2).call(alias1,(depth0 != null ? depth0["event-type"] : depth0),{"name":"uppercase","hash":{},"data":data}))
     + "</a>\n";
@@ -194,7 +161,7 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
     + "/"
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
     + "/"
-    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers["run-id"] || (depth0 != null ? depth0["run-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-id","hash":{},"data":data}) : helper)))
     + "\">"
     + alias4((helpers.uppercase || (depth0 && depth0.uppercase) || alias2).call(alias1,(depth0 != null ? depth0["event-status"] : depth0),{"name":"uppercase","hash":{},"data":data}))
     + "</a>\n";
@@ -239,7 +206,7 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
     + "/"
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
     + "/"
-    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers["run-id"] || (depth0 != null ? depth0["run-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-id","hash":{},"data":data}) : helper)))
     + "\" class=\"hidden-xs\">\n            <span class=\"fa fa-file "
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.status : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
     + "\"></span>\n        </a>\n        <h6>\n            <a href=\"/article/"
@@ -247,7 +214,7 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
     + "/"
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
     + "/"
-    + alias4(((helper = (helper = helpers.run || (depth0 != null ? depth0.run : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers["run-id"] || (depth0 != null ? depth0["run-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-id","hash":{},"data":data}) : helper)))
     + "\">"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.doi : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.program(7, data, 0),"data":data})) != null ? stack1 : "")
     + "</a>\n        </h6>\n"
@@ -268,16 +235,10 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
 Handlebars.registerPartial("article-detail-actions", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "            <p><span class=\"text-muted\">Scheduled for <em><strong>"
-    + container.escapeExpression((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.scheduleStatus : depth0)) != null ? stack1.scheduled : stack1),"MMMM D, YYYY h:mma",{"name":"elFormatUnixDate","hash":{},"data":data}))
-    + "</strong></em></span></p>\n";
-},"3":function(container,depth0,helpers,partials,data) {
-    var stack1;
-
   return "            <a href=\""
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["preview-link"] : stack1), depth0))
     + "\" target=\"_blank\" class=\"btn btn-default\">\n                <span class=\"fa fa-eye\"></span>\n                Preview\n            </a>\n";
-},"5":function(container,depth0,helpers,partials,data) {
+},"3":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=container.lambda, alias2=container.escapeExpression;
 
   return "            <button class=\"btn btn-default publish btn-publish\" data-toggle=\"modal\" data-target=\"#publish-modal\"\n                    type=\"button\"\n                    data-article-title=\""
@@ -292,12 +253,10 @@ Handlebars.registerPartial("article-detail-actions", Handlebars.template({"1":fu
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : {};
 
-  return "<div class=\"row\">\n    <div class=\"col-md-6\">\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.scheduleStatus : depth0)) != null ? stack1.scheduled : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "    </div>\n    <div class=\"col-md-6 text-right\">\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["preview-link"] : stack1),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+  return "<div class=\"row\">\n    <div class=\"col-md-6\">\n        <span class=\"article-detail-scheduled\"></span>\n    </div>\n    <div class=\"col-md-6 text-right\">\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["preview-link"] : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "        <span class=\"article-detail-actions\"></span>\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["scheduled-publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["scheduled-publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "    </div>\n</div>\n";
 },"useData":true}));
 
@@ -308,31 +267,37 @@ Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(c
 },"3":function(container,depth0,helpers,partials,data) {
     return "no-article-status-type";
 },"5":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "                        <dt><i>Run id:</i></dt>\n                        <dd>"
+    + container.escapeExpression(((helper = (helper = helpers.currentRun || (depth0 != null ? depth0.currentRun : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"currentRun","hash":{},"data":data}) : helper)))
+    + "</dd>\n";
+},"7":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "                        <dt><i>Article type:</i></dt>\n                        <dd>"
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["article-type"] : stack1), depth0))
     + "</dd>\n";
-},"7":function(container,depth0,helpers,partials,data) {
+},"9":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "                        <dt><i>Publication date:</i></dt>\n                        <dd>"
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["publication-date"] : stack1), depth0))
     + "</dd>\n";
-},"9":function(container,depth0,helpers,partials,data) {
+},"11":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "                        <dt><i>Corresponding authors:</i></dt>\n                        <dd>"
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["corresponding-authors"] : stack1), depth0))
     + "</dd>\n";
-},"11":function(container,depth0,helpers,partials,data) {
+},"13":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "                        <dt><i>Authors:</i></dt>\n                        <dd>"
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.authors : stack1), depth0))
     + "</dd>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=container.lambda, alias2=container.escapeExpression, alias3=depth0 != null ? depth0 : {}, alias4=helpers.helperMissing, alias5="function";
+    var stack1, helper, alias1=container.lambda, alias2=container.escapeExpression, alias3=depth0 != null ? depth0 : {};
 
   return ((stack1 = container.invokePartial(partials["article-publish-modal"],depth0,{"name":"article-publish-modal","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + ((stack1 = container.invokePartial(partials["article-schedule-modal"],depth0,{"name":"article-schedule-modal","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
@@ -345,14 +310,15 @@ Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(c
     + "</h6>\n                <p>"
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.title : stack1), depth0))
     + "</p>\n            </td>\n            <td class=\"column-2\">\n                <dl>\n                    <dt><i>Version:</i></dt>\n                    <dd><strong>"
-    + alias2(((helper = (helper = helpers.currentVersion || (depth0 != null ? depth0.currentVersion : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias3,{"name":"currentVersion","hash":{},"data":data}) : helper)))
+    + alias2(((helper = (helper = helpers.currentVersion || (depth0 != null ? depth0.currentVersion : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(alias3,{"name":"currentVersion","hash":{},"data":data}) : helper)))
     + "</strong></dd>\n                    <dt><i>Run:</i></dt>\n                    <dd><strong>"
-    + alias2(((helper = (helper = helpers.currentRun || (depth0 != null ? depth0.currentRun : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias3,{"name":"currentRun","hash":{},"data":data}) : helper)))
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.currentEvents : depth0)) != null ? stack1["run-number"] : stack1), depth0))
     + "</strong></dd>\n                </dl>\n            </td>\n        </tr>\n    </table>\n    <table class=\"detail\">\n        <tr>\n            <td class=\"column-1\">\n                <dl>\n"
-    + ((stack1 = helpers["if"].call(alias3,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["article-type"] : stack1),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias3,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias3,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["corresponding-authors"] : stack1),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias3,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.authors : stack1),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias3,(depth0 != null ? depth0.currentRun : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias3,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["article-type"] : stack1),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias3,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias3,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["corresponding-authors"] : stack1),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias3,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.authors : stack1),{"name":"if","hash":{},"fn":container.program(13, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "                </dl>\n            </td>\n        </tr>\n    </table>\n</section>";
 },"usePartial":true,"useData":true}));
 
@@ -430,11 +396,11 @@ Handlebars.registerPartial("article-version-list", Handlebars.template({"1":func
     + "/"
     + alias4(alias3(((stack1 = (depths[1] != null ? depths[1].details : depths[1])) != null ? stack1["version-number"] : stack1), depth0))
     + "/"
-    + alias4(((helper = (helper = helpers["run-number"] || (depth0 != null ? depth0["run-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias5 ? helper.call(alias1,{"name":"run-number","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers["run-id"] || (depth0 != null ? depth0["run-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias5 ? helper.call(alias1,{"name":"run-id","hash":{},"data":data}) : helper)))
     + "\" data-version=\""
     + alias4(alias3(((stack1 = (depths[1] != null ? depths[1].details : depths[1])) != null ? stack1["version-number"] : stack1), depth0))
     + "\" data-run=\""
-    + alias4(((helper = (helper = helpers["run-number"] || (depth0 != null ? depth0["run-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias5 ? helper.call(alias1,{"name":"run-number","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers["run-id"] || (depth0 != null ? depth0["run-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias5 ? helper.call(alias1,{"name":"run-id","hash":{},"data":data}) : helper)))
     + "\">\n                                <span class=\"title\">Run "
     + alias4(((helper = (helper = helpers["run-number"] || (depth0 != null ? depth0["run-number"] : depth0)) != null ? helper : alias2),(typeof helper === alias5 ? helper.call(alias1,{"name":"run-number","hash":{},"data":data}) : helper)))
     + "</span>\n                                <span class=\"date\">"
@@ -443,11 +409,11 @@ Handlebars.registerPartial("article-version-list", Handlebars.template({"1":func
 },"9":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1;
 
-  return ((stack1 = (helpers.is || (depth0 && depth0.is) || helpers.helperMissing).call(depth0 != null ? depth0 : {},(depth0 != null ? depth0["run-number"] : depth0),(depths[2] != null ? depths[2].currentRun : depths[2]),{"name":"is","hash":{},"fn":container.program(2, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+  return ((stack1 = (helpers.is || (depth0 && depth0.is) || helpers.helperMissing).call(depth0 != null ? depth0 : {},(depth0 != null ? depth0["run-id"] : depth0),(depths[2] != null ? depths[2].currentRun : depths[2]),{"name":"is","hash":{},"fn":container.program(2, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1;
 
-  return "<section class=\"article-version-map\">\n    <ol class=\"article-version-map-list\">\n"
+  return "<section class=\"version-run-nav\">\n    <ol class=\"version-run-nav-list\">\n"
     + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.versions : stack1),{"name":"each","hash":{},"fn":container.program(1, data, 1, blockParams, depths),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "    </ol>\n</section>";
 },"useData":true,"useDepths":true,"useBlockParams":true}));
@@ -671,11 +637,11 @@ this["eLife"]["templates"]["current/article"] = Handlebars.template({"1":functio
     + ((stack1 = helpers.each.call(alias3,blockParams[1][0],{"name":"each","hash":{},"fn":container.program(14, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "                </tbody>\n            </table>\n        </section>\n";
 },"3":function(container,depth0,helpers,partials,data) {
-    return "                <button href=\"#\" class=\"btn btn-default publish-all btn-publish-queued\" data-toggle=\"modal\"\n                        data-target=\"#publish-modal\" type=\"button\">\n                    <span class=\"fa fa-globe\"></span>\n                    Publish All Selected\n                </button>\n";
+    return "                <button href=\"#\" class=\"btn btn-default btn-publish-all-selected btn-publish-queued\" data-toggle=\"modal\"\n                        data-target=\"#publish-modal\" type=\"button\">\n                    <span class=\"fa fa-globe\"></span>\n                    Publish All Selected\n                </button>\n";
 },"5":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                    <caption class=\"sticky-header\">\n                        <span class=\"fa e-icon lg danger fa-warning  pull-left\"></span>\n                        <h4>Errors\n"
+  return "                    <caption class=\"sticky-header\">\n                        <span class=\"fa e-icon md danger fa-warning  pull-left\"></span>\n                        <h4>Errors\n"
     + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = blockParams[2][0]) != null ? stack1.length : stack1),{"name":"if","hash":{},"fn":container.program(6, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "                        </h4>\n                    </caption>\n";
 },"6":function(container,depth0,helpers,partials,data,blockParams) {
@@ -687,19 +653,19 @@ this["eLife"]["templates"]["current/article"] = Handlebars.template({"1":functio
 },"8":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                    <caption class=\"sticky-header\">\n                        <span class=\"fa e-icon lg info fa-cog  pull-left\"></span>\n                        <h4>In Progress\n                            <small>("
+  return "                    <caption class=\"sticky-header\">\n                        <span class=\"fa e-icon md info fa-cog  pull-left\"></span>\n                        <h4>In Progress\n                            <small>("
     + container.escapeExpression(container.lambda(((stack1 = blockParams[2][0]) != null ? stack1.length : stack1), depth0))
     + " Articles)</small>\n                        </h4>\n                    </caption>\n";
 },"10":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                    <caption class=\"sticky-header\">\n                        <span class=\"fa e-icon lg muted fa-hand-o-down  pull-left\"></span>\n                        <h4>\n                            User Input Required\n"
+  return "                    <caption class=\"sticky-header\">\n                        <span class=\"fa e-icon md muted fa-hand-o-down  pull-left\"></span>\n                        <h4>\n                            User Input Required\n"
     + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = blockParams[2][0]) != null ? stack1.length : stack1),{"name":"if","hash":{},"fn":container.program(6, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "                            <br>(Ready to Publish)\n                        </h4>\n                    </caption>\n";
 },"12":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                    <caption class=\"sticky-header\">\n                        <span class=\"fa e-icon lg warning fa-clock-o  pull-left\"></span>\n                        <h4>Scheduled\n"
+  return "                    <caption class=\"sticky-header\">\n                        <span class=\"fa e-icon md warning fa-clock-o  pull-left\"></span>\n                        <h4>Scheduled\n"
     + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = blockParams[2][0]) != null ? stack1.length : stack1),{"name":"if","hash":{},"fn":container.program(6, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "                        </h4>\n                    </caption>\n";
 },"14":function(container,depth0,helpers,partials,data,blockParams) {
@@ -732,6 +698,18 @@ this["eLife"]["templates"]["detail/article-detail"] = Handlebars.template({"comp
     + ((stack1 = container.invokePartial(partials["article-version-history"],depth0,{"name":"article-version-history","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "    </div>\n</div>";
 },"usePartial":true,"useData":true});
+
+this["eLife"]["templates"]["detail/article-scheduled-for"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "    <p><span class=\"text-muted\">Scheduled for <em><strong>"
+    + container.escapeExpression((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.scheduleStatus : depth0)) != null ? stack1.scheduled : stack1),"MMMM D, YYYY h:mma",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + "</strong></em></span></p>\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.scheduleStatus : depth0)) != null ? stack1.scheduled : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"useData":true});
 
 this["eLife"]["templates"]["detail/article"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
@@ -886,7 +864,7 @@ this["eLife"]["templates"]["scheduled/scheduled-actions"] = Handlebars.template(
 },"usePartial":true,"useData":true});
 
 this["eLife"]["templates"]["scheduled/scheduled-content-calendar"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<div id=\"calendar\"></div>\n<br/>\n<p>\n    <span class=\"fc-event\" style=\"background-color:#cde1f1;border-color:#cde1f1;color:#111;display:inline-block;\"><strong>3:40pm</strong> 09672 (Adv.)</span> <br>\n    <strong>Advance Article</strong> <br> Articles which have been scheduled but which are not yet in eLife Continuum system.\n</p>\n<br>\n<p>\n    <span class=\"fc-event\" style=\"background-color:#f1f1f1;border-color:#f1f1f1;color:#111;display:inline-block;\"><strong>4:17pm</strong> 09672</span> <br>\n    <strong>Article</strong> <br> Scheduled Articles which are in the eLife Continuum system.\n</p>";
+    return "<div id=\"schedule-calendar\" class=\"calendar\"></div>\n<br/>\n<p>\n    <span class=\"fc-event\" style=\"background-color:#cde1f1;border-color:#cde1f1;color:#111;display:inline-block;\"><strong>3:40pm</strong> 09672 (Adv.)</span> <br>\n    <strong>Advance Article</strong> <br> Articles which have been scheduled but which are not yet in eLife Continuum system.\n</p>\n<br>\n<p>\n    <span class=\"fc-event\" style=\"background-color:#f1f1f1;border-color:#f1f1f1;color:#111;display:inline-block;\"><strong>4:17pm</strong> 09672</span> <br>\n    <strong>Article</strong> <br> Scheduled Articles which are in the eLife Continuum system.\n</p>";
 },"useData":true});
 
 this["eLife"]["templates"]["scheduled/scheduled-content-list"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
@@ -974,29 +952,6 @@ app.utils = {
     });
 
     return lastKey;
-  },
-
-  /**
-   * Parse query string.
-   * https://gist.github.com/ryoppy/5780748
-   * ?a=b&c=d to {a: b, c: d}
-   * @param {String} (option) queryString
-   * @return {Object} query params
-   */
-  getQueryParams: function(queryString) {
-    var query = (queryString || window.location.search).substring(1); // delete ?
-    if (!query) {
-      return false;
-    }
-
-    return _
-        .chain(query.split('&'))
-        .map(function(params) {
-          var p = params.split('=');
-          return [p[0], decodeURIComponent(p[1])];
-        })
-        .object()
-        .value();
   },
 
   /**
@@ -1512,19 +1467,18 @@ app.schedule = {
 };
 
 app.schedule.init();
-'use strict';
+(function($) {
+  'use strict';
 
-app.archive = {
-  init: function() {
-    //if ($('.archive-page').length > 0) {}
-  },
+  //Filter Box
+  $('.filter .dropdown-menu').on({
+    click: function(e) {
+      //Stop modal from closing if clicked anywhere inside
+      e.stopPropagation();
+    },
+  });
 
-  bindEvents: function() {
-
-  },
-
-};
-
+})(jQuery);
 
 'use strict';
 
@@ -1572,6 +1526,7 @@ app.current = {
         $('#articles').empty().html(this.articleTemplate(app.current.sortArticles(articles)));
         this.articleStatsTemplate = eLife.templates['current/article-stats-template'];
         $('#articleStats').html(this.articleStatsTemplate(app.current.sortArticles(articles)));
+        $('.btn-publish-queued').hide();
         if (app.config.ISPP) {
           // to work in PP we need to amend the urls
           _.each($('#articles table a'), function(a) {
@@ -1719,7 +1674,7 @@ app.detail = {
 
     var articleId;
     var versionNumber;
-    var runNumber;
+    var runId;
     var url;
     var state = History.getState();
     var hash = state.hash;
@@ -1732,16 +1687,16 @@ app.detail = {
     hash = _.compact(hash);
     articleId = (!_.isEmpty(hash[1])) ? hash[1] : null;
     versionNumber = (!_.isEmpty(hash[2])) ? hash[2] : null;
-    runNumber = (!_.isEmpty(hash[3])) ? hash[3] : null;
+    runId = (!_.isEmpty(hash[3])) ? hash[3] : null;
 
     url = (url.slice(-1) === '/') ? url.slice(0, -1) : url;
 
-    if (_.isNull(versionNumber) && _.isNull(runNumber)) {
-      url += '/' + this.queryParams.versionNumber + '/' + this.queryParams.runNumber;
+    if (_.isNull(versionNumber) && _.isNull(runId)) {
+      url += '/' + this.queryParams.versionNumber + '/' + this.queryParams.runId;
     }
 
-    if (!_.isNull(versionNumber) && _.isNull(runNumber)) {
-      url += '/' + this.queryParams.runNumber;
+    if (!_.isNull(versionNumber) && _.isNull(runId)) {
+      url += '/' + this.queryParams.runId;
     }
 
     if (app.config.ISPP) {
@@ -1755,7 +1710,7 @@ app.detail = {
    * Bind events
    */
   bindEvents: function() {
-    $('#article', '.detail-page').on('click', '.article-version-map-list .run-container .run a', this.updateRun.bind(this));
+    $('#article', '.detail-page').on('click', '.version-run-nav-list .run-container .run a', this.updateRun.bind(this));
     $('#article', '.detail-page').on('click', '.btn-publish', this.publish.bind(this));
     $('#article').on('click', '.run-container li a', this.bindNavigationEvents.bind(this));
     $(window).on('statechange', this.stateChange.bind(this));
@@ -1794,6 +1749,7 @@ app.detail = {
     if (!_.isNull(this.queryParams.articleId)) {
       this.buttonsScheduleTemplate = eLife.templates['detail/buttons-schedule'];
       this.buttonsReScheduleTemplate = eLife.templates['detail/buttons-reschedule'];
+      this.articlesScheduledForTemplate = eLife.templates['detail/article-scheduled-for'];
       var articleIds = [];
       articleIds.push(this.queryParams.articleId);
       $.ajax({
@@ -1805,6 +1761,7 @@ app.detail = {
           if (data.articles.length === 1) {
             var scheduleStatus = data.articles[0];
             app.detail.scheduleStatus = scheduleStatus;
+            app.detail.renderDetailActions();
           }
         },
 
@@ -1819,11 +1776,10 @@ app.detail = {
    * Determine which action buttons to show for this page
    */
   renderDetailActions: function() {
-    console.log('renderDetailActions')
-    console.log(this.scheduleStatus);
     if (this.scheduleStatus) {
       if (this.scheduleStatus.scheduled > 0) {
         $('.article-detail-actions', '#article').empty().html(app.detail.buttonsReScheduleTemplate({article: app.detail.article}));
+        $('.article-detail-scheduled', '#article').empty().html(app.detail.articlesScheduledForTemplate({scheduleStatus: this.scheduleStatus}));
       } else {
         $('.article-detail-actions', '#article').empty().html(app.detail.buttonsScheduleTemplate({article: app.detail.article}));
       }
@@ -1871,7 +1827,7 @@ app.detail = {
             currentArticle: this.currentArticle,
             currentEvents: this.currentEvents,
             currentVersion: this.queryParams.versionNumber,
-            currentRun: this.queryParams.runNumber,
+            currentRun: this.queryParams.runId,
             scheduleStatus: this.scheduleStatus,
           }));
 
@@ -1892,8 +1848,14 @@ app.detail = {
       this.queryParams.versionNumber = app.utils.findLastKey(this.article.versions);
     }
 
-    if (!this.queryParams.runNumber) {
-      this.queryParams.runNumber = (_.has(this.article.versions, this.queryParams.versionNumber)) ? app.utils.findLastKey(this.article.versions[this.queryParams.versionNumber].runs) : null;
+    if (!this.queryParams.runId) {
+      if(_.has(this.article.versions, this.queryParams.versionNumber)) {
+        var lastKey = app.utils.findLastKey(this.article.versions[this.queryParams.versionNumber].runs);
+        var runId = this.article.versions[this.queryParams.versionNumber].runs[lastKey]['run-id'];
+        this.queryParams.runId = runId;
+      } else {
+        this.queryParams.runId = null;
+      }
     }
 
   },
@@ -1915,11 +1877,9 @@ app.detail = {
    * @returns {*}
    */
   getCurrentRun: function() {
-    var lastKey;
     if (_.has(this.article.versions, this.queryParams.versionNumber)) {
-      lastKey = app.utils.findLastKey(this.article.versions[this.queryParams.versionNumber].runs);
-      if (parseInt(this.queryParams.runNumber) <= parseInt(lastKey)) {
-        return this.article.versions[this.queryParams.versionNumber].runs[this.queryParams.runNumber];
+      if (_.findWhere(this.article.versions[this.queryParams.versionNumber].runs, {'run-id': this.queryParams.runId})) {
+        return _.findWhere(this.article.versions[this.queryParams.versionNumber].runs, {'run-id': this.queryParams.runId});
       } else {
         this.errors = {message: 'There are no runs with this ID.<br /><br />'};
         return false;
@@ -1933,9 +1893,11 @@ app.detail = {
    */
   updateRun: function(e) {
     this.queryParams.versionNumber = $(e.currentTarget).attr('data-version');
-    this.queryParams.runNumber = $(e.currentTarget).attr('data-run');
+    this.queryParams.runId = $(e.currentTarget).attr('data-run');
     this.setCurrentArticle(this.article.versions[this.queryParams.versionNumber].details);
-    this.setCurrentRun(this.article.versions[this.queryParams.versionNumber].runs[this.queryParams.runNumber]);
+    if (_.findWhere(this.article.versions[this.queryParams.versionNumber].runs, {'run-id': this.queryParams.runId})) {
+      this.setCurrentRun(_.findWhere(this.article.versions[this.queryParams.versionNumber].runs, {'run-id': this.queryParams.runId}));
+    }
     this.renderArticle();
   },
 
@@ -1964,7 +1926,7 @@ app.detail = {
   setArticleParams: function() {
     var articleId;
     var versionNumber;
-    var runNumber;
+    var runId;
     var url = window.location.pathname;
     if (app.config.ISPP) {
       // for use in the PP
@@ -1976,19 +1938,19 @@ app.detail = {
     url = _.compact(url);
     articleId = (!_.isEmpty(url[1])) ? url[1] : null;
     versionNumber = (!_.isEmpty(url[2])) ? url[2] : null;
-    runNumber = (!_.isEmpty(url[3])) ? url[3] : null;
+    runId = (!_.isEmpty(url[3])) ? url[3] : null;
 
     /* If you have come through the PP nav we need to force some id's */
     if (app.config.ISPP && url[0] !== 'article') {
       articleId = '00353';
-      versionNumber = '2';
-      runNumber = '2';
+      versionNumber = '1';
+      runId = 'c03211f7-6e1e-492d-9312-e0a80857873c';
     }
 
     this.queryParams = {
       articleId: articleId,
       versionNumber: versionNumber,
-      runNumber: runNumber,
+      runId: runId,
     };
   },
 
@@ -2009,6 +1971,7 @@ app.detail.init();
 'use strict';
 /**
  * Controls the future Scheduling page
+ * Dont forget any changes to the calendar js will need to be copied over to the patternportfolio.js file
  * @type {{init: app.scheduled.init, bindEvents: app.scheduled.bindEvents, renderSwitcher: app.scheduled.renderSwitcher, renderActions: app.scheduled.renderActions, clickSwitchPage: app.scheduled.clickSwitchPage, switchPage: app.scheduled.switchPage, fetchScheduledArticles: app.scheduled.fetchScheduledArticles, renderCalendar: app.scheduled.renderCalendar, updateCalendar: app.scheduled.updateCalendar, convertArticlesToCalendar: app.scheduled.convertArticlesToCalendar}}
  */
 app.scheduled = {
@@ -2121,7 +2084,7 @@ app.scheduled = {
    * Render the calendar for the calendar view
    */
   renderCalendar: function() {
-    $('#calendar').fullCalendar({
+    $('#schedule-calendar').fullCalendar({
       header: {
         left: 'prev,next today',
         center: 'title',
@@ -2173,13 +2136,13 @@ app.scheduled = {
    * @param end
    */
   updateCalendar: function(start, end) {
-    $('#calendar', this.$el).before(this.loadingTemplate());
+    $('#schedule-calendar', this.$el).before(this.loadingTemplate());
     var fetchScheduledArticles = this.fetchScheduledArticles(start, end);
     fetchScheduledArticles.done(function(data) {
       $('.loading-template', this.$el).remove();
-      $('#calendar').fullCalendar('removeEvents');
-      $('#calendar').fullCalendar('addEventSource', app.scheduled.convertArticlesToCalendar(app.scheduled.scheduled.articles));
-      $('#calendar').fullCalendar('rerenderEvents');
+      $('#schedule-calendar').fullCalendar('removeEvents');
+      $('#schedule-calendar').fullCalendar('addEventSource', app.scheduled.convertArticlesToCalendar(app.scheduled.scheduled.articles));
+      $('#schedule-calendar').fullCalendar('rerenderEvents');
     });
   },
 
@@ -2202,7 +2165,7 @@ app.scheduled = {
       }
       calendarArticles.push(calendarArticle);
     });
-
+    console.log(calendarArticles)
     return calendarArticles;
   },
 

@@ -1,0 +1,125 @@
+<section class="article-list {{class}} sticky" id="{{class}}-list">
+    <table class="article-snapshot-list">
+        {{#uir}}
+            {{>atoms-button-publish-queued}}
+        {{/uir}}
+        {{^hidecaption}}
+            <caption class="sticky-header">
+                {{#error}}
+                    {{>atoms-icon-error(class: 'pull-left md')}}
+                {{/error}}
+                {{#inprogress}}
+                    {{>atoms-icon-inprogress(class: 'pull-left md')}}
+                {{/inprogress}}
+                {{#uir}}
+                    {{>atoms-icon-uir(class: 'pull-left md')}}
+                {{/uir}}
+                {{#scheduled}}
+                    {{>atoms-icon-scheduled(class: 'pull-left md')}}
+                {{/scheduled}}
+                <h4>
+                    {{#error}}Error{{/error}}
+                    {{#inprogress}}In Progress{{/inprogress}}
+                    {{#uir}}User Input Required{{/uir}}
+                    {{#scheduled}}Scheduled{{/scheduled}}
+                    <small>(1 Article)</small>
+                </h4>
+            </caption>
+        {{/hidecaption}}
+        <tbody>
+        {{!--if user input required--}}
+
+        <tr data-article-title="10.7554/eLife.11407" data-article-id="11407" data-article-version="3"
+            data-article-run="f479d752-b1d5-4248-8fae-1cd6db900256">
+            <td class="column-1">
+                <a href="/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/11407/3/2" class="hidden-xs">
+                    {{>atoms-icon-file(type: 'poa')}}
+                </a>
+                <h6>
+                    <a href="/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/11407/3/2">10.7554/eLife.11407</a>
+                </h6>
+                <p>
+                    <a href="/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/11407/3/2">The magnesium
+                        transporter A is activated by cardiolipin and is highly sensitive to free magnesium in vitro</a>
+                </p>
+            </td>
+            <td class="column-2">
+                <dl>
+                    <dt>
+                        <a href="/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/11407/3/2"><i>Version:</i></a>
+                    </dt>
+                    <dd>
+                        <a href="/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/11407/3/2">3</a>
+                    </dd>
+                    <dt>
+                        <a href="/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/11407/3/2"><i>Article
+                            type:</i></a>
+                    </dt>
+                    <dd>
+                        <a href="/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/11407/3/2">research-article</a>
+                    </dd>
+                    <dt>
+                        <a href="/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/11407/3/2"><i>Publication
+                            date:</i></a>
+                    </dt>
+                    <dd>
+                        <a href="/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/11407/3/2">2016-01-18T00:00:00Z</a>
+                    </dd>
+                    <dt>
+                        <a href="/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/11407/3/2"><i>Corresponding
+                            authors:</i></a>
+                    </dt>
+                    <dd>
+                        <a href="/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/11407/3/2">Jens Preben
+                            Morth</a>
+                    </dd>
+                </dl>
+            </td>
+            <td class="column-3">
+                {{^hideActions}}
+                    {{^showScheduleButtons}}
+                        {{#uir}}
+                            <a href="http://54.84.81.117/content/5/e11407v3" target="_blank" class="btn btn-default preview">
+                                <span class="fa fa-eye"></span>
+                                Preview
+                            </a>
+                            <button class="btn btn-default publish btn-publish" data-toggle="modal" data-target="#publish-modal"
+                                    type="button">
+                                <span class="fa fa-globe"></span>
+                                Publish Now
+                            </button>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" class="toggle-publish-all"> Batch Publishing
+                                </label>
+                            </div>
+                        {{/uir}}
+                        {{^uir}}
+                            <p>
+                                <b>
+                                    <a href="/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/03430/2/5">POST
+                                        EIF</a>
+                                    <br>
+                                    <a href="/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/03430/2/5">ERROR</a>
+                                </b>
+                            </p>
+                        {{/uir}}
+                    {{/showScheduleButtons}}
+                    {{#showScheduleButtons}}
+                            <p><strong><span class="text-uppercase">Scheduled</span><br>05/04/2016 2:17pm</strong></p><br>
+                            <button class="btn btn-default schedule" id="schedule-amend" data-toggle="modal" data-target="#schedule-modal" data-article-id="1" data-title="Re-schedule Article">
+                                <span class="fa fa-calendar"></span>
+                                Re-Schedule
+                            </button>
+                            <button class="btn btn-default schedule" id="schedule-cancel" data-toggle="modal" data-target="#schedule-modal" data-article-id="1" data-title="Cancel Schedule">
+                                <span class="fa fa-calendar-minus-o"></span>
+                                Cancel
+                            </button>
+                    {{/showScheduleButtons}}
+                {{/hideActions}}
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</section>
