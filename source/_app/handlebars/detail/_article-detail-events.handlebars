@@ -1,0 +1,31 @@
+<section class="article-detail-events">
+{{#each currentEvents.events as |events|}}
+<div class="article-detail-events__row">
+    <div class="article-detail-events__status">
+        {{#is event-status 'start'}}
+            <span class="fa e-icon md info fa-cog status-icon" title="{{event-status}}"></span>
+        {{/is}}
+        {{#is event-status 'end'}}
+            <span class="fa e-icon md success fa-check status-icon" title="{{event-status}}"></span>
+        {{/is}}
+        {{#is event-status 'error'}}
+            <span class="fa e-icon md danger fa-times status-icon" title="{{event-status}}"></span>
+        {{/is}}
+        <span class="line"></span>
+    </div>
+    <div class="article-detail-events__title"><p>{{event-type}}</p></div>
+    <div class="article-detail-events__detail">
+        <div>
+            <dl>
+                <dt><i>Timestamp:</i></dt>
+                <dd class="divide">{{elFormatUnixDate event-timestamp "DD/MM/YYYY" }} {{elFormatUnixDate event-timestamp "HH:mm:ss" }}</dd>
+            </dl>
+            <dl>
+                <dt><i>Message:</i></dt>
+                <dd>{{event-message}}</dd>
+            </dl>
+        </div>
+    </div>
+</div>
+{{/each}}
+</section>

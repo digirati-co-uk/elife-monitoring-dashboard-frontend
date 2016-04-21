@@ -4,55 +4,6 @@
     $LAYOUT
 \*------------------------------------*/
 
-.current-page,
-.detail-page,
-.scheduled-page {
-
-  .pattern-helper {
-    //border: 1px solid green;
-    display: none;
-  }
-
-  .publish-action {
-    //border: 1px solid red;
-    display: inline-block;
-  }
-
-}
-
-.archive-page {
-
-  .filter {
-    margin: 0;
-
-    .dropdown-toggle {
-      position: absolute;
-      right: 15px;
-      top: -73px;
-    }
-
-    > .dropdown-menu  {
-      top: -35px;
-    }
-
-    > .dropdown-menu ul {
-      list-style-type: none;
-    }
-
-  }
-
-}
-
-.detail-page {
-
-  .version-run-nav-list,
-  .article-version-history-list {
-    width: auto;
-  }
-
-}
-
-
 // sections
 
 .section-map {
@@ -340,15 +291,6 @@ section {
 
   }
 
-  &.article-version-history {
-    border: 0;
-    padding-right: 0;
-
-    @media #{$mobile} {
-      padding: 0;
-    }
-
-  }
 
 }
 
@@ -513,85 +455,6 @@ section {
       @media #{$mobile} {
         padding-left: 0;
         padding-right: 0;
-      }
-
-    }
-
-  }
-
-}
-
-.article-version-history-list {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-
-  li {
-    display: table;
-    padding-bottom: 20px;
-    width: 100%;
-
-    .column-1 {
-      display: table-cell;
-      width: 40%;
-
-      @media #{$x-wide} {
-        width: 45%;
-      }
-
-      @media #{$wide} {
-        width: 50%;
-      }
-
-      @media #{$mobile} {
-        display: block;
-        width: 100%;
-      }
-
-      span {
-
-        &:last-child {
-          float: left;
-          margin-left: 20px;
-          margin-top: 14px;
-        }
-
-      }
-
-    }
-
-    .column-2 {
-      display: table-cell;
-      font-size: 1.2rem;
-      vertical-align: middle;
-
-      @media #{$mobile} {
-        display: block;
-        width: 100%;
-        padding-top: 15px;
-        padding-left: 70px;
-      }
-
-      dl {
-        clear: both;
-        margin: 0;
-
-        dt {
-          float: left;
-          font-weight: normal;
-          width: 30%;
-        }
-
-        dd {
-          float: left;
-          width: 70%;
-
-          &.divide {
-            width: 35%;
-          }
-
-        }
-
       }
 
     }

@@ -260,6 +260,48 @@ Handlebars.registerPartial("article-detail-actions", Handlebars.template({"1":fu
     + "    </div>\n</div>\n";
 },"useData":true}));
 
+Handlebars.registerPartial("article-detail-events", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "<div class=\"article-detail-events__row\">\n    <div class=\"article-detail-events__status\">\n"
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["event-status"] : depth0),"start",{"name":"is","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["event-status"] : depth0),"end",{"name":"is","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["event-status"] : depth0),"error",{"name":"is","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "        <span class=\"line\"></span>\n    </div>\n    <div class=\"article-detail-events__title\"><p>"
+    + alias4(((helper = (helper = helpers["event-type"] || (depth0 != null ? depth0["event-type"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"event-type","hash":{},"data":data}) : helper)))
+    + "</p></div>\n    <div class=\"article-detail-events__detail\">\n        <div>\n            <dl>\n                <dt><i>Timestamp:</i></dt>\n                <dd class=\"divide\">"
+    + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["event-timestamp"] : depth0),"DD/MM/YYYY",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + " "
+    + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["event-timestamp"] : depth0),"HH:mm:ss",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + "</dd>\n            </dl>\n            <dl>\n                <dt><i>Message:</i></dt>\n                <dd>"
+    + alias4(((helper = (helper = helpers["event-message"] || (depth0 != null ? depth0["event-message"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"event-message","hash":{},"data":data}) : helper)))
+    + "</dd>\n            </dl>\n        </div>\n    </div>\n</div>\n";
+},"2":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "            <span class=\"fa e-icon md info fa-cog status-icon\" title=\""
+    + container.escapeExpression(((helper = (helper = helpers["event-status"] || (depth0 != null ? depth0["event-status"] : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"event-status","hash":{},"data":data}) : helper)))
+    + "\"></span>\n";
+},"4":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "            <span class=\"fa e-icon md success fa-check status-icon\" title=\""
+    + container.escapeExpression(((helper = (helper = helpers["event-status"] || (depth0 != null ? depth0["event-status"] : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"event-status","hash":{},"data":data}) : helper)))
+    + "\"></span>\n";
+},"6":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "            <span class=\"fa e-icon md danger fa-times status-icon\" title=\""
+    + container.escapeExpression(((helper = (helper = helpers["event-status"] || (depth0 != null ? depth0["event-status"] : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"event-status","hash":{},"data":data}) : helper)))
+    + "\"></span>\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "<section class=\"article-detail-events\">\n"
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.currentEvents : depth0)) != null ? stack1.events : stack1),{"name":"each","hash":{},"fn":container.program(1, data, 1),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "</section>";
+},"useData":true}));
+
 Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     var stack1;
 
@@ -322,51 +364,7 @@ Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(c
     + "                </dl>\n            </td>\n        </tr>\n    </table>\n</section>";
 },"usePartial":true,"useData":true}));
 
-Handlebars.registerPartial("article-version-history", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
-
-  return "            <li>\n                <div class=\"column-1 "
-    + alias4(((helper = (helper = helpers["event-status"] || (depth0 != null ? depth0["event-status"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"event-status","hash":{},"data":data}) : helper)))
-    + "\">\n"
-    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["event-status"] : depth0),"start",{"name":"is","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["event-status"] : depth0),"end",{"name":"is","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,(depth0 != null ? depth0["event-status"] : depth0),"error",{"name":"is","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "                    <span>"
-    + alias4(((helper = (helper = helpers["event-type"] || (depth0 != null ? depth0["event-type"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"event-type","hash":{},"data":data}) : helper)))
-    + "</span>\n                </div>\n                <div class=\"column-2\">\n                    <dl>\n                        <dt><i>Timestamp:</i></dt>\n                        <dd class=\"divide\"><strong>"
-    + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["event-timestamp"] : depth0),"DD/MM/YYYY",{"name":"elFormatUnixDate","hash":{},"data":data}))
-    + "</strong></dd>\n                        <dd class=\"divide\"><strong>"
-    + alias4((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["event-timestamp"] : depth0),"HH:mm:ss",{"name":"elFormatUnixDate","hash":{},"data":data}))
-    + "</strong></dd>\n                    </dl>\n                    <dl>\n                        <dt><i>Message:</i></dt>\n                        <dd>"
-    + alias4(((helper = (helper = helpers["event-message"] || (depth0 != null ? depth0["event-message"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"event-message","hash":{},"data":data}) : helper)))
-    + "</dd>\n                    </dl>\n                </div>\n            </li>\n";
-},"2":function(container,depth0,helpers,partials,data) {
-    var helper;
-
-  return "                        <span class=\"fa e-icon lg warning fa-exclamation-triangle  pull-left\" title=\""
-    + container.escapeExpression(((helper = (helper = helpers["event-status"] || (depth0 != null ? depth0["event-status"] : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"event-status","hash":{},"data":data}) : helper)))
-    + "\"></span>\n";
-},"4":function(container,depth0,helpers,partials,data) {
-    var helper;
-
-  return "                        <span class=\"fa e-icon lg success fa-check  pull-left\" title=\""
-    + container.escapeExpression(((helper = (helper = helpers["event-status"] || (depth0 != null ? depth0["event-status"] : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"event-status","hash":{},"data":data}) : helper)))
-    + "\"></span>\n";
-},"6":function(container,depth0,helpers,partials,data) {
-    var helper;
-
-  return "                        <span class=\"fa e-icon lg danger fa-times  pull-left\" title=\""
-    + container.escapeExpression(((helper = (helper = helpers["event-status"] || (depth0 != null ? depth0["event-status"] : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"event-status","hash":{},"data":data}) : helper)))
-    + "\"></span>\n";
-},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1;
-
-  return "<section class=\"article-version-history\">\n    <ol class=\"article-version-history-list\">\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.currentEvents : depth0)) != null ? stack1.events : stack1),{"name":"each","hash":{},"fn":container.program(1, data, 1),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "    </ol>\n</section>";
-},"useData":true}));
-
-Handlebars.registerPartial("article-version-list", Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams,depths) {
+Handlebars.registerPartial("version-run-nav", Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, alias1=depth0 != null ? depth0 : {};
 
   return "            <li class=\""
@@ -419,11 +417,11 @@ Handlebars.registerPartial("article-version-list", Handlebars.template({"1":func
 },"useData":true,"useDepths":true,"useBlockParams":true}));
 
 Handlebars.registerPartial("article-publish-modal", Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<a href=\"#\" class=\"btn btn-default pattern-helper\" data-toggle=\"modal\" data-target=\"#publish-modal\">\n    Modal\n</a>\n<div class=\"modal fade\" id=\"publish-modal\" tabindex=\"-1\" role=\"dialog\" data-backdrop=\"static\" aria-labelledby=\"publish-modal\">\n    <div class=\"modal-dialog modal-sm\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"myModalLabel\">Publish article(s)</h4>\n            </div>\n            <div class=\"modal-body\">\n                Are you sure you want to publish the following article(s)?\n                <ol id=\"articles-queue\"></ol>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"publish-close\">Close</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner publish-action\" id=\"publish-action\"></button>\n            </div>\n        </div>\n    </div>\n</div>";
+    return "<div class=\"modal fade\" id=\"publish-modal\" tabindex=\"-1\" role=\"dialog\" data-backdrop=\"static\" aria-labelledby=\"publish-modal\">\n    <div class=\"modal-dialog modal-sm\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"myModalLabel\">Publish article(s)</h4>\n            </div>\n            <div class=\"modal-body\">\n                Are you sure you want to publish the following article(s)?\n                <ol id=\"articles-queue\"></ol>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"publish-close\">Close</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner\" id=\"publish-action\"></button>\n            </div>\n        </div>\n    </div>\n</div>";
 },"useData":true}));
 
 Handlebars.registerPartial("article-schedule-modal", Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<a href=\"#\" class=\"btn btn-default pattern-helper\">\n    Modal\n</a>\n<div class=\"modal fade\" id=\"schedule-modal\" tabindex=\"-1\" role=\"dialog\" data-backdrop=\"static\"\n     aria-labelledby=\"schedule-modal\">\n    <div class=\"modal-dialog modal-md\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span\n                        aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"myModalLabel\">Schedule article</h4>\n            </div>\n            <div class=\"modal-body\"></div>\n            <div class=\"modal-footer\"></div>\n        </div>\n    </div>\n</div>";
+    return "<div class=\"modal fade\" id=\"schedule-modal\" tabindex=\"-1\" role=\"dialog\" data-backdrop=\"static\"\n     aria-labelledby=\"schedule-modal\">\n    <div class=\"modal-dialog modal-md\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span\n                        aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"myModalLabel\">Schedule article</h4>\n            </div>\n            <div class=\"modal-body\"></div>\n            <div class=\"modal-footer\"></div>\n        </div>\n    </div>\n</div>";
 },"useData":true}));
 
 Handlebars.registerPartial("scheduled-article-item", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
@@ -688,17 +686,6 @@ this["eLife"]["templates"]["current/error-queue-articles"] = Handlebars.template
     return "<div class=\"alert alert-danger\">\n    An error has occurred while queueing the article(s) requested. Please cancel and try again.\n</div>";
 },"useData":true});
 
-this["eLife"]["templates"]["detail/article-detail"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1;
-
-  return "<div class=\"row\">\n    <div class=\"col-md-3\">\n"
-    + ((stack1 = container.invokePartial(partials["article-version-list"],depth0,{"name":"article-version-list","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-    + "    </div>\n    <div class=\"col-md-9\">\n"
-    + ((stack1 = container.invokePartial(partials["article-info"],depth0,{"name":"article-info","hash":{"section":(depth0 != null ? depth0.articleDetail : depth0)},"data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-    + ((stack1 = container.invokePartial(partials["article-version-history"],depth0,{"name":"article-version-history","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-    + "    </div>\n</div>";
-},"usePartial":true,"useData":true});
-
 this["eLife"]["templates"]["detail/article-scheduled-for"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     var stack1;
 
@@ -716,10 +703,10 @@ this["eLife"]["templates"]["detail/article"] = Handlebars.template({"compiler":[
 
   return ((stack1 = container.invokePartial(partials["article-detail-actions"],depth0,{"name":"article-detail-actions","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "<div class=\"row\">\n    <div class=\"col-md-3\">\n"
-    + ((stack1 = container.invokePartial(partials["article-version-list"],depth0,{"name":"article-version-list","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + ((stack1 = container.invokePartial(partials["version-run-nav"],depth0,{"name":"version-run-nav","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "    </div>\n    <div class=\"col-md-9\">\n"
     + ((stack1 = container.invokePartial(partials["article-detail"],depth0,{"name":"article-detail","hash":{"section":(depth0 != null ? depth0.articleDetail : depth0)},"data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-    + ((stack1 = container.invokePartial(partials["article-version-history"],depth0,{"name":"article-version-history","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + ((stack1 = container.invokePartial(partials["article-detail-events"],depth0,{"name":"article-detail-events","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "    </div>\n</div>";
 },"usePartial":true,"useData":true});
 
@@ -805,7 +792,7 @@ this["eLife"]["templates"]["schedule/article-schedule-modal-body"] = Handlebars.
     var stack1;
 
   return ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.showArticleIdField : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "    <p>When do you want to schedule this article?</p>\n    <p class=\"article-cancel-info\"></p>\n    <br/>\n    <div class=\"form-group\">\n        <div class=\"col-sm-12\">\n            <input id=\"schedule-date\" name=\"date\" class=\"form-control datepicker\" type=\"text\" placeholder=\"Date\">\n        </div>\n    </div>\n    <br/>\n    <br/>\n    <div class=\"form-group\">\n        <div class=\"col-sm-12\">\n            <div class=\"timepicker\">\n                <div class=\"timepicker-hour\">\n                    <input id=\"schedule_hour_submit\" name=\"schedule_hour_submit\"\n                           class=\"form-control timepicker hourpicker\"\n                           type=\"number\" placeholder=\"Hour\">\n                </div>\n                <div class=\"timepicker-divider\">:</div>\n                <div class=\"timepicker-minute\">\n                    <input id=\"schedule_minute_submit\" name=\"schedule_minute_submit\"\n                           class=\"form-control timepicker minutepicker\" type=\"number\" placeholder=\"Minute\">\n                </div>\n                <div class=\"timepicker-ampm\">\n                    <select class=\"form-control timepicker ampmpicker\" name=\"schedule_ampm_submit\">\n                        <option value=\"am\">am</option>\n                        <option value=\"pm\" selected=\"selected\">pm</option>\n                    </select>\n                </div>\n            </div>\n        </div>\n    </div>\n    <br/>\n";
+    + "    <p>When do you want to schedule this article?</p>\n    <p class=\"article-cancel-info\"></p>\n    <br/>\n    <div class=\"form-group\">\n        <div class=\"col-sm-12\">\n            <input id=\"schedule-date\" name=\"date\" class=\"form-control datepicker\" type=\"text\" placeholder=\"Date\">\n        </div>\n    </div>\n    <br/>\n    <br/>\n    <div class=\"form-group\">\n        <div class=\"col-sm-12\">\n            <div class=\"timepicker\">\n                <div class=\"timepicker-hour\">\n                    <input id=\"schedule_hour_submit\" name=\"schedule_hour_submit\"\n                           class=\"form-control timepicker hourpicker zerofill\"\n                           type=\"number\" min=\"0\" max=\"12\" maxlength=\"2\" placeholder=\"01\">\n                </div>\n                <div class=\"timepicker-divider\">:</div>\n                <div class=\"timepicker-minute\">\n                    <input id=\"schedule_minute_submit\" name=\"schedule_minute_submit\"\n                           class=\"form-control timepicker minutepicker zerofill\" type=\"number\" min=\"0\" max=\"59\" maxlength=\"2\" placeholder=\"30\">\n                </div>\n                <div class=\"timepicker-ampm\">\n                    <select class=\"form-control timepicker ampmpicker\" name=\"schedule_ampm_submit\">\n                        <option value=\"am\">am</option>\n                        <option value=\"pm\" selected=\"selected\">pm</option>\n                    </select>\n                </div>\n            </div>\n        </div>\n    </div>\n    <br/>\n";
 },"2":function(container,depth0,helpers,partials,data) {
     return "        <p>Please enter the ID of the article you wish to publish:</p>\n        <br/>\n        <div class=\"form-group\">\n            <div class=\"col-sm-12\">\n                <input id=\"schedule-id\" name=\"id\" class=\"form-control\" type=\"text\" placeholder=\"Article ID\">\n            </div>\n        </div>\n        <br/>\n        <hr/>\n        <br/>\n";
 },"4":function(container,depth0,helpers,partials,data) {
@@ -973,7 +960,14 @@ app.utils = {
   isNumeric: function(string) {
     var hasNumber = /^\d+$/;
     return hasNumber.test(string);
-  }
+  },
+
+  /**
+   * Pad out numbers < 10
+   */
+  pad: function(n) {
+    return (n < 10) ? ('0' + n) : n;
+  },
 
 };
 
@@ -1233,7 +1227,8 @@ app.schedule = {
     $(document).on('show.bs.modal', this.initDateTimePicker.bind(this));
     $(document).on('show.bs.modal', this.updateModal.bind(this));
     $(document).on('hide.bs.modal', this.resetParameters.bind(this));
-    $(document).on('keyup', '.timepicker', this.setTime.bind(this));
+    $(document).on('change', '.zerofill', this.zerofill.bind(this));
+    $(document).on('change', '.timepicker', this.setTime.bind(this));
     $(document).on('change', '.ampmpicker', this.setTime.bind(this));
     $(document).on('click', '#schedule-modal .close', this.refreshPage.bind(this));
     $(document).on('click', '#schedule-modal #schedule-close', this.refreshPage.bind(this));
@@ -1248,6 +1243,18 @@ app.schedule = {
     app.schedule.scheduleTime = $('input[name="schedule_hour_submit"]').val() + ':' + $('input[name="schedule_minute_submit"]').val() + ' ' + $('select[name="schedule_ampm_submit"] option:selected').val();
     app.schedule.enableSchedule();
   },
+
+  /**
+   * set the time when time is entred
+   */
+  zerofill: function(e) {
+    var pad = app.utils.pad($(e.currentTarget).val());
+    $(e.currentTarget).val(pad);
+    console.log($(e.currentTarget).val());
+    console.log(pad);
+    // $('input[name="schedule_hour_submit"]').val()
+  },
+
 
   /**
    * When the modal is loaded enable the date and time pickers.

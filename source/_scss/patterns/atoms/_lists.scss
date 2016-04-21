@@ -1,0 +1,21 @@
+dl {
+  clear: both;
+  margin: 0;
+
+  dt {
+    float: left;
+    font-weight: normal;
+    width: 30%;
+  }
+
+  dd {
+    float: left;
+    width: 70%;
+
+    &.divide {
+      width: 35%;
+    }
+
+  }
+
+}

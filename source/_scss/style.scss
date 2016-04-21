@@ -2,7 +2,6 @@
     Core
 \*------------------------------------*/
 
-@import "core/global-classes";
 @import "core/variables";
 @import "core/variables-bootstrap";
 @import "core/z-index";
@@ -16,9 +15,11 @@
 @import "patterns/atoms/button-publish-all-selected";
 @import "patterns/atoms/icon-file";
 @import "patterns/atoms/icon-circle";
+@import "patterns/atoms/lists";
 @import "patterns/atoms/loader";
 @import "patterns/atoms/sticky";
 
+@import "patterns/molecules/article-detail-events";
 @import "patterns/molecules/articles-queue";
 @import "patterns/molecules/loading-template";
 @import "patterns/molecules/nav";

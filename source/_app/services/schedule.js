@@ -31,7 +31,8 @@ app.schedule = {
     $(document).on('show.bs.modal', this.initDateTimePicker.bind(this));
     $(document).on('show.bs.modal', this.updateModal.bind(this));
     $(document).on('hide.bs.modal', this.resetParameters.bind(this));
-    $(document).on('keyup', '.timepicker', this.setTime.bind(this));
+    $(document).on('change', '.zerofill', this.zerofill.bind(this));
+    $(document).on('change', '.timepicker', this.setTime.bind(this));
     $(document).on('change', '.ampmpicker', this.setTime.bind(this));
     $(document).on('click', '#schedule-modal .close', this.refreshPage.bind(this));
     $(document).on('click', '#schedule-modal #schedule-close', this.refreshPage.bind(this));
@@ -46,6 +47,18 @@ app.schedule = {
     app.schedule.scheduleTime = $('input[name="schedule_hour_submit"]').val() + ':' + $('input[name="schedule_minute_submit"]').val() + ' ' + $('select[name="schedule_ampm_submit"] option:selected').val();
     app.schedule.enableSchedule();
   },
+
+  /**
+   * set the time when time is entred
+   */
+  zerofill: function(e) {
+    var pad = app.utils.pad($(e.currentTarget).val());
+    $(e.currentTarget).val(pad);
+    console.log($(e.currentTarget).val());
+    console.log(pad);
+    // $('input[name="schedule_hour_submit"]').val()
+  },
+
 
   /**
    * When the modal is loaded enable the date and time pickers.
