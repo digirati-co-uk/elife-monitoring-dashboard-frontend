@@ -7826,6 +7826,18 @@ button.close {
   }
 }
 
+.archive-page .article-snapshot-list.archive .column-2 {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+@media (max-width: 767px) {
+  .archive-page .article-snapshot-list.archive .column-2 {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
 /*------------------------------------*    $BUTTONS
 \*------------------------------------*/
 .btn {
@@ -7939,7 +7951,7 @@ button.close {
 .e-icon {
   text-align: center;
   border-radius: 50%;
-  font-size: 3rem;
+  font-size: 1rem;
   width: 30px;
   height: 30px;
   line-height: 30px;
@@ -7947,7 +7959,7 @@ button.close {
 
 .e-icon.lg {
   border-radius: 50%;
-  font-size: 3rem;
+  font-size: 4rem;
   width: 80px;
   height: 80px;
   line-height: 80px;
@@ -7955,7 +7967,7 @@ button.close {
 
 .e-icon.md {
   border-radius: 50%;
-  font-size: 2rem;
+  font-size: 3rem;
   width: 60px;
   height: 60px;
   line-height: 60px;
@@ -7964,6 +7976,7 @@ button.close {
 .e-icon.sm {
   border-radius: 50%;
   margin-left: 5px;
+  font-size: 1.5rem;
   width: 30px;
   height: 30px;
   line-height: 30px;
@@ -8483,6 +8496,79 @@ Its currently used in the schedule modal popup
   text-align: right;
 }
 
+.article-list {
+  font-size: 1.2rem;
+  width: 100%;
+}
+
+.article-list a {
+  color: #333333;
+  text-decoration: none;
+}
+
+.article-list a:hover {
+  color: #333333;
+}
+
+.article-list caption {
+  background-color: #fff;
+}
+
+.article-list caption h4 {
+  margin: 0;
+  padding: 15px 0 15px 65px;
+}
+
+.article-list .article__title {
+  font-weight: bold;
+  margin-top: 0;
+}
+
+.article-list .article__icon {
+  padding: 0 20px;
+  display: block;
+}
+
+.article-list .article__row {
+  border-top: 1px solid #c8c8c8;
+  vertical-align: top;
+}
+
+.article-list .article__row .article__col {
+  padding: 15px;
+  vertical-align: middle;
+}
+
+.article-list .article__row .article__col__icon {
+  width: 5%;
+  padding: 0px;
+  background-color: #fbfbfb;
+}
+
+.article-list .article__row .article__col__title {
+  width: 35%;
+}
+
+.article-list .article__row .article__col__info {
+  width: 35%;
+  background-color: #fbfbfb;
+}
+
+.article-list .article__row .article__col__status {
+  width: 10%;
+}
+
+.article-list .article__row .article__col__action {
+  width: 15%;
+  background-color: #fbfbfb;
+}
+
+.article-snapshot-list caption.sticky {
+  -webkit-box-shadow: 0px 18px 17px -23px rgba(0, 0, 0, 0.51);
+  -moz-box-shadow: 0px 18px 17px -23px rgba(0, 0, 0, 0.51);
+  box-shadow: 0px 18px 17px -23px rgba(0, 0, 0, 0.51);
+}
+
 .logo {
   background: url(../images/eLife-logo.jpg) no-repeat;
   background-size: 36px 36px;
@@ -8786,164 +8872,6 @@ section.version-run-nav {
 @media (max-width: 767px) {
   section.version-run-nav {
     padding: 0;
-  }
-}
-
-.article-snapshot-list {
-  margin-top: 15px;
-  width: 100%;
-}
-
-.article-snapshot-list caption {
-  background-color: #fff;
-}
-
-.article-snapshot-list caption h4 {
-  margin: 0;
-  padding: 15px 0 15px 65px;
-}
-
-.article-snapshot-list caption.sticky {
-  -webkit-box-shadow: 0px 18px 17px -23px rgba(0, 0, 0, 0.51);
-  -moz-box-shadow: 0px 18px 17px -23px rgba(0, 0, 0, 0.51);
-  box-shadow: 0px 18px 17px -23px rgba(0, 0, 0, 0.51);
-}
-
-@media (max-width: 767px) {
-  .article-snapshot-list tbody {
-    display: block;
-  }
-}
-
-.article-snapshot-list tr {
-  border-top: 1px solid #c8c8c8;
-  vertical-align: top;
-}
-
-@media (max-width: 767px) {
-  .article-snapshot-list tr {
-    display: block;
-  }
-}
-
-.article-snapshot-list td {
-  line-height: 1.3;
-  padding-bottom: 15px;
-  padding-top: 15px;
-}
-
-.article-snapshot-list h6 {
-  font-weight: bold;
-  margin-top: 0;
-}
-
-.article-snapshot-list a {
-  color: #424242;
-  text-decoration: none;
-}
-
-.article-snapshot-list a:hover {
-  color: #333;
-}
-
-.article-snapshot-list p {
-  font-size: 1.2rem;
-  margin: 0;
-}
-
-.article-snapshot-list dt,
-.article-snapshot-list dd {
-  float: left;
-  font-size: 1.2rem;
-  font-weight: normal;
-  line-height: 1.3;
-  width: 50%;
-}
-
-.article-snapshot-list .btn {
-  margin-bottom: 5px;
-  text-align: left;
-  text-decoration: none;
-  width: 130px;
-}
-
-.article-snapshot-list .btn .glyphicon {
-  padding-right: 5px;
-}
-
-.article-snapshot-list .checkbox {
-  margin: 0;
-  padding-right: 10px;
-}
-
-.article-snapshot-list .checkbox label {
-  line-height: 1.7;
-}
-
-.article-snapshot-list .column-1 {
-  width: 40%;
-}
-
-@media (max-width: 767px) {
-  .article-snapshot-list .column-1 {
-    display: block;
-    width: 100%;
-  }
-}
-
-.article-snapshot-list .column-1 h6,
-.article-snapshot-list .column-1 p {
-  padding-left: 18%;
-}
-
-@media (max-width: 767px) {
-  .article-snapshot-list .column-1 h6,
-  .article-snapshot-list .column-1 p {
-    padding-left: 0;
-  }
-}
-
-.article-snapshot-list .column-2 {
-  width: 44%;
-}
-
-@media (max-width: 767px) {
-  .article-snapshot-list .column-2 {
-    display: block;
-    overflow: auto;
-    width: 100%;
-  }
-}
-
-.article-snapshot-list .column-3 {
-  font-size: 1.2rem;
-  vertical-align: middle;
-  width: 16%;
-}
-
-@media (max-width: 767px) {
-  .article-snapshot-list .column-3 {
-    display: block;
-    text-align: left;
-    width: 100%;
-  }
-}
-
-@media (max-width: 767px) {
-  .article-snapshot-list.action .btn {
-    width: 100%;
-  }
-}
-
-.article-snapshot-list.archive .column-2 {
-  padding-left: 5%;
-  padding-right: 5%;
-}
-
-@media (max-width: 767px) {
-  .article-snapshot-list.archive .column-2 {
-    padding-left: 0;
-    padding-right: 0;
   }
 }
 

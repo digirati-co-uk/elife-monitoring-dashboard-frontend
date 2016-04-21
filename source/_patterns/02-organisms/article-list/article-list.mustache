@@ -1,5 +1,5 @@
-<section class="article-list {{class}} sticky" id="{{class}}-list">
-    <table class="article-snapshot-list">
+<section class="{{class}} sticky" id="{{class}}-list">
+    <table class="article-list">
         {{#uir}}
             {{>atoms-button-publish-queued}}
         {{/uir}}
@@ -29,12 +29,14 @@
         <tbody>
         {{!--if user input required--}}
 
-        <tr data-article-title="10.7554/eLife.11407" data-article-id="11407" data-article-version="3"
+        <tr class="article__row"  data-article-title="10.7554/eLife.11407" data-article-id="11407" data-article-version="3"
             data-article-run="f479d752-b1d5-4248-8fae-1cd6db900256">
-            <td class="column-1">
-                <a href="/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/11407/3/2" class="hidden-xs">
+            <td class="article__col article__col__icon">
+                <a href="/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/11407/3/2" class="hidden-xs  article__icon">
                     {{>atoms-icon-file(type: 'poa')}}
                 </a>
+            </td>
+            <td class="article__col article__col__title">
                 <h6>
                     <a href="/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/11407/3/2">10.7554/eLife.11407</a>
                 </h6>
@@ -43,7 +45,7 @@
                         transporter A is activated by cardiolipin and is highly sensitive to free magnesium in vitro</a>
                 </p>
             </td>
-            <td class="column-2">
+            <td class="article__col article__col__info">
                 <dl>
                     <dt>
                         <a href="/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/11407/3/2"><i>Version:</i></a>
@@ -75,7 +77,7 @@
                     </dd>
                 </dl>
             </td>
-            <td class="column-3">
+            <td class="article__col article__col__action">
                 {{^hideActions}}
                     {{^showScheduleButtons}}
                         {{#uir}}

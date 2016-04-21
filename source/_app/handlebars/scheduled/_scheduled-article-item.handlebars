@@ -1,10 +1,22 @@
-<tr id="article-{{id}}">
-    <td class="column-1">
-        <a href="/article/{{id}}/{{ version }}/{{ run }}" class="hidden-xs">
-            <span class="fa fa-file {{#if status}}{{lowercase status }}{{else}}no-article-status-type{{/if}}"></span>
+<tr class="article__row" id="article-{{id}}">
+    <td class="article__col article__col__icon">
+    {{#if doi}}
+    <a href="/article/{{id}}/{{ version }}/{{ run-id }}" class="hidden-xs article__icon">
+        <span class="fa fa-file {{#if status}}{{lowercase status }}{{else}}no-article-status-type{{/if}}"></span>
         </a>
-        <h6>
-            <a href="/article/{{id}}/{{ version }}/{{ run }}" class="article-doi">{{#if doi}}{{ doi }}{{else}}Not yet available ({{id}}){{/if}}</a>
+    {{else}}
+        <span class="hidden-xs article__icon">
+            <span class="fa fa-file {{#if status}}{{lowercase status }}{{else}}no-article-status-type{{/if}}"></span>
+        </span>
+    {{/if}}
+    </td>
+    <td class="article__col article__col__title">
+        <h6 class="article__title">
+            {{#if doi}}
+                <a href="/article/{{id}}/{{ version }}/{{ run }}" class="article-doi">{{ doi }}</a>
+            {{else}}
+                Not yet available ({{id}})
+            {{/if}}
         </h6>
         {{#if title}}
             <p>
@@ -12,7 +24,7 @@
             </p>
         {{/if}}
     </td>
-    <td class="column-2">
+    <td class="article__col article__col__info">
         <dl>
             {{#if version}}
                 {{#if doi}}
@@ -50,24 +62,28 @@
             {{/if}}
         </dl>
     </td>
-    {{#if scheduled-publication-date}}
-        <td class="column-3">
-            <p><strong><span class="text-uppercase">Scheduled</span><br/>{{elFormatUnixDate scheduled-publication-date "DD/MM/YYYY h:mma" }}</strong></p><br/>
-            <button class="btn btn-default schedule" id="schedule-amend" data-toggle="modal"
+
+    <td class="article__col article__col__action">
+        {{#if scheduled-publication-date}}
+            <p><strong><span
+                    class="text-uppercase">Scheduled</span><br/>{{elFormatUnixDate scheduled-publication-date "DD/MM/YYYY h:mma" }}
+            </strong></p><br/>
+            <button class="btn btn-default btn-block schedule" id="schedule-amend" data-toggle="modal"
                     data-target="#schedule-modal"
                     data-article-id="{{ id }}"
                     data-title="Re-schedule Article">
                 <span class="fa fa-calendar"></span>
                 Re-Schedule
             </button>
-            <button class="btn btn-default schedule" id="schedule-cancel" data-toggle="modal"
+            <button class="btn btn-default btn-block schedule" id="schedule-cancel" data-toggle="modal"
                     data-target="#schedule-modal"
                     data-article-id="{{ id }}"
                     data-title="Cancel Schedule">
                 <span class="fa fa-calendar-minus-o"></span>
                 Cancel
             </button>
-        </td>
-    {{/if}}
+        {{/if}}
+    </td>
+
 
 </tr>
