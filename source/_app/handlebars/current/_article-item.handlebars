@@ -19,42 +19,51 @@
         {{/if}}
     </td>
     <td class="article__col article__col__info">
-        <dl>
-            {{#if version}}
-                {{#if doi}}
+
+        {{#if version}}
+            {{#if doi}}
+                <dl>
                     <dt>
                         <a href="/article/{{id}}/{{ version }}/{{ run-id }}"><i>Version:</i></a>
                     </dt>
                     <dd>
                         <a href="/article/{{id}}/{{ version }}/{{ run-id }}">{{ version }}</a>
                     </dd>
-                {{/if}}
+                </dl>
             {{/if}}
-            {{#if article-type}}
+        {{/if}}
+        {{#if article-type}}
+            <dl>
                 <dt>
                     <a href="/article/{{id}}/{{ version }}/{{ run-id }}"><i>Article type:</i></a>
                 </dt>
                 <dd>
                     <a href="/article/{{id}}/{{ version }}/{{ run-id }}">{{ article-type }}</a>
                 </dd>
-            {{/if}}
-            {{#if publication-date}}
+            </dl>
+        {{/if}}
+        {{#if publication-date}}
+            <dl>
                 <dt>
                     <a href="/article/{{id}}/{{ version }}/{{ run-id }}"><i>Publication date:</i></a>
                 </dt>
                 <dd>
                     <a href="/article/{{id}}/{{ version }}/{{ run-id }}">{{publication-date}}{{!--{{elFormatUnixDate publication-date "Do MMMM YYYY" }}--}}</a>
                 </dd>
-            {{/if}}
-            {{#if corresponding-authors}}
+            </dl>
+        {{/if}}
+        {{#if corresponding-authors}}
+
+            <dl>
                 <dt>
                     <a href="/article/{{id}}/{{ version }}/{{ run-id }}"><i>Corresponding authors:</i></a>
                 </dt>
                 <dd>
                     <a href="/article/{{id}}/{{ version }}/{{ run-id }}">{{ corresponding-authors }}</a>
                 </dd>
-            {{/if}}
-        </dl>
+            </dl>
+        {{/if}}
+
     </td>
     <td class="article__col article__col__status">
         {{#isnt section 'uir'}}

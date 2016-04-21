@@ -18,6 +18,7 @@
 @import "patterns/atoms/lists";
 @import "patterns/atoms/loader";
 @import "patterns/atoms/sticky";
+@import "patterns/atoms/well";
 
 @import "patterns/molecules/article-detail-events";
 @import "patterns/molecules/articles-queue";
@@ -27,6 +28,7 @@
 @import "patterns/molecules/timepicker";
 @import "patterns/molecules/version-run-nav";
 
+@import "patterns/organisms/article-detail";
 @import "patterns/organisms/article-list";
 @import "patterns/organisms/header";
 

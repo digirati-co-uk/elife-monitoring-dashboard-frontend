@@ -1,21 +1,11 @@
 dl {
-  clear: both;
   margin: 0;
-
+  @include make-row(0px);
   dt {
-    float: left;
     font-weight: normal;
-    width: 30%;
+    @include make-xs-column(3,0px);
   }
-
   dd {
-    float: left;
-    width: 70%;
-
-    &.divide {
-      width: 35%;
-    }
-
+    @include make-xs-column(9,0px);
   }
-
 }
