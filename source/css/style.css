@@ -11,11 +11,11 @@
   z-index: 1;
 }
 
-.article-detail-events__status .fa {
+.article-event-timeline__status .fa {
   z-index: 1;
 }
 
-.article-detail-events__status .line {
+.article-event-timeline__status .line {
   z-index: 0;
 }
 
@@ -8131,22 +8131,22 @@ dl dd {
   background-color: #eeeeee;
 }
 
-.article-detail-events .article-detail-events__row {
+.article-event-timeline .article-event-timeline__row {
   margin-left: -15px;
   margin-right: -15px;
   padding-bottom: 10px;
 }
 
-.article-detail-events .article-detail-events__row:before, .article-detail-events .article-detail-events__row:after {
+.article-event-timeline .article-event-timeline__row:before, .article-event-timeline .article-event-timeline__row:after {
   content: " ";
   display: table;
 }
 
-.article-detail-events .article-detail-events__row:after {
+.article-event-timeline .article-event-timeline__row:after {
   clear: both;
 }
 
-.article-detail-events .article-detail-events__status {
+.article-event-timeline .article-event-timeline__status {
   position: relative;
   min-height: 1px;
   padding-left: 0px;
@@ -8155,13 +8155,13 @@ dl dd {
 }
 
 @media (min-width: 768px) {
-  .article-detail-events .article-detail-events__status {
+  .article-event-timeline .article-event-timeline__status {
     float: left;
     width: 16.6666666667%;
   }
 }
 
-.article-detail-events .article-detail-events__title {
+.article-event-timeline .article-event-timeline__title {
   position: relative;
   min-height: 1px;
   padding-left: 0px;
@@ -8169,17 +8169,17 @@ dl dd {
 }
 
 @media (min-width: 768px) {
-  .article-detail-events .article-detail-events__title {
+  .article-event-timeline .article-event-timeline__title {
     float: left;
     width: 25%;
   }
 }
 
-.article-detail-events .article-detail-events__title p {
+.article-event-timeline .article-event-timeline__title p {
   padding: 15px 0px;
 }
 
-.article-detail-events .article-detail-events__detail {
+.article-event-timeline .article-event-timeline__detail {
   position: relative;
   min-height: 1px;
   padding-left: 0px;
@@ -8187,38 +8187,38 @@ dl dd {
 }
 
 @media (min-width: 768px) {
-  .article-detail-events .article-detail-events__detail {
+  .article-event-timeline .article-event-timeline__detail {
     float: left;
     width: 58.3333333333%;
   }
 }
 
-.article-detail-events .article-detail-events__detail div {
+.article-event-timeline .article-event-timeline__detail div {
   min-height: 90px;
   font-size: 12px;
   padding-top: 15px;
 }
 
-.article-detail-events .article-detail-events__row:last-of-type .line {
+.article-event-timeline .article-event-timeline__row:last-of-type .line {
   display: none;
   background: none;
 }
 
-.article-detail-events .article-detail-events__status {
+.article-event-timeline .article-event-timeline__status {
   position: relative;
 }
 
-.article-detail-events .article-detail-events__status .fa {
+.article-event-timeline .article-event-timeline__status .fa {
   position: relative;
 }
 
-.article-detail-events .article-detail-events__status .line {
+.article-event-timeline .article-event-timeline__status .line {
   position: absolute;
   top: 0px;
   left: 50%;
   height: 100px;
   width: 2px;
-  background: url("../images/molecules/article-detail-events-bg.png") center repeat-y;
+  background: url("../images/molecules/article-event-timeline-bg.png") center repeat-y;
 }
 
 #articles-queue {
