@@ -3,9 +3,9 @@ dl {
   @include make-row(0px);
   dt {
     font-weight: normal;
-    @include make-xs-column(3,0px);
+    @include make-xs-column(4,0px);
   }
   dd {
-    @include make-xs-column(9,0px);
+    @include make-xs-column(8,0px);
   }
 }

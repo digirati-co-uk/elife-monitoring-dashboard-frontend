@@ -1,54 +1,75 @@
 <div id="articleStats">
-    <div class="section-map">
+    <div class="article-stats">
 
-        <div class="col-sm-3">
-            <a href="#error-list">
-                {{>atoms-icon-error(class: 'pull-left lg')}}
-            </a>
-            <div class="text-center">
-                <a href="#error-list">
-                    <span class="val">1</span><br>
-                    <span class="desc">Article with Errors</span>
-                </a>
+        <div class="article-stats__section">
+
+            <div class="stats__section__row">
+                <div class="stats__section__icon">
+                    <a href="#error-list" class="icon">
+                        {{>atoms-icon-error(class: 'md')}}
+                    </a>
+                </div>
+                <div class="stats__section__detail">
+                    <a href="#error-list">
+                        <span class="stats__section__val">1</span><br>
+                        <span class="stats__section__desc">Articles with Errors</span>
+                    </a>
+                </div>
             </div>
+
+
         </div>
 
-        <div class="col-sm-3">
-            <a href="#inprogress-list">
-                {{>atoms-icon-inprogress(class: 'pull-left lg')}}
-            </a>
-            <div class="text-center">
-                <a href="#inprogress-list">
-                    <span class="val">1</span><br>
-                    <span class="desc">Article in Progress</span>
-                </a>
+        <div class="article-stats__section">
+
+            <div class="stats__section__row">
+                <div class="stats__section__icon">
+                    <a href="#in-progress-list" class="icon">{{>atoms-icon-inprogress(class: 'md')}}</a>
+                </div>
+                <div class="stats__section__detail">
+                    <a href="#inProgress-list">
+                        <span class="stats__section__val">1</span><br>
+                        <span class="stats__section__desc">Articles are in Progress</span>
+                    </a>
+                </div>
             </div>
+
+
         </div>
 
-        <div class="col-sm-3">
-            <a href="#uir-list">
-                {{>atoms-icon-uir(class: 'pull-left lg')}}
-            </a>
-            <div class="text-center">
-                <a href="#uir-list">
-                    <span class="val">1</span><br>
-                    <span class="desc">Article requires User Input<br>(Ready to Publish)</span>
-                </a>
+        <div class="article-stats__section">
+
+            <div class="stats__section__row">
+                <div class="stats__section__icon">
+                    <a href="#uir-list" class="icon">{{>atoms-icon-uir(class: 'md')}}</a>
+                </div>
+                <div class="stats__section__detail">
+                    <a href="#uir-list">
+                        <span class="stats__section__val">14</span><br>
+                        <span class="stats__section__desc">Articles require User Input<br>(Ready to Publish)</span>
+                    </a>
+                </div>
             </div>
+
+
         </div>
 
-        <div class="col-sm-3">
-            <a href="#scheduled-list">
-                {{>atoms-icon-scheduled(class: 'pull-left lg')}}
-            </a>
-            <div class="text-center">
-                <a href="#scheduled-list">
-                    <span class="val">1</span><br>
-                    <span class="desc">Article Scheduled</span>
-                </a>
+        <div class="article-stats__section">
+
+            <div class="stats__section__row">
+                <div class="stats__section__icon">
+                    <a href="#scheduled-list" class="icon">{{>atoms-icon-scheduled(class: 'md')}}</a>
+                </div>
+                <div class="stats__section__detail">
+                    <a href="#scheduled-list">
+                        <span class="stats__section__val">5</span><br>
+                        <span class="stats__section__desc">Articles are Scheduled</span>
+                    </a>
+                </div>
             </div>
+
+
         </div>
     </div>
-
 
 </div>

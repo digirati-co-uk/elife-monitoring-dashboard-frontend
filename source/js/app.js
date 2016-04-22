@@ -588,38 +588,53 @@ this["eLife"]["templates"]["current/article-stats-template"] = Handlebars.templa
 },"2":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
 
-  return ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,blockParams[1][1],"error",{"name":"is","hash":{},"fn":container.program(3, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+  return "            <div class=\"article-stats__section\">\n\n                <div class=\"stats__section__row\">\n                    <div class=\"stats__section__icon\">\n"
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,blockParams[1][1],"error",{"name":"is","hash":{},"fn":container.program(3, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,blockParams[1][1],"inProgress",{"name":"is","hash":{},"fn":container.program(5, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,blockParams[1][1],"uir",{"name":"is","hash":{},"fn":container.program(7, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
-    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,blockParams[1][1],"scheduled",{"name":"is","hash":{},"fn":container.program(9, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "");
-},"3":function(container,depth0,helpers,partials,data,blockParams) {
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,blockParams[1][1],"scheduled",{"name":"is","hash":{},"fn":container.program(9, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + "                    </div>\n                    <div class=\"stats__section__detail\">\n"
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,blockParams[1][1],"error",{"name":"is","hash":{},"fn":container.program(11, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,blockParams[1][1],"inProgress",{"name":"is","hash":{},"fn":container.program(13, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,blockParams[1][1],"uir",{"name":"is","hash":{},"fn":container.program(15, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,blockParams[1][1],"scheduled",{"name":"is","hash":{},"fn":container.program(17, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + "                    </div>\n                </div>\n\n\n            </div>\n";
+},"3":function(container,depth0,helpers,partials,data) {
+    return "                            <a href=\"#error-list\" class=\"icon\"><span class=\"fa e-icon md danger fa-exclamation-triangle\"></span></a>\n";
+},"5":function(container,depth0,helpers,partials,data) {
+    return "                            <a href=\"#in-progress-list\" class=\"icon\"><span class=\"fa e-icon md info fa-cog\"></span></a>\n";
+},"7":function(container,depth0,helpers,partials,data) {
+    return "                            <a href=\"#uir-list\" class=\"icon\"><span class=\"fa e-icon md muted fa-hand-o-down \"></span></a>\n";
+},"9":function(container,depth0,helpers,partials,data) {
+    return "                            <a href=\"#scheduled-list\" class=\"icon\"><span class=\"fa e-icon md warning fa-clock-o\"></span></a>\n";
+},"11":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                <div class=\"col-sm-3\">\n                    <a href=\"#error-list\">\n                        <span class=\"fa e-icon lg danger fa-exclamation-triangle\"></span>\n                    </a>\n                    <div class=\"text-center\">\n                        <a href=\"#error-list\">\n                            <span class=\"val\">"
+  return "                            <a href=\"#error-list\">\n                                <span class=\"stats__section__val\">"
     + container.escapeExpression(container.lambda(((stack1 = blockParams[2][0]) != null ? stack1.length : stack1), depth0))
-    + "</span><br>\n                            <span class=\"desc\">Articles with Errors</span>\n                        </a>\n                    </div>\n                </div>\n";
-},"5":function(container,depth0,helpers,partials,data,blockParams) {
+    + "</span><br>\n                                <span class=\"stats__section__desc\">Articles with Errors</span>\n                            </a>\n";
+},"13":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                <div class=\"col-sm-3\">\n                    <a href=\"#in-progress-list\">\n                        <span class=\"fa e-icon lg info fa-cog\"></span>\n                    </a>\n                    <div class=\"text-center\">\n                        <a href=\"#inProgress-list\">\n                            <span class=\"val\">"
+  return "                            <a href=\"#inProgress-list\">\n                                <span class=\"stats__section__val\">"
     + container.escapeExpression(container.lambda(((stack1 = blockParams[2][0]) != null ? stack1.length : stack1), depth0))
-    + "</span><br>\n                            <span class=\"desc\">Articles are in Progress</span>\n                        </a>\n                    </div>\n                </div>\n";
-},"7":function(container,depth0,helpers,partials,data,blockParams) {
+    + "</span><br>\n                                <span class=\"stats__section__desc\">Articles are in Progress</span>\n                            </a>\n";
+},"15":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                <div class=\"col-sm-3\">\n                    <a href=\"#uir-list\">\n                        <span class=\"fa e-icon lg muted fa-hand-o-down \"></span>\n                    </a>\n                    <div class=\"text-center\">\n                        <a href=\"#uir-list\">\n                            <span class=\"val\">"
+  return "                            <a href=\"#uir-list\">\n                                <span class=\"stats__section__val\">"
     + container.escapeExpression(container.lambda(((stack1 = blockParams[2][0]) != null ? stack1.length : stack1), depth0))
-    + "</span><br>\n                            <span class=\"desc\">Articles require User Input<br>(Ready to Publish)</span>\n                        </a>\n                    </div>\n                </div>\n";
-},"9":function(container,depth0,helpers,partials,data,blockParams) {
+    + "</span><br>\n                                <span class=\"stats__section__desc\">Articles require User Input<br>(Ready to Publish)</span>\n                            </a>\n";
+},"17":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "                <div class=\"col-sm-3\">\n                    <a href=\"#scheduled-list\">\n                        <span class=\"fa e-icon lg warning fa-clock-o\"></span>\n                    </a>\n                    <div class=\"text-center\">\n                        <a href=\"#scheduled-list\">\n                            <span class=\"val\">"
+  return "                            <a href=\"#scheduled-list\">\n                                <span class=\"stats__section__val\">"
     + container.escapeExpression(container.lambda(((stack1 = blockParams[2][0]) != null ? stack1.length : stack1), depth0))
-    + "</span><br>\n                            <span class=\"desc\">Articles are Scheduled</span>\n                        </a>\n                    </div>\n                </div>\n";
+    + "</span><br>\n                                <span class=\"stats__section__desc\">Articles are Scheduled</span>\n                            </a>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "<div class=\"section-map\">\n"
+  return "<div class=\"article-stats\">\n"
     + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},depth0,{"name":"each","hash":{},"fn":container.program(1, data, 2, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "</div>\n\n\n";
 },"useData":true,"useBlockParams":true});
@@ -631,7 +646,7 @@ this["eLife"]["templates"]["current/article"] = Handlebars.template({"1":functio
 },"2":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1, alias1=depth0 != null ? depth0 : {};
 
-  return "        <section class=\"sticky\" id=\""
+  return "        <section class=\"article-list-section sticky\" id=\""
     + container.escapeExpression(container.lambda(blockParams[1][1], depth0))
     + "-list\">\n"
     + ((stack1 = (helpers.is || (depth0 && depth0.is) || helpers.helperMissing).call(alias1,blockParams[1][1],"uir",{"name":"is","hash":{},"fn":container.program(3, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
@@ -870,7 +885,7 @@ this["eLife"]["templates"]["scheduled/scheduled-content-calendar"] = Handlebars.
 this["eLife"]["templates"]["scheduled/scheduled-content-list"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "    <section class=\"scheduled-list sticky\" id=\"scheduled-list\">\n        <table class=\"article-list\">\n            <tbody>\n"
+  return "    <section class=\"article-list-section sticky\" id=\"scheduled-list\">\n        <table class=\"article-list\">\n            <tbody>\n"
     + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.scheduled : depth0)) != null ? stack1.articles : stack1),{"name":"each","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "            </tbody>\n        </table>\n    </section>\n";
 },"2":function(container,depth0,helpers,partials,data) {

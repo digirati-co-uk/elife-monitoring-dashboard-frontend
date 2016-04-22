@@ -8026,7 +8026,7 @@ dl dt {
   font-weight: normal;
   position: relative;
   float: left;
-  width: 25%;
+  width: 33.3333333333%;
   min-height: 1px;
   padding-left: 0px;
   padding-right: 0px;
@@ -8035,7 +8035,7 @@ dl dt {
 dl dd {
   position: relative;
   float: left;
-  width: 75%;
+  width: 66.6666666667%;
   min-height: 1px;
   padding-left: 0px;
   padding-right: 0px;
@@ -8123,6 +8123,8 @@ dl dd {
   position: fixed;
   top: 0px;
   z-index: 1;
+  -webkit-box-shadow: 0px 25px 45px -34px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 25px 45px -34px rgba(0, 0, 0, 0.75);
 }
 
 .elf-well {
@@ -8221,6 +8223,12 @@ dl dd {
   background: url("../images/molecules/article-event-timeline-bg.png") center repeat-y;
 }
 
+.article-detail {
+  border-bottom: 1px solid #c8c8c8;
+  margin: 20px 0;
+  position: relative;
+}
+
 #articles-queue {
   margin-top: 5px;
   padding: 0 15px;
@@ -8229,6 +8237,96 @@ dl dd {
 #articles-queue li {
   list-style-type: square;
   padding: 5px 0;
+}
+
+.article-stats,
+.stats__section__row {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+
+.article-stats:before, .article-stats:after,
+.stats__section__row:before,
+.stats__section__row:after {
+  content: " ";
+  display: table;
+}
+
+.article-stats:after,
+.stats__section__row:after {
+  clear: both;
+}
+
+.article-stats {
+  padding: 10px 0;
+  background-color: #f5f5f5;
+  border: 1px solid #c8c8c8;
+}
+
+.article-stats a {
+  color: #333333;
+  text-decoration: none;
+}
+
+.article-stats a:hover {
+  color: #333333;
+}
+
+.article-stats .article-stats__section {
+  position: relative;
+  min-height: 1px;
+  padding-left: 0px;
+  padding-right: 0px;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .article-stats .article-stats__section {
+    float: left;
+    width: 25%;
+  }
+}
+
+.article-stats .stats__section__icon {
+  position: relative;
+  min-height: 1px;
+  padding-left: 0px;
+  padding-right: 0px;
+  text-align: right;
+}
+
+@media (min-width: 768px) {
+  .article-stats .stats__section__icon {
+    float: left;
+    width: 41.6666666667%;
+  }
+}
+
+.article-stats .stats__section__icon .icon {
+  padding-top: 10px;
+  display: block;
+}
+
+.article-stats .stats__section__detail {
+  position: relative;
+  min-height: 1px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+@media (min-width: 768px) {
+  .article-stats .stats__section__detail {
+    float: left;
+    width: 58.3333333333%;
+  }
+}
+
+.article-stats .stats__section__val {
+  font-size: 3.6rem;
+}
+
+.article-stats .stats__section__desc {
+  font-weight: 300;
 }
 
 .loading-template {
@@ -8520,6 +8618,12 @@ Its currently used in the schedule modal popup
   font-size: 1.2rem;
 }
 
+.article-list-section {
+  border-bottom: 1px solid #c8c8c8;
+  margin: 20px 0;
+  position: relative;
+}
+
 .article-list {
   font-size: 1.2rem;
   width: 100%;
@@ -8601,86 +8705,6 @@ Its currently used in the schedule modal popup
   line-height: 1.8;
   margin: 10px 0;
   padding-left: 45px;
-}
-
-/*------------------------------------*    $LAYOUT
-\*------------------------------------*/
-.section-map {
-  background-color: #f5f5f5;
-  border: 1px solid #c8c8c8;
-  overflow: auto;
-  padding: 15px 0 15px 80px;
-}
-
-@media (max-width: 1199px) {
-  .section-map {
-    padding: 15px 0 15px 40px;
-    text-align: center;
-  }
-}
-
-@media (max-width: 991px) {
-  .section-map {
-    padding: 15px 0;
-  }
-}
-
-.section-map a {
-  text-decoration: none;
-}
-
-.section-map a:hover {
-  text-decoration: none;
-}
-
-.section-map span.glyphicon {
-  float: left;
-  margin-top: 45px;
-  transform: translateY(-50%);
-}
-
-@media (max-width: 991px) {
-  .section-map span.glyphicon {
-    float: none;
-  }
-}
-
-.section-map span.val {
-  font-size: 3.6rem;
-}
-
-.section-map span.desc {
-  font-weight: 300;
-}
-
-.section-map .text-center {
-  float: left;
-  width: 112px;
-}
-
-@media (max-width: 991px) {
-  .section-map .text-center {
-    display: block;
-    float: none;
-    margin: -28px auto 0;
-  }
-}
-
-section {
-  border-bottom: 1px solid #c8c8c8;
-  margin-top: 20px;
-  position: relative;
-}
-
-section.version-run-nav {
-  border: 0;
-  padding-left: 0;
-}
-
-@media (max-width: 767px) {
-  section.version-run-nav {
-    padding: 0;
-  }
 }
 
 /*# sourceMappingURL=style.css.map */

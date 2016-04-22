@@ -1,0 +1,42 @@
+.article-stats,
+.stats__section__row {
+  @include make-row();
+}
+
+.article-stats {
+  padding: 10px 0;
+  background-color: $LightGrey6;
+  border: 1px solid $LightGrey5;
+
+  a {
+    color: $text-color;
+    text-decoration: none;
+    &:hover {
+      color: $text-color;
+    }
+  }
+
+  .article-stats__section {
+    @include make-sm-column(3, 0px);
+    text-align: center;
+  }
+
+  .stats__section__icon {
+    @include make-sm-column(5, 0px);
+    text-align: right;
+    .icon {
+      padding-top: 10px;
+      display: block;
+    }
+  }
+  .stats__section__detail {
+    @include make-sm-column(7, 0px);
+  }
+  .stats__section__val {
+    font-size: 3.6rem;
+  }
+  .stats__section__desc {
+    font-weight: 300;
+  }
+
+}

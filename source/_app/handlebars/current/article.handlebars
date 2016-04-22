@@ -2,7 +2,7 @@
 {{> article-schedule-modal}}
 {{#each this as |articles articleSection|}}
     {{# if articles.length}}
-        <section class="sticky" id="{{articleSection}}-list">
+        <section class="article-list-section sticky" id="{{articleSection}}-list">
             {{#is articleSection 'uir'}}
                 <button href="#" class="btn btn-default btn-publish-all-selected btn-publish-queued" data-toggle="modal"
                         data-target="#publish-modal" type="button">
