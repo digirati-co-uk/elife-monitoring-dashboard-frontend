@@ -1,6 +1,6 @@
 .navbar-elf {
   border: 0px;
-  background-color: darken($gray-lighter, 5%);
+  background-color: darken($gray-lighter, 2%);
   a {
     color: $gray;
     text-decoration: none;
@@ -12,9 +12,9 @@
     padding: 0;
     &.in {
       overflow-x: hidden;
-    }
-    .dropdown-menu {
-      padding-left: 35px;
+      .dropdown-menu {
+        padding-left: 35px;
+      }
     }
   }
   .navbar-toggle {

@@ -6371,7 +6371,7 @@ dl dd {
 
 .navbar-elf {
   border: 0px;
-  background-color: #e2e2e2;
+  background-color: #e9e9e9;
 }
 
 .navbar-elf a {
@@ -6391,7 +6391,7 @@ dl dd {
   overflow-x: hidden;
 }
 
-.navbar-elf .navbar-collapse .dropdown-menu {
+.navbar-elf .navbar-collapse.in .dropdown-menu {
   padding-left: 35px;
 }
 
