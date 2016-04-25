@@ -185,7 +185,9 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
     + alias3((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["scheduled-publication-date"] : depth0),"DD/MM/YYYY h:mma",{"name":"elFormatUnixDate","hash":{},"data":data}))
     + "\n                </strong></p><br/>\n                <button class=\"btn btn-default schedule\" id=\"schedule-amend\" data-toggle=\"modal\"\n                        data-target=\"#schedule-modal\"\n                        data-article-id=\""
     + alias3(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias4 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\"\n                        data-title=\"Re-schedule Article\">\n                    <span class=\"fa fa-calendar\"></span>\n                    Re-Schedule\n                </button>\n                <button class=\"btn btn-default schedule\" id=\"schedule-cancel\" data-toggle=\"modal\"\n                        data-target=\"#schedule-modal\"\n                        data-article-id=\""
+    + "\"\n                        data-title=\"Re-schedule Article\"\n                        data-scheduled=\""
+    + alias3((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["scheduled-publication-date"] : depth0),"DD/MM/YYYY",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + "\">\n                    <span class=\"fa fa-calendar\"></span>\n                    Re-Schedule\n                </button>\n                <button class=\"btn btn-default schedule\" id=\"schedule-cancel\" data-toggle=\"modal\"\n                        data-target=\"#schedule-modal\"\n                        data-article-id=\""
     + alias3(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias4 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\"\n                        data-title=\"Cancel Schedule\">\n                    <span class=\"fa fa-calendar-minus-o\"></span>\n                    Cancel\n                </button>\n";
 },"30":function(container,depth0,helpers,partials,data) {
@@ -535,7 +537,9 @@ Handlebars.registerPartial("scheduled-article-item", Handlebars.template({"1":fu
     + alias3((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["scheduled-publication-date"] : depth0),"DD/MM/YYYY h:mma",{"name":"elFormatUnixDate","hash":{},"data":data}))
     + "</strong></p><br/>\n            <button class=\"btn btn-default schedule\" id=\"schedule-amend\" data-toggle=\"modal\"\n                    data-target=\"#schedule-modal\"\n                    data-article-id=\""
     + alias3(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias4 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\"\n                    data-title=\"Re-schedule Article\">\n                <span class=\"fa fa-calendar\"></span>\n                Re-Schedule\n            </button>\n            <button class=\"btn btn-default schedule\" id=\"schedule-cancel\" data-toggle=\"modal\"\n                    data-target=\"#schedule-modal\"\n                    data-article-id=\""
+    + "\"\n                    data-title=\"Re-schedule Article\"\n                    data-scheduled=\""
+    + alias3((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["scheduled-publication-date"] : depth0),"DD/MM/YYYY",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + "\">\n                <span class=\"fa fa-calendar\"></span>\n                Re-Schedule\n            </button>\n            <button class=\"btn btn-default schedule\" id=\"schedule-cancel\" data-toggle=\"modal\"\n                    data-target=\"#schedule-modal\"\n                    data-article-id=\""
     + alias3(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias4 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\"\n                    data-title=\"Cancel Schedule\">\n                <span class=\"fa fa-calendar-minus-o\"></span>\n                Cancel\n            </button>\n        </td>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -1214,6 +1218,7 @@ app.schedule = {
       this.articleModalBodyTemplate = eLife.templates['schedule/article-schedule-modal-body'];
       this.articleModalFooterTemplate = eLife.templates['schedule/article-schedule-modal-footer'];
       this.articleId = null;
+      this.articleScheduled = null;
       this.scheduleDate = null;
       this.scheduleTime = null;
       this.scheduleDateTime = null;
@@ -1234,7 +1239,7 @@ app.schedule = {
     $(document).on('show.bs.modal', this.updateModal.bind(this));
     $(document).on('hide.bs.modal', this.resetParameters.bind(this));
     $(document).on('keyup', '.timepicker', this.setTime.bind(this));
-    $(document).on('change', '.ampmpicker', this.setTime.bind(this));
+    $(document).on('keyup', '.ampmpicker', this.setTime.bind(this));
     $(document).on('click', '#schedule-modal .close', this.refreshPage.bind(this));
     $(document).on('click', '#schedule-modal #schedule-close', this.refreshPage.bind(this));
     $(document).on('keyup', '#schedule-modal #schedule-id', this.checkScheduleId.bind(this));
@@ -1260,6 +1265,7 @@ app.schedule = {
         {from: [0, 0, 0], to: yesterday},
       ],
       format: 'mmmm d, yyyy',
+      formatSubmit: 'dd/mm/yyyy',
       onSet: function(context) {
         app.schedule.scheduleDate = context.select;
         app.schedule.enableSchedule();
@@ -1362,8 +1368,10 @@ app.schedule = {
   setParameters: function(e) {
     this.setModalTitle($(e.relatedTarget));
     var articleId = $(e.relatedTarget).attr('data-article-id');
+    var articleScheduled = ($(e.relatedTarget).attr('data-scheduled')) ? $(e.relatedTarget).attr('data-scheduled') : false;
     var data = {actionType: 'schedule', includeArticleId: false};
     this.articleId = articleId;
+    this.articleScheduled = articleScheduled;
     this.scheduleActionType = $(e.relatedTarget).attr('id');
     if (this.scheduleActionType === 'schedule-cancel') {
       data.actionType = 'cancel';
@@ -1377,6 +1385,12 @@ app.schedule = {
 
     $('#schedule-modal .modal-body').html(this.articleModalBodyTemplate(data));
     $('#schedule-modal .modal-footer').html(this.articleModalFooterTemplate(data));
+
+    if (this.articleScheduled) {
+      $('.datepicker').attr('data-value', '').attr('data-value', this.articleScheduled);
+      this.scheduleDate = this.articleScheduled;
+      this.enableSchedule();
+    }
 
   },
 

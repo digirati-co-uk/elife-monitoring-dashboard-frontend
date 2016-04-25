@@ -99,7 +99,8 @@
                 <button class="btn btn-default schedule" id="schedule-amend" data-toggle="modal"
                         data-target="#schedule-modal"
                         data-article-id="{{ id }}"
-                        data-title="Re-schedule Article">
+                        data-title="Re-schedule Article"
+                        data-scheduled="{{elFormatUnixDate scheduled-publication-date "DD/MM/YYYY"}}">
                     <span class="fa fa-calendar"></span>
                     Re-Schedule
                 </button>
