@@ -41,27 +41,27 @@
 
   // green
   &.success {
-    background-color: $Green;
-    color: $Green-txt;
+    background-color: $icon-success-bg;
+    color: $icon-success-text;
   }
   // red
   &.danger {
-    background-color: $Pink;
-    color: $Pink-txt;
+    background-color: $icon-danger-bg;
+    color: $icon-danger-text;
   }
   // orange
   &.warning {
-    background-color: $Orange;
-    color: $Orange-txt;
+    background-color: $icon-warning-bg;
+    color: $icon-warning-text;
   }
   // blue
   &.info {
-    background-color: $Teal;
-    color: $Teal-txt;
+    background-color: $icon-info-bg;
+    color: $icon-info-text;
   }
   // grey
   &.muted {
-    background-color: $LightGrey2;
-    color: $LightGrey2-txt;
+    background-color: lighten($text-muted, 45%);
+    color: $text-muted;
   }
 }

@@ -4516,15 +4516,15 @@ tbody.collapse.in {
   margin-left: 0;
 }
 
-.nav-justified, .nav-tabs.nav-justified {
+.nav-justified, .nav-tabs.nav-justified, .elf-nav-tabs.nav-justified {
   width: 100%;
 }
 
-.nav-justified > li, .nav-tabs.nav-justified > li {
+.nav-justified > li, .nav-tabs.nav-justified > li, .elf-nav-tabs.nav-justified > li {
   float: none;
 }
 
-.nav-justified > li > a, .nav-tabs.nav-justified > li > a {
+.nav-justified > li > a, .nav-tabs.nav-justified > li > a, .elf-nav-tabs.nav-justified > li > a {
   text-align: center;
   margin-bottom: 5px;
 }
@@ -4535,38 +4535,38 @@ tbody.collapse.in {
 }
 
 @media (min-width: 768px) {
-  .nav-justified > li, .nav-tabs.nav-justified > li {
+  .nav-justified > li, .nav-tabs.nav-justified > li, .elf-nav-tabs.nav-justified > li {
     display: table-cell;
     width: 1%;
   }
-  .nav-justified > li > a, .nav-tabs.nav-justified > li > a {
+  .nav-justified > li > a, .nav-tabs.nav-justified > li > a, .elf-nav-tabs.nav-justified > li > a {
     margin-bottom: 0;
   }
 }
 
-.nav-tabs-justified, .nav-tabs.nav-justified {
+.nav-tabs-justified, .nav-tabs.nav-justified, .elf-nav-tabs.nav-justified {
   border-bottom: 0;
 }
 
-.nav-tabs-justified > li > a, .nav-tabs.nav-justified > li > a {
+.nav-tabs-justified > li > a, .nav-tabs.nav-justified > li > a, .elf-nav-tabs.nav-justified > li > a {
   margin-right: 0;
   border-radius: 4px;
 }
 
-.nav-tabs-justified > .active > a, .nav-tabs.nav-justified > .active > a,
-.nav-tabs-justified > .active > a:hover, .nav-tabs.nav-justified > .active > a:hover,
-.nav-tabs-justified > .active > a:focus, .nav-tabs.nav-justified > .active > a:focus {
+.nav-tabs-justified > .active > a, .nav-tabs.nav-justified > .active > a, .elf-nav-tabs.nav-justified > .active > a,
+.nav-tabs-justified > .active > a:hover, .nav-tabs.nav-justified > .active > a:hover, .elf-nav-tabs.nav-justified > .active > a:hover,
+.nav-tabs-justified > .active > a:focus, .nav-tabs.nav-justified > .active > a:focus, .elf-nav-tabs.nav-justified > .active > a:focus {
   border: 1px solid #ddd;
 }
 
 @media (min-width: 768px) {
-  .nav-tabs-justified > li > a, .nav-tabs.nav-justified > li > a {
+  .nav-tabs-justified > li > a, .nav-tabs.nav-justified > li > a, .elf-nav-tabs.nav-justified > li > a {
     border-bottom: 1px solid #ddd;
     border-radius: 4px 4px 0 0;
   }
-  .nav-tabs-justified > .active > a, .nav-tabs.nav-justified > .active > a,
-  .nav-tabs-justified > .active > a:hover, .nav-tabs.nav-justified > .active > a:hover,
-  .nav-tabs-justified > .active > a:focus, .nav-tabs.nav-justified > .active > a:focus {
+  .nav-tabs-justified > .active > a, .nav-tabs.nav-justified > .active > a, .elf-nav-tabs.nav-justified > .active > a,
+  .nav-tabs-justified > .active > a:hover, .nav-tabs.nav-justified > .active > a:hover, .elf-nav-tabs.nav-justified > .active > a:hover,
+  .nav-tabs-justified > .active > a:focus, .nav-tabs.nav-justified > .active > a:focus, .elf-nav-tabs.nav-justified > .active > a:focus {
     border-bottom-color: #fff;
   }
 }
@@ -5819,7 +5819,7 @@ button.close {
 }
 
 .archive-page .filter .filter-search {
-  border-bottom: 1px solid #c8c8c8;
+  border-bottom: 1px solid #eeeeee;
   padding: 0 0 15px;
 }
 
@@ -6023,8 +6023,8 @@ button.close {
 }
 
 .e-icon.muted {
-  background-color: #ebebeb;
-  color: #969696;
+  background-color: #eaeaea;
+  color: #777777;
 }
 
 dl {
@@ -6149,7 +6149,7 @@ dl dd {
 
 .elf-well {
   padding: 15px;
-  border-top: 1px solid #c8c8c8;
+  border-top: 1px solid #e2e2e2;
   background-color: #eeeeee;
 }
 
@@ -6244,7 +6244,7 @@ dl dd {
 }
 
 .article-detail {
-  border-bottom: 1px solid #c8c8c8;
+  border-bottom: 1px solid #e2e2e2;
   margin: 20px 0;
   position: relative;
 }
@@ -6279,8 +6279,8 @@ dl dd {
 
 .article-stats {
   padding: 10px 0;
-  background-color: #f5f5f5;
-  border: 1px solid #c8c8c8;
+  background-color: #fbfbfb;
+  border: 1px solid #e2e2e2;
 }
 
 .article-stats a {
@@ -6413,33 +6413,37 @@ dl dd {
 }
 
 /* @TODO page tabs */
-.nav-tabs {
-  border: 0;
+.elf-nav-tabs {
   margin-bottom: 20px;
+  border: 0px;
 }
 
-.nav-tabs li:not(:first-child) a {
-  border-left: 0;
+.elf-nav-tabs > li {
+  float: left;
+  margin-bottom: -1px;
 }
 
-.nav-tabs li.active:not(:first-child) a {
-  border-left: 0;
-}
-
-.nav-tabs li a {
-  margin-right: 0px;
-  background-color: #ebebeb;
-  border-radius: 0;
-  border: 1px solid #ddd;
-  color: #616161;
+.elf-nav-tabs > li > a {
+  color: #333333;
+  background-color: #eeeeee;
   padding: 10px 40px;
-  text-decoration: none;
+  line-height: 1.428571429;
+  border: 1px solid transparent;
+  border-top-color: #e2e2e2;
+  border-right-color: #e2e2e2;
 }
 
-.nav-tabs li a:hover {
-  background-color: white;
-  border-color: #ddd;
-  color: #616161;
+.elf-nav-tabs > li > a:first-of-type {
+  border-left-color: #e2e2e2;
+}
+
+.elf-nav-tabs > li > a:hover {
+  background-color: #e2e2e2;
+}
+
+.elf-nav-tabs > li.active > a {
+  background-color: transparent;
+  cursor: default;
 }
 
 /**
@@ -6615,7 +6619,7 @@ Its currently used in the schedule modal popup
 }
 
 .article-list-section {
-  border-bottom: 1px solid #c8c8c8;
+  border-bottom: 1px solid #e2e2e2;
   margin: 20px 0;
   position: relative;
 }
@@ -6654,7 +6658,7 @@ Its currently used in the schedule modal popup
 }
 
 .article-list .article__row {
-  border-top: 1px solid #c8c8c8;
+  border-top: 1px solid #e2e2e2;
   vertical-align: top;
 }
 

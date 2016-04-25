@@ -5,8 +5,8 @@
 
 .article-stats {
   padding: 10px 0;
-  background-color: $LightGrey6;
-  border: 1px solid $LightGrey5;
+  background-color: lighten($gray-lighter, 5%);
+  border: 1px solid darken($gray-lighter, 5%);
 
   a {
     color: $text-color;
