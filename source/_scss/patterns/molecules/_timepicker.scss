@@ -10,14 +10,14 @@ Its currently used in the schedule modal popup
   .timepicker-minute,
   .timepicker-ampm {
     float: left;
-    width: 15%;
-    padding-right: 5px;
+    width: 20%;
+    margin-right: 5px;
   }
   .timepicker-divider {
     width: auto;
     line-height: $input-height-base;
   }
-  .timepicker-minute {
-    width: 20%;
+  .timepicker-ampm {
+    margin-left: 10px;
   }
 }

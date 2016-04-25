@@ -5468,7 +5468,7 @@ button.close {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   }
   .modal-sm {
-    width: 300px;
+    width: 400px;
   }
 }
 
@@ -6466,8 +6466,8 @@ Its currently used in the schedule modal popup
 .timepicker .timepicker-minute,
 .timepicker .timepicker-ampm {
   float: left;
-  width: 15%;
-  padding-right: 5px;
+  width: 20%;
+  margin-right: 5px;
 }
 
 .timepicker .timepicker-divider {
@@ -6475,8 +6475,8 @@ Its currently used in the schedule modal popup
   line-height: 34px;
 }
 
-.timepicker .timepicker-minute {
-  width: 20%;
+.timepicker .timepicker-ampm {
+  margin-left: 10px;
 }
 
 .version-run-nav-list,
