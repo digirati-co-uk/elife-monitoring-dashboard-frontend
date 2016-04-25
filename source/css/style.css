@@ -6494,14 +6494,17 @@ Its currently used in the schedule modal popup
 }
 
 .version-run-nav-list {
-  background-color: #f5f5f5;
-  border: 1px solid #c8c8c8;
+  border: 1px solid #afafaf;
+}
+
+.version-run-nav-list li {
+  background-color: #c8c8c8;
 }
 
 .version-run-nav-list li .version-container {
-  background-color: #c8c8c8;
-  border-top: 1px solid #c8c8c8;
-  border-bottom: 1px solid #c8c8c8;
+  font-weight: 500;
+  border-top: 1px solid #afafaf;
+  border-bottom: 1px solid #afafaf;
 }
 
 .version-run-nav-list li:first-child .version-container {
@@ -6512,16 +6515,20 @@ Its currently used in the schedule modal popup
   border-bottom: 0px;
 }
 
-.version-run-nav-list .run-container li:nth-child(even) {
-  background-color: #ececec;
+.version-run-nav-list .run-container li {
+  background-color: #eeeeee;
 }
 
-.version-run-nav-list .run-container li:hover, .version-run-nav-list .run-container li.active {
+.version-run-nav-list .run-container li:nth-child(even) {
+  background-color: #e2e2e2;
+}
+
+.version-run-nav-list .run-container li:hover {
   background-color: #d5d5d5;
 }
 
-.version-run-nav-list .run-container li:hover .icon, .version-run-nav-list .run-container li.active .icon {
-  color: #333;
+.version-run-nav-list .run-container li:hover .icon, .version-run-nav-list .run-container li:hover .date {
+  color: #333333;
 }
 
 .version-run-nav-list .run-container li.active {
@@ -6529,26 +6536,28 @@ Its currently used in the schedule modal popup
 }
 
 .version-run-nav-list .run-container li.active .icon {
-  color: #333;
+  color: #333333;
 }
 
 .version-run-nav-list .run-container li a {
-  border-bottom: 1px solid #c8c8c8;
+  border-bottom: 1px solid #afafaf;
 }
 
 .version-run-nav-list .run-container .run a {
   text-decoration: none;
-  color: #333;
+  color: #333333;
+}
+
+.version-run-nav-list .run-container .run .date, .version-run-nav-list .run-container .run .icon {
+  color: gray;
 }
 
 .version-run-nav-list .run-container .run .date {
   font-size: 1.1rem;
-  color: #7a7a7a;
 }
 
 .version-run-nav-list .run-container .run .icon {
   font-size: 1.2rem;
-  color: #7a7a7a;
 }
 
 .version-run-nav-list .version-container,
