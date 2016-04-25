@@ -5890,87 +5890,82 @@ button.close {
   }
 }
 
-.poa {
+.file-icon-poa {
+  color: #333333;
   float: left;
+  clear: both;
 }
 
-@media (max-width: 767px) {
-  .poa {
-    display: none;
-  }
-}
-
-.poa:before {
+.file-icon-poa:before {
   font-size: 3rem;
   padding-left: 4px;
 }
 
-.poa:after {
-  background-color: #424242;
-  color: white;
+.file-icon-poa:after {
+  background-color: #777777;
+  color: #fff;
   content: "POA";
   display: block;
   font-size: 1.3rem;
-  margin-top: 5px;
+  text-transform: uppercase;
   padding: 5px 5px 5px;
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-.vor {
+.file-icon-poa.fa:after {
+  margin-top: 5px;
+}
+
+.file-icon-vor {
+  color: #333333;
   float: left;
+  clear: both;
 }
 
-@media (max-width: 767px) {
-  .vor {
-    display: none;
-  }
-}
-
-.vor:before {
+.file-icon-vor:before {
   font-size: 3rem;
   padding-left: 4px;
 }
 
-.vor:after {
-  background-color: #7a7a7a;
-  color: white;
+.file-icon-vor:after {
+  background-color: #777777;
+  color: #fff;
   content: "VOR";
   display: block;
   font-size: 1.3rem;
-  margin-top: 5px;
+  text-transform: uppercase;
   padding: 5px 5px 5px;
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-.no-article-status-type {
+.file-icon-vor.fa:after {
+  margin-top: 5px;
+}
+
+.file-icon-none {
+  color: #333333;
   float: left;
+  clear: both;
 }
 
-@media (max-width: 767px) {
-  .no-article-status-type {
-    display: none;
-  }
-}
-
-.no-article-status-type:before {
+.file-icon-none:before {
   font-size: 3rem;
   padding-left: 4px;
 }
 
-.no-article-status-type:after {
-  background-color: #7a7a7a;
-  color: white;
+.file-icon-none:after {
+  background-color: #777777;
+  color: #fff;
   content: "...";
-  text-align: center;
   display: block;
-  font-size: 1rem;
-  margin-top: 5px;
+  font-size: 1.3rem;
+  text-transform: uppercase;
   padding: 5px 5px 5px;
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-.reset-article-status-type {
-  float: none;
+.file-icon-none.fa:after {
+  margin-top: 5px;
 }
 
 .e-icon {
@@ -6593,6 +6588,10 @@ Its currently used in the schedule modal popup
   vertical-align: middle;
 }
 
+.version-run-nav-list .version-container .status span {
+  float: right;
+}
+
 .version-run-nav-list .version-container .glyphicon {
   top: -3px;
 }
@@ -6666,7 +6665,7 @@ Its currently used in the schedule modal popup
 
 .article-list .article__row .article__col__icon {
   width: 5%;
-  padding: 0px;
+  padding: 10px 0px;
   background-color: #fbfbfb;
 }
 

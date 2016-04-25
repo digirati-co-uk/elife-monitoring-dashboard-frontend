@@ -80,7 +80,7 @@ module.exports = function(grunt) {
             'source/_libs/pickadate/lib/themes/classic.css',
             'source/_libs/pickadate/lib/themes/classic.date.css',
             'source/_libs/pickadate/lib/themes/classic.time.css',
-            'source/_libs/fontawesome/font-awesome.css',
+            'source/_libs/fontawesome/css/font-awesome.css',
           ],
         },
       },

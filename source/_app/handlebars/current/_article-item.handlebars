@@ -4,7 +4,7 @@
     data-article-run="{{ run-id }}">
     <td class="article__col article__col__icon">
         <a href="/article/{{id}}/{{ version }}/{{ run-id }}" class="hidden-xs article__icon">
-            <span class="fa fa-file {{#if status}}{{lowercase status }}{{else}}no-article-status-type{{/if}}"></span>
+            <span class="fa fa-file {{#if status}}file-icon-{{lowercase status }}{{else}}file-icon-none{{/if}}"></span>
         </a>
     </td>
     <td class="article__col article__col__title">
