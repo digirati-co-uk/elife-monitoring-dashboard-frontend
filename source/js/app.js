@@ -203,7 +203,7 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
     + "\"\n    data-article-run=\""
     + alias4(((helper = (helper = helpers["run-id"] || (depth0 != null ? depth0["run-id"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"run-id","hash":{},"data":data}) : helper)))
-    + "\">\n    <td class=\"column-1\">\n        <a href=\"/article/"
+    + "\"\n    data-action=\"publish\">\n    <td class=\"column-1\">\n        <a href=\"/article/"
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "/"
     + alias4(((helper = (helper = helpers.version || (depth0 != null ? depth0.version : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"version","hash":{},"data":data}) : helper)))
@@ -240,26 +240,12 @@ Handlebars.registerPartial("article-detail-actions", Handlebars.template({"1":fu
   return "            <a href=\""
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["preview-link"] : stack1), depth0))
     + "\" target=\"_blank\" class=\"btn btn-default\">\n                <span class=\"fa fa-eye\"></span>\n                Preview\n            </a>\n";
-},"3":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=container.lambda, alias2=container.escapeExpression;
-
-  return "            <button class=\"btn btn-default publish btn-publish\" data-toggle=\"modal\" data-target=\"#publish-modal\"\n                    type=\"button\"\n                    data-article-title=\""
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.doi : stack1), depth0))
-    + "\"\n                    data-article-id=\""
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
-    + "\"\n                    data-article-version=\""
-    + alias2(((helper = (helper = helpers.currentVersion || (depth0 != null ? depth0.currentVersion : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"currentVersion","hash":{},"data":data}) : helper)))
-    + "\"\n                    data-article-run=\""
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.currentEvents : depth0)) != null ? stack1["run-id"] : stack1), depth0))
-    + "\">\n                <span class=\"fa fa-globe\"></span>\n                Publish Now\n            </button>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=depth0 != null ? depth0 : {};
+    var stack1;
 
   return "<div class=\"row\">\n    <div class=\"col-md-6\">\n        <span class=\"article-detail-scheduled\"></span>\n    </div>\n    <div class=\"col-md-6 text-right\">\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["preview-link"] : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "        <span class=\"article-detail-actions\"></span>\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["scheduled-publication-date"] : stack1),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "    </div>\n</div>\n";
+    + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1["preview-link"] : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "        <span class=\"article-detail-actions btn-group\"></span>\n    </div>\n</div>\n";
 },"useData":true}));
 
 Handlebars.registerPartial("article-detail", Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
@@ -727,6 +713,20 @@ this["eLife"]["templates"]["detail/article"] = Handlebars.template({"compiler":[
     + "    </div>\n</div>";
 },"usePartial":true,"useData":true});
 
+this["eLife"]["templates"]["detail/buttons-publish"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=container.lambda, alias2=container.escapeExpression;
+
+  return "<button class=\"btn btn-default publish btn-publish\" data-toggle=\"modal\" data-target=\"#publish-modal\"\n            type=\"button\"\n            data-action=\"publish\"\n            data-article-title=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.currentArticle : depth0)) != null ? stack1.doi : stack1), depth0))
+    + "\"\n            data-article-id=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
+    + "\"\n            data-article-version=\""
+    + alias2(((helper = (helper = helpers.currentVersion || (depth0 != null ? depth0.currentVersion : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"currentVersion","hash":{},"data":data}) : helper)))
+    + "\"\n            data-article-run=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.currentEvents : depth0)) != null ? stack1["run-id"] : stack1), depth0))
+    + "\">\n        <span class=\"fa fa-globe\"></span>\n        Publish Now\n    </button>";
+},"useData":true});
+
 this["eLife"]["templates"]["detail/buttons-reschedule"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
@@ -1047,7 +1047,7 @@ app.publish = {
    */
   displayQueueList: function() {
     _.each(app.queued, function(article) {
-      var title = $('[data-article-id=' + article.id + ']').attr('data-article-title');
+      var title = $('[data-article-id=' + article.id + '][data-action=publish]').attr('data-article-title');
       var listItem = $('<li>' + title + '</li>');
       listItem.data({id: article.id, version: article.version, run: article.run});
       $('#articles-queue').append(listItem);
@@ -1763,6 +1763,7 @@ app.detail = {
     if (!_.isNull(this.queryParams.articleId)) {
       this.buttonsScheduleTemplate = eLife.templates['detail/buttons-schedule'];
       this.buttonsReScheduleTemplate = eLife.templates['detail/buttons-reschedule'];
+      this.buttonsPublishTemplate = eLife.templates['detail/buttons-publish'];
       this.articlesScheduledForTemplate = eLife.templates['detail/article-scheduled-for'];
       var articleIds = [];
       articleIds.push(this.queryParams.articleId);
@@ -1795,7 +1796,20 @@ app.detail = {
         $('.article-detail-actions', '#article').empty().html(app.detail.buttonsReScheduleTemplate({article: app.detail.article}));
         $('.article-detail-scheduled', '#article').empty().html(app.detail.articlesScheduledForTemplate({scheduleStatus: this.scheduleStatus}));
       } else {
-        $('.article-detail-actions', '#article').empty().html(app.detail.buttonsScheduleTemplate({article: app.detail.article}));
+        var buttons = app.detail.buttonsScheduleTemplate({article: app.detail.article}) + app.detail.buttonsPublishTemplate({
+              article: this.article,
+              currentArticle: this.currentArticle,
+              currentEvents: this.currentEvents,
+              currentVersion: this.queryParams.versionNumber,
+              currentRun: this.queryParams.runId,
+              scheduleStatus: this.scheduleStatus,
+            });
+        $('.article-detail-actions', '#article').empty().html(buttons);
+
+        // {{ currentArticle.doi
+        // data-article-id="{{ article.id }}"
+        // data-article-version="{{ currentVersion }}"
+        // data-article-run="{{ currentEvents.run-id }}">
       }
     }
   },
