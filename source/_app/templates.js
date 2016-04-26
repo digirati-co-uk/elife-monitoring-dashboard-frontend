@@ -837,7 +837,7 @@ this["eLife"]["templates"]["scheduled/scheduled-actions"] = Handlebars.template(
 },"usePartial":true,"useData":true});
 
 this["eLife"]["templates"]["scheduled/scheduled-content-calendar"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<div id=\"schedule-calendar\" class=\"calendar\"></div>\n<br/>\n<p>\n    <span class=\"fc-event\" style=\"background-color:#cde1f1;border-color:#cde1f1;color:#111;display:inline-block;\"><strong>3:40pm</strong> 09672 (Adv.)</span> <br>\n    <strong>Advance Article</strong> <br> Articles which have been scheduled but which are not yet in eLife Continuum system.\n</p>\n<br>\n<p>\n    <span class=\"fc-event\" style=\"background-color:#f1f1f1;border-color:#f1f1f1;color:#111;display:inline-block;\"><strong>4:17pm</strong> 09672</span> <br>\n    <strong>Article</strong> <br> Scheduled Articles which are in the eLife Continuum system.\n</p>";
+    return "<div id=\"schedule-calendar\" class=\"calendar\"></div>\n<br/>\n<p>\n    <span class=\"fc-event\" style=\"background-color:#cde1f1;border-color:#cde1f1;color:#111;display:inline-block;\"><strong>3:40pm</strong> 09672 (tmp)</span> <br>\n    <strong>Advance Article</strong> <br> Articles which have been scheduled but which are not yet in eLife Continuum system.\n</p>\n<br>\n<p>\n    <span class=\"fc-event\" style=\"background-color:#f1f1f1;border-color:#f1f1f1;color:#111;display:inline-block;\"><strong>4:17pm</strong> 09672</span> <br>\n    <strong>Article</strong> <br> Scheduled Articles which are in the eLife Continuum system.\n</p>";
 },"useData":true});
 
 this["eLife"]["templates"]["scheduled/scheduled-content-list"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
