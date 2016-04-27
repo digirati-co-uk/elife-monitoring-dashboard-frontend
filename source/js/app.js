@@ -1307,6 +1307,7 @@ app.schedule = {
       this.articleModalFooterTemplate = eLife.templates['schedule/article-schedule-modal-footer'];
       this.articleId = null;
       this.articleScheduled = null;
+      this.scheduled = null;
       this.scheduleDate = null;
       this.scheduleTime = null;
       this.scheduleDateTime = null;
@@ -1391,13 +1392,11 @@ app.schedule = {
     if (!hasHours) {
       errors++;
     } else {
-      if (hours < 0)
-      {
+      if (hours < 0) {
         errors++;
       }
 
-      if (hours > 12)
-      {
+      if (hours > 12) {
         errors++;
       }
     }
@@ -1408,13 +1407,11 @@ app.schedule = {
     if (!hasMinutes) {
       errors++;
     } else {
-      if (minutes < 0)
-      {
+      if (minutes < 0) {
         errors++;
       }
 
-      if (minutes > 60)
-      {
+      if (minutes > 60) {
         errors++;
       }
     }
@@ -1520,10 +1517,18 @@ app.schedule = {
 
     var scheduleData = {};
     if (this.scheduleActionType !== 'schedule-cancel') {
-      scheduleData = {article: {'article-identifier': this.articleId, scheduled: moment(this.scheduleDateTime).format('X')}};
+      this.scheduled = moment(this.scheduleDateTime);
+      scheduleData = {
+        article: {
+          'article-identifier': this.articleId,
+          scheduled: moment(this.scheduleDateTime).format('X')
+        }
+      };
     } else {
+      this.scheduled = false;
       scheduleData = {article: {'article-identifier': this.articleId, scheduled: false}};
     }
+
 
     console.log(scheduleData);
     $('#schedule-modal #schedule-action').hide();
@@ -1562,8 +1567,13 @@ app.schedule = {
    * user closes modal and scheduling is not takign place.
    */
   refreshPage: function() {
-    if (app.isScheduling === false && app.isAllScheduled === true) {
-      location.reload(true);
+    // we're on the scheduled page and there is a scheduled date (ie not cancellation)
+    if ($('.scheduled-page').length > 0 && this.scheduled) {
+      $('#schedule-calendar').fullCalendar('gotoDate', this.scheduled);
+    } else {
+      if (app.isScheduling === false && app.isAllScheduled === true) {
+        location.reload(true);
+      }
     }
   },
 };
@@ -2338,7 +2348,6 @@ app.scheduled = {
       defaultView: 'month',
       fixedWeekCount: false,
       editable: false,
-
     });
   },
 

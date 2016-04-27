@@ -252,7 +252,6 @@ app.scheduled = {
       defaultView: 'month',
       fixedWeekCount: false,
       editable: false,
-
     });
   },
 
