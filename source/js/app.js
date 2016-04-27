@@ -977,7 +977,95 @@ app.utils = {
   isNumeric: function(string) {
     var hasNumber = /^\d+$/;
     return hasNumber.test(string);
+  },
+
+  /**
+   * Extract params from url
+   * http://www.thecodeship.com/web-development/javascript-url-object/
+   * @param options
+   */
+  urlObject: function(options) {
+    "use strict";
+    /*global window, document*/
+
+    var url_search_arr,
+        option_key,
+        i,
+        urlObj,
+        get_param,
+        key,
+        val,
+        url_query,
+        url_get_params = {},
+        a = document.createElement('a'),
+        default_options = {
+          'url': window.location.href,
+          'unescape': true,
+          'convert_num': true
+        };
+
+    if (typeof options !== "object") {
+      options = default_options;
+    } else {
+      for (option_key in default_options) {
+        if (default_options.hasOwnProperty(option_key)) {
+          if (options[option_key] === undefined) {
+            options[option_key] = default_options[option_key];
+          }
+        }
+      }
+    }
+
+    a.href = options.url;
+    url_query = a.search.substring(1);
+    url_search_arr = url_query.split('&');
+
+    if (url_search_arr[0].length > 1) {
+      for (i = 0; i < url_search_arr.length; i += 1) {
+        get_param = url_search_arr[i].split("=");
+
+        if (options.unescape) {
+          key = decodeURI(get_param[0]);
+          val = decodeURI(get_param[1]);
+        } else {
+          key = get_param[0];
+          val = get_param[1];
+        }
+
+        if (options.convert_num) {
+          if (val.match(/^\d+$/)) {
+            val = parseInt(val, 10);
+          } else if (val.match(/^\d+\.\d+$/)) {
+            val = parseFloat(val);
+          }
+        }
+
+        if (url_get_params[key] === undefined) {
+          url_get_params[key] = val;
+        } else if (typeof url_get_params[key] === "string") {
+          url_get_params[key] = [url_get_params[key], val];
+        } else {
+          url_get_params[key].push(val);
+        }
+
+        get_param = [];
+      }
+    }
+
+    urlObj = {
+      protocol: a.protocol,
+      hostname: a.hostname,
+      host: a.host,
+      port: a.port,
+      hash: a.hash.substr(1),
+      pathname: a.pathname,
+      search: a.search,
+      parameters: url_get_params
+    };
+
+    return urlObj;
   }
+
 
 };
 
@@ -2013,12 +2101,16 @@ app.scheduled = {
       this.scheduledActionsTemplate = eLife.templates['scheduled/scheduled-actions'];
       this.scheduledSwitcherTemplate = eLife.templates['scheduled/scheduled-switcher'];
       this.loadingTemplate = eLife.templates['loading-template'];
-      this.listDateStart = moment().format('X');
-      this.listDateEnd = moment().add(1, 'years').format('X');
       this.$el = $('.scheduled-page');
-      this.currentView = (!_.isUndefined($('.scheduled-page').attr('data-page-type'))) ? $('.scheduled-page').attr('data-page-type') : 'list';
       this.scheduled = [];
+      this.defaultView = 'list';
+      this.defaultlistDateStart = moment().format('DD-MM-YYYY');
+      this.defaultlistDateEnd = moment().add(1, 'years').format('DD-MM-YYYY');
+      this.currentView = this.defaultView;
+      this.listDateStart = this.defaultlistDateStart;
+      this.listDateEnd = this.defaultlistDateEnd;
       Swag.registerHelpers(Handlebars);
+      this.setPageUrl();
       this.bindEvents();
       this.renderSwitcher();
       this.renderActions();
@@ -2027,10 +2119,93 @@ app.scheduled = {
   },
 
   /**
+   * Generate the url for history.js
+   * @returns {string}
+   */
+  createUrl: function() {
+
+    // put the URL together
+    var url = '?';
+    if (this.currentView) {
+      url += 'view=' + this.currentView;
+    }
+
+    if (this.listDateStart) {
+      url += '&start=' + this.listDateStart;
+    }
+
+    if (this.listDateEnd) {
+      url += '&end=' + this.listDateEnd;
+    }
+
+    return url;
+  },
+
+  /**
+   * Set the page url when first loading the page
+   */
+  setPageUrl: function() {
+    // We're setting the page url here so the priority is to take items from the URL, else we will use the defaults from init
+    var state = History.getState();
+    var hash = state.hash;
+    var urlObject = app.utils.urlObject(hash);
+    var urlParams = urlObject.parameters;
+
+    // set from url
+    if (_.has(urlParams, 'view')) {
+      this.currentView = urlParams.view;
+    }
+
+    if (_.has(urlParams, 'start')) {
+      this.listDateStart = urlParams.start;
+    }
+
+    if (_.has(urlParams, 'end')) {
+      this.listDateEnd = urlParams.end;
+    }
+
+    var url = this.createUrl();
+    History.replaceState({
+      currentView: this.currentView,
+      listDateStart: this.listDateStart,
+      listDateEnd: this.listDateEnd,
+    }, null, url);
+  },
+
+  /**
+   * Update the page url when things happen. Things such as, clicking list/calendar button or changing the view in the calendar
+   */
+  updatePageUrl: function() {
+    // here we have updated the globals so we will take the url data from the history object
+    // unless its the list view where we use the default dates
+    // (if we were coming from the updated url ones the setPageUrl  method would trigger instead of this one)
+    if (this.currentView == 'list') {
+      this.listDateStart = this.defaultlistDateStart;
+      this.listDateEnd = this.defaultlistDateEnd;
+    }
+
+    var url = this.createUrl();
+    History.pushState({
+      currentView: this.currentView,
+      listDateStart: this.listDateStart,
+      listDateEnd: this.listDateEnd,
+    }, null, url);
+  },
+
+  /**
    * Bind events
    */
   bindEvents: function() {
     $(this.$el).on('click', '.schedule-page-switch', this.clickSwitchPage.bind(this));
+    $(window).on('statechange', this.stateChange.bind(this));
+  },
+
+  /**
+   * On back/forwards update the view
+   * @param e
+   */
+  stateChange: function(e) {
+    // this.switchPage(this.currentView);
   },
 
   /**
@@ -2061,6 +2236,7 @@ app.scheduled = {
   clickSwitchPage: function(e) {
     this.currentView = $(e.currentTarget).attr('data-switch');
     this.switchPage(this.currentView);
+    this.updatePageUrl();
   },
 
   /**
@@ -2090,14 +2266,20 @@ app.scheduled = {
    * @param end
    */
   fetchScheduledArticles: function(start, end) {
-    console.log('start ' + moment.unix(start).format('dddd, MMMM Do YYYY, h:mm:ss a'));
-    console.log('end ' + moment.unix(end).format('dddd, MMMM Do YYYY, h:mm:ss a'));
+    // console.log('fetchScheduledArticles')
+    // console.log(start)
+    // console.log(end)
+    // console.log('/fetchScheduledArticles')
+
+    var startDate = moment(start, 'DD-MM-YYYY').unix();
+    var endDate = moment(end, 'DD-MM-YYYY').unix();
+
     return $.ajax({
-      url: app.API + 'api/article_schedule_for_range/from/' + start + '/to/' + end + '/',
+      url: app.API + 'api/article_schedule_for_range/from/' + startDate + '/to/' + endDate + '/',
       cache: false,
       dataType: 'json',
       success: function(data) {
-        console.log(data);
+        // console.log(data);
         app.scheduled.scheduled = data;
       },
 
@@ -2123,7 +2305,7 @@ app.scheduled = {
         var toolTipContent = '<strong>' + event.title + '</strong><br/>' + moment(event.start).format('MMMM d, YYYY') + ' ' + moment(event.start).format('h:mm a');
         element.qtip({
           content: toolTipContent,
-          hide: { fixed: true, delay: 200 },
+          hide: {fixed: true, delay: 200},
           style: 'qtip-light',
           position: {
             my: 'bottom center',
@@ -2142,8 +2324,11 @@ app.scheduled = {
 
       viewRender: function(view, element) {
         // this event fires once the calendar has completed loading and when the date is changed - thus calling the new events
-        var start = moment(view.start).format('X');
-        var end = moment(view.end).format('X');
+        var start = moment(view.start).format('DD-MM-YYYY');
+        var end = moment(view.end).format('DD-MM-YYYY');
+        app.scheduled.listDateStart = start;
+        app.scheduled.listDateEnd = end;
+        app.scheduled.updatePageUrl();
         app.scheduled.updateCalendar(start, end);
       },
 
@@ -2191,9 +2376,10 @@ app.scheduled = {
       if (!(a['is-advance'])) {
         calendarArticle.url = (app.config.ISPP) ? '/patterns/04-pages-01-detail/04-pages-01-detail.html?article/' + a.id : 'article/' + a.id;
       }
+
       calendarArticles.push(calendarArticle);
     });
-    console.log(calendarArticles)
+
     return calendarArticles;
   },
 
