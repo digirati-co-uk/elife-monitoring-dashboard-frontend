@@ -275,15 +275,6 @@ app.schedule = {
   refreshPage: function() {
     // we're on the scheduled page and there is a scheduled date (ie not cancellation)
     if ($('.scheduled-page').length > 0 && this.scheduled) {
-      // var calendarDate = $('#schedule-calendar').fullCalendar('getDate');
-      // var calendarDateEnd = calendarDate.add(1, 'months');
-      // console.log(calendarDate)
-      // console.log(calendarDateEnd)
-      // console.log(this.scheduled);
-      // if(moment(this.scheduled).isBetween(calendarDate, calendarDateEnd)) {
-      //   console.log('force refresh the calendar')
-      // }
-      $('#schedule-calendar').fullCalendar( 'render' );
       $('#schedule-calendar').fullCalendar('gotoDate', this.scheduled);
     } else {
       if (app.isScheduling === false && app.isAllScheduled === true) {

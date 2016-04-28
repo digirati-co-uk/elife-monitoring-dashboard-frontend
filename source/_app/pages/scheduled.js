@@ -4,8 +4,9 @@
  * Dont forget any changes to the calendar js will need to be copied over to the patternportfolio.js file
  * URL structure
  * view=list|calendar
- * start=dd-mm-yyyy
+ * start=dd-mm-yyyy (list only)
  * end=dd-mm-yyyy (list only)
+ * date=dd-mm-yyyy (calendar only)
  * type=month|agendaWeek|agendaDay (calendar only)
  *
  * @type {{init: app.scheduled.init, bindEvents: app.scheduled.bindEvents, renderSwitcher: app.scheduled.renderSwitcher, renderActions: app.scheduled.renderActions, clickSwitchPage: app.scheduled.clickSwitchPage, switchPage: app.scheduled.switchPage, fetchScheduledArticles: app.scheduled.fetchScheduledArticles, renderCalendar: app.scheduled.renderCalendar, updateCalendar: app.scheduled.updateCalendar, convertArticlesToCalendar: app.scheduled.convertArticlesToCalendar}}
@@ -22,13 +23,23 @@ app.scheduled = {
       this.scheduledSwitcherTemplate = eLife.templates['scheduled/scheduled-switcher'];
       this.loadingTemplate = eLife.templates['loading-template'];
       this.$el = $('.scheduled-page');
+      this.urlSet = false;
       this.scheduled = [];
+
       this.defaultView = 'list';
+      this.defaultViewType = 'month';
       this.defaultlistDateStart = moment().format('DD-MM-YYYY');
       this.defaultlistDateEnd = moment().add(1, 'years').format('DD-MM-YYYY');
+
       this.currentView = this.defaultView;
+      this.currentViewType = this.defaultViewType;
+
+      this.calendarDate = this.defaultlistDateStart;
+
       this.listDateStart = this.defaultlistDateStart;
       this.listDateEnd = this.defaultlistDateEnd;
+
+      this.urlParams = {};
       Swag.registerHelpers(Handlebars);
       this.setPageUrl();
       this.bindEvents();
@@ -48,17 +59,36 @@ app.scheduled = {
     var url = '?';
     if (this.currentView) {
       url += 'view=' + this.currentView;
-    }
 
-    if (this.listDateStart) {
-      url += '&start=' + this.listDateStart;
-    }
+      if (this.currentView ==  'list') {
+        if (this.listDateStart) {
+          url += '&start=' + this.listDateStart;
+        }
 
-    if (this.listDateEnd) {
-      url += '&end=' + this.listDateEnd;
+        if (this.listDateEnd) {
+          url += '&end=' + this.listDateEnd;
+        }
+      }
+
+      if (this.currentView ==  'calendar') {
+        if (this.currentViewType) {
+          url += '&type=' + this.currentViewType;
+        }
+
+        if (this.calendarDate) {
+          url += '&date=' + this.calendarDate;
+        }
+      }
     }
 
     return url;
+  },
+
+  getUrlParams: function () {
+    var state = History.getState();
+    var hash = state.hash;
+    var urlObject = app.utils.urlObject(hash);
+    return urlObject.parameters;
   },
 
   /**
@@ -66,39 +96,38 @@ app.scheduled = {
    */
   setPageUrl: function() {
     // We're setting the page url here so the priority is to take items from the URL, else we will use the defaults from init
-    var state = History.getState();
-    var hash = state.hash;
-    var urlObject = app.utils.urlObject(hash);
-    var urlParams = urlObject.parameters;
+    this.urlParams = this.getUrlParams();
 
-    console.log('setPageUrl');
 
     // set from url
-    if (_.has(urlParams, 'view')) {
-      this.currentView = urlParams.view;
+    if (_.has(this.urlParams, 'view')) {
+      this.currentView = this.urlParams.view;
     }
 
-    if (_.has(urlParams, 'start')) {
-      this.listDateStart = urlParams.start;
+    if (_.has(this.urlParams, 'start')) {
+      this.listDateStart = this.urlParams.start;
     }
 
-    if (_.has(urlParams, 'end')) {
-      this.listDateEnd = urlParams.end;
+    if (_.has(this.urlParams, 'end')) {
+      this.listDateEnd = this.urlParams.end;
+    }
+
+    if (_.has(this.urlParams, 'type')) {
+      this.currentViewType = this.urlParams.type;
+    }
+
+    if (_.has(this.urlParams, 'date')) {
+      this.calendarDate = this.urlParams.date;
     }
 
     var url = this.createUrl();
-    History.replaceState({
-      currentView: this.currentView,
-      listDateStart: this.listDateStart,
-      listDateEnd: this.listDateEnd,
-    }, null, url);
+    History.replaceState(null, null, url);
   },
 
   /**
    * Update the page url when things happen. Things such as, clicking list/calendar button or changing the view in the calendar
    */
   updatePageUrl: function() {
-    console.log('updatePageUrl')
     // here we have updated the globals so we will take the url data from the history object
     // unless its the list view where we use the default dates
     // (if we were coming from the updated url ones the setPageUrl  method would trigger instead of this one)
@@ -108,11 +137,7 @@ app.scheduled = {
     }
 
     var url = this.createUrl();
-    History.pushState({
-      currentView: this.currentView,
-      listDateStart: this.listDateStart,
-      listDateEnd: this.listDateEnd,
-    }, null, url);
+    History.pushState(null, null, url);
   },
 
   /**
@@ -159,7 +184,7 @@ app.scheduled = {
   clickSwitchPage: function(e) {
     this.currentView = $(e.currentTarget).attr('data-switch');
     this.switchPage(this.currentView);
-    this.updatePageUrl();
+    app.scheduled.updatePageUrl();
   },
 
   /**
@@ -169,6 +194,7 @@ app.scheduled = {
   switchPage: function(pageType) {
     this.renderLoader();
     this.renderSwitcher();
+
     if (pageType === 'list') {
       var fetchScheduledArticles = this.fetchScheduledArticles(this.listDateStart, this.listDateEnd);
       fetchScheduledArticles.done(function(data) {
@@ -189,10 +215,10 @@ app.scheduled = {
    * @param end
    */
   fetchScheduledArticles: function(start, end) {
-    // console.log('fetchScheduledArticles')
+    // console.log('fetchScheduledArticles');
     // console.log(start)
     // console.log(end)
-    // console.log('/fetchScheduledArticles')
+    // console.log('/fetchScheduledArticles');
 
     var startDate = moment(start, 'DD-MM-YYYY').unix();
     var endDate = moment(end, 'DD-MM-YYYY').unix();
@@ -217,18 +243,6 @@ app.scheduled = {
    * Render the calendar for the calendar view
    */
   renderCalendar: function() {
-    // var startMonth =  moment(app.scheduled.listDateStart, 'DD-MM-YYYY');
-    // console.log(startMonth.format('DD-MM-YYYY'));
-    // console.log(startMonth.format('MM'));
-    //
-    // var calView = $('#schedule-calendar').fullCalendar('getView');
-    // console.log(calView.start)
-
-    // 20th should show full calendar month
-    // if the start date is the last 10 days of the month show the next month
-
-
-    // console.log(moment(app.scheduled.listDateStart, 'DD-MM-YYYY').format('dddd, MMMM Do YYYY, h:mm:ss a'))
     $('#schedule-calendar').fullCalendar({
       header: {
         left: 'prev,next today',
@@ -258,23 +272,26 @@ app.scheduled = {
       },
 
       viewRender: function(view, element) {
-        console.log('viewRender')
+        app.scheduled.currentViewType = view.type;
         // this event fires once the calendar has completed loading and when the date is changed - thus calling the new events
         var start = moment(view.start).format('DD-MM-YYYY');
         var end = moment(view.end).format('DD-MM-YYYY');
-        app.scheduled.listDateStart = start;
-        app.scheduled.listDateEnd = end;
+        app.scheduled.calendarDate = start;
         app.scheduled.updateCalendar(start, end);
       },
 
       timeFormat: 'h:mma',
       firstDay: 1,
       aspectRatio: 2,
-      defaultView: 'month',
+      defaultView: this.currentViewType,
       fixedWeekCount: false,
       editable: false,
-      defaultDate: moment(app.scheduled.listDateStart, 'DD-MM-YYYY'),
+      lazyFetch: false,
+      defaultDate: moment(app.scheduled.calendarDate, 'DD-MM-YYYY'),
+      // events: app.scheduled.convertArticlesToCalendar(app.scheduled.scheduled.articles),
     });
+
+    // console.log('calendar start date ' + moment(app.scheduled.calendarDate, 'DD-MM-YYYY').format('DD-MM-YYYY'))
   },
 
   /**
