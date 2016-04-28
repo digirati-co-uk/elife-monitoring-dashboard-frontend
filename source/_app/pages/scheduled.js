@@ -65,6 +65,8 @@ app.scheduled = {
     var urlObject = app.utils.urlObject(hash);
     var urlParams = urlObject.parameters;
 
+    console.log('setPageUrl');
+
     // set from url
     if (_.has(urlParams, 'view')) {
       this.currentView = urlParams.view;
@@ -90,6 +92,7 @@ app.scheduled = {
    * Update the page url when things happen. Things such as, clicking list/calendar button or changing the view in the calendar
    */
   updatePageUrl: function() {
+    console.log('updatePageUrl')
     // here we have updated the globals so we will take the url data from the history object
     // unless its the list view where we use the default dates
     // (if we were coming from the updated url ones the setPageUrl  method would trigger instead of this one)
@@ -216,7 +219,7 @@ app.scheduled = {
       },
       eventRender: function(event, element) {
         //Show tooltip when hovering over an event title
-        var toolTipContent = '<strong>' + event.title + '</strong><br/>' + moment(event.start).format('MMMM d, YYYY') + ' ' + moment(event.start).format('h:mm a');
+        var toolTipContent = '<strong>' + event.title + '</strong><br/>' + moment(event.start).format('MMMM D, YYYY') + ' ' + moment(event.start).format('h:mm a');
         element.qtip({
           content: toolTipContent,
           hide: {fixed: true, delay: 200},
@@ -237,12 +240,12 @@ app.scheduled = {
       },
 
       viewRender: function(view, element) {
+        app.scheduled.updatePageUrl();
         // this event fires once the calendar has completed loading and when the date is changed - thus calling the new events
         var start = moment(view.start).format('DD-MM-YYYY');
         var end = moment(view.end).format('DD-MM-YYYY');
         app.scheduled.listDateStart = start;
         app.scheduled.listDateEnd = end;
-        app.scheduled.updatePageUrl();
         app.scheduled.updateCalendar(start, end);
       },
 
@@ -252,6 +255,7 @@ app.scheduled = {
       defaultView: 'month',
       fixedWeekCount: false,
       editable: false,
+      defaultDate: moment(app.scheduled.listDateStart, 'DD-MM-YYYY')
     });
   },
 
