@@ -2,6 +2,12 @@
 /**
  * Controls the future Scheduling page
  * Dont forget any changes to the calendar js will need to be copied over to the patternportfolio.js file
+ * URL structure
+ * view=list|calendar
+ * start=dd-mm-yyyy
+ * end=dd-mm-yyyy (list only)
+ * type=month|agendaWeek|agendaDay (calendar only)
+ *
  * @type {{init: app.scheduled.init, bindEvents: app.scheduled.bindEvents, renderSwitcher: app.scheduled.renderSwitcher, renderActions: app.scheduled.renderActions, clickSwitchPage: app.scheduled.clickSwitchPage, switchPage: app.scheduled.switchPage, fetchScheduledArticles: app.scheduled.fetchScheduledArticles, renderCalendar: app.scheduled.renderCalendar, updateCalendar: app.scheduled.updateCalendar, convertArticlesToCalendar: app.scheduled.convertArticlesToCalendar}}
  */
 app.scheduled = {
@@ -211,6 +217,18 @@ app.scheduled = {
    * Render the calendar for the calendar view
    */
   renderCalendar: function() {
+    // var startMonth =  moment(app.scheduled.listDateStart, 'DD-MM-YYYY');
+    // console.log(startMonth.format('DD-MM-YYYY'));
+    // console.log(startMonth.format('MM'));
+    //
+    // var calView = $('#schedule-calendar').fullCalendar('getView');
+    // console.log(calView.start)
+
+    // 20th should show full calendar month
+    // if the start date is the last 10 days of the month show the next month
+
+
+    // console.log(moment(app.scheduled.listDateStart, 'DD-MM-YYYY').format('dddd, MMMM Do YYYY, h:mm:ss a'))
     $('#schedule-calendar').fullCalendar({
       header: {
         left: 'prev,next today',
@@ -240,7 +258,7 @@ app.scheduled = {
       },
 
       viewRender: function(view, element) {
-        app.scheduled.updatePageUrl();
+        console.log('viewRender')
         // this event fires once the calendar has completed loading and when the date is changed - thus calling the new events
         var start = moment(view.start).format('DD-MM-YYYY');
         var end = moment(view.end).format('DD-MM-YYYY');
@@ -255,7 +273,7 @@ app.scheduled = {
       defaultView: 'month',
       fixedWeekCount: false,
       editable: false,
-      defaultDate: moment(app.scheduled.listDateStart, 'DD-MM-YYYY')
+      defaultDate: moment(app.scheduled.listDateStart, 'DD-MM-YYYY'),
     });
   },
 
@@ -273,6 +291,7 @@ app.scheduled = {
       $('#schedule-calendar').fullCalendar('removeEvents');
       $('#schedule-calendar').fullCalendar('addEventSource', app.scheduled.convertArticlesToCalendar(app.scheduled.scheduled.articles));
       $('#schedule-calendar').fullCalendar('rerenderEvents');
+      app.scheduled.updatePageUrl();
     });
   },
 
