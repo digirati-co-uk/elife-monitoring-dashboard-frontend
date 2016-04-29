@@ -92,14 +92,14 @@ app.scheduled = {
    * @param end
    */
   fetchScheduledArticles: function(start, end) {
-    console.log('start ' + moment.unix(start).format('dddd, MMMM Do YYYY, h:mm:ss a'));
-    console.log('end ' + moment.unix(end).format('dddd, MMMM Do YYYY, h:mm:ss a'));
+    // console.log('start ' + moment.unix(start).format('dddd, MMMM Do YYYY, h:mm:ss a'));
+    // console.log('end ' + moment.unix(end).format('dddd, MMMM Do YYYY, h:mm:ss a'));
     return $.ajax({
       url: app.API + 'api/article_schedule_for_range/from/' + start + '/to/' + end + '/',
       cache: false,
       dataType: 'json',
       success: function(data) {
-        console.log(data);
+        // console.log(data);
         app.scheduled.scheduled = data;
       },
 
