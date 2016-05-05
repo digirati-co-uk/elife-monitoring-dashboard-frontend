@@ -673,7 +673,8 @@ this["eLife"]["templates"]["detail/article-scheduled-for"] = Handlebars.template
 this["eLife"]["templates"]["detail/article"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return ((stack1 = container.invokePartial(partials["article-detail-actions"],depth0,{"name":"article-detail-actions","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+  return "<div class=\"detail-errors\"></div>\n"
+    + ((stack1 = container.invokePartial(partials["article-detail-actions"],depth0,{"name":"article-detail-actions","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "<div class=\"row\">\n    <div class=\"col-md-3\">\n"
     + ((stack1 = container.invokePartial(partials["article-version-list"],depth0,{"name":"article-version-list","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "    </div>\n    <div class=\"col-md-9\">\n"
@@ -714,16 +715,70 @@ this["eLife"]["templates"]["detail/buttons-schedule"] = Handlebars.template({"co
     + "\">\n    <span class=\"fa fa-calendar\"></span>\n    Schedule\n</button>";
 },"useData":true});
 
-this["eLife"]["templates"]["error-render"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+this["eLife"]["templates"]["error-detail"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
-  return "<section>\n    <p class=\"lead\"><strong>"
-    + alias4(((helper = (helper = helpers.status || (depth0 != null ? depth0.status : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"status","hash":{},"data":data}) : helper)))
+  return "<div class=\"alert alert-muted\">\n    <div class=\"row\">\n        <div class=\"col-xs-6\"><p class=\"h5\">"
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.status : stack1), depth0))
     + " "
-    + alias4(((helper = (helper = helpers.statusText || (depth0 != null ? depth0.statusText : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"statusText","hash":{},"data":data}) : helper)))
-    + "</strong></p>\n    <p>Sorry an error occurred while retrieving the requested information.</p>\n    <br />\n    <p>"
-    + ((stack1 = ((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"message","hash":{},"data":data}) : helper))) != null ? stack1 : "")
-    + "</p>\n    <br />\n</section>";
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.statusText : stack1), depth0))
+    + "</p></div>\n        <div class=\"col-xs-6 text-right\">\n            <button class=\"btn btn-default\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseExample\" aria-expanded=\"false\" aria-controls=\"collapseExample\">\n                Show Details\n            </button>\n        </div>\n    </div>\n    <div class=\"collapse\" id=\"collapseExample\">\n        <hr />\n        "
+    + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.detail : stack1),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n    </div>\n\n</div>\n";
+},"2":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "<div class=\"well\"><p>"
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.detail : stack1), depth0))
+    + "</p></div>";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.detail : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"useData":true});
+
+this["eLife"]["templates"]["error-render"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "alert-"
+    + container.escapeExpression(((helper = (helper = helpers.errorType || (depth0 != null ? depth0.errorType : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"errorType","hash":{},"data":data}) : helper)));
+},"3":function(container,depth0,helpers,partials,data) {
+    return "alert-danger";
+},"5":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
+
+  return "<p class=\"h5 text-uppercase\">"
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.status : stack1), depth0))
+    + ": "
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.statusText : stack1), depth0))
+    + "</p>";
+},"7":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "<p>"
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.message : stack1), depth0))
+    + "</p>";
+},"9":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "<p>"
+    + container.escapeExpression(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"message","hash":{},"data":data}) : helper)))
+    + "</p>";
+},"11":function(container,depth0,helpers,partials,data) {
+    return "</div>";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : {};
+
+  return "<div class=\"alert elf-alert "
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.errorType : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
+    + "\">\n"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.response : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.message : stack1),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.message : depth0),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || helpers.helperMissing).call(alias1,((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.status : stack1),500,{"name":"is","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"useData":true});
 
 this["eLife"]["templates"]["loading-template"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {

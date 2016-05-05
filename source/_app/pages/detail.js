@@ -9,24 +9,31 @@ app.detail = {
    */
   init: function() {
     if ($('.detail-page').length > 0) {
+      this.loadingTemplate = eLife.templates['loading-template'];
+      this.errorTemplate = eLife.templates['error-render'];
+      this.errorDetailTemplate = eLife.templates['error-detail'];
+      this.buttonsScheduleTemplate = eLife.templates['detail/buttons-schedule'];
+      this.buttonsReScheduleTemplate = eLife.templates['detail/buttons-reschedule'];
+      this.buttonsPublishTemplate = eLife.templates['detail/buttons-publish'];
+      this.articlesScheduledForTemplate = eLife.templates['detail/article-scheduled-for'];
+      this.articleTemplate = eLife.templates['detail/article'];
       this.extraUrl = 'patterns/04-pages-01-detail/04-pages-01-detail.html?/';
       this.article = [];
       this.errors = [];
       this.currentEvents = [];
       this.currentArticle = [];
       this.scheduleStatus = [];
+      this.articleScheduledStatusError = [];
       this.queryParams = {};
       Swag.registerHelpers(Handlebars);
       this.renderLoader();
       this.setArticleParams();
       this.getArticle();
-      this.getDetailActions();
       this.bindEvents();
     }
   },
 
   renderLoader: function() {
-    this.loadingTemplate = eLife.templates['loading-template'];
     $('#article').empty().html(this.loadingTemplate());
   },
 
@@ -115,10 +122,6 @@ app.detail = {
    */
   getDetailActions: function() {
     if (!_.isNull(this.queryParams.articleId)) {
-      this.buttonsScheduleTemplate = eLife.templates['detail/buttons-schedule'];
-      this.buttonsReScheduleTemplate = eLife.templates['detail/buttons-reschedule'];
-      this.buttonsPublishTemplate = eLife.templates['detail/buttons-publish'];
-      this.articlesScheduledForTemplate = eLife.templates['detail/article-scheduled-for'];
       var articleIds = [];
       articleIds.push(this.queryParams.articleId);
       $.ajax({
@@ -135,7 +138,17 @@ app.detail = {
         },
 
         error: function(data) {
-          console.log('Error retrieving article scheduled status');
+          console.error('Error retrieving article scheduled status');
+          console.log(data);
+          var responseText = JSON.parse(data.responseText);
+          $('#article').prepend(app.detail.errorTemplate({
+            errorType: 'warning',
+            message: app.errors.en.scheduleInformationUnavailable + ' ' + app.errors.en.refresh
+          }));
+          $('#error-console').empty().html(app.detail.errorDetailTemplate({
+            response: data,
+            responseText: responseText
+          }));
         },
 
       });
@@ -145,7 +158,7 @@ app.detail = {
    * Determine which action buttons to show for this page
    */
   renderDetailActions: function() {
-    if (this.scheduleStatus) {
+    if (!_.isEmpty(this.scheduleStatus)) {
       if (this.scheduleStatus.scheduled > 0) {
         $('.article-detail-actions', '#article').empty().html(app.detail.buttonsReScheduleTemplate({article: app.detail.article}));
         $('.article-detail-scheduled', '#article').empty().html(app.detail.articlesScheduledForTemplate({scheduleStatus: this.scheduleStatus}));
@@ -159,12 +172,16 @@ app.detail = {
               scheduleStatus: this.scheduleStatus,
             });
         $('.article-detail-actions', '#article').empty().html(buttons);
-
-        // {{ currentArticle.doi
-        // data-article-id="{{ article.id }}"
-        // data-article-version="{{ currentVersion }}"
-        // data-article-run="{{ currentEvents.run-id }}">
       }
+    } else {
+      var buttons = app.detail.buttonsPublishTemplate({
+        article: this.article,
+        currentArticle: this.currentArticle,
+        currentEvents: this.currentEvents,
+        currentVersion: this.queryParams.versionNumber,
+        currentRun: this.queryParams.runId,
+      });
+      $('.article-detail-actions', '#article').empty().html(buttons);
     }
   },
   /**
@@ -172,37 +189,39 @@ app.detail = {
    */
   getArticle: function() {
     var message;
-    if (!_.isNull(this.queryParams.articleId)) {
-      $.ajax({
-        url: app.API + 'api/article/' + this.queryParams.articleId,
-        cache: false,
-        dataType: 'json',
-        success: function(article) {
-          app.detail.article = article;
-          app.detail.setLatestArticle();
-          app.detail.currentArticle = app.detail.getCurrentArticle();
-          app.detail.currentEvents = app.detail.getCurrentRun();
-          app.detail.renderArticle();
-        },
+    // if (!_.isNull(this.queryParams.articleId)) {
+    this.queryParams.articleId = null;
+    $.ajax({
+      url: app.API + 'api/article/' + this.queryParams.articleId,
+      cache: false,
+      dataType: 'json',
+      success: function(article) {
+        app.detail.article = article;
+        app.detail.setLatestArticle();
+        app.detail.currentArticle = app.detail.getCurrentArticle();
+        app.detail.currentEvents = app.detail.getCurrentRun();
+        app.detail.renderArticle();
+        app.detail.getDetailActions();
+      },
 
-        error: function(data) {
-          this.errorTemplate = eLife.templates['error-render'];
-          $('#article').empty().html(this.errorTemplate(data));
-        },
+      error: function(data) {
+        console.error('API Error: error retriving: ' + app.API + 'api/article/' + app.detail.queryParams.articleId);
+        console.log(data);
+        var responseText = JSON.parse(data.responseText);
+        $('#article').empty().html(app.detail.errorTemplate({response: data, responseText: responseText}));
+        $('#error-console').empty().html(app.detail.errorDetailTemplate({response: data, responseText: responseText}));
+      },
 
-      });
-    } else {
-      this.errorTemplate = eLife.templates['error-render'];
-      message = 'No ArticleId was supplied. <br /><br />';
-      $('#article').empty().html(this.errorTemplate({message: message}));
-    }
+    });
+    // } else {
+    //   $('#article').empty().html(this.errorTemplate({response: {status: app.errors.en.apiError, statusText: app.errors.en.missingInformation}, message: app.errors.en.noArticleId}));
+    // }
   },
   /**
    * Render article to template
    */
   renderArticle: function() {
     if (this.article && _.isEmpty(this.errors)) {
-      this.articleTemplate = eLife.templates['detail/article'];
       $('#article').empty().html(this.articleTemplate(
           {
             article: this.article,
@@ -215,7 +234,6 @@ app.detail = {
 
       this.renderDetailActions();
     } else {
-      this.errorTemplate = eLife.templates['error-render'];
       $('#article').empty().html(this.errorTemplate(this.errors));
     }
 
@@ -231,7 +249,7 @@ app.detail = {
     }
 
     if (!this.queryParams.runId) {
-      if(_.has(this.article.versions, this.queryParams.versionNumber)) {
+      if (_.has(this.article.versions, this.queryParams.versionNumber)) {
         var lastKey = app.utils.findLastKey(this.article.versions[this.queryParams.versionNumber].runs);
         var runId = this.article.versions[this.queryParams.versionNumber].runs[lastKey]['run-id'];
         this.queryParams.runId = runId;

@@ -26,6 +26,15 @@ var app = {
   colorAdvanceArticle: '#f1f1f1',
   colorArticle: '#cde1f1',
   colorText: '#111',
+  errors: {
+    en: {
+      apiError: 'API Error',
+      missingInformation: 'Missing Information',
+      noArticleId: 'No ArticleId was supplied, please go back and try again.',
+      scheduleInformationUnavailable: 'Please note, scheduling information is unavailable at this time.',
+      refresh: 'Please refresh.',
+    },
+  },
 };
 
 
@@ -704,7 +713,8 @@ this["eLife"]["templates"]["detail/article-scheduled-for"] = Handlebars.template
 this["eLife"]["templates"]["detail/article"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return ((stack1 = container.invokePartial(partials["article-detail-actions"],depth0,{"name":"article-detail-actions","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+  return "<div class=\"detail-errors\"></div>\n"
+    + ((stack1 = container.invokePartial(partials["article-detail-actions"],depth0,{"name":"article-detail-actions","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "<div class=\"row\">\n    <div class=\"col-md-3\">\n"
     + ((stack1 = container.invokePartial(partials["article-version-list"],depth0,{"name":"article-version-list","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "    </div>\n    <div class=\"col-md-9\">\n"
@@ -745,16 +755,70 @@ this["eLife"]["templates"]["detail/buttons-schedule"] = Handlebars.template({"co
     + "\">\n    <span class=\"fa fa-calendar\"></span>\n    Schedule\n</button>";
 },"useData":true});
 
-this["eLife"]["templates"]["error-render"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+this["eLife"]["templates"]["error-detail"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
-  return "<section>\n    <p class=\"lead\"><strong>"
-    + alias4(((helper = (helper = helpers.status || (depth0 != null ? depth0.status : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"status","hash":{},"data":data}) : helper)))
+  return "<div class=\"alert alert-muted\">\n    <div class=\"row\">\n        <div class=\"col-xs-6\"><p class=\"h5\">"
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.status : stack1), depth0))
     + " "
-    + alias4(((helper = (helper = helpers.statusText || (depth0 != null ? depth0.statusText : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"statusText","hash":{},"data":data}) : helper)))
-    + "</strong></p>\n    <p>Sorry an error occurred while retrieving the requested information.</p>\n    <br />\n    <p>"
-    + ((stack1 = ((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"message","hash":{},"data":data}) : helper))) != null ? stack1 : "")
-    + "</p>\n    <br />\n</section>";
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.statusText : stack1), depth0))
+    + "</p></div>\n        <div class=\"col-xs-6 text-right\">\n            <button class=\"btn btn-default\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseExample\" aria-expanded=\"false\" aria-controls=\"collapseExample\">\n                Show Details\n            </button>\n        </div>\n    </div>\n    <div class=\"collapse\" id=\"collapseExample\">\n        <hr />\n        "
+    + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.detail : stack1),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n    </div>\n\n</div>\n";
+},"2":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "<div class=\"well\"><p>"
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.detail : stack1), depth0))
+    + "</p></div>";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.detail : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"useData":true});
+
+this["eLife"]["templates"]["error-render"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "alert-"
+    + container.escapeExpression(((helper = (helper = helpers.errorType || (depth0 != null ? depth0.errorType : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"errorType","hash":{},"data":data}) : helper)));
+},"3":function(container,depth0,helpers,partials,data) {
+    return "alert-danger";
+},"5":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
+
+  return "<p class=\"h5 text-uppercase\">"
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.status : stack1), depth0))
+    + ": "
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.statusText : stack1), depth0))
+    + "</p>";
+},"7":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "<p>"
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.message : stack1), depth0))
+    + "</p>";
+},"9":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "<p>"
+    + container.escapeExpression(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"message","hash":{},"data":data}) : helper)))
+    + "</p>";
+},"11":function(container,depth0,helpers,partials,data) {
+    return "</div>";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : {};
+
+  return "<div class=\"alert elf-alert "
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.errorType : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
+    + "\">\n"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.response : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.message : stack1),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.message : depth0),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || helpers.helperMissing).call(alias1,((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.status : stack1),500,{"name":"is","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"useData":true});
 
 this["eLife"]["templates"]["loading-template"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -1217,6 +1281,7 @@ app.schedule = {
     if ($('.current-page').length > 0 || $('.detail-page').length > 0 || $('.scheduled-page').length > 0) {
       this.articleModalBodyTemplate = eLife.templates['schedule/article-schedule-modal-body'];
       this.articleModalFooterTemplate = eLife.templates['schedule/article-schedule-modal-footer'];
+      this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
       this.articleId = null;
       this.articleScheduled = null;
       this.scheduleDate = null;
@@ -1446,10 +1511,10 @@ app.schedule = {
       url: app.API + 'api/schedule_article_publication',
       data: JSON.stringify(scheduleData),
       success: function(data) {
-        this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
+        console.log(data)
         var template = {actionType: app.schedule.scheduleActionType};
         template.success = (data.result == 'success') ? true : false;
-        $('#schedule-modal .modal-body').html(this.queueArticleStatusTemplate(template));
+        $('#schedule-modal .modal-body').html(app.schedule.queueArticleStatusTemplate(template));
         $('#schedule-close', '#schedule-modal').text('Close');
         app.isScheduling = false;
         app.isAllScheduled = true;
@@ -1457,12 +1522,11 @@ app.schedule = {
 
       error: function(data) {
         var template = {
-          success: true,
+          result: 'Failed',
           actionType: app.schedule.scheduleActionType,
-          message: 'There was an error talking to the API.',
+          message: 'There was an error talking to the API, Your article, "' + app.schedule.articleId + '" has not been scheduled.',
         };
-        this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
-        $('#schedule-modal .modal-body').html(this.queueArticleStatusTemplate(template));
+        $('#schedule-modal .modal-body').html(app.schedule.queueArticleStatusTemplate(template));
         app.isScheduling = false;
         app.isAllScheduled = true;
       },
@@ -1502,6 +1566,12 @@ app.current = {
    */
   init: function() {
     if ($('.current-page').length > 0) {
+      this.articleTemplate = eLife.templates['current/article'];
+      this.articleStatsTemplate = eLife.templates['current/article-stats-template'];
+      this.loadingTemplate = eLife.templates['loading-template'];
+      this.errorDetailTemplate = eLife.templates['error-detail'];
+      this.errorTemplate = eLife.templates['error-render'];
+      this.errorDetailTemplate = eLife.templates['error-detail'];
       this.articles = [];
       Swag.registerHelpers(Handlebars);
       this.bindEvents();
@@ -1528,7 +1598,6 @@ app.current = {
    * Renders both the 'summary' at the top of the page and the list below
    */
   renderArticles: function() {
-    this.loadingTemplate = eLife.templates['loading-template'];
     $('#articles').empty().html(this.loadingTemplate());
     $.ajax({
       url: app.API + 'api/current',
@@ -1536,10 +1605,8 @@ app.current = {
       dataType: 'json',
       success: function(articles) {
         app.current.articles = articles;
-        this.articleTemplate = eLife.templates['current/article'];
-        $('#articles').empty().html(this.articleTemplate(app.current.sortArticles(articles)));
-        this.articleStatsTemplate = eLife.templates['current/article-stats-template'];
-        $('#articleStats').html(this.articleStatsTemplate(app.current.sortArticles(articles)));
+        $('#articles').empty().html(app.current.articleTemplate(app.current.sortArticles(articles)));
+        $('#articleStats').html(app.current.articleStatsTemplate(app.current.sortArticles(articles)));
         $('.btn-publish-queued').hide();
         if (app.config.ISPP) {
           // to work in PP we need to amend the urls
@@ -1554,8 +1621,11 @@ app.current = {
       },
 
       error: function(data) {
-        this.errorTemplate = eLife.templates['error-render'];
-        $('#articles').empty().html(this.errorTemplate(data));
+        console.error('API Error Occured');
+        console.log(data);
+        var responseText = JSON.parse(data.responseText);
+        $('#articles').empty().html(app.current.errorTemplate({response: data, responseText: responseText}));
+        $('#error-console').empty().html(app.current.errorDetailTemplate({response: data, responseText: responseText}));
       },
 
     });
@@ -1655,24 +1725,31 @@ app.detail = {
    */
   init: function() {
     if ($('.detail-page').length > 0) {
+      this.loadingTemplate = eLife.templates['loading-template'];
+      this.errorTemplate = eLife.templates['error-render'];
+      this.errorDetailTemplate = eLife.templates['error-detail'];
+      this.buttonsScheduleTemplate = eLife.templates['detail/buttons-schedule'];
+      this.buttonsReScheduleTemplate = eLife.templates['detail/buttons-reschedule'];
+      this.buttonsPublishTemplate = eLife.templates['detail/buttons-publish'];
+      this.articlesScheduledForTemplate = eLife.templates['detail/article-scheduled-for'];
+      this.articleTemplate = eLife.templates['detail/article'];
       this.extraUrl = 'patterns/04-pages-01-detail/04-pages-01-detail.html?/';
       this.article = [];
       this.errors = [];
       this.currentEvents = [];
       this.currentArticle = [];
       this.scheduleStatus = [];
+      this.articleScheduledStatusError = [];
       this.queryParams = {};
       Swag.registerHelpers(Handlebars);
       this.renderLoader();
       this.setArticleParams();
       this.getArticle();
-      this.getDetailActions();
       this.bindEvents();
     }
   },
 
   renderLoader: function() {
-    this.loadingTemplate = eLife.templates['loading-template'];
     $('#article').empty().html(this.loadingTemplate());
   },
 
@@ -1761,10 +1838,6 @@ app.detail = {
    */
   getDetailActions: function() {
     if (!_.isNull(this.queryParams.articleId)) {
-      this.buttonsScheduleTemplate = eLife.templates['detail/buttons-schedule'];
-      this.buttonsReScheduleTemplate = eLife.templates['detail/buttons-reschedule'];
-      this.buttonsPublishTemplate = eLife.templates['detail/buttons-publish'];
-      this.articlesScheduledForTemplate = eLife.templates['detail/article-scheduled-for'];
       var articleIds = [];
       articleIds.push(this.queryParams.articleId);
       $.ajax({
@@ -1781,7 +1854,17 @@ app.detail = {
         },
 
         error: function(data) {
-          console.log('Error retrieving article scheduled status');
+          console.error('Error retrieving article scheduled status');
+          console.log(data);
+          var responseText = JSON.parse(data.responseText);
+          $('#article').prepend(app.detail.errorTemplate({
+            errorType: 'warning',
+            message: app.errors.en.scheduleInformationUnavailable + ' ' + app.errors.en.refresh
+          }));
+          $('#error-console').empty().html(app.detail.errorDetailTemplate({
+            response: data,
+            responseText: responseText
+          }));
         },
 
       });
@@ -1791,7 +1874,7 @@ app.detail = {
    * Determine which action buttons to show for this page
    */
   renderDetailActions: function() {
-    if (this.scheduleStatus) {
+    if (!_.isEmpty(this.scheduleStatus)) {
       if (this.scheduleStatus.scheduled > 0) {
         $('.article-detail-actions', '#article').empty().html(app.detail.buttonsReScheduleTemplate({article: app.detail.article}));
         $('.article-detail-scheduled', '#article').empty().html(app.detail.articlesScheduledForTemplate({scheduleStatus: this.scheduleStatus}));
@@ -1805,12 +1888,16 @@ app.detail = {
               scheduleStatus: this.scheduleStatus,
             });
         $('.article-detail-actions', '#article').empty().html(buttons);
-
-        // {{ currentArticle.doi
-        // data-article-id="{{ article.id }}"
-        // data-article-version="{{ currentVersion }}"
-        // data-article-run="{{ currentEvents.run-id }}">
       }
+    } else {
+      var buttons = app.detail.buttonsPublishTemplate({
+        article: this.article,
+        currentArticle: this.currentArticle,
+        currentEvents: this.currentEvents,
+        currentVersion: this.queryParams.versionNumber,
+        currentRun: this.queryParams.runId,
+      });
+      $('.article-detail-actions', '#article').empty().html(buttons);
     }
   },
   /**
@@ -1818,37 +1905,39 @@ app.detail = {
    */
   getArticle: function() {
     var message;
-    if (!_.isNull(this.queryParams.articleId)) {
-      $.ajax({
-        url: app.API + 'api/article/' + this.queryParams.articleId,
-        cache: false,
-        dataType: 'json',
-        success: function(article) {
-          app.detail.article = article;
-          app.detail.setLatestArticle();
-          app.detail.currentArticle = app.detail.getCurrentArticle();
-          app.detail.currentEvents = app.detail.getCurrentRun();
-          app.detail.renderArticle();
-        },
+    // if (!_.isNull(this.queryParams.articleId)) {
+    this.queryParams.articleId = null;
+    $.ajax({
+      url: app.API + 'api/article/' + this.queryParams.articleId,
+      cache: false,
+      dataType: 'json',
+      success: function(article) {
+        app.detail.article = article;
+        app.detail.setLatestArticle();
+        app.detail.currentArticle = app.detail.getCurrentArticle();
+        app.detail.currentEvents = app.detail.getCurrentRun();
+        app.detail.renderArticle();
+        app.detail.getDetailActions();
+      },
 
-        error: function(data) {
-          this.errorTemplate = eLife.templates['error-render'];
-          $('#article').empty().html(this.errorTemplate(data));
-        },
+      error: function(data) {
+        console.error('API Error: error retriving: ' + app.API + 'api/article/' + app.detail.queryParams.articleId);
+        console.log(data);
+        var responseText = JSON.parse(data.responseText);
+        $('#article').empty().html(app.detail.errorTemplate({response: data, responseText: responseText}));
+        $('#error-console').empty().html(app.detail.errorDetailTemplate({response: data, responseText: responseText}));
+      },
 
-      });
-    } else {
-      this.errorTemplate = eLife.templates['error-render'];
-      message = 'No ArticleId was supplied. <br /><br />';
-      $('#article').empty().html(this.errorTemplate({message: message}));
-    }
+    });
+    // } else {
+    //   $('#article').empty().html(this.errorTemplate({response: {status: app.errors.en.apiError, statusText: app.errors.en.missingInformation}, message: app.errors.en.noArticleId}));
+    // }
   },
   /**
    * Render article to template
    */
   renderArticle: function() {
     if (this.article && _.isEmpty(this.errors)) {
-      this.articleTemplate = eLife.templates['detail/article'];
       $('#article').empty().html(this.articleTemplate(
           {
             article: this.article,
@@ -1861,7 +1950,6 @@ app.detail = {
 
       this.renderDetailActions();
     } else {
-      this.errorTemplate = eLife.templates['error-render'];
       $('#article').empty().html(this.errorTemplate(this.errors));
     }
 
@@ -1877,7 +1965,7 @@ app.detail = {
     }
 
     if (!this.queryParams.runId) {
-      if(_.has(this.article.versions, this.queryParams.versionNumber)) {
+      if (_.has(this.article.versions, this.queryParams.versionNumber)) {
         var lastKey = app.utils.findLastKey(this.article.versions[this.queryParams.versionNumber].runs);
         var runId = this.article.versions[this.queryParams.versionNumber].runs[lastKey]['run-id'];
         this.queryParams.runId = runId;
@@ -2008,6 +2096,8 @@ app.scheduled = {
    */
   init: function() {
     if ($('.scheduled-page').length > 0) {
+      this.errorTemplate = eLife.templates['error-render'];
+      this.errorDetailTemplate = eLife.templates['error-detail'];
       this.scheduledContentListTemplate = eLife.templates['scheduled/scheduled-content-list'];
       this.scheduledContentCalendarTemplate = eLife.templates['scheduled/scheduled-content-calendar'];
       this.scheduledActionsTemplate = eLife.templates['scheduled/scheduled-actions'];
@@ -2102,8 +2192,17 @@ app.scheduled = {
       },
 
       error: function(data) {
-        this.errorTemplate = eLife.templates['error-render'];
-        $('.schedule-page__content').empty().html(this.errorTemplate(data));
+        console.error('Error retrieving date from ' + app.API + 'api/article_schedule_for_range/from/' + start + '/to/' + end + '/');
+        console.log(data);
+        var responseText = JSON.parse(data.responseText);
+        $('.schedule-page__content', app.scheduled.$el).empty().html(app.scheduled.errorTemplate({
+          response: data,
+          responseText: responseText
+        }));
+        $('#error-console').empty().html(app.scheduled.errorDetailTemplate({
+          response: data,
+          responseText: responseText
+        }));
       },
     });
   },
@@ -2123,7 +2222,7 @@ app.scheduled = {
         var toolTipContent = '<strong>' + event.title + '</strong><br/>' + moment(event.start).format('MMMM d, YYYY') + ' ' + moment(event.start).format('h:mm a');
         element.qtip({
           content: toolTipContent,
-          hide: { fixed: true, delay: 200 },
+          hide: {fixed: true, delay: 200},
           style: 'qtip-light',
           position: {
             my: 'bottom center',

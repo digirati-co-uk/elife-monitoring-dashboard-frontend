@@ -11,6 +11,7 @@ app.schedule = {
     if ($('.current-page').length > 0 || $('.detail-page').length > 0 || $('.scheduled-page').length > 0) {
       this.articleModalBodyTemplate = eLife.templates['schedule/article-schedule-modal-body'];
       this.articleModalFooterTemplate = eLife.templates['schedule/article-schedule-modal-footer'];
+      this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
       this.articleId = null;
       this.articleScheduled = null;
       this.scheduleDate = null;
@@ -240,10 +241,10 @@ app.schedule = {
       url: app.API + 'api/schedule_article_publication',
       data: JSON.stringify(scheduleData),
       success: function(data) {
-        this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
+        console.log(data)
         var template = {actionType: app.schedule.scheduleActionType};
         template.success = (data.result == 'success') ? true : false;
-        $('#schedule-modal .modal-body').html(this.queueArticleStatusTemplate(template));
+        $('#schedule-modal .modal-body').html(app.schedule.queueArticleStatusTemplate(template));
         $('#schedule-close', '#schedule-modal').text('Close');
         app.isScheduling = false;
         app.isAllScheduled = true;
@@ -251,12 +252,11 @@ app.schedule = {
 
       error: function(data) {
         var template = {
-          success: true,
+          result: 'Failed',
           actionType: app.schedule.scheduleActionType,
-          message: 'There was an error talking to the API.',
+          message: 'There was an error talking to the API, Your article, "' + app.schedule.articleId + '" has not been scheduled.',
         };
-        this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
-        $('#schedule-modal .modal-body').html(this.queueArticleStatusTemplate(template));
+        $('#schedule-modal .modal-body').html(app.schedule.queueArticleStatusTemplate(template));
         app.isScheduling = false;
         app.isAllScheduled = true;
       },

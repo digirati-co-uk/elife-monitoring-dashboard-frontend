@@ -6,6 +6,12 @@ app.current = {
    */
   init: function() {
     if ($('.current-page').length > 0) {
+      this.articleTemplate = eLife.templates['current/article'];
+      this.articleStatsTemplate = eLife.templates['current/article-stats-template'];
+      this.loadingTemplate = eLife.templates['loading-template'];
+      this.errorDetailTemplate = eLife.templates['error-detail'];
+      this.errorTemplate = eLife.templates['error-render'];
+      this.errorDetailTemplate = eLife.templates['error-detail'];
       this.articles = [];
       Swag.registerHelpers(Handlebars);
       this.bindEvents();
@@ -32,7 +38,6 @@ app.current = {
    * Renders both the 'summary' at the top of the page and the list below
    */
   renderArticles: function() {
-    this.loadingTemplate = eLife.templates['loading-template'];
     $('#articles').empty().html(this.loadingTemplate());
     $.ajax({
       url: app.API + 'api/current',
@@ -40,10 +45,8 @@ app.current = {
       dataType: 'json',
       success: function(articles) {
         app.current.articles = articles;
-        this.articleTemplate = eLife.templates['current/article'];
-        $('#articles').empty().html(this.articleTemplate(app.current.sortArticles(articles)));
-        this.articleStatsTemplate = eLife.templates['current/article-stats-template'];
-        $('#articleStats').html(this.articleStatsTemplate(app.current.sortArticles(articles)));
+        $('#articles').empty().html(app.current.articleTemplate(app.current.sortArticles(articles)));
+        $('#articleStats').html(app.current.articleStatsTemplate(app.current.sortArticles(articles)));
         $('.btn-publish-queued').hide();
         if (app.config.ISPP) {
           // to work in PP we need to amend the urls
@@ -58,8 +61,11 @@ app.current = {
       },
 
       error: function(data) {
-        this.errorTemplate = eLife.templates['error-render'];
-        $('#articles').empty().html(this.errorTemplate(data));
+        console.error('API Error Occured');
+        console.log(data);
+        var responseText = JSON.parse(data.responseText);
+        $('#articles').empty().html(app.current.errorTemplate({response: data, responseText: responseText}));
+        $('#error-console').empty().html(app.current.errorDetailTemplate({response: data, responseText: responseText}));
       },
 
     });

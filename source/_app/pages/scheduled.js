@@ -10,6 +10,8 @@ app.scheduled = {
    */
   init: function() {
     if ($('.scheduled-page').length > 0) {
+      this.errorTemplate = eLife.templates['error-render'];
+      this.errorDetailTemplate = eLife.templates['error-detail'];
       this.scheduledContentListTemplate = eLife.templates['scheduled/scheduled-content-list'];
       this.scheduledContentCalendarTemplate = eLife.templates['scheduled/scheduled-content-calendar'];
       this.scheduledActionsTemplate = eLife.templates['scheduled/scheduled-actions'];
@@ -104,8 +106,17 @@ app.scheduled = {
       },
 
       error: function(data) {
-        this.errorTemplate = eLife.templates['error-render'];
-        $('.schedule-page__content').empty().html(this.errorTemplate(data));
+        console.error('Error retrieving date from ' + app.API + 'api/article_schedule_for_range/from/' + start + '/to/' + end + '/');
+        console.log(data);
+        var responseText = JSON.parse(data.responseText);
+        $('.schedule-page__content', app.scheduled.$el).empty().html(app.scheduled.errorTemplate({
+          response: data,
+          responseText: responseText
+        }));
+        $('#error-console').empty().html(app.scheduled.errorDetailTemplate({
+          response: data,
+          responseText: responseText
+        }));
       },
     });
   },
@@ -125,7 +136,7 @@ app.scheduled = {
         var toolTipContent = '<strong>' + event.title + '</strong><br/>' + moment(event.start).format('MMMM d, YYYY') + ' ' + moment(event.start).format('h:mm a');
         element.qtip({
           content: toolTipContent,
-          hide: { fixed: true, delay: 200 },
+          hide: {fixed: true, delay: 200},
           style: 'qtip-light',
           position: {
             my: 'bottom center',
