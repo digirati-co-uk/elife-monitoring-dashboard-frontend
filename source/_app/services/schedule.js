@@ -42,7 +42,7 @@ app.schedule = {
   },
 
   /**
-   * set the time when time is entred
+   * set the time when time is entered
    */
   setTime: function() {
     app.schedule.scheduleTime = $('input[name="schedule_hour_submit"]').val() + ':' + $('input[name="schedule_minute_submit"]').val() + ' ' + $('select[name="schedule_ampm_submit"] option:selected').val();
@@ -251,12 +251,17 @@ app.schedule = {
       },
 
       error: function(data) {
+        console.error('API Error: ' + app.API + 'api/schedule_article_publication');
+        console.log(scheduleData);
+        console.log(data);
         var template = {
           result: 'Failed',
           actionType: app.schedule.scheduleActionType,
           message: 'There was an error talking to the API, Your article, "' + app.schedule.articleId + '" has not been scheduled.',
         };
         $('#schedule-modal .modal-body').html(app.schedule.queueArticleStatusTemplate(template));
+        var responseText = JSON.parse(data.responseText);
+        $('#schedule-modal .modal-body').append(app.detail.errorDetailTemplate({response: data, responseText: responseText}));
         app.isScheduling = false;
         app.isAllScheduled = true;
       },

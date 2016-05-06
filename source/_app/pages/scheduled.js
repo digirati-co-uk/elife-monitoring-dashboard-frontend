@@ -94,8 +94,8 @@ app.scheduled = {
    * @param end
    */
   fetchScheduledArticles: function(start, end) {
-    console.log('start ' + moment.unix(start).format('dddd, MMMM Do YYYY, h:mm:ss a'));
-    console.log('end ' + moment.unix(end).format('dddd, MMMM Do YYYY, h:mm:ss a'));
+    console.info('start ' + moment.unix(start).format('dddd, MMMM Do YYYY, h:mm:ss a'));
+    console.info('end ' + moment.unix(end).format('dddd, MMMM Do YYYY, h:mm:ss a'));
     return $.ajax({
       url: app.API + 'api/article_schedule_for_range/from/' + start + '/to/' + end + '/',
       cache: false,
@@ -106,17 +106,11 @@ app.scheduled = {
       },
 
       error: function(data) {
-        console.error('Error retrieving date from ' + app.API + 'api/article_schedule_for_range/from/' + start + '/to/' + end + '/');
+        console.error('API Error: ' + app.API + 'api/article_schedule_for_range/from/' + start + '/to/' + end + '/');
         console.log(data);
         var responseText = JSON.parse(data.responseText);
-        $('.schedule-page__content', app.scheduled.$el).empty().html(app.scheduled.errorTemplate({
-          response: data,
-          responseText: responseText
-        }));
-        $('#error-console').empty().html(app.scheduled.errorDetailTemplate({
-          response: data,
-          responseText: responseText
-        }));
+        $('.schedule-page__content', app.scheduled.$el).empty().html(app.scheduled.errorTemplate({response: data,responseText: responseText}));
+        $('#error-console').empty().html(app.scheduled.errorDetailTemplate({response: data, responseText: responseText}));
       },
     });
   },

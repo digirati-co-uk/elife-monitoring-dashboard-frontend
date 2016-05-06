@@ -138,17 +138,11 @@ app.detail = {
         },
 
         error: function(data) {
-          console.error('Error retrieving article scheduled status');
+          console.error('API Error: ' + app.API + 'api/current');
           console.log(data);
           var responseText = JSON.parse(data.responseText);
-          $('#article').prepend(app.detail.errorTemplate({
-            errorType: 'warning',
-            message: app.errors.en.scheduleInformationUnavailable + ' ' + app.errors.en.refresh
-          }));
-          $('#error-console').empty().html(app.detail.errorDetailTemplate({
-            response: data,
-            responseText: responseText
-          }));
+          $('#article').prepend(app.detail.errorTemplate({errorType: 'warning',message: app.errors.en.scheduleInformationUnavailable + ' ' + app.errors.en.refresh}));
+          $('#error-console').empty().html(app.detail.errorDetailTemplate({response: data,responseText: responseText}));
         },
 
       });
@@ -189,33 +183,37 @@ app.detail = {
    */
   getArticle: function() {
     var message;
-    // if (!_.isNull(this.queryParams.articleId)) {
-    this.queryParams.articleId = null;
-    $.ajax({
-      url: app.API + 'api/article/' + this.queryParams.articleId,
-      cache: false,
-      dataType: 'json',
-      success: function(article) {
-        app.detail.article = article;
-        app.detail.setLatestArticle();
-        app.detail.currentArticle = app.detail.getCurrentArticle();
-        app.detail.currentEvents = app.detail.getCurrentRun();
-        app.detail.renderArticle();
-        app.detail.getDetailActions();
-      },
+    if (!_.isNull(this.queryParams.articleId)) {
+      $.ajax({
+        url: app.API + 'api/article/' + this.queryParams.articleId,
+        cache: false,
+        dataType: 'json',
+        success: function(article) {
+          app.detail.article = article;
+          app.detail.setLatestArticle();
+          app.detail.currentArticle = app.detail.getCurrentArticle();
+          app.detail.currentEvents = app.detail.getCurrentRun();
+          app.detail.renderArticle();
+          app.detail.getDetailActions();
+        },
 
-      error: function(data) {
-        console.error('API Error: error retriving: ' + app.API + 'api/article/' + app.detail.queryParams.articleId);
-        console.log(data);
-        var responseText = JSON.parse(data.responseText);
-        $('#article').empty().html(app.detail.errorTemplate({response: data, responseText: responseText}));
-        $('#error-console').empty().html(app.detail.errorDetailTemplate({response: data, responseText: responseText}));
-      },
+        error: function(data) {
+          console.error('API Error: ' + app.API + 'api/article/' + app.detail.queryParams.articleId);
+          console.log(data);
+          var responseText = JSON.parse(data.responseText);
+          $('#article').empty().html(app.detail.errorTemplate({response: data, responseText: responseText}));
+          $('#error-console').empty().html(app.detail.errorDetailTemplate({response: data, responseText: responseText}));
+        },
 
-    });
-    // } else {
-    //   $('#article').empty().html(this.errorTemplate({response: {status: app.errors.en.apiError, statusText: app.errors.en.missingInformation}, message: app.errors.en.noArticleId}));
-    // }
+      });
+    } else {
+      $('#article').empty().html(this.errorTemplate({
+        response: {
+          status: app.errors.en.apiError,
+          statusText: app.errors.en.missingInformation
+        }, message: app.errors.en.noArticleId
+      }));
+    }
   },
   /**
    * Render article to template
@@ -267,7 +265,12 @@ app.detail = {
     if (_.has(this.article.versions, this.queryParams.versionNumber)) {
       return this.article.versions[this.queryParams.versionNumber].details;
     } else {
-      this.errors = {message: 'There are no versions with this ID.<br /><br />'};
+      this.errors = {
+        response: {
+          status: app.errors.en.apiError,
+          statusText: app.errors.en.incorrectInformation,
+        }, message: app.errors.en.noVersions + ' (' + this.queryParams.versionNumber + ')'
+      };
       return false;
     }
   },
@@ -281,7 +284,12 @@ app.detail = {
       if (_.findWhere(this.article.versions[this.queryParams.versionNumber].runs, {'run-id': this.queryParams.runId})) {
         return _.findWhere(this.article.versions[this.queryParams.versionNumber].runs, {'run-id': this.queryParams.runId});
       } else {
-        this.errors = {message: 'There are no runs with this ID.<br /><br />'};
+        this.errors = {
+          response: {
+            status: app.errors.en.apiError,
+            statusText: app.errors.en.incorrectInformation,
+          }, message: app.errors.en.noRuns + ' (' + this.queryParams.runId + ')'
+        };
         return false;
       }
     }
@@ -298,6 +306,7 @@ app.detail = {
     if (_.findWhere(this.article.versions[this.queryParams.versionNumber].runs, {'run-id': this.queryParams.runId})) {
       this.setCurrentRun(_.findWhere(this.article.versions[this.queryParams.versionNumber].runs, {'run-id': this.queryParams.runId}));
     }
+
     this.renderArticle();
   },
 

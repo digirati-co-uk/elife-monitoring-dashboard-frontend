@@ -18,9 +18,12 @@ var app = {
     en: {
       apiError: 'API Error',
       missingInformation: 'Missing Information',
-      noArticleId: 'No ArticleId was supplied, please go back and try again.',
+      incorrectInformation: 'Incorrect Information',
+      noArticleId: 'No Article ID was supplied.',
       scheduleInformationUnavailable: 'Please note, scheduling information is unavailable at this time.',
       refresh: 'Please refresh.',
+      noRuns: 'There are no runs with this ID.',
+      noVersions: 'There are no versions with this ID.',
     },
   },
 };

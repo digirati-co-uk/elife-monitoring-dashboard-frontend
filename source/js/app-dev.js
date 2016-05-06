@@ -31,9 +31,12 @@ var app = {
     en: {
       apiError: 'API Error',
       missingInformation: 'Missing Information',
-      noArticleId: 'No ArticleId was supplied, please go back and try again.',
+      incorrectInformation: 'Incorrect Information',
+      noArticleId: 'No Article ID was supplied.',
       scheduleInformationUnavailable: 'Please note, scheduling information is unavailable at this time.',
       refresh: 'Please refresh.',
+      noRuns: 'There are no runs with this ID.',
+      noVersions: 'There are no versions with this ID.',
     },
   },
 };
@@ -757,16 +760,32 @@ this["eLife"]["templates"]["detail/buttons-schedule"] = Handlebars.template({"co
 },"useData":true});
 
 this["eLife"]["templates"]["error-detail"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression, alias3=depth0 != null ? depth0 : {};
 
   return "<div class=\"alert alert-muted\">\n    <div class=\"row\">\n        <div class=\"col-xs-6\"><p class=\"h5\">"
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.status : stack1), depth0))
     + " "
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.statusText : stack1), depth0))
     + "</p></div>\n        <div class=\"col-xs-6 text-right\">\n            <button class=\"btn btn-default\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseExample\" aria-expanded=\"false\" aria-controls=\"collapseExample\">\n                Show Details\n            </button>\n        </div>\n    </div>\n    <div class=\"collapse\" id=\"collapseExample\">\n        <hr />\n        "
-    + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.detail : stack1),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias3,((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.message : stack1),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n        "
+    + ((stack1 = helpers["if"].call(alias3,(depth0 != null ? depth0.message : depth0),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n        "
+    + ((stack1 = helpers["if"].call(alias3,((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.detail : stack1),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n    </div>\n\n</div>\n";
 },"2":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "<p>"
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.message : stack1), depth0))
+    + "</p>";
+},"4":function(container,depth0,helpers,partials,data) {
+    var stack1, helper;
+
+  return "<p>"
+    + ((stack1 = ((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"message","hash":{},"data":data}) : helper))) != null ? stack1 : "")
+    + "</p>";
+},"6":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "<div class=\"well\"><p>"
@@ -800,10 +819,10 @@ this["eLife"]["templates"]["error-render"] = Handlebars.template({"1":function(c
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.message : stack1), depth0))
     + "</p>";
 },"9":function(container,depth0,helpers,partials,data) {
-    var helper;
+    var stack1, helper;
 
   return "<p>"
-    + container.escapeExpression(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"message","hash":{},"data":data}) : helper)))
+    + ((stack1 = ((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"message","hash":{},"data":data}) : helper))) != null ? stack1 : "")
     + "</p>";
 },"11":function(container,depth0,helpers,partials,data) {
     return "</div>";
@@ -1313,7 +1332,7 @@ app.schedule = {
   },
 
   /**
-   * set the time when time is entred
+   * set the time when time is entered
    */
   setTime: function() {
     app.schedule.scheduleTime = $('input[name="schedule_hour_submit"]').val() + ':' + $('input[name="schedule_minute_submit"]').val() + ' ' + $('select[name="schedule_ampm_submit"] option:selected').val();
@@ -1522,12 +1541,17 @@ app.schedule = {
       },
 
       error: function(data) {
+        console.error('API Error: ' + app.API + 'api/schedule_article_publication');
+        console.log(scheduleData);
+        console.log(data);
         var template = {
           result: 'Failed',
           actionType: app.schedule.scheduleActionType,
           message: 'There was an error talking to the API, Your article, "' + app.schedule.articleId + '" has not been scheduled.',
         };
         $('#schedule-modal .modal-body').html(app.schedule.queueArticleStatusTemplate(template));
+        var responseText = JSON.parse(data.responseText);
+        $('#schedule-modal .modal-body').append(app.detail.errorDetailTemplate({response: data, responseText: responseText}));
         app.isScheduling = false;
         app.isAllScheduled = true;
       },
@@ -1622,7 +1646,7 @@ app.current = {
       },
 
       error: function(data) {
-        console.error('API Error Occured');
+        console.error('API Error: ' + app.API + 'api/current');
         console.log(data);
         var responseText = JSON.parse(data.responseText);
         $('#articles').empty().html(app.current.errorTemplate({response: data, responseText: responseText}));
@@ -1855,17 +1879,11 @@ app.detail = {
         },
 
         error: function(data) {
-          console.error('Error retrieving article scheduled status');
+          console.error('API Error: ' + app.API + 'api/current');
           console.log(data);
           var responseText = JSON.parse(data.responseText);
-          $('#article').prepend(app.detail.errorTemplate({
-            errorType: 'warning',
-            message: app.errors.en.scheduleInformationUnavailable + ' ' + app.errors.en.refresh
-          }));
-          $('#error-console').empty().html(app.detail.errorDetailTemplate({
-            response: data,
-            responseText: responseText
-          }));
+          $('#article').prepend(app.detail.errorTemplate({errorType: 'warning',message: app.errors.en.scheduleInformationUnavailable + ' ' + app.errors.en.refresh}));
+          $('#error-console').empty().html(app.detail.errorDetailTemplate({response: data,responseText: responseText}));
         },
 
       });
@@ -1906,33 +1924,37 @@ app.detail = {
    */
   getArticle: function() {
     var message;
-    // if (!_.isNull(this.queryParams.articleId)) {
-    this.queryParams.articleId = null;
-    $.ajax({
-      url: app.API + 'api/article/' + this.queryParams.articleId,
-      cache: false,
-      dataType: 'json',
-      success: function(article) {
-        app.detail.article = article;
-        app.detail.setLatestArticle();
-        app.detail.currentArticle = app.detail.getCurrentArticle();
-        app.detail.currentEvents = app.detail.getCurrentRun();
-        app.detail.renderArticle();
-        app.detail.getDetailActions();
-      },
+    if (!_.isNull(this.queryParams.articleId)) {
+      $.ajax({
+        url: app.API + 'api/article/' + this.queryParams.articleId,
+        cache: false,
+        dataType: 'json',
+        success: function(article) {
+          app.detail.article = article;
+          app.detail.setLatestArticle();
+          app.detail.currentArticle = app.detail.getCurrentArticle();
+          app.detail.currentEvents = app.detail.getCurrentRun();
+          app.detail.renderArticle();
+          app.detail.getDetailActions();
+        },
 
-      error: function(data) {
-        console.error('API Error: error retriving: ' + app.API + 'api/article/' + app.detail.queryParams.articleId);
-        console.log(data);
-        var responseText = JSON.parse(data.responseText);
-        $('#article').empty().html(app.detail.errorTemplate({response: data, responseText: responseText}));
-        $('#error-console').empty().html(app.detail.errorDetailTemplate({response: data, responseText: responseText}));
-      },
+        error: function(data) {
+          console.error('API Error: ' + app.API + 'api/article/' + app.detail.queryParams.articleId);
+          console.log(data);
+          var responseText = JSON.parse(data.responseText);
+          $('#article').empty().html(app.detail.errorTemplate({response: data, responseText: responseText}));
+          $('#error-console').empty().html(app.detail.errorDetailTemplate({response: data, responseText: responseText}));
+        },
 
-    });
-    // } else {
-    //   $('#article').empty().html(this.errorTemplate({response: {status: app.errors.en.apiError, statusText: app.errors.en.missingInformation}, message: app.errors.en.noArticleId}));
-    // }
+      });
+    } else {
+      $('#article').empty().html(this.errorTemplate({
+        response: {
+          status: app.errors.en.apiError,
+          statusText: app.errors.en.missingInformation
+        }, message: app.errors.en.noArticleId
+      }));
+    }
   },
   /**
    * Render article to template
@@ -1984,7 +2006,12 @@ app.detail = {
     if (_.has(this.article.versions, this.queryParams.versionNumber)) {
       return this.article.versions[this.queryParams.versionNumber].details;
     } else {
-      this.errors = {message: 'There are no versions with this ID.<br /><br />'};
+      this.errors = {
+        response: {
+          status: app.errors.en.apiError,
+          statusText: app.errors.en.incorrectInformation,
+        }, message: app.errors.en.noVersions + ' (' + this.queryParams.versionNumber + ')'
+      };
       return false;
     }
   },
@@ -1998,7 +2025,12 @@ app.detail = {
       if (_.findWhere(this.article.versions[this.queryParams.versionNumber].runs, {'run-id': this.queryParams.runId})) {
         return _.findWhere(this.article.versions[this.queryParams.versionNumber].runs, {'run-id': this.queryParams.runId});
       } else {
-        this.errors = {message: 'There are no runs with this ID.<br /><br />'};
+        this.errors = {
+          response: {
+            status: app.errors.en.apiError,
+            statusText: app.errors.en.incorrectInformation,
+          }, message: app.errors.en.noRuns + ' (' + this.queryParams.runId + ')'
+        };
         return false;
       }
     }
@@ -2015,6 +2047,7 @@ app.detail = {
     if (_.findWhere(this.article.versions[this.queryParams.versionNumber].runs, {'run-id': this.queryParams.runId})) {
       this.setCurrentRun(_.findWhere(this.article.versions[this.queryParams.versionNumber].runs, {'run-id': this.queryParams.runId}));
     }
+
     this.renderArticle();
   },
 
@@ -2181,8 +2214,8 @@ app.scheduled = {
    * @param end
    */
   fetchScheduledArticles: function(start, end) {
-    console.log('start ' + moment.unix(start).format('dddd, MMMM Do YYYY, h:mm:ss a'));
-    console.log('end ' + moment.unix(end).format('dddd, MMMM Do YYYY, h:mm:ss a'));
+    console.info('start ' + moment.unix(start).format('dddd, MMMM Do YYYY, h:mm:ss a'));
+    console.info('end ' + moment.unix(end).format('dddd, MMMM Do YYYY, h:mm:ss a'));
     return $.ajax({
       url: app.API + 'api/article_schedule_for_range/from/' + start + '/to/' + end + '/',
       cache: false,
@@ -2193,17 +2226,11 @@ app.scheduled = {
       },
 
       error: function(data) {
-        console.error('Error retrieving date from ' + app.API + 'api/article_schedule_for_range/from/' + start + '/to/' + end + '/');
+        console.error('API Error: ' + app.API + 'api/article_schedule_for_range/from/' + start + '/to/' + end + '/');
         console.log(data);
         var responseText = JSON.parse(data.responseText);
-        $('.schedule-page__content', app.scheduled.$el).empty().html(app.scheduled.errorTemplate({
-          response: data,
-          responseText: responseText
-        }));
-        $('#error-console').empty().html(app.scheduled.errorDetailTemplate({
-          response: data,
-          responseText: responseText
-        }));
+        $('.schedule-page__content', app.scheduled.$el).empty().html(app.scheduled.errorTemplate({response: data,responseText: responseText}));
+        $('#error-console').empty().html(app.scheduled.errorDetailTemplate({response: data, responseText: responseText}));
       },
     });
   },

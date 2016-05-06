@@ -61,7 +61,7 @@ app.current = {
       },
 
       error: function(data) {
-        console.error('API Error Occured');
+        console.error('API Error: ' + app.API + 'api/current');
         console.log(data);
         var responseText = JSON.parse(data.responseText);
         $('#articles').empty().html(app.current.errorTemplate({response: data, responseText: responseText}));
