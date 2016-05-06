@@ -12,6 +12,7 @@ app.schedule = {
       this.articleModalBodyTemplate = eLife.templates['schedule/article-schedule-modal-body'];
       this.articleModalFooterTemplate = eLife.templates['schedule/article-schedule-modal-footer'];
       this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
+      this.errorDetailTemplate = eLife.templates['error-detail'];
       this.articleId = null;
       this.articleScheduled = null;
       this.scheduleDate = null;
@@ -261,7 +262,7 @@ app.schedule = {
         };
         $('#schedule-modal .modal-body').html(app.schedule.queueArticleStatusTemplate(template));
         var responseText = JSON.parse(data.responseText);
-        $('#schedule-modal .modal-body').append(app.detail.errorDetailTemplate({response: data, responseText: responseText}));
+        $('#schedule-modal .modal-body').append(app.schedule.errorDetailTemplate({response: data, responseText: responseText}));
         app.isScheduling = false;
         app.isAllScheduled = true;
       },

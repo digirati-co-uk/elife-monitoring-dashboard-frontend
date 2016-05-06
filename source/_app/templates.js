@@ -376,7 +376,7 @@ Handlebars.registerPartial("article-version-list", Handlebars.template({"1":func
 },"useData":true,"useDepths":true,"useBlockParams":true}));
 
 Handlebars.registerPartial("article-publish-modal", Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<a href=\"#\" class=\"btn btn-default pattern-helper\" data-toggle=\"modal\" data-target=\"#publish-modal\">\n    Modal\n</a>\n<div class=\"modal fade\" id=\"publish-modal\" tabindex=\"-1\" role=\"dialog\" data-backdrop=\"static\" aria-labelledby=\"publish-modal\">\n    <div class=\"modal-dialog modal-sm\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"myModalLabel\">Publish article(s)</h4>\n            </div>\n            <div class=\"modal-body\">\n                Are you sure you want to publish the following article(s)?\n                <ol id=\"articles-queue\"></ol>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"publish-close\">Close</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner publish-action\" id=\"publish-action\"></button>\n            </div>\n        </div>\n    </div>\n</div>";
+    return "<a href=\"#\" class=\"btn btn-default pattern-helper\" data-toggle=\"modal\" data-target=\"#publish-modal\">\n    Modal\n</a>\n<div class=\"modal fade\" id=\"publish-modal\" tabindex=\"-1\" role=\"dialog\" data-backdrop=\"static\" aria-labelledby=\"publish-modal\">\n    <div class=\"modal-dialog modal-md\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"myModalLabel\">Publish article(s)</h4>\n            </div>\n            <div class=\"modal-body\">\n                Are you sure you want to publish the following article(s)?\n                <ol id=\"articles-queue\"></ol>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" id=\"publish-close\">Close</button>\n                <button type=\"button\" class=\"btn btn-primary has-spinner publish-action\" id=\"publish-action\"></button>\n            </div>\n        </div>\n    </div>\n</div>";
 },"useData":true}));
 
 Handlebars.registerPartial("article-schedule-modal", Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -639,14 +639,6 @@ this["eLife"]["templates"]["current/article"] = Handlebars.template({"1":functio
     + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},depth0,{"name":"each","hash":{},"fn":container.program(1, data, 2, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "");
 },"usePartial":true,"useData":true,"useBlockParams":true});
 
-this["eLife"]["templates"]["current/error-check-article-status"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<div class=\"alert alert-danger\">\n    An error has occurred while checking the status of the article(s) requested. Please cancel and try again.\n</div>";
-},"useData":true});
-
-this["eLife"]["templates"]["current/error-queue-articles"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<div class=\"alert alert-danger\">\n    An error has occurred while queueing the article(s) requested. Please cancel and try again.\n</div>";
-},"useData":true});
-
 this["eLife"]["templates"]["detail/article-detail"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 
@@ -718,11 +710,11 @@ this["eLife"]["templates"]["detail/buttons-schedule"] = Handlebars.template({"co
 this["eLife"]["templates"]["error-detail"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression, alias3=depth0 != null ? depth0 : {};
 
-  return "<div class=\"alert alert-muted\">\n    <div class=\"row\">\n        <div class=\"col-xs-6\"><p class=\"h5\">"
+  return "<div class=\"alert alert-muted\">\n    <div class=\"row\">\n        <div class=\"col-sm-6\"><p class=\"h5\">"
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.status : stack1), depth0))
     + " "
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.statusText : stack1), depth0))
-    + "</p></div>\n        <div class=\"col-xs-6 text-right\">\n            <button class=\"btn btn-default\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseExample\" aria-expanded=\"false\" aria-controls=\"collapseExample\">\n                Show Details\n            </button>\n        </div>\n    </div>\n    <div class=\"collapse\" id=\"collapseExample\">\n        <hr />\n        "
+    + "</p></div>\n        <div class=\"col-sm-6 text-right\">\n            <button class=\"btn btn-default\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseExample\" aria-expanded=\"false\" aria-controls=\"collapseExample\">\n                Show Details\n            </button>\n        </div>\n    </div>\n    <div class=\"collapse\" id=\"collapseExample\">\n        <hr />\n        "
     + ((stack1 = helpers["if"].call(alias3,((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.message : stack1),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n        "
     + ((stack1 = helpers["if"].call(alias3,(depth0 != null ? depth0.message : depth0),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")

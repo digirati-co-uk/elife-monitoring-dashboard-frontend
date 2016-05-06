@@ -24,6 +24,8 @@ var app = {
       refresh: 'Please refresh.',
       noRuns: 'There are no runs with this ID.',
       noVersions: 'There are no versions with this ID.',
+      errorQueueing: 'An error has occurred while queueing the article(s) requested. Please cancel and try again.',
+      errorStatus: 'An error has occurred while checking the status of the article(s) requested. Please cancel and try again.',
     },
   },
 };
