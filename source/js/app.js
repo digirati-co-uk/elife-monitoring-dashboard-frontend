@@ -1454,6 +1454,7 @@ app.schedule = {
           $('#schedule-close', '#schedule-modal').text('Close');
           app.isScheduling = false;
           app.isAllScheduled = true;
+          $('#schedule-close', '#schedule-modal').focus();
         },
 
         error: function(data) {
