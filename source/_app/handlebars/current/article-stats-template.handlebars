@@ -1,59 +1,54 @@
-<div class="section-map">
+<div class="article-stats">
     {{#each this as |articles articleSection|}}
 
         {{# if articles.length}}
-            {{#is articleSection 'error'}}
-                <div class="col-sm-3">
-                    <a href="#error-list">
-                        <span class="fa e-icon lg danger fa-exclamation-triangle"></span>
-                    </a>
-                    <div class="text-center">
-                        <a href="#error-list">
-                            <span class="val">{{articles.length}}</span><br>
-                            <span class="desc">Articles with Errors</span>
-                        </a>
+            <div class="article-stats__section">
+
+                <div class="stats__section__row">
+                    <div class="stats__section__icon">
+                        {{#is articleSection 'error'}}
+                            <a href="#error-list" class="icon"><span class="fa e-icon md danger fa-exclamation-triangle"></span></a>
+                        {{/is}}
+                        {{#is articleSection 'inProgress'}}
+                            <a href="#in-progress-list" class="icon"><span class="fa e-icon md info fa-cog"></span></a>
+                        {{/is}}
+                        {{#is articleSection 'uir'}}
+                            <a href="#uir-list" class="icon"><span class="fa e-icon md muted fa-hand-o-down "></span></a>
+                        {{/is}}
+                        {{#is articleSection 'scheduled'}}
+                            <a href="#scheduled-list" class="icon"><span class="fa e-icon md warning fa-clock-o"></span></a>
+                        {{/is}}
+                    </div>
+                    <div class="stats__section__detail">
+                        {{#is articleSection 'error'}}
+                            <a href="#error-list">
+                                <span class="stats__section__val">{{articles.length}}</span><br>
+                                <span class="stats__section__desc">Articles with Errors</span>
+                            </a>
+                        {{/is}}
+                        {{#is articleSection 'inProgress'}}
+                            <a href="#inProgress-list">
+                                <span class="stats__section__val">{{articles.length}}</span><br>
+                                <span class="stats__section__desc">Articles are in Progress</span>
+                            </a>
+                        {{/is}}
+                        {{#is articleSection 'uir'}}
+                            <a href="#uir-list">
+                                <span class="stats__section__val">{{articles.length}}</span><br>
+                                <span class="stats__section__desc">Articles require User Input<br>(Ready to Publish)</span>
+                            </a>
+                        {{/is}}
+                        {{#is articleSection 'scheduled'}}
+                            <a href="#scheduled-list">
+                                <span class="stats__section__val">{{articles.length}}</span><br>
+                                <span class="stats__section__desc">Articles are Scheduled</span>
+                            </a>
+                        {{/is}}
                     </div>
                 </div>
-            {{/is}}
-            {{#is articleSection 'inProgress'}}
-                <div class="col-sm-3">
-                    <a href="#in-progress-list">
-                        <span class="fa e-icon lg info fa-cog"></span>
-                    </a>
-                    <div class="text-center">
-                        <a href="#inProgress-list">
-                            <span class="val">{{articles.length}}</span><br>
-                            <span class="desc">Articles are in Progress</span>
-                        </a>
-                    </div>
-                </div>
-            {{/is}}
-            {{#is articleSection 'uir'}}
-                <div class="col-sm-3">
-                    <a href="#uir-list">
-                        <span class="fa e-icon lg muted fa-hand-o-down "></span>
-                    </a>
-                    <div class="text-center">
-                        <a href="#uir-list">
-                            <span class="val">{{articles.length}}</span><br>
-                            <span class="desc">Articles require User Input<br>(Ready to Publish)</span>
-                        </a>
-                    </div>
-                </div>
-            {{/is}}
-            {{#is articleSection 'scheduled'}}
-                <div class="col-sm-3">
-                    <a href="#scheduled-list">
-                        <span class="fa e-icon lg warning fa-clock-o"></span>
-                    </a>
-                    <div class="text-center">
-                        <a href="#scheduled-list">
-                            <span class="val">{{articles.length}}</span><br>
-                            <span class="desc">Articles are Scheduled</span>
-                        </a>
-                    </div>
-                </div>
-            {{/is}}
+
+
+            </div>
         {{/if}}
     {{/each}}
 </div>

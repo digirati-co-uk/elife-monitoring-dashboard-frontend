@@ -6,7 +6,7 @@
                     <span class="version">Version {{details.version-number}}
                     </span>
                     <span class="status"><span
-                            class="glyphicon reset-article-status-type {{#if versions.details.status}}{{lowercase versions.details.status }}{{else}}no-article-status-type{{/if}} "></span></span>
+                            class="{{#if versions.details.status}}file-icon-{{lowercase versions.details.status }}{{else}}file-icon-none{{/if}} "></span></span>
                 </span>
                 <ol class="run-container">
                     {{#each versions.runs as |runs| }}

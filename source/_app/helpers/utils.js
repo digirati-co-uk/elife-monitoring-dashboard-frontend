@@ -70,6 +70,6 @@ app.utils = {
   isNumeric: function(string) {
     var hasNumber = /^\d+$/;
     return hasNumber.test(string);
-  }
+  },
 
 };

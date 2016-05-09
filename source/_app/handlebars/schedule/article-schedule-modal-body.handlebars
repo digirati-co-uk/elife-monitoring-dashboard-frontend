@@ -26,13 +26,13 @@
             <div class="timepicker">
                 <div class="timepicker-hour">
                     <input id="schedule_hour_submit" name="schedule_hour_submit"
-                           class="form-control timepicker hourpicker"
-                           type="number" placeholder="Hour">
+                           class="form-control timepicker hourpicker zerofill"
+                           type="number" min="0" max="12" maxlength="2" placeholder="01">
                 </div>
                 <div class="timepicker-divider">:</div>
                 <div class="timepicker-minute">
                     <input id="schedule_minute_submit" name="schedule_minute_submit"
-                           class="form-control timepicker minutepicker" type="number" placeholder="Minute">
+                           class="form-control timepicker minutepicker zerofill" type="number" min="0" max="59" maxlength="2" placeholder="30">
                 </div>
                 <div class="timepicker-ampm">
                     <select class="form-control timepicker ampmpicker" name="schedule_ampm_submit">
