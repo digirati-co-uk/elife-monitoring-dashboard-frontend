@@ -1,10 +1,11 @@
 <tr class="article__row" data-article-title="{{ doi }}"
     data-article-id="{{ id }}"
     data-article-version="{{ version }}"
-    data-article-run="{{ run-id }}">
-    <td class="article__col article__col__icon">
-        <a href="/article/{{id}}/{{ version }}/{{ run-id }}" class="hidden-xs article__icon">
-            <span class="fa fa-file {{#if status}}file-icon-{{lowercase status }}{{else}}file-icon-none{{/if}}"></span>
+    data-article-run="{{ run-id }}"
+    data-action="publish">
+    <td class="column-1">
+        <a href="/article/{{id}}/{{ version }}/{{ run-id }}" class="hidden-xs">
+            <span class="fa fa-file {{#if status}}{{lowercase status }}{{else}}no-article-status-type{{/if}}"></span>
         </a>
     </td>
     <td class="article__col article__col__title">
@@ -113,7 +114,8 @@
                 <button class="btn btn-default btn-block schedule" id="schedule-amend" data-toggle="modal"
                         data-target="#schedule-modal"
                         data-article-id="{{ id }}"
-                        data-title="Re-schedule Article">
+                        data-title="Re-schedule Article"
+                        data-scheduled="{{elFormatUnixDate scheduled-publication-date "DD/MM/YYYY"}}">
                     <span class="fa fa-calendar"></span>
                     Re-Schedule
                 </button>

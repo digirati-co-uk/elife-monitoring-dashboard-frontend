@@ -12,6 +12,7 @@ app.schedule = {
       this.articleModalBodyTemplate = eLife.templates['schedule/article-schedule-modal-body'];
       this.articleModalFooterTemplate = eLife.templates['schedule/article-schedule-modal-footer'];
       this.articleId = null;
+      this.articleScheduled = null;
       this.scheduleDate = null;
       this.scheduleTime = null;
       this.scheduleDateTime = null;
@@ -58,6 +59,7 @@ app.schedule = {
         {from: [0, 0, 0], to: yesterday},
       ],
       format: 'mmmm d, yyyy',
+      formatSubmit: 'dd/mm/yyyy',
       onSet: function(context) {
         app.schedule.scheduleDate = context.select;
         app.schedule.enableSchedule();
@@ -160,8 +162,10 @@ app.schedule = {
   setParameters: function(e) {
     this.setModalTitle($(e.relatedTarget));
     var articleId = $(e.relatedTarget).attr('data-article-id');
+    var articleScheduled = ($(e.relatedTarget).attr('data-scheduled')) ? $(e.relatedTarget).attr('data-scheduled') : false;
     var data = {actionType: 'schedule', includeArticleId: false};
     this.articleId = articleId;
+    this.articleScheduled = articleScheduled;
     this.scheduleActionType = $(e.relatedTarget).attr('id');
     if (this.scheduleActionType === 'schedule-cancel') {
       data.actionType = 'cancel';
@@ -175,6 +179,12 @@ app.schedule = {
 
     $('#schedule-modal .modal-body').html(this.articleModalBodyTemplate(data));
     $('#schedule-modal .modal-footer').html(this.articleModalFooterTemplate(data));
+
+    if (this.articleScheduled) {
+      $('.datepicker').attr('data-value', '').attr('data-value', this.articleScheduled);
+      this.scheduleDate = this.articleScheduled;
+      this.enableSchedule();
+    }
 
   },
 

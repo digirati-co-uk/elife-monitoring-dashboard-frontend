@@ -117,6 +117,7 @@ app.detail = {
     if (!_.isNull(this.queryParams.articleId)) {
       this.buttonsScheduleTemplate = eLife.templates['detail/buttons-schedule'];
       this.buttonsReScheduleTemplate = eLife.templates['detail/buttons-reschedule'];
+      this.buttonsPublishTemplate = eLife.templates['detail/buttons-publish'];
       this.articlesScheduledForTemplate = eLife.templates['detail/article-scheduled-for'];
       var articleIds = [];
       articleIds.push(this.queryParams.articleId);
@@ -149,7 +150,20 @@ app.detail = {
         $('.article-detail-actions', '#article').empty().html(app.detail.buttonsReScheduleTemplate({article: app.detail.article}));
         $('.article-detail-scheduled', '#article').empty().html(app.detail.articlesScheduledForTemplate({scheduleStatus: this.scheduleStatus}));
       } else {
-        $('.article-detail-actions', '#article').empty().html(app.detail.buttonsScheduleTemplate({article: app.detail.article}));
+        var buttons = app.detail.buttonsScheduleTemplate({article: app.detail.article}) + app.detail.buttonsPublishTemplate({
+              article: this.article,
+              currentArticle: this.currentArticle,
+              currentEvents: this.currentEvents,
+              currentVersion: this.queryParams.versionNumber,
+              currentRun: this.queryParams.runId,
+              scheduleStatus: this.scheduleStatus,
+            });
+        $('.article-detail-actions', '#article').empty().html(buttons);
+
+        // {{ currentArticle.doi
+        // data-article-id="{{ article.id }}"
+        // data-article-version="{{ currentVersion }}"
+        // data-article-run="{{ currentEvents.run-id }}">
       }
     }
   },

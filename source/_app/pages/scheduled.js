@@ -185,7 +185,7 @@ app.scheduled = {
     var calendarArticles = [];
     _.each(articles, function(a) {
       var calendarArticle = [];
-      calendarArticle.title = (a['is-advance']) ? a.id + ' (Adv.)' : a.id;
+      calendarArticle.title = (a['is-advance']) ? a.id + ' (tmp)' : a.id;
       calendarArticle.backgroundColor = (a['is-advance']) ? app.colorAdvanceArticle : app.colorArticle;
       calendarArticle.borderColor = (a['is-advance']) ? app.colorAdvanceArticle : app.colorArticle;
       calendarArticle.textColor = app.colorText;

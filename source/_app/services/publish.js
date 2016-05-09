@@ -64,7 +64,7 @@ app.publish = {
    */
   displayQueueList: function() {
     _.each(app.queued, function(article) {
-      var title = $('[data-article-id=' + article.id + ']').attr('data-article-title');
+      var title = $('[data-article-id=' + article.id + '][data-action=publish]').attr('data-article-title');
       var listItem = $('<li>' + title + '</li>');
       listItem.data({id: article.id, version: article.version, run: article.run});
       $('#articles-queue').append(listItem);
