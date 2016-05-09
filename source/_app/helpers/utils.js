@@ -72,11 +72,4 @@ app.utils = {
     return hasNumber.test(string);
   },
 
-  /**
-   * Pad out numbers < 10
-   */
-  pad: function(n) {
-    return (n < 10) ? ('0' + n) : n;
-  },
-
 };
