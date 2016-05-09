@@ -2242,15 +2242,6 @@ app.scheduled = {
    */
   bindEvents: function() {
     $(this.$el).on('click', '.schedule-page-switch', this.clickSwitchPage.bind(this));
-    $(window).on('statechange', this.stateChange.bind(this));
-  },
-
-  /**
-   * On back/forwards update the view
-   * @param e
-   */
-  stateChange: function(e) {
-    // this.switchPage(this.currentView);
   },
 
   /**
