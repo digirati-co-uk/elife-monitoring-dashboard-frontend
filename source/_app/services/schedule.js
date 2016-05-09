@@ -144,8 +144,12 @@ app.schedule = {
    * set the time when time is entered
    */
   setTime: function() {
-    app.schedule.scheduleTime = $('input[name="schedule_hour_submit"]').val() + ':' + $('input[name="schedule_minute_submit"]').val() + ' ' + $('select[name="schedule_ampm_submit"] option:selected').val();
-    app.schedule.scheduleDateTime = moment(moment(app.schedule.scheduleDate).format('DD-MM-YYYY') + ' ' + app.schedule.scheduleTime, 'DD-MM-YYYY hh:mm a');
+    var hours = $('input[name="schedule_hour_submit"]').val();
+    var minutes = $('input[name="schedule_minute_submit"]').val();
+    if (!_.isEmpty(hours) && !_.isEmpty(minutes)) {
+      app.schedule.scheduleTime = $('input[name="schedule_hour_submit"]').val() + ':' + $('input[name="schedule_minute_submit"]').val() + ' ' + $('select[name="schedule_ampm_submit"] option:selected').val();
+      app.schedule.scheduleDateTime = moment(app.schedule.scheduleDate + ' ' + app.schedule.scheduleTime, 'DD-MM-YYYY hh:mm a');
+    }
   },
 
   /**
@@ -188,6 +192,7 @@ app.schedule = {
   updateModal: function(e) {
     var articleDoi = $('#article-' + this.articleId + ' .article-doi').text();
     $('.article-cancel-info', '#schedule-modal').html(articleDoi);
+    this.validateForm();
   },
 
   /**
