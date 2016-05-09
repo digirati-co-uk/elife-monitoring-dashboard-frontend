@@ -1350,7 +1350,6 @@ app.schedule = {
    * set the time when time is entered
    */
   setTime: function() {
-    console.log('setTime');
     app.schedule.scheduleTime = $('input[name="schedule_hour_submit"]').val() + ':' + $('input[name="schedule_minute_submit"]').val() + ' ' + $('select[name="schedule_ampm_submit"] option:selected').val();
     app.schedule.scheduleDateTime = moment(moment(app.schedule.scheduleDate).format('DD-MM-YYYY') + ' ' + app.schedule.scheduleTime, 'DD-MM-YYYY hh:mm a');
   },
@@ -1419,20 +1418,25 @@ app.schedule = {
    * Schedule the article using the service
    */
   performSchedule: function() {
-    var formValid = this.validateForm();
+    var scheduleData = {};
+    if (this.scheduleActionType !== 'schedule-cancel') {
+      var formValid = this.validateForm();
+    } else {
+      var formValid = true;
+    }
+
     if (formValid) {
       app.isScheduling = true;
       if (this.scheduleActionType === 'future-schedule') {
         this.articleId = $('#schedule-id', '#schedule-modal').val();
       }
 
-      var scheduleData = {};
       if (this.scheduleActionType !== 'schedule-cancel') {
         scheduleData = {
           article: {
             'article-identifier': this.articleId,
             scheduled: moment(this.scheduleDateTime).format('X')
-          }
+          },
         };
       } else {
         scheduleData = {article: {'article-identifier': this.articleId, scheduled: false}};
@@ -1451,10 +1455,11 @@ app.schedule = {
           var template = {actionType: app.schedule.scheduleActionType};
           template.success = (data.result == 'success') ? true : false;
           $('#schedule-modal .modal-body').html(this.queueArticleStatusTemplate(template));
-          $('#schedule-close', '#schedule-modal').text('Close');
+          console.log($('#schedule-modal #schedule-close'));
+          $('#schedule-modal #schedule-close').html('Close');
+          $('#schedule-modal #schedule-close').focus();
           app.isScheduling = false;
           app.isAllScheduled = true;
-          $('#schedule-close', '#schedule-modal').focus();
         },
 
         error: function(data) {
@@ -1467,6 +1472,8 @@ app.schedule = {
           $('#schedule-modal .modal-body').html(this.queueArticleStatusTemplate(template));
           app.isScheduling = false;
           app.isAllScheduled = true;
+          $('#schedule-modal #schedule-close').html('Close');
+          $('#schedule-modal #schedule-close').focus();
         },
       });
     }
