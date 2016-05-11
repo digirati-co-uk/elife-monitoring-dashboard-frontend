@@ -29,7 +29,7 @@ app.schedule = {
     $(document).on('click', '#schedule-modal #schedule-action', this.performSchedule.bind(this));
     $(document).on('click', '#schedule-modal #schedule-cancel', this.performSchedule.bind(this));
     $(document).on('show.bs.modal', this.setParameters.bind(this));
-    $(document).on('show.bs.modal', this.initDateTimePicker.bind(this));
+    $(document).on('show.bs.modal', this.initDateTime.bind(this));
     $(document).on('show.bs.modal', this.updateModal.bind(this));
     $(document).on('hide.bs.modal', this.resetParameters.bind(this));
     $(document).on('click', '#schedule-modal .close', this.refreshPage.bind(this));
@@ -40,20 +40,46 @@ app.schedule = {
   /**
    * When the modal is loaded enable the date and time pickers.
    */
-  initDateTimePicker: function() {
+  initDateTime: function() {
     // $('#schedule-action').prop('disabled', true).addClass('disabled');
     var yesterday = new Date((new Date()).valueOf() - 1000 * 60 * 60 * 24);
-    $('.datepicker').pickadate({
+    var $datePicker = $('.datepicker').pickadate({
       disable: [
         {from: [0, 0, 0], to: yesterday},
       ],
       format: 'mmmm d, yyyy',
       formatSubmit: 'dd/mm/yyyy',
+      onStart: function() {
+        var day = moment.unix(app.schedule.articleScheduled).format('DD');
+        var month = moment.unix(app.schedule.articleScheduled).format('MM');
+        var year = moment.unix(app.schedule.articleScheduled).format('YYYY');
+        month--; //only month for dates are zero indexed
+        if (app.schedule.articleScheduled) {
+          this.set('select', new Date(year, month, day));
+        }
+      },
+
       onSet: function(context) {
-        app.schedule.scheduleDate = context.select;
+        var selectedDate = context.select;
+        if (!app.utils.isNumeric(context.select)) {
+          selectedDate = moment(selectedDate).format('x');
+        }
+
+        selectedDate = parseInt(selectedDate);
+        app.schedule.scheduleDate = selectedDate;
         app.schedule.validateForm();
       },
     });
+
+    // if we're rescheduling we will have an existing time date
+    if (this.articleScheduled) {
+      var hour = moment.unix(this.articleScheduled).format('hh');
+      var minute = moment.unix(this.articleScheduled).format('mm');
+      var ampm = moment.unix(this.articleScheduled).format('a');
+      $('#schedule_hour_submit', '#schedule-modal').val(hour);
+      $('#schedule_minute_submit', '#schedule-modal').val(minute);
+      $('#schedule_ampm_submit', '#schedule-modal').val(ampm);
+    }
 
   },
 
@@ -63,7 +89,7 @@ app.schedule = {
    * @param state
    */
   validateToggleError: function($el, state) {
-    if (state) {
+    if (state === true) {
       $el.removeClass('validation-error');
     } else {
       $el.addClass('validation-error');
@@ -126,30 +152,49 @@ app.schedule = {
     // check this time isn't in the past
     var isScheduledTimeValid = false;
     var $timeEl = $('.timepicker', '#schedule-modal');
-    // console.log(moment().format('DD-MM-YYYY hh:mm a'));
-    // console.log(moment(this.scheduleDateTime).format('DD-MM-YYYY hh:mm a'));
-    if (moment().isAfter(this.scheduleDateTime)) {
+    if (!_.isNull(this.scheduleDate) && !_.isNull(this.scheduleTime)) {
+      // console.log('current time is after the selected date ' + moment().isAfter(this.scheduleDateTime));
+      if (moment().isAfter(this.scheduleDateTime)) {
+        isScheduledTimeValid = false;
+        errors++;
+      } else {
+        isScheduledTimeValid = true;
+      }
+    } else {
       isScheduledTimeValid = false;
       errors++;
-    } else {
-      isScheduledTimeValid = true;
     }
 
     app.schedule.validateToggleError($timeEl, isScheduledTimeValid);
 
-    return (errors == 0) ? true : false;
+
+    if (errors == 0) {
+      $('#schedule-action', '#schedule-modal').prop('disabled', false).removeClass('disabled');
+      return true;
+    } else {
+      $('#schedule-action', '#schedule-modal').prop('disabled', true).addClass('disabled');
+      return false;
+    }
+
   },
 
   /**
    * set the time when time is entered
    */
   setTime: function() {
+
     var hours = $('input[name="schedule_hour_submit"]').val();
     var minutes = $('input[name="schedule_minute_submit"]').val();
     if (!_.isEmpty(hours) && !_.isEmpty(minutes)) {
-      app.schedule.scheduleTime = $('input[name="schedule_hour_submit"]').val() + ':' + $('input[name="schedule_minute_submit"]').val() + ' ' + $('select[name="schedule_ampm_submit"] option:selected').val();
-      app.schedule.scheduleDateTime = moment(app.schedule.scheduleDate + ' ' + app.schedule.scheduleTime, 'DD-MM-YYYY hh:mm a');
+      this.scheduleTime = $('input[name="schedule_hour_submit"]').val() + ':' + $('input[name="schedule_minute_submit"]').val() + ' ' + $('select[name="schedule_ampm_submit"] option:selected').val();
     }
+
+    if (!_.isNull(this.scheduleDate) && !_.isNull(this.scheduleTime)) {
+      var date = moment(this.scheduleDate).format('DD-MM-YYYY');
+      var datetime = date + ' ' + this.scheduleTime;
+      this.scheduleDateTime = moment(datetime, 'DD-MM-YYYY hh:mm a');
+    }
+
   },
 
   /**
@@ -176,12 +221,6 @@ app.schedule = {
 
     $('#schedule-modal .modal-body').html(this.articleModalBodyTemplate(data));
     $('#schedule-modal .modal-footer').html(this.articleModalFooterTemplate(data));
-
-    if (this.articleScheduled) {
-      $('.datepicker').attr('data-value', '').attr('data-value', this.articleScheduled);
-      this.scheduleDate = this.articleScheduled;
-      this.validateForm();
-    }
 
   },
 
