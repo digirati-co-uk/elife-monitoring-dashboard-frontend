@@ -207,8 +207,8 @@ app.scheduled = {
    */
   fetchScheduledArticles: function(start, end) {
     // console.log('fetchScheduledArticles');
-    // console.log(start)
-    // console.log(end)
+    // console.log('start ' + moment.unix(start).format('dddd, MMMM Do YYYY, h:mm:ss a'));
+    // console.log('end ' + moment.unix(end).format('dddd, MMMM Do YYYY, h:mm:ss a'));
     // console.log('/fetchScheduledArticles');
 
     var startDate = moment(start, 'DD-MM-YYYY').unix();
