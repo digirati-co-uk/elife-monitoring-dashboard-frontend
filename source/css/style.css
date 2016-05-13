@@ -6480,6 +6480,19 @@ dl dd {
   padding: 5px 0;
 }
 
+.elf-event-bubble {
+  display: inline-block;
+  background-color: #f1f1f1;
+  border-color: #f1f1f1;
+  color: #111;
+}
+
+.elf-event-bubble.tmp {
+  background-color: #cde1f1;
+  border-color: #cde1f1;
+  color: #111;
+}
+
 .article-stats,
 .stats__section__row {
   margin-left: -15px;
