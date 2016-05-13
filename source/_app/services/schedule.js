@@ -13,6 +13,7 @@ app.schedule = {
       this.articleModalFooterTemplate = eLife.templates['schedule/article-schedule-modal-footer'];
       this.articleId = null;
       this.articleScheduled = null;
+      this.scheduled = null;
       this.scheduleDate = null;
       this.scheduleTime = null;
       this.scheduleDateTime = null;
@@ -322,8 +323,13 @@ app.schedule = {
    * user closes modal and scheduling is not takign place.
    */
   refreshPage: function() {
-    if (app.isScheduling === false && app.isAllScheduled === true) {
-      location.reload(true);
+    // we're on the scheduled page and there is a scheduled date (ie not cancellation)
+    if ($('.scheduled-page').length > 0 && this.scheduled) {
+      $('#schedule-calendar').fullCalendar('gotoDate', this.scheduled);
+    } else {
+      if (app.isScheduling === false && app.isAllScheduled === true) {
+        location.reload(true);
+      }
     }
   },
 };

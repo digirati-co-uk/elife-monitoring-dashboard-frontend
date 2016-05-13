@@ -1,43 +1,38 @@
 /* @TODO page tabs */
-.nav-tabs {
-  border: 0;
+.elf-nav-tabs {
   margin-bottom: 20px;
+  border: 0px;
+  //border-bottom: 1px solid $nav-tabs-border-color;
+  > li {
+    float: left;
+    // Make the list-items overlay the bottom border
+    margin-bottom: -1px;
 
-  li {
-
-    &:not(:first-child) {
-
-      a {
-        border-left: 0;
-      }
-
-    }
-
-    &.active:not(:first-child) {
-
-      a {
-        border-left: 0;
-      }
-
-    }
-
-    a {
-      margin-right: 0px;
-      background-color: $LightGrey2;
-      border-radius: 0;
-      border: 1px solid $LightGrey4;
-      color: $DarkGrey;
+    // Actual tabs (as links)
+    > a {
+      color: $text-color;
+      background-color: $gray-lighter;
       padding: 10px 40px;
-      text-decoration: none;
-
-      &:hover {
-        background-color: white;
-        border-color: $LightGrey4;
-        color: $DarkGrey;
+      line-height: $line-height-base;
+      border: 1px solid transparent;
+      border-top-color: darken($gray-lighter, 5%);
+      border-right-color: darken($gray-lighter, 5%);
+      &:first-of-type {
+        border-left-color: darken($gray-lighter, 5%);
       }
-
+      &:hover {
+        background-color: darken($gray-lighter, 5%);
+      }
     }
 
+    &.active > a {
+        background-color: transparent;
+        cursor: default;
+    }
   }
-
+  // pulling this in mainly for less shorthand
+  &.nav-justified {
+    @extend .nav-justified;
+    @extend .nav-tabs-justified;
+  }
 }

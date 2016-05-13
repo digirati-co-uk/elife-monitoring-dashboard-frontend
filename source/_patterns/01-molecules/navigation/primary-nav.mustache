@@ -1,27 +1,29 @@
-<nav class="navbar">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-collapse" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <!-- <a class="navbar-brand" href="{{ url }}">">Brand</a> -->
-    </div>
-    <div class="collapse navbar-collapse" id="nav-collapse">
-      <ul class="nav navbar-nav">
-        <li class="active dropdown">
-          <a href="{{ url }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Monitoring <span class="caret"></span> <span class="sr-only">(current)</span></a>
-          <ul class="dropdown-menu">
-            <li><a href="{{ url }}">Submission</a></li>
-            <li><a href="{{ url }}">Content Processing</a></li>
-            <li><a href="{{ url }}">Publishing</a></li>
-            <!-- <li role="separator" class="divider"></li> -->
-            <!-- <li><a href="#">Separated link</a></li> -->
-          </ul>
-        </li>
-        <li><a href="{{ url }}">Reporting</a></li>
-        <li><a href="{{ url }}">Another link</a></li>
-      </ul>
-    </div>
+<nav class="navbar navbar-elf">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#elf-navbar" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="elf-navbar">
+            <ul class="nav navbar-nav">
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">Monitoring <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Submission</a></li>
+                        <li><a href="#">Content Processing</a></li>
+                        <li><a href="#">Publishing</a></li>
+                    </ul>
+                </li>
+                <li class="active"><a href="#">Reporting</a></li>
+                <li><a href="#">Another Link</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
 </nav>

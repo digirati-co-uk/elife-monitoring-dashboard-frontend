@@ -60,6 +60,7 @@
     defaultView: 'month',
     fixedWeekCount: false,
     editable: false,
+    // defaultDate: moment('30-09-2016', 'DD-MM-YYYY'),
 
   });
 
