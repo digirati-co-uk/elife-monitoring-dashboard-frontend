@@ -28,6 +28,10 @@ var app = {
   colorText: '#111',
   errors: {
     en: {
+      type: {
+        api: 'API Error',
+        application: 'Application Error',
+      },
       apiError: 'API Error',
       missingInformation: 'Missing Information',
       incorrectInformation: 'Incorrect Information',
@@ -38,6 +42,7 @@ var app = {
       noVersions: 'There are no versions with this ID.',
       errorQueueing: 'An error has occurred while queueing the article(s) requested. Please cancel and try again.',
       errorStatus: 'An error has occurred while checking the status of the article(s) requested. Please cancel and try again.',
+      errorScheduling: 'There was an error talking to the API, The article has not been scheduled.',
     },
   },
 };
@@ -753,32 +758,44 @@ this["eLife"]["templates"]["detail/buttons-schedule"] = Handlebars.template({"co
 },"useData":true});
 
 this["eLife"]["templates"]["error-detail"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.lambda, alias2=container.escapeExpression, alias3=depth0 != null ? depth0 : {};
+    var stack1, alias1=depth0 != null ? depth0 : {};
 
-  return "<div class=\"alert alert-muted\">\n    <div class=\"row\">\n        <div class=\"col-sm-6\"><p class=\"h5\">"
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.status : stack1), depth0))
-    + " "
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.statusText : stack1), depth0))
-    + "</p></div>\n        <div class=\"col-sm-6 text-right\">\n            <button class=\"btn btn-default\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseExample\" aria-expanded=\"false\" aria-controls=\"collapseExample\">\n                Show Details\n            </button>\n        </div>\n    </div>\n    <div class=\"collapse\" id=\"collapseExample\">\n        <hr />\n        "
-    + ((stack1 = helpers["if"].call(alias3,((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.message : stack1),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+  return "<div class=\"alert alert-muted\">\n    <div class=\"row\">\n        <div class=\"col-sm-6\">\n            <p class=\"h5 text-uppercase\">\n                "
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.response : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n                "
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.error : depth0)) != null ? stack1.type : stack1),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n            </p>\n        </div>\n        <div class=\"col-sm-6 text-right\">\n            <button class=\"btn btn-default\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseExample\" aria-expanded=\"false\" aria-controls=\"collapseExample\">\n                Show Details\n            </button>\n        </div>\n    </div>\n    <div class=\"collapse\" id=\"collapseExample\">\n        <hr />\n        "
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.message : stack1),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n        "
-    + ((stack1 = helpers["if"].call(alias3,(depth0 != null ? depth0.message : depth0),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.message : depth0),{"name":"if","hash":{},"fn":container.program(8, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n        "
-    + ((stack1 = helpers["if"].call(alias3,((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.detail : stack1),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.detail : stack1),{"name":"if","hash":{},"fn":container.program(10, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n    </div>\n\n</div>\n";
 },"2":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
+
+  return alias2(alias1(((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.status : stack1), depth0))
+    + ": "
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.statusText : stack1), depth0));
+},"4":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return " ("
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.error : depth0)) != null ? stack1.type : stack1), depth0))
+    + ")";
+},"6":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "<p>"
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.message : stack1), depth0))
     + "</p>";
-},"4":function(container,depth0,helpers,partials,data) {
+},"8":function(container,depth0,helpers,partials,data) {
     var stack1, helper;
 
   return "<p>"
     + ((stack1 = ((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"message","hash":{},"data":data}) : helper))) != null ? stack1 : "")
     + "</p>";
-},"6":function(container,depth0,helpers,partials,data) {
+},"10":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "<div class=\"well\"><p>"
@@ -798,40 +815,51 @@ this["eLife"]["templates"]["error-render"] = Handlebars.template({"1":function(c
 },"3":function(container,depth0,helpers,partials,data) {
     return "alert-danger";
 },"5":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
+    var stack1;
 
-  return "<p class=\"h5 text-uppercase\">"
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.status : stack1), depth0))
-    + ": "
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.statusText : stack1), depth0))
-    + "</p>";
-},"7":function(container,depth0,helpers,partials,data) {
+  return ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.status : stack1),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + " "
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.statusText : stack1), depth0));
+},"6":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.status : stack1), depth0))
+    + ":";
+},"8":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return " ("
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.error : depth0)) != null ? stack1.type : stack1), depth0))
+    + ")";
+},"10":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "<p>"
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.message : stack1), depth0))
     + "</p>";
-},"9":function(container,depth0,helpers,partials,data) {
+},"12":function(container,depth0,helpers,partials,data) {
     var stack1, helper;
 
   return "<p>"
     + ((stack1 = ((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"message","hash":{},"data":data}) : helper))) != null ? stack1 : "")
     + "</p>";
-},"11":function(container,depth0,helpers,partials,data) {
+},"14":function(container,depth0,helpers,partials,data) {
     return "</div>";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : {};
 
   return "<div class=\"alert elf-alert "
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.errorType : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
-    + "\">\n"
+    + "\">\n<p class=\"h5 text-uppercase\">\n    "
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.response : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n    "
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.error : depth0)) != null ? stack1.type : stack1),{"name":"if","hash":{},"fn":container.program(8, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n</p>\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.message : stack1),{"name":"if","hash":{},"fn":container.program(10, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.responseText : depth0)) != null ? stack1.message : stack1),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.message : depth0),{"name":"if","hash":{},"fn":container.program(12, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.message : depth0),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\n"
-    + ((stack1 = (helpers.is || (depth0 && depth0.is) || helpers.helperMissing).call(alias1,((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.status : stack1),500,{"name":"is","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || helpers.helperMissing).call(alias1,((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.status : stack1),500,{"name":"is","hash":{},"fn":container.program(14, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"useData":true});
 
 this["eLife"]["templates"]["loading-template"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -918,23 +946,13 @@ this["eLife"]["templates"]["schedule/article-schedule-modal-status"] = Handlebar
 },"2":function(container,depth0,helpers,partials,data) {
     return "            <p>This article has been unscheduled.</p>\n";
 },"4":function(container,depth0,helpers,partials,data) {
-    return "            <p>Success your article has been scheduled.</p>\n";
-},"6":function(container,depth0,helpers,partials,data) {
-    var stack1;
-
-  return "    <div class=\"alert alert-danger\">\n        <p>An error has occured, please try again.</p>\n        "
-    + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.message : depth0),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\n    </div>\n";
-},"7":function(container,depth0,helpers,partials,data) {
-    var helper;
-
-  return "<p>"
-    + container.escapeExpression(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"message","hash":{},"data":data}) : helper)))
-    + "</p>";
+    return "            <p>Your article has been successfully scheduled.</p>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1;
+    var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
 
-  return ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.success : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(6, data, 0),"data":data})) != null ? stack1 : "");
+  return container.escapeExpression((helpers.debug || (depth0 && depth0.debug) || alias2).call(alias1,(depth0 != null ? depth0.response : depth0),{"name":"debug","hash":{},"data":data}))
+    + "\n\n"
+    + ((stack1 = (helpers.is || (depth0 && depth0.is) || alias2).call(alias1,((stack1 = (depth0 != null ? depth0.response : depth0)) != null ? stack1.result : stack1),"success",{"name":"is","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"useData":true});
 
 this["eLife"]["templates"]["scheduled/scheduled-actions"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -1189,12 +1207,15 @@ app.publish = {
       },
 
       error: function(data) {
-        console.error('API Error: ' + app.API + 'api/queue_article_publication');
+        console.error(app.errors.en.type.api + ': ' + app.API + 'api/queue_article_publication');
         console.log(data);
         console.log({articles: queued});
         var responseText = JSON.parse(data.responseText);
-        $('.modal-body', '#publish-modal').empty().html(app.publish.errorTemplate({response: data, responseText: responseText}));
-        $('.modal-body', '#publish-modal').append(app.publish.errorDetailTemplate({response: data, responseText: responseText}));
+        var error = {
+          type: app.errors.en.type.api,
+        };
+        $('.modal-body', '#publish-modal').empty().html(app.publish.errorTemplate({response: data, responseText: responseText, error: error}));
+        $('.modal-body', '#publish-modal').append(app.publish.errorDetailTemplate({response: data, responseText: responseText, error: error}));
       },
     });
   },
@@ -1216,12 +1237,15 @@ app.publish = {
         },
 
         error: function(data) {
-          console.error('API Error: ' + app.API + 'api/article_publication_status');
+          console.error(app.errors.en.type.api + ': ' + app.API + 'api/article_publication_status');
           console.log(data);
           console.log({articles: queued});
           var responseText = JSON.parse(data.responseText);
-          $('.modal-body', '#publish-modal').empty().html(app.publish.errorTemplate({response: data, responseText: responseText}));
-          $('.modal-body', '#publish-modal').append(app.publish.errorDetailTemplate({response: data, responseText: responseText}));
+          var error = {
+            type: app.errors.en.type.api,
+          };
+          $('.modal-body', '#publish-modal').empty().html(app.publish.errorTemplate({response: data, responseText: responseText, error: error}));
+          $('.modal-body', '#publish-modal').append(app.publish.errorDetailTemplate({response: data, responseText: responseText, error: error}));
           this.isPublishing = false;
           clearInterval(app.publish.checkingStatus);
         },
@@ -1305,6 +1329,7 @@ app.schedule = {
       this.articleModalBodyTemplate = eLife.templates['schedule/article-schedule-modal-body'];
       this.articleModalFooterTemplate = eLife.templates['schedule/article-schedule-modal-footer'];
       this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
+      this.errorTemplate = eLife.templates['error-render'];
       this.errorDetailTemplate = eLife.templates['error-detail'];
       this.articleId = null;
       this.articleScheduled = null;
@@ -1535,27 +1560,26 @@ app.schedule = {
       url: app.API + 'api/schedule_article_publication',
       data: JSON.stringify(scheduleData),
       success: function(data) {
-        console.log(data)
-        var template = {actionType: app.schedule.scheduleActionType};
-        template.success = (data.result == 'success') ? true : false;
-        $('#schedule-modal .modal-body').html(app.schedule.queueArticleStatusTemplate(template));
+        console.info('Success: ' + app.API + 'api/schedule_article_publication');
+        console.log(data);
+        console.log(scheduleData);
+        $('#schedule-modal .modal-body').html(app.schedule.queueArticleStatusTemplate({response: data, actionType: app.schedule.scheduleActionType}));
         $('#schedule-close', '#schedule-modal').text('Close');
         app.isScheduling = false;
         app.isAllScheduled = true;
       },
 
       error: function(data) {
-        console.error('API Error: ' + app.API + 'api/schedule_article_publication');
+        console.error(app.errors.en.type.api + ': ' + app.API + 'api/schedule_article_publication');
         console.log(scheduleData);
         console.log(data);
-        var template = {
-          result: 'Failed',
-          actionType: app.schedule.scheduleActionType,
-          message: 'There was an error talking to the API, Your article, "' + app.schedule.articleId + '" has not been scheduled.',
+        var responseText = (_.has(data, 'responseText')) ? JSON.parse(data.responseText) : null;
+        var error = {
+          type: app.errors.en.type.api,
         };
-        $('#schedule-modal .modal-body').html(app.schedule.queueArticleStatusTemplate(template));
-        var responseText = JSON.parse(data.responseText);
-        $('#schedule-modal .modal-body').append(app.schedule.errorDetailTemplate({response: data, responseText: responseText}));
+        $('.modal-body', '#schedule-modal').empty().html(app.publish.errorTemplate({response: data, responseText: responseText, error: error}));
+        $('.modal-body', '#schedule-modal').append(app.publish.errorDetailTemplate({response: data, responseText: responseText, error: error}));
+        $('#schedule-close', '#schedule-modal').text('Close');
         app.isScheduling = false;
         app.isAllScheduled = true;
       },
@@ -1650,11 +1674,14 @@ app.current = {
       },
 
       error: function(data) {
-        console.error('API Error: ' + app.API + 'api/current');
+        console.error(app.errors.en.type.api + ': ' + app.API + 'api/current');
         console.log(data);
         var responseText = JSON.parse(data.responseText);
-        $('#articles').empty().html(app.current.errorTemplate({response: data, responseText: responseText}));
-        $('#error-console').empty().html(app.current.errorDetailTemplate({response: data, responseText: responseText}));
+        var error = {
+          type: app.errors.en.type.api,
+        };
+        $('#articles').empty().html(app.current.errorTemplate({response: data, responseText: responseText, error: error}));
+        $('#error-console').empty().html(app.current.errorDetailTemplate({response: data, responseText: responseText, error: error}));
       },
 
     });
@@ -1883,11 +1910,14 @@ app.detail = {
         },
 
         error: function(data) {
-          console.error('API Error: ' + app.API + 'api/current');
+          console.error(app.errors.en.type.api + ': ' + app.API + 'api/current');
           console.log(data);
           var responseText = JSON.parse(data.responseText);
-          $('#article').prepend(app.detail.errorTemplate({errorType: 'warning',message: app.errors.en.scheduleInformationUnavailable + ' ' + app.errors.en.refresh}));
-          $('#error-console').empty().html(app.detail.errorDetailTemplate({response: data,responseText: responseText}));
+          var error = {
+            type: app.errors.en.type.api,
+          };
+          $('#article').prepend(app.detail.errorTemplate({errorType: 'warning', message: app.errors.en.scheduleInformationUnavailable + ' ' + app.errors.en.refresh}));
+          $('#error-console').empty().html(app.detail.errorDetailTemplate({response: data, responseText: responseText, error: error}));
         },
 
       });
@@ -1927,7 +1957,6 @@ app.detail = {
    * Get article from param in url
    */
   getArticle: function() {
-    var message;
     if (!_.isNull(this.queryParams.articleId)) {
       $.ajax({
         url: app.API + 'api/article/' + this.queryParams.articleId,
@@ -1943,20 +1972,25 @@ app.detail = {
         },
 
         error: function(data) {
-          console.error('API Error: ' + app.API + 'api/article/' + app.detail.queryParams.articleId);
+          console.error(app.errors.en.type.api + ': ' + app.API + 'api/article/' + app.detail.queryParams.articleId);
           console.log(data);
           var responseText = JSON.parse(data.responseText);
-          $('#article').empty().html(app.detail.errorTemplate({response: data, responseText: responseText}));
-          $('#error-console').empty().html(app.detail.errorDetailTemplate({response: data, responseText: responseText}));
+          var error = {
+            type: app.errors.en.type.api,
+          };
+          $('#article').empty().html(app.detail.errorTemplate({response: data, responseText: responseText, error: error}));
+          $('#error-console').empty().html(app.detail.errorDetailTemplate({response: data, responseText: responseText, error: error}));
         },
 
       });
     } else {
+      var error = {
+        type: app.errors.en.type.application,
+      };
       $('#article').empty().html(this.errorTemplate({
         response: {
-          status: app.errors.en.apiError,
-          statusText: app.errors.en.missingInformation
-        }, message: app.errors.en.noArticleId
+          statusText: app.errors.en.missingInformation,
+        }, message: app.errors.en.noArticleId, error: error
       }));
     }
   },
@@ -2012,7 +2046,7 @@ app.detail = {
     } else {
       this.errors = {
         response: {
-          status: app.errors.en.apiError,
+          status: app.errors.en.type.application,
           statusText: app.errors.en.incorrectInformation,
         }, message: app.errors.en.noVersions + ' (' + this.queryParams.versionNumber + ')'
       };
@@ -2031,7 +2065,7 @@ app.detail = {
       } else {
         this.errors = {
           response: {
-            status: app.errors.en.apiError,
+            status: app.errors.en.type.application,
             statusText: app.errors.en.incorrectInformation,
           }, message: app.errors.en.noRuns + ' (' + this.queryParams.runId + ')'
         };
@@ -2233,8 +2267,11 @@ app.scheduled = {
         console.error('API Error: ' + app.API + 'api/article_schedule_for_range/from/' + start + '/to/' + end + '/');
         console.log(data);
         var responseText = JSON.parse(data.responseText);
-        $('.schedule-page__content', app.scheduled.$el).empty().html(app.scheduled.errorTemplate({response: data,responseText: responseText}));
-        $('#error-console').empty().html(app.scheduled.errorDetailTemplate({response: data, responseText: responseText}));
+        var error = {
+          type: app.errors.en.type.api,
+        };
+        $('.schedule-page__content', app.scheduled.$el).empty().html(app.scheduled.errorTemplate({response: data, responseText: responseText, error: error}));
+        $('#error-console').empty().html(app.scheduled.errorDetailTemplate({response: data, responseText: responseText, error: error}));
       },
     });
   },

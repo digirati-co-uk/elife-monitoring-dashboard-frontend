@@ -129,12 +129,15 @@ app.publish = {
       },
 
       error: function(data) {
-        console.error('API Error: ' + app.API + 'api/queue_article_publication');
+        console.error(app.errors.en.type.api + ': ' + app.API + 'api/queue_article_publication');
         console.log(data);
         console.log({articles: queued});
         var responseText = JSON.parse(data.responseText);
-        $('.modal-body', '#publish-modal').empty().html(app.publish.errorTemplate({response: data, responseText: responseText}));
-        $('.modal-body', '#publish-modal').append(app.publish.errorDetailTemplate({response: data, responseText: responseText}));
+        var error = {
+          type: app.errors.en.type.api,
+        };
+        $('.modal-body', '#publish-modal').empty().html(app.publish.errorTemplate({response: data, responseText: responseText, error: error}));
+        $('.modal-body', '#publish-modal').append(app.publish.errorDetailTemplate({response: data, responseText: responseText, error: error}));
       },
     });
   },
@@ -156,12 +159,15 @@ app.publish = {
         },
 
         error: function(data) {
-          console.error('API Error: ' + app.API + 'api/article_publication_status');
+          console.error(app.errors.en.type.api + ': ' + app.API + 'api/article_publication_status');
           console.log(data);
           console.log({articles: queued});
           var responseText = JSON.parse(data.responseText);
-          $('.modal-body', '#publish-modal').empty().html(app.publish.errorTemplate({response: data, responseText: responseText}));
-          $('.modal-body', '#publish-modal').append(app.publish.errorDetailTemplate({response: data, responseText: responseText}));
+          var error = {
+            type: app.errors.en.type.api,
+          };
+          $('.modal-body', '#publish-modal').empty().html(app.publish.errorTemplate({response: data, responseText: responseText, error: error}));
+          $('.modal-body', '#publish-modal').append(app.publish.errorDetailTemplate({response: data, responseText: responseText, error: error}));
           this.isPublishing = false;
           clearInterval(app.publish.checkingStatus);
         },

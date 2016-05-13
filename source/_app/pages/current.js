@@ -61,11 +61,14 @@ app.current = {
       },
 
       error: function(data) {
-        console.error('API Error: ' + app.API + 'api/current');
+        console.error(app.errors.en.type.api + ': ' + app.API + 'api/current');
         console.log(data);
         var responseText = JSON.parse(data.responseText);
-        $('#articles').empty().html(app.current.errorTemplate({response: data, responseText: responseText}));
-        $('#error-console').empty().html(app.current.errorDetailTemplate({response: data, responseText: responseText}));
+        var error = {
+          type: app.errors.en.type.api,
+        };
+        $('#articles').empty().html(app.current.errorTemplate({response: data, responseText: responseText, error: error}));
+        $('#error-console').empty().html(app.current.errorDetailTemplate({response: data, responseText: responseText, error: error}));
       },
 
     });

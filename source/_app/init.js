@@ -16,6 +16,10 @@ var app = {
   colorText: '#111',
   errors: {
     en: {
+      type: {
+        api: 'API Error',
+        application: 'Application Error',
+      },
       apiError: 'API Error',
       missingInformation: 'Missing Information',
       incorrectInformation: 'Incorrect Information',
@@ -26,6 +30,7 @@ var app = {
       noVersions: 'There are no versions with this ID.',
       errorQueueing: 'An error has occurred while queueing the article(s) requested. Please cancel and try again.',
       errorStatus: 'An error has occurred while checking the status of the article(s) requested. Please cancel and try again.',
+      errorScheduling: 'There was an error talking to the API, The article has not been scheduled.',
     },
   },
 };

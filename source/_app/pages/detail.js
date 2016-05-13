@@ -138,11 +138,14 @@ app.detail = {
         },
 
         error: function(data) {
-          console.error('API Error: ' + app.API + 'api/current');
+          console.error(app.errors.en.type.api + ': ' + app.API + 'api/current');
           console.log(data);
           var responseText = JSON.parse(data.responseText);
-          $('#article').prepend(app.detail.errorTemplate({errorType: 'warning',message: app.errors.en.scheduleInformationUnavailable + ' ' + app.errors.en.refresh}));
-          $('#error-console').empty().html(app.detail.errorDetailTemplate({response: data,responseText: responseText}));
+          var error = {
+            type: app.errors.en.type.api,
+          };
+          $('#article').prepend(app.detail.errorTemplate({errorType: 'warning', message: app.errors.en.scheduleInformationUnavailable + ' ' + app.errors.en.refresh}));
+          $('#error-console').empty().html(app.detail.errorDetailTemplate({response: data, responseText: responseText, error: error}));
         },
 
       });
@@ -182,7 +185,6 @@ app.detail = {
    * Get article from param in url
    */
   getArticle: function() {
-    var message;
     if (!_.isNull(this.queryParams.articleId)) {
       $.ajax({
         url: app.API + 'api/article/' + this.queryParams.articleId,
@@ -198,20 +200,25 @@ app.detail = {
         },
 
         error: function(data) {
-          console.error('API Error: ' + app.API + 'api/article/' + app.detail.queryParams.articleId);
+          console.error(app.errors.en.type.api + ': ' + app.API + 'api/article/' + app.detail.queryParams.articleId);
           console.log(data);
           var responseText = JSON.parse(data.responseText);
-          $('#article').empty().html(app.detail.errorTemplate({response: data, responseText: responseText}));
-          $('#error-console').empty().html(app.detail.errorDetailTemplate({response: data, responseText: responseText}));
+          var error = {
+            type: app.errors.en.type.api,
+          };
+          $('#article').empty().html(app.detail.errorTemplate({response: data, responseText: responseText, error: error}));
+          $('#error-console').empty().html(app.detail.errorDetailTemplate({response: data, responseText: responseText, error: error}));
         },
 
       });
     } else {
+      var error = {
+        type: app.errors.en.type.application,
+      };
       $('#article').empty().html(this.errorTemplate({
         response: {
-          status: app.errors.en.apiError,
-          statusText: app.errors.en.missingInformation
-        }, message: app.errors.en.noArticleId
+          statusText: app.errors.en.missingInformation,
+        }, message: app.errors.en.noArticleId, error: error
       }));
     }
   },
@@ -267,7 +274,7 @@ app.detail = {
     } else {
       this.errors = {
         response: {
-          status: app.errors.en.apiError,
+          status: app.errors.en.type.application,
           statusText: app.errors.en.incorrectInformation,
         }, message: app.errors.en.noVersions + ' (' + this.queryParams.versionNumber + ')'
       };
@@ -286,7 +293,7 @@ app.detail = {
       } else {
         this.errors = {
           response: {
-            status: app.errors.en.apiError,
+            status: app.errors.en.type.application,
             statusText: app.errors.en.incorrectInformation,
           }, message: app.errors.en.noRuns + ' (' + this.queryParams.runId + ')'
         };

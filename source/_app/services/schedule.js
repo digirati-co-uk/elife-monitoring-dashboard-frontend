@@ -12,6 +12,7 @@ app.schedule = {
       this.articleModalBodyTemplate = eLife.templates['schedule/article-schedule-modal-body'];
       this.articleModalFooterTemplate = eLife.templates['schedule/article-schedule-modal-footer'];
       this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
+      this.errorTemplate = eLife.templates['error-render'];
       this.errorDetailTemplate = eLife.templates['error-detail'];
       this.articleId = null;
       this.articleScheduled = null;
@@ -242,27 +243,26 @@ app.schedule = {
       url: app.API + 'api/schedule_article_publication',
       data: JSON.stringify(scheduleData),
       success: function(data) {
-        console.log(data)
-        var template = {actionType: app.schedule.scheduleActionType};
-        template.success = (data.result == 'success') ? true : false;
-        $('#schedule-modal .modal-body').html(app.schedule.queueArticleStatusTemplate(template));
+        console.info('Success: ' + app.API + 'api/schedule_article_publication');
+        console.log(data);
+        console.log(scheduleData);
+        $('#schedule-modal .modal-body').html(app.schedule.queueArticleStatusTemplate({response: data, actionType: app.schedule.scheduleActionType}));
         $('#schedule-close', '#schedule-modal').text('Close');
         app.isScheduling = false;
         app.isAllScheduled = true;
       },
 
       error: function(data) {
-        console.error('API Error: ' + app.API + 'api/schedule_article_publication');
+        console.error(app.errors.en.type.api + ': ' + app.API + 'api/schedule_article_publication');
         console.log(scheduleData);
         console.log(data);
-        var template = {
-          result: 'Failed',
-          actionType: app.schedule.scheduleActionType,
-          message: 'There was an error talking to the API, Your article, "' + app.schedule.articleId + '" has not been scheduled.',
+        var responseText = (_.has(data, 'responseText')) ? JSON.parse(data.responseText) : null;
+        var error = {
+          type: app.errors.en.type.api,
         };
-        $('#schedule-modal .modal-body').html(app.schedule.queueArticleStatusTemplate(template));
-        var responseText = JSON.parse(data.responseText);
-        $('#schedule-modal .modal-body').append(app.schedule.errorDetailTemplate({response: data, responseText: responseText}));
+        $('.modal-body', '#schedule-modal').empty().html(app.publish.errorTemplate({response: data, responseText: responseText, error: error}));
+        $('.modal-body', '#schedule-modal').append(app.publish.errorDetailTemplate({response: data, responseText: responseText, error: error}));
+        $('#schedule-close', '#schedule-modal').text('Close');
         app.isScheduling = false;
         app.isAllScheduled = true;
       },
