@@ -260,8 +260,8 @@ app.schedule = {
         var error = {
           type: app.errors.en.type.api,
         };
-        $('.modal-body', '#schedule-modal').empty().html(app.publish.errorTemplate({response: data, responseText: responseText, error: error}));
-        $('.modal-body', '#schedule-modal').append(app.publish.errorDetailTemplate({response: data, responseText: responseText, error: error}));
+        $('.modal-body', '#schedule-modal').empty().html(app.schedule.errorTemplate({response: data, responseText: responseText, error: error}));
+        $('.modal-body', '#schedule-modal').append(app.schedule.errorDetailTemplate({response: data, responseText: responseText, error: error}));
         $('#schedule-close', '#schedule-modal').text('Close');
         app.isScheduling = false;
         app.isAllScheduled = true;
