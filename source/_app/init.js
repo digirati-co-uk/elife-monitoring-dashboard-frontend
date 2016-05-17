@@ -14,5 +14,24 @@ var app = {
   colorAdvanceArticle: '#f1f1f1',
   colorArticle: '#cde1f1',
   colorText: '#111',
+  errors: {
+    en: {
+      type: {
+        api: 'API Error',
+        application: 'Application Error',
+      },
+      apiError: 'API Error',
+      missingInformation: 'Missing Information',
+      incorrectInformation: 'Incorrect Information',
+      noArticleId: 'No Article ID was supplied.',
+      scheduleInformationUnavailable: 'Please note, scheduling information is unavailable at this time.',
+      refresh: 'Please refresh.',
+      noRuns: 'There are no runs with this ID.',
+      noVersions: 'There are no versions with this ID.',
+      errorQueueing: 'An error has occurred while queueing the article(s) requested. Please cancel and try again.',
+      errorStatus: 'An error has occurred while checking the status of the article(s) requested. Please cancel and try again.',
+      errorScheduling: 'There was an error talking to the API, The article has not been scheduled.',
+    },
+  },
 };
 

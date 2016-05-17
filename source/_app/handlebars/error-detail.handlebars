@@ -1,0 +1,24 @@
+{{#if responseText.detail}}
+<div class="alert alert-muted">
+    <div class="row">
+        <div class="col-sm-6">
+            <p class="h5 text-uppercase">
+                {{#if response}}{{response.status}}: {{response.statusText}}{{/if}}
+                {{#if error.type}} ({{error.type}}){{/if}}
+            </p>
+        </div>
+        <div class="col-sm-6 text-right">
+            <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Show Details
+            </button>
+        </div>
+    </div>
+    <div class="collapse" id="collapseExample">
+        <hr />
+        {{#if responseText.message}}<p>{{responseText.message}}</p>{{/if}}
+        {{#if message}}<p>{{{message}}}</p>{{/if}}
+        {{#if responseText.detail}}<div class="well"><p>{{responseText.detail}}</p></div>{{/if}}
+    </div>
+
+</div>
+{{/if}}

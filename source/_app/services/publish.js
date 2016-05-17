@@ -9,6 +9,8 @@ app.publish = {
    */
   init: function() {
     if ($('.current-page').length > 0 || $('.detail-page').length > 0) {
+      this.errorTemplate = eLife.templates['error-render'];
+      this.errorDetailTemplate = eLife.templates['error-detail'];
       this.checkingStatus = '';
       this.queuePolled = 0;
       Swag.registerHelpers(Handlebars);
@@ -127,8 +129,15 @@ app.publish = {
       },
 
       error: function(data) {
-        this.queueArticleStatusErrorTemplate = eLife.templates['current/error-queue-articles'];
-        $('#publish-modal .modal-body').html(this.queueArticleStatusErrorTemplate(articles));
+        console.error(app.errors.en.type.api + ': ' + app.API + 'api/queue_article_publication');
+        console.log(data);
+        console.log({articles: queued});
+        var responseText = JSON.parse(data.responseText);
+        var error = {
+          type: app.errors.en.type.api,
+        };
+        $('.modal-body', '#publish-modal').empty().html(app.publish.errorTemplate({response: data, responseText: responseText, error: error}));
+        $('.modal-body', '#publish-modal').append(app.publish.errorDetailTemplate({response: data, responseText: responseText, error: error}));
       },
     });
   },
@@ -150,8 +159,15 @@ app.publish = {
         },
 
         error: function(data) {
-          this.checkArticleStatusErrorTemplate = eLife.templates['current/error-check-article-status'];
-          $('#publish-modal .modal-body').html(this.checkArticleStatusErrorTemplate(articles));
+          console.error(app.errors.en.type.api + ': ' + app.API + 'api/article_publication_status');
+          console.log(data);
+          console.log({articles: queued});
+          var responseText = JSON.parse(data.responseText);
+          var error = {
+            type: app.errors.en.type.api,
+          };
+          $('.modal-body', '#publish-modal').empty().html(app.publish.errorTemplate({response: data, responseText: responseText, error: error}));
+          $('.modal-body', '#publish-modal').append(app.publish.errorDetailTemplate({response: data, responseText: responseText, error: error}));
           this.isPublishing = false;
           clearInterval(app.publish.checkingStatus);
         },

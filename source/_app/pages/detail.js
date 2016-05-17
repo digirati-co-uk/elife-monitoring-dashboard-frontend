@@ -9,24 +9,31 @@ app.detail = {
    */
   init: function() {
     if ($('.detail-page').length > 0) {
+      this.loadingTemplate = eLife.templates['loading-template'];
+      this.errorTemplate = eLife.templates['error-render'];
+      this.errorDetailTemplate = eLife.templates['error-detail'];
+      this.buttonsScheduleTemplate = eLife.templates['detail/buttons-schedule'];
+      this.buttonsReScheduleTemplate = eLife.templates['detail/buttons-reschedule'];
+      this.buttonsPublishTemplate = eLife.templates['detail/buttons-publish'];
+      this.articlesScheduledForTemplate = eLife.templates['detail/article-scheduled-for'];
+      this.articleTemplate = eLife.templates['detail/article'];
       this.extraUrl = 'patterns/04-pages-01-detail/04-pages-01-detail.html?/';
       this.article = [];
       this.errors = [];
       this.currentEvents = [];
       this.currentArticle = [];
       this.scheduleStatus = [];
+      this.articleScheduledStatusError = [];
       this.queryParams = {};
       Swag.registerHelpers(Handlebars);
       this.renderLoader();
       this.setArticleParams();
       this.getArticle();
-      this.getDetailActions();
       this.bindEvents();
     }
   },
 
   renderLoader: function() {
-    this.loadingTemplate = eLife.templates['loading-template'];
     $('#article').empty().html(this.loadingTemplate());
   },
 
@@ -115,10 +122,6 @@ app.detail = {
    */
   getDetailActions: function() {
     if (!_.isNull(this.queryParams.articleId)) {
-      this.buttonsScheduleTemplate = eLife.templates['detail/buttons-schedule'];
-      this.buttonsReScheduleTemplate = eLife.templates['detail/buttons-reschedule'];
-      this.buttonsPublishTemplate = eLife.templates['detail/buttons-publish'];
-      this.articlesScheduledForTemplate = eLife.templates['detail/article-scheduled-for'];
       var articleIds = [];
       articleIds.push(this.queryParams.articleId);
       $.ajax({
@@ -135,7 +138,14 @@ app.detail = {
         },
 
         error: function(data) {
-          console.log('Error retrieving article scheduled status');
+          console.error(app.errors.en.type.api + ': ' + app.API + 'api/current');
+          console.log(data);
+          var responseText = JSON.parse(data.responseText);
+          var error = {
+            type: app.errors.en.type.api,
+          };
+          $('#article').prepend(app.detail.errorTemplate({errorType: 'warning', message: app.errors.en.scheduleInformationUnavailable + ' ' + app.errors.en.refresh}));
+          $('#error-console').empty().html(app.detail.errorDetailTemplate({response: data, responseText: responseText, error: error}));
         },
 
       });
@@ -145,7 +155,7 @@ app.detail = {
    * Determine which action buttons to show for this page
    */
   renderDetailActions: function() {
-    if (this.scheduleStatus) {
+    if (!_.isEmpty(this.scheduleStatus)) {
       if (this.scheduleStatus.scheduled > 0) {
         $('.article-detail-actions', '#article').empty().html(app.detail.buttonsReScheduleTemplate({article: app.detail.article}));
         $('.article-detail-scheduled', '#article').empty().html(app.detail.articlesScheduledForTemplate({scheduleStatus: this.scheduleStatus}));
@@ -159,19 +169,22 @@ app.detail = {
               scheduleStatus: this.scheduleStatus,
             });
         $('.article-detail-actions', '#article').empty().html(buttons);
-
-        // {{ currentArticle.doi
-        // data-article-id="{{ article.id }}"
-        // data-article-version="{{ currentVersion }}"
-        // data-article-run="{{ currentEvents.run-id }}">
       }
+    } else {
+      var buttons = app.detail.buttonsPublishTemplate({
+        article: this.article,
+        currentArticle: this.currentArticle,
+        currentEvents: this.currentEvents,
+        currentVersion: this.queryParams.versionNumber,
+        currentRun: this.queryParams.runId,
+      });
+      $('.article-detail-actions', '#article').empty().html(buttons);
     }
   },
   /**
    * Get article from param in url
    */
   getArticle: function() {
-    var message;
     if (!_.isNull(this.queryParams.articleId)) {
       $.ajax({
         url: app.API + 'api/article/' + this.queryParams.articleId,
@@ -183,18 +196,30 @@ app.detail = {
           app.detail.currentArticle = app.detail.getCurrentArticle();
           app.detail.currentEvents = app.detail.getCurrentRun();
           app.detail.renderArticle();
+          app.detail.getDetailActions();
         },
 
         error: function(data) {
-          this.errorTemplate = eLife.templates['error-render'];
-          $('#article').empty().html(this.errorTemplate(data));
+          console.error(app.errors.en.type.api + ': ' + app.API + 'api/article/' + app.detail.queryParams.articleId);
+          console.log(data);
+          var responseText = JSON.parse(data.responseText);
+          var error = {
+            type: app.errors.en.type.api,
+          };
+          $('#article').empty().html(app.detail.errorTemplate({response: data, responseText: responseText, error: error}));
+          $('#error-console').empty().html(app.detail.errorDetailTemplate({response: data, responseText: responseText, error: error}));
         },
 
       });
     } else {
-      this.errorTemplate = eLife.templates['error-render'];
-      message = 'No ArticleId was supplied. <br /><br />';
-      $('#article').empty().html(this.errorTemplate({message: message}));
+      var error = {
+        type: app.errors.en.type.application,
+      };
+      $('#article').empty().html(this.errorTemplate({
+        response: {
+          statusText: app.errors.en.missingInformation,
+        }, message: app.errors.en.noArticleId, error: error
+      }));
     }
   },
   /**
@@ -202,7 +227,6 @@ app.detail = {
    */
   renderArticle: function() {
     if (this.article && _.isEmpty(this.errors)) {
-      this.articleTemplate = eLife.templates['detail/article'];
       $('#article').empty().html(this.articleTemplate(
           {
             article: this.article,
@@ -215,7 +239,6 @@ app.detail = {
 
       this.renderDetailActions();
     } else {
-      this.errorTemplate = eLife.templates['error-render'];
       $('#article').empty().html(this.errorTemplate(this.errors));
     }
 
@@ -231,7 +254,7 @@ app.detail = {
     }
 
     if (!this.queryParams.runId) {
-      if(_.has(this.article.versions, this.queryParams.versionNumber)) {
+      if (_.has(this.article.versions, this.queryParams.versionNumber)) {
         var lastKey = app.utils.findLastKey(this.article.versions[this.queryParams.versionNumber].runs);
         var runId = this.article.versions[this.queryParams.versionNumber].runs[lastKey]['run-id'];
         this.queryParams.runId = runId;
@@ -249,7 +272,12 @@ app.detail = {
     if (_.has(this.article.versions, this.queryParams.versionNumber)) {
       return this.article.versions[this.queryParams.versionNumber].details;
     } else {
-      this.errors = {message: 'There are no versions with this ID.<br /><br />'};
+      this.errors = {
+        response: {
+          status: app.errors.en.type.application,
+          statusText: app.errors.en.incorrectInformation,
+        }, message: app.errors.en.noVersions + ' (' + this.queryParams.versionNumber + ')'
+      };
       return false;
     }
   },
@@ -263,7 +291,12 @@ app.detail = {
       if (_.findWhere(this.article.versions[this.queryParams.versionNumber].runs, {'run-id': this.queryParams.runId})) {
         return _.findWhere(this.article.versions[this.queryParams.versionNumber].runs, {'run-id': this.queryParams.runId});
       } else {
-        this.errors = {message: 'There are no runs with this ID.<br /><br />'};
+        this.errors = {
+          response: {
+            status: app.errors.en.type.application,
+            statusText: app.errors.en.incorrectInformation,
+          }, message: app.errors.en.noRuns + ' (' + this.queryParams.runId + ')'
+        };
         return false;
       }
     }
@@ -280,6 +313,7 @@ app.detail = {
     if (_.findWhere(this.article.versions[this.queryParams.versionNumber].runs, {'run-id': this.queryParams.runId})) {
       this.setCurrentRun(_.findWhere(this.article.versions[this.queryParams.versionNumber].runs, {'run-id': this.queryParams.runId}));
     }
+
     this.renderArticle();
   },
 

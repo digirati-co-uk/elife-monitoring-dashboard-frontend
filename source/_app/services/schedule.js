@@ -11,6 +11,9 @@ app.schedule = {
     if ($('.current-page').length > 0 || $('.detail-page').length > 0 || $('.scheduled-page').length > 0) {
       this.articleModalBodyTemplate = eLife.templates['schedule/article-schedule-modal-body'];
       this.articleModalFooterTemplate = eLife.templates['schedule/article-schedule-modal-footer'];
+      this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
+      this.errorTemplate = eLife.templates['error-render'];
+      this.errorDetailTemplate = eLife.templates['error-detail'];
       this.articleId = null;
       this.articleScheduled = null;
       this.scheduled = null;
@@ -263,7 +266,7 @@ app.schedule = {
     } else {
       var formValid = true;
     }
-
+    
     if (formValid) {
       app.isScheduling = true;
       if (this.scheduleActionType === 'future-schedule') {
@@ -290,32 +293,32 @@ app.schedule = {
         url: app.API + 'api/schedule_article_publication',
         data: JSON.stringify(scheduleData),
         success: function(data) {
-          this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
-          var template = {actionType: app.schedule.scheduleActionType};
-          template.success = (data.result == 'success') ? true : false;
-          $('#schedule-modal .modal-body').html(this.queueArticleStatusTemplate(template));
-          console.log($('#schedule-modal #schedule-close'));
-          $('#schedule-modal #schedule-close').html('Close');
-          $('#schedule-modal #schedule-close').focus();
+          console.info('Success: ' + app.API + 'api/schedule_article_publication');
+          console.log(data);
+          console.log(scheduleData);
+          $('#schedule-modal .modal-body').html(app.schedule.queueArticleStatusTemplate({response: data, actionType: app.schedule.scheduleActionType}));
+          $('#schedule-close', '#schedule-modal').text('Close');
           app.isScheduling = false;
           app.isAllScheduled = true;
         },
 
         error: function(data) {
-          var template = {
-            success: true,
-            actionType: app.schedule.scheduleActionType,
-            message: 'There was an error talking to the API.',
+          console.error(app.errors.en.type.api + ': ' + app.API + 'api/schedule_article_publication');
+          console.log(scheduleData);
+          console.log(data);
+          var responseText = (_.has(data, 'responseText')) ? JSON.parse(data.responseText) : null;
+          var error = {
+            type: app.errors.en.type.api,
           };
-          this.queueArticleStatusTemplate = eLife.templates['schedule/article-schedule-modal-status'];
-          $('#schedule-modal .modal-body').html(this.queueArticleStatusTemplate(template));
+          $('.modal-body', '#schedule-modal').empty().html(app.schedule.errorTemplate({response: data, responseText: responseText, error: error}));
+          $('.modal-body', '#schedule-modal').append(app.schedule.errorDetailTemplate({response: data, responseText: responseText, error: error}));
+          $('#schedule-close', '#schedule-modal').text('Close');
           app.isScheduling = false;
           app.isAllScheduled = true;
-          $('#schedule-modal #schedule-close').html('Close');
-          $('#schedule-modal #schedule-close').focus();
         },
       });
     }
+
   },
 
   /**

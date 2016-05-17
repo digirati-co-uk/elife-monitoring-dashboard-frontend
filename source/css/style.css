@@ -6084,6 +6084,35 @@ button.close {
   }
 }
 
+.elf-alert .h1, .elf-alert .h2, .elf-alert .h3, .elf-alert .h4, .elf-alert .h5, .elf-alert .h6,
+.elf-alert h1, .elf-alert h2, .elf-alert h3, .elf-alert h4, .elf-alert h5, .elf-alert h6 {
+  margin: 0px;
+}
+
+.alert-sm {
+  padding: 5px 10px;
+  margin: 0;
+}
+
+.alert-inline {
+  display: inline-block;
+  width: auto;
+}
+
+.alert-muted {
+  background-color: #eeeeee;
+  border-color: #e2e2e2;
+  color: #777777;
+}
+
+.alert-muted hr {
+  border-top-color: #d5d5d5;
+}
+
+.alert-muted .alert-link {
+  color: #5e5e5e;
+}
+
 /*------------------------------------*    $BUTTONS
 \*------------------------------------*/
 .btn {
@@ -6204,7 +6233,7 @@ button.close {
 .e-icon {
   text-align: center;
   border-radius: 50%;
-  font-size: 1rem;
+  font-size: 14px;
   width: 30px;
   height: 30px;
   line-height: 30px;

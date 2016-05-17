@@ -17,6 +17,8 @@ app.scheduled = {
    */
   init: function() {
     if ($('.scheduled-page').length > 0) {
+      this.errorTemplate = eLife.templates['error-render'];
+      this.errorDetailTemplate = eLife.templates['error-detail'];
       this.scheduledContentListTemplate = eLife.templates['scheduled/scheduled-content-list'];
       this.scheduledContentCalendarTemplate = eLife.templates['scheduled/scheduled-content-calendar'];
       this.scheduledActionsTemplate = eLife.templates['scheduled/scheduled-actions'];
@@ -224,8 +226,14 @@ app.scheduled = {
       },
 
       error: function(data) {
-        this.errorTemplate = eLife.templates['error-render'];
-        $('.schedule-page__content').empty().html(this.errorTemplate(data));
+        console.error('API Error: ' + app.API + 'api/article_schedule_for_range/from/' + start + '/to/' + end + '/');
+        console.log(data);
+        var responseText = JSON.parse(data.responseText);
+        var error = {
+          type: app.errors.en.type.api,
+        };
+        $('.schedule-page__content', app.scheduled.$el).empty().html(app.scheduled.errorTemplate({response: data, responseText: responseText, error: error}));
+        $('#error-console').empty().html(app.scheduled.errorDetailTemplate({response: data, responseText: responseText, error: error}));
       },
     });
   },
