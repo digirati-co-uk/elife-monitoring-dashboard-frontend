@@ -6,7 +6,8 @@
   > li {
     float: left;
     // Make the list-items overlay the bottom border
-    margin-bottom: -1px;
+    //margin-bottom: -1px;
+    border-bottom: 1px solid $gray-lighter;
 
     // Actual tabs (as links)
     > a {

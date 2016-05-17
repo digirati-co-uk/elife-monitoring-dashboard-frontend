@@ -1,8 +1,0 @@
-<div class="alert elf-alert {{#if errorType }}alert-{{errorType}}{{else}}alert-danger{{/if}}">
-<p class="h5 text-uppercase">
-    {{#if response}}{{#if response.status}}{{response.status}}:{{/if}} {{response.statusText}}{{/if}}
-    {{#if error.type}} ({{error.type}}){{/if}}
-</p>
-{{#if responseText.message}}<p>{{responseText.message}}</p>{{/if}}
-{{#if message}}<p>{{{message}}}</p>{{/if}}
-{{#is response.status 500}}</div>{{/is}}

@@ -1,5 +1,20 @@
 # Monitoring Dashboard
 
+This is the UI components for the eLife monitoring dashboard. The eLife dashboard is comprised of three parts.
+
+1. [UX Pin](https://live.uxpin.com/593d5793b51645bc5dfb5a0a5ab7629065ef1743#/pages/22041535/sitemap) defines the UX and interactions
+1. [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend) the front end code describing the UI (but not to include any behaviour)
+1. [Dashboard](https://github.com/elifesciences/elife-dashboard) this is the actual implementation of the front end functionality using the patterns from PatternLab.
+
+New front end features should be developed in the [Dashboard](https://github.com/elifesciences/elife-dashboard) and copied back into the [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend)
+
+# Things to ensure when developing
+
+* The [Dashboard](https://github.com/elifesciences/elife-dashboard) contains **all** interactions, before developing a new UI feature check that the ```/libs``` and ```/js``` folders are up to date.
+* Also ensure ```/scss``` folder is up to date
+* **Develop new features in the [Dashboard](https://github.com/elifesciences/elife-dashboard), the task will not be considered complete until any UI changes and all updated javascript has been copied back into the [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend)**
+
+
 ---
 
 # Requirements:
@@ -9,14 +24,12 @@
 * PHP
 * [Live Reload](http://livereload.com/) - [Chrome plugin](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei)
 * [Dashboard Test Services](https://github.com/elifesciences/elife-dashboard)
-* gem install sass-globbing
 
 ---
 
 # Installation
 
 **On First Installation**
-* Install ```gem install sass-globbing```
 * Install node, if on OSX run ```brew install node```
 * Install ```npm install```
 * Setup test services, see [Dashboard Test Services](https://github.com/elifesciences/elife-dashboard)

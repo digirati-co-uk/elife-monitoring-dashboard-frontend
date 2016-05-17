@@ -22,54 +22,6 @@ module.exports = function(grunt) {
         banner: '<%= banner %>',
         stripBanners: true,
       },
-      js: {
-        //put all the prerequisites in a file
-        files: {
-          'source/js/libs.js': [
-            'source/_libs/jquery.min.js',
-            'source/_libs/moment.js',
-            'source/_libs/bootstrap/assets/javascripts/bootstrap/collapse.js',
-            'source/_libs/bootstrap/assets/javascripts/bootstrap/dropdown.js',
-            'source/_libs/bootstrap/assets/javascripts/bootstrap/modal.js',
-            'source/_libs/bootstrap/assets/javascripts/bootstrap/transition.js',
-            'source/_libs/pickadate/lib/picker.js',
-            'source/_libs/pickadate/lib/picker.date.js',
-            'source/_libs/pickadate/lib/picker.time.js',
-            'source/_libs/underscore.js',
-            'source/_libs/handlebars-v4.0.5.js',
-            'source/_libs/swag.js',
-            'source/_libs/jquery.history.js',
-            'source/_libs/fullcalendar/fullcalendar.js',
-            'source/_libs/jquery.qtip.custom/jquery.qtip.js',
-          ],
-          'source/js/app.js': [
-            'source/_app/config.js',
-            'source/_app/init.js',
-            'source/_app/templates.js',
-            'source/_app/helpers/templates-helpers.js',
-            'source/_app/helpers/utils.js',
-            'source/_app/services/publish.js',
-            'source/_app/services/schedule.js',
-            'source/_app/pages/archive.js',
-            'source/_app/pages/current.js',
-            'source/_app/pages/detail.js',
-            'source/_app/pages/scheduled.js',
-          ],
-          'source/js/app-dev.js': [
-            'source/_app/config-dev.js',
-            'source/_app/init.js',
-            'source/_app/templates.js',
-            'source/_app/helpers/templates-helpers.js',
-            'source/_app/helpers/utils.js',
-            'source/_app/services/publish.js',
-            'source/_app/services/schedule.js',
-            'source/_app/pages/archive.js',
-            'source/_app/pages/current.js',
-            'source/_app/pages/detail.js',
-            'source/_app/pages/scheduled.js',
-          ],
-        },
-      },
       css: {
         //put all the prerequisites in a file
         files: {
@@ -101,25 +53,10 @@ module.exports = function(grunt) {
       },
     },
 
-    handlebars: {
-      compile: {
-        options: {
-          namespace: "eLife.templates",
-          processName: function(filePath) {
-            return filePath.replace(/^source\/_app\/handlebars\//, '').replace(/\.handlebars/, '');
-          }
-        },
-        files: {
-          "source/_app/templates.js": ["source/_app/handlebars/**/*.handlebars"],
-        }
-      }
-    },
-
-
     // Watches styles and specs for changes
     watch: {
       options: {
-        livereload: true,
+        livereload: false,
       },
       html: {
         files: ['source/_patterns/**/*.mustache', 'source/_patterns/**/*.json', 'source/_data/*.json'],
@@ -129,17 +66,11 @@ module.exports = function(grunt) {
         }
       },
       js: {
-        files: ['source/_app/**/*.js'],
-        tasks: ['concat', 'shell:patternlab'],
+        files: ['source/js/*.js'],
+        tasks: ['shell:patternlab'],
         options: {
           spawn: false
         }
-      },
-      handlebars: {
-        files: ['source/_app/handlebars/**/*.handlebars'],
-        files: ['source/_app/handlebars/**/*.handlebars'],
-        tasks: ['handlebars', 'concat', 'shell:patternlab'],
-        options: {nospawn: false},
       },
       css: {
         files: ['source/_scss/**/*.scss'],
@@ -166,5 +97,5 @@ module.exports = function(grunt) {
 
   // Register the default tasks
   grunt.registerTask('serve', ['shell:patternlabserve']);
-  grunt.registerTask('default', ['handlebars', 'concat', 'sass', 'shell:patternlab', 'watch']);
+  grunt.registerTask('default', ['concat', 'sass', 'shell:patternlab', 'watch']);
 };

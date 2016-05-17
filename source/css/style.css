@@ -6695,7 +6695,7 @@ dl dd {
 
 .elf-nav-tabs > li {
   float: left;
-  margin-bottom: -1px;
+  border-bottom: 1px solid #eeeeee;
 }
 
 .elf-nav-tabs > li > a {
