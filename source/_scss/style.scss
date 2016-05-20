@@ -4,11 +4,13 @@
 
 @import "core/variables-bootstrap";
 @import "core/variables";
+@import "core/mixins";
 @import "core/z-index";
 
 @import "bootstrap";
 
 @import "layout/scheduled";
+@import "layout/detail";
 @import "layout/archive";
 
 @import "patterns/atoms/alerts";

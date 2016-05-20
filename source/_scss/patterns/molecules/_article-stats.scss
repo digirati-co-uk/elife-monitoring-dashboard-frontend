@@ -1,12 +1,8 @@
-.article-stats,
-.stats__section__row {
-  @include make-row();
-}
-
 .article-stats {
   padding: 10px 0;
   background-color: lighten($gray-lighter, 5%);
   border: 1px solid darken($gray-lighter, 5%);
+  @include make-row();
 
   a {
     color: $text-color;
@@ -16,13 +12,17 @@
     }
   }
 
+  .article-stats__row {
+    @include make-row(0px);
+  }
+
   .article-stats__section {
-    @include make-sm-column(3, 0px);
+    @include make-xs-column(3, 0px);
     text-align: center;
   }
 
   .stats__section__icon {
-    @include make-sm-column(5, 0px);
+    @include make-xs-column(5, 0px);
     text-align: right;
     .icon {
       padding-top: 10px;
@@ -30,7 +30,7 @@
     }
   }
   .stats__section__detail {
-    @include make-sm-column(7, 0px);
+    @include make-xs-column(7, 0px);
   }
   .stats__section__val {
     font-size: 3.6rem;
@@ -38,5 +38,24 @@
   .stats__section__desc {
     font-weight: 300;
   }
+}
 
+@media #{$df-sm} {
+
+  .article-stats {
+    @include make-container();
+    .stats__section__icon {
+      display: none;
+    }
+    .stats__section__row,
+    .stats__section__detail {
+      @include make-xs-column(12, 0px);
+    }
+    .stats__section__detail {
+      font-size: 0.9em;
+    }
+    .stats__section__val {
+      font-size: 2rem;
+    }
+  }
 }

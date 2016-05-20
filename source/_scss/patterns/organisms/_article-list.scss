@@ -61,6 +61,22 @@
     }
   }
 
+  @media #{$df-md} {
+    .article__row {
+      .article__col {
+        width: 100%;
+        display: block;
+        clear: both;
+      }
+      .article__col__icon {
+        width: 10%;
+        display: table-cell;
+      }
+      .article__col__title {
+        width: 90%;
+      }
+    }
+  }
 
 }
 

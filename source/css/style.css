@@ -3,6 +3,67 @@
 \*------------------------------------*/
 /*------------------------------------*    $VARIABLES
 \*------------------------------------*/
+/*==================================================
+=            Available Media Queries             =
+==================================================*/
+/*==========  Mobile First Method  ==========*/
+/* Extra Small Devices, Phones */
+/* Small Devices, Tablets */
+/* Medium Devices, Desktops */
+/* Large Devices, Wide Screens */
+/*==========  Non-Mobile First (Desktop First) Method  ==========*/
+/* Large Devices, Wide Screens */
+/* Medium Devices, Desktops */
+/* Small Devices, Tablets */
+/* Extra Small Devices, Phones */
+@media only screen and (min-width: 480px) {
+  body {
+    border: 1px solid red;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  body {
+    border: 1px solid orange;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  body {
+    border: 1px solid yellow;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  body {
+    border: 1px solid green;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  header {
+    background-color: green;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  header {
+    background-color: yellow;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  header {
+    background-color: orange;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  header {
+    background-color: red;
+  }
+}
+
 .calendar {
   z-index: 0;
 }
@@ -6001,6 +6062,7 @@ button.close {
   }
 }
 
+/* Specific to scheduled page */
 .schedule-page__content {
   position: relative;
 }
@@ -6008,6 +6070,29 @@ button.close {
 .calendar {
   position: relative;
   z-index: 0;
+}
+
+@media only screen and (max-width: 768px) {
+  .schedule-page-cta {
+    text-align: center;
+  }
+  .schedule-page-cta .schedule-page__switcher .btn-group {
+    width: 100%;
+  }
+  .schedule-page-cta .schedule-page__switcher .schedule-page-switch {
+    width: 50%;
+  }
+  .schedule-page-cta .schedule {
+    margin-top: 10px;
+    display: block;
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .detail-cta {
+    margin-bottom: 10px;
+  }
 }
 
 /* Archive page is incomplete */
@@ -6064,24 +6149,9 @@ button.close {
   text-decoration: none;
 }
 
-@media (max-width: 991px) {
-  .archive-page .filter .filter-refine .btn {
-    display: block;
-    margin: 15px 0 0;
-    width: 100%;
-  }
-}
-
 .archive-page .article-snapshot-list.archive .column-2 {
   padding-left: 5%;
   padding-right: 5%;
-}
-
-@media (max-width: 767px) {
-  .archive-page .article-snapshot-list.archive .column-2 {
-    padding-left: 0;
-    padding-right: 0;
-  }
 }
 
 .elf-alert .h1, .elf-alert .h2, .elf-alert .h3, .elf-alert .h4, .elf-alert .h5, .elf-alert .h6,
@@ -6133,10 +6203,11 @@ button.close {
   display: block;
 }
 
-@media (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .btn-publish-all-selected {
     width: 100%;
     position: relative;
+    margin-bottom: 20px;
   }
 }
 
@@ -6505,6 +6576,28 @@ dl dd {
   background: url("../images/molecules/article-event-timeline-bg.png") center repeat-y;
 }
 
+@media only screen and (max-width: 768px) {
+  .article-event-timeline .line {
+    display: none;
+  }
+  .article-event-timeline .article-event-timeline__row {
+    border-bottom: 1px solid #eeeeee;
+    margin-bottom: 10px;
+  }
+  .article-event-timeline .article-event-timeline__title {
+    padding-top: 10px;
+    font-size: 18px;
+  }
+  .article-event-timeline .article-event-timeline__title,
+  .article-event-timeline .article-event-timeline__detail {
+    padding: 0 10px;
+  }
+  .article-event-timeline .article-event-timeline__title p,
+  .article-event-timeline .article-event-timeline__detail p {
+    padding: 0px;
+  }
+}
+
 .article-detail {
   border-bottom: 1px solid #e2e2e2;
   margin: 20px 0;
@@ -6534,28 +6627,21 @@ dl dd {
   color: #111;
 }
 
-.article-stats,
-.stats__section__row {
-  margin-left: -15px;
-  margin-right: -15px;
-}
-
-.article-stats:before, .article-stats:after,
-.stats__section__row:before,
-.stats__section__row:after {
-  content: " ";
-  display: table;
-}
-
-.article-stats:after,
-.stats__section__row:after {
-  clear: both;
-}
-
 .article-stats {
   padding: 10px 0;
   background-color: #fbfbfb;
   border: 1px solid #e2e2e2;
+  margin-left: -15px;
+  margin-right: -15px;
+}
+
+.article-stats:before, .article-stats:after {
+  content: " ";
+  display: table;
+}
+
+.article-stats:after {
+  clear: both;
 }
 
 .article-stats a {
@@ -6567,34 +6653,38 @@ dl dd {
   color: #333333;
 }
 
+.article-stats .article-stats__row {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.article-stats .article-stats__row:before, .article-stats .article-stats__row:after {
+  content: " ";
+  display: table;
+}
+
+.article-stats .article-stats__row:after {
+  clear: both;
+}
+
 .article-stats .article-stats__section {
   position: relative;
+  float: left;
+  width: 25%;
   min-height: 1px;
   padding-left: 0px;
   padding-right: 0px;
   text-align: center;
 }
 
-@media (min-width: 768px) {
-  .article-stats .article-stats__section {
-    float: left;
-    width: 25%;
-  }
-}
-
 .article-stats .stats__section__icon {
   position: relative;
+  float: left;
+  width: 41.6666666667%;
   min-height: 1px;
   padding-left: 0px;
   padding-right: 0px;
   text-align: right;
-}
-
-@media (min-width: 768px) {
-  .article-stats .stats__section__icon {
-    float: left;
-    width: 41.6666666667%;
-  }
 }
 
 .article-stats .stats__section__icon .icon {
@@ -6604,16 +6694,11 @@ dl dd {
 
 .article-stats .stats__section__detail {
   position: relative;
+  float: left;
+  width: 58.3333333333%;
   min-height: 1px;
   padding-left: 0px;
   padding-right: 0px;
-}
-
-@media (min-width: 768px) {
-  .article-stats .stats__section__detail {
-    float: left;
-    width: 58.3333333333%;
-  }
 }
 
 .article-stats .stats__section__val {
@@ -6622,6 +6707,61 @@ dl dd {
 
 .article-stats .stats__section__desc {
   font-weight: 300;
+}
+
+@media only screen and (max-width: 768px) {
+  .article-stats {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .article-stats:before, .article-stats:after {
+    content: " ";
+    display: table;
+  }
+  .article-stats:after {
+    clear: both;
+  }
+}
+
+@media only screen and (max-width: 768px) and (min-width: 768px) {
+  .article-stats {
+    width: 750px;
+  }
+}
+
+@media only screen and (max-width: 768px) and (min-width: 992px) {
+  .article-stats {
+    width: 970px;
+  }
+}
+
+@media only screen and (max-width: 768px) and (min-width: 1200px) {
+  .article-stats {
+    width: 1170px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .article-stats .stats__section__icon {
+    display: none;
+  }
+  .article-stats .stats__section__row,
+  .article-stats .stats__section__detail {
+    position: relative;
+    float: left;
+    width: 100%;
+    min-height: 1px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .article-stats .stats__section__detail {
+    font-size: 0.9em;
+  }
+  .article-stats .stats__section__val {
+    font-size: 2rem;
+  }
 }
 
 .loading-template {
@@ -6719,6 +6859,12 @@ dl dd {
 .elf-nav-tabs > li.active > a {
   background-color: transparent;
   cursor: default;
+}
+
+@media only screen and (max-width: 768px) {
+  .elf-nav-tabs > li {
+    width: 100%;
+  }
 }
 
 /**
@@ -6964,6 +7110,21 @@ Its currently used in the schedule modal popup
 .article-list .article__row .article__col__action {
   width: 15%;
   background-color: #fbfbfb;
+}
+
+@media only screen and (max-width: 992px) {
+  .article-list .article__row .article__col {
+    width: 100%;
+    display: block;
+    clear: both;
+  }
+  .article-list .article__row .article__col__icon {
+    width: 10%;
+    display: table-cell;
+  }
+  .article-list .article__row .article__col__title {
+    width: 90%;
+  }
 }
 
 .article-snapshot-list caption.sticky {

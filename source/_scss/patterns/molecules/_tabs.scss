@@ -36,4 +36,10 @@
     @extend .nav-justified;
     @extend .nav-tabs-justified;
   }
+
+  @media #{$df-sm} {
+      > li {
+        width: 100%;
+      }
+  }
 }

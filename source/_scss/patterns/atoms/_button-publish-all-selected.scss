@@ -13,9 +13,10 @@
   text-decoration: none;
   top: 15px;
 
-  @media #{$mobile} {
+  @media #{$df-sm} {
     width: 100%;
     position: relative;
+    margin-bottom: 20px;
   }
 
 }

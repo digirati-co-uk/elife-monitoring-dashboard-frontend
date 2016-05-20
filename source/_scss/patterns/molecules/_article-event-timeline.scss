@@ -48,5 +48,26 @@
     }
   }
 
+  @media #{$df-sm} {
+    .line {
+      display: none;
+    }
+    .article-event-timeline__row {
+      border-bottom: 1px solid $gray-lighter;
+      margin-bottom: 10px;
+    }
+    .article-event-timeline__title {
+      padding-top: 10px;
+      font-size: $font-size-h4;
+    }
+    .article-event-timeline__title,
+    .article-event-timeline__detail {
+      padding: 0 10px;
+      p {
+        padding: 0px;
+      }
+    }
+
+  }
 
 }

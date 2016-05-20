@@ -9,11 +9,6 @@ $elf-white: #fff;
 //Images
 $img-path: "../images";
 
-//Break Points
-$mobile: "(max-width: 767px)";
-$wide: "(max-width: 991px)";
-$x-wide: "(max-width: 1199px)";
-
 //Scheduled pages
 $scheduledAdvanceArticle: #f1f1f1;
 $scheduledArticle: #cde1f1;
@@ -42,3 +37,40 @@ $version-run-nav-list-text-color-light: lighten($version-run-nav-list-text-color
 $version-run-nav-list-bg: $gray-lighter;
 $version-run-nav-list-bg-alt: darken($version-run-nav-list-bg, 5%);
 $version-run-nav-list-header-bg: darken($version-run-nav-list-bg, 15%);
+
+/*==================================================
+=            Available Media Queries             =
+==================================================*/
+
+/*==========  Mobile First Method  ==========*/
+
+/* Extra Small Devices, Phones */
+$mf-xs: "only screen and (min-width : #{$screen-xs})";
+/* Small Devices, Tablets */
+$mf-sm: "only screen and (min-width : #{$screen-sm})";
+/* Medium Devices, Desktops */
+$mf-md: "only screen and (min-width : #{$screen-md})";
+/* Large Devices, Wide Screens */
+$mf-lg: "only screen and (min-width : #{$screen-lg})";
+
+
+/*==========  Non-Mobile First (Desktop First) Method  ==========*/
+
+/* Large Devices, Wide Screens */
+$df-lg: "only screen and (max-width : #{$screen-lg})";
+/* Medium Devices, Desktops */
+$df-md: "only screen and (max-width : #{$screen-md})";
+/* Small Devices, Tablets */
+$df-sm: "only screen and (max-width : #{$screen-sm})";
+/* Extra Small Devices, Phones */
+$df-xs: "only screen and (max-width : #{$screen-xs})";
+
+
+@media #{$mf-xs} {body {border: 1px solid red}}
+@media #{$mf-sm} {body {border: 1px solid orange}}
+@media #{$mf-md} {body {border: 1px solid yellow}}
+@media #{$mf-lg} {body {border: 1px solid green}}
+@media #{$df-lg} {header {background-color: green}}
+@media #{$df-md} {header {background-color: yellow}}
+@media #{$df-sm} {header {background-color: orange}}
+@media #{$df-xs} {header {background-color: red}}
