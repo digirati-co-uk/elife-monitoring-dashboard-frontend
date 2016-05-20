@@ -65,12 +65,12 @@ $df-sm: "only screen and (max-width : #{$screen-sm})";
 /* Extra Small Devices, Phones */
 $df-xs: "only screen and (max-width : #{$screen-xs})";
 
-
-@media #{$mf-xs} {body {border: 1px solid red}}
-@media #{$mf-sm} {body {border: 1px solid orange}}
-@media #{$mf-md} {body {border: 1px solid yellow}}
-@media #{$mf-lg} {body {border: 1px solid green}}
-@media #{$df-lg} {header {background-color: green}}
-@media #{$df-md} {header {background-color: yellow}}
-@media #{$df-sm} {header {background-color: orange}}
-@media #{$df-xs} {header {background-color: red}}
+// for debug
+//@media #{$mf-xs} {body {border: 1px solid red}}
+//@media #{$mf-sm} {body {border: 1px solid orange}}
+//@media #{$mf-md} {body {border: 1px solid yellow}}
+//@media #{$mf-lg} {body {border: 1px solid green}}
+//@media #{$df-lg} {header {background-color: green}}
+//@media #{$df-md} {header {background-color: yellow}}
+//@media #{$df-sm} {header {background-color: orange}}
+//@media #{$df-xs} {header {background-color: red}}

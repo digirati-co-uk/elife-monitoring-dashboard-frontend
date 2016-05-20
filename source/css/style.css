@@ -16,54 +16,6 @@
 /* Medium Devices, Desktops */
 /* Small Devices, Tablets */
 /* Extra Small Devices, Phones */
-@media only screen and (min-width: 480px) {
-  body {
-    border: 1px solid red;
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  body {
-    border: 1px solid orange;
-  }
-}
-
-@media only screen and (min-width: 992px) {
-  body {
-    border: 1px solid yellow;
-  }
-}
-
-@media only screen and (min-width: 1200px) {
-  body {
-    border: 1px solid green;
-  }
-}
-
-@media only screen and (max-width: 1200px) {
-  header {
-    background-color: green;
-  }
-}
-
-@media only screen and (max-width: 992px) {
-  header {
-    background-color: yellow;
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  header {
-    background-color: orange;
-  }
-}
-
-@media only screen and (max-width: 480px) {
-  header {
-    background-color: red;
-  }
-}
-
 .calendar {
   z-index: 0;
 }
