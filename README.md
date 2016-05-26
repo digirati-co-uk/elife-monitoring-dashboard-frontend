@@ -6,13 +6,13 @@ This is the UI components for the eLife monitoring dashboard. The eLife dashboar
 1. [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend) the front end code describing the UI (but not to include any behaviour)
 1. [Dashboard](https://github.com/elifesciences/elife-dashboard) this is the actual implementation of the front end functionality using the patterns from PatternLab.
 
-New front end features should be developed in the [Dashboard](https://github.com/elifesciences/elife-dashboard) and copied back into the [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend)
+New front end features should be developed in the [Dashboard](https://github.com/elifesciences/elife-dashboard) and copied back into the [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend) using ```bash -x copyfromdashboard.sh ~/Projects/eLife/elife-dashboard``` within the [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend) 
 
 # Things to ensure when developing
 
 * The [Dashboard](https://github.com/elifesciences/elife-dashboard) contains **all** interactions, before developing a new UI feature check that the ```/libs``` and ```/js``` folders are up to date.
 * Also ensure ```/scss``` folder is up to date
-* **Develop new features in the [Dashboard](https://github.com/elifesciences/elife-dashboard), the task will not be considered complete until any UI changes and all updated javascript has been copied back into the [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend)**
+* **Develop new features in the [Dashboard](https://github.com/elifesciences/elife-dashboard), the task will not be considered complete until any UI changes and all updated javascript has been copied back into the [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend) using ```bash -x copyfromdashboard.sh ~/Projects/eLife/elife-dashboard``` within the [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend)** 
 
 
 ---
