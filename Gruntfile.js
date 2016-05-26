@@ -26,7 +26,7 @@ module.exports = function(grunt) {
         //put all the prerequisites in a file
         files: {
           //app  js
-          '_src/css/libs.css': [
+          'source/css/libs.css': [
             '_src/libs/fullcalendar/fullcalendar.css',
             '_src/libs/jquery.qtip.custom/jquery.qtip.css',
             '_src/libs/pickadate/lib/themes/classic.css',
@@ -41,7 +41,7 @@ module.exports = function(grunt) {
     sass: {
       dev: {
         files: {
-          '_src/css/style.css': '_src/scss/style.scss',
+          'source/css/style.css': '_src/scss/style.scss',
         },
         options: {
           //includePaths: ['_src/css/scss/incs'],
