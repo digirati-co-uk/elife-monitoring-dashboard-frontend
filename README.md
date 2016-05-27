@@ -1,4 +1,4 @@
-# Monitoring Dashboard
+# Pattern Library
 
 This is the UI components for the eLife monitoring dashboard. The eLife dashboard is comprised of three parts.
 
@@ -10,8 +10,7 @@ New front end features should be developed in the [Dashboard](https://github.com
 
 # Things to ensure when developing
 
-* The [Dashboard](https://github.com/elifesciences/elife-dashboard) contains **all** interactions, before developing a new UI feature check that the ```/libs``` and ```/js``` folders are up to date.
-* Also ensure ```/scss``` folder is up to date
+* The [Dashboard](https://github.com/elifesciences/elife-dashboard) contains **all** interactions, before developing a new UI feature check that the html, js and css is up to date.
 * **Develop new features in the [Dashboard](https://github.com/elifesciences/elife-dashboard), the task will not be considered complete until any UI changes and all updated javascript has been copied back into the [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend) using ```bash -x copyfromdashboard.sh ~/Projects/eLife/elife-dashboard``` within the [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend)** 
 
 

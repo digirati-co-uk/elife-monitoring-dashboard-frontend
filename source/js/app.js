@@ -1022,164 +1022,177 @@ Handlebars.registerHelper('elFormatUnixDate', function(date, format) {
 'use strict';
 
 app.utils = {
-  removeObject: function(obj, match) {
-    var queued = [];
-    _.each(obj, function(queue) {
-      if (!_.isEqual(queue, match)) {
-        queued.push(queue);
-      }
-    });
+    /**
+     * Remove an object
+     * @param obj
+     * @param match
+     * @returns {Array}
+     */
+    removeObject: function (obj, match) {
+        var queued = [];
+        _.each(obj, function (queue) {
+            if (!_.isEqual(queue, match)) {
+                queued.push(queue);
+            }
+        });
 
-    return queued;
-  },
+        return queued;
+    },
 
-  addObject: function(obj, match) {
-    obj.push(match);
-    return obj;
-  },
+    /**
+     * append object
+     * @param obj
+     * @param match
+     * @returns {*}
+     */
+    addObject: function (obj, match) {
+        obj.push(match);
+        return obj;
+    },
 
-  getNthObjectKey: function(obj, n) {
-    var nth = [];
-    var i = 0;
-    _.each(obj, function(item, key) {
-      if (i === n) {
-        nth = key;
-      }
+    /**
+     * Find last key of object
+     * @param list
+     * @returns {*}
+     */
+    findLastKey: function (list) {
+        var lastKey = false;
+        var cnt = 1;
+        var total = _.keys(list).length;
+        _.each(list, function (lst, key) {
+            if (cnt === total) {
+                lastKey = key;
+            }
 
-      i++;
-    });
+            cnt++;
+        });
 
-    return nth;
-  },
+        return lastKey;
+    },
 
-  /**
-   * Find last key of object
-   * @param list
-   * @returns {*}
-   */
-  findLastKey: function(list) {
-    var lastKey = false;
-    var cnt = 1;
-    var total = _.keys(list).length;
-    _.each(list, function(lst, key) {
-      if (cnt === total) {
-        lastKey = key;
-      }
+    /**
+     * inserts the string value (third parameter) before the specified integer index (second parameter) in the string str (first parameter), and then returns the new string without changing str
+     * @param str
+     * @param index
+     * @param value
+     * @returns {string}
+     */
+    insert: function (str, index, value) {
+        return str.substr(0, index) + value + str.substr(index);
+    },
 
-      cnt++;
-    });
+    /**
+     * Test if a string is all numeric or not
+     * @param string
+     * @returns {boolean}
+     */
+    isNumeric: function (string) {
+        var hasNumber = /^\d+$/;
+        return hasNumber.test(string);
+    },
 
-    return lastKey;
-  },
 
-  /**
-   * inserts the string value (third parameter) before the specified integer index (second parameter) in the string str (first parameter), and then returns the new string without changing str
-   * @param str
-   * @param index
-   * @param value
-   * @returns {string}
-   */
-  insert: function(str, index, value) {
-    return str.substr(0, index) + value + str.substr(index);
-  },
+    /**
+     * Extract params from url
+     * http://www.thecodeship.com/web-development/javascript-url-object/
+     * @param options
+     */
+    urlObject: function (options) {
+        "use strict";
+        /*global window, document*/
 
-  /**
-   * Test if a string is all numeric or not
-   * @param string
-   * @returns {boolean}
-   */
-  isNumeric: function(string) {
-    var hasNumber = /^\d+$/;
-    return hasNumber.test(string);
-  },
+        var url_search_arr,
+            option_key,
+            i,
+            urlObj,
+            get_param,
+            key,
+            val,
+            url_query,
+            url_get_params = {},
+            a = document.createElement('a'),
+            default_options = {
+                'url': window.location.href,
+                'unescape': true,
+                'convert_num': true
+            };
 
-  /**
-   * Extract params from url
-   * http://www.thecodeship.com/web-development/javascript-url-object/
-   * @param options
-   */
-  urlObject: function(options) {
-    "use strict";
-    /*global window, document*/
+        if (typeof options !== "object") {
+            options = default_options;
+        } else {
+            for (option_key in default_options) {
+                if (default_options.hasOwnProperty(option_key)) {
+                    if (options[option_key] === undefined) {
+                        options[option_key] = default_options[option_key];
+                    }
+                }
+            }
+        }
 
-    var url_search_arr,
-        option_key,
-        i,
-        urlObj,
-        get_param,
-        key,
-        val,
-        url_query,
-        url_get_params = {},
-        a = document.createElement('a'),
-        default_options = {
-          'url': window.location.href,
-          'unescape': true,
-          'convert_num': true
+        a.href = options.url;
+        url_query = a.search.substring(1);
+        url_search_arr = url_query.split('&');
+
+        if (url_search_arr[0].length > 1) {
+            for (i = 0; i < url_search_arr.length; i += 1) {
+                get_param = url_search_arr[i].split("=");
+
+                if (options.unescape) {
+                    key = decodeURI(get_param[0]);
+                    val = decodeURI(get_param[1]);
+                } else {
+                    key = get_param[0];
+                    val = get_param[1];
+                }
+
+                if (options.convert_num) {
+                    if (val.match(/^\d+$/)) {
+                        val = parseInt(val, 10);
+                    } else if (val.match(/^\d+\.\d+$/)) {
+                        val = parseFloat(val);
+                    }
+                }
+
+                if (url_get_params[key] === undefined) {
+                    url_get_params[key] = val;
+                } else if (typeof url_get_params[key] === "string") {
+                    url_get_params[key] = [url_get_params[key], val];
+                } else {
+                    url_get_params[key].push(val);
+                }
+
+                get_param = [];
+            }
+        }
+
+        urlObj = {
+            protocol: a.protocol,
+            hostname: a.hostname,
+            host: a.host,
+            port: a.port,
+            hash: a.hash.substr(1),
+            pathname: a.pathname,
+            search: a.search,
+            parameters: url_get_params
         };
 
-    if (typeof options !== "object") {
-      options = default_options;
-    } else {
-      for (option_key in default_options) {
-        if (default_options.hasOwnProperty(option_key)) {
-          if (options[option_key] === undefined) {
-            options[option_key] = default_options[option_key];
-          }
+        return urlObj;
+    },
+
+
+    /**
+     * Check if json is valid
+     * @param str
+     * @returns {boolean}
+     */
+    isJson: function (str) {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
         }
-      }
+        return true;
     }
-
-    a.href = options.url;
-    url_query = a.search.substring(1);
-    url_search_arr = url_query.split('&');
-
-    if (url_search_arr[0].length > 1) {
-      for (i = 0; i < url_search_arr.length; i += 1) {
-        get_param = url_search_arr[i].split("=");
-
-        if (options.unescape) {
-          key = decodeURI(get_param[0]);
-          val = decodeURI(get_param[1]);
-        } else {
-          key = get_param[0];
-          val = get_param[1];
-        }
-
-        if (options.convert_num) {
-          if (val.match(/^\d+$/)) {
-            val = parseInt(val, 10);
-          } else if (val.match(/^\d+\.\d+$/)) {
-            val = parseFloat(val);
-          }
-        }
-
-        if (url_get_params[key] === undefined) {
-          url_get_params[key] = val;
-        } else if (typeof url_get_params[key] === "string") {
-          url_get_params[key] = [url_get_params[key], val];
-        } else {
-          url_get_params[key].push(val);
-        }
-
-        get_param = [];
-      }
-    }
-
-    urlObj = {
-      protocol: a.protocol,
-      hostname: a.hostname,
-      host: a.host,
-      port: a.port,
-      hash: a.hash.substr(1),
-      pathname: a.pathname,
-      search: a.search,
-      parameters: url_get_params
-    };
-
-    return urlObj;
-  }
-
 
 };
 
@@ -1317,7 +1330,7 @@ app.publish = {
         console.error(app.errors.en.type.api + ': ' + app.API + 'api/queue_article_publication');
         console.log(data);
         console.log({articles: queued});
-        var responseText = JSON.parse(data.responseText);
+        var responseText = (app.utils.isJson(data.responseText)) ? JSON.parse(data.responseText) : {detail: data.responseText};
         var error = {
           type: app.errors.en.type.api,
         };
@@ -1347,7 +1360,7 @@ app.publish = {
           console.error(app.errors.en.type.api + ': ' + app.API + 'api/article_publication_status');
           console.log(data);
           console.log({articles: queued});
-          var responseText = JSON.parse(data.responseText);
+          var responseText = (app.utils.isJson(data.responseText)) ? JSON.parse(data.responseText) : {detail: data.responseText};
           var error = {
             type: app.errors.en.type.api,
           };
@@ -1730,7 +1743,7 @@ app.schedule = {
           console.error(app.errors.en.type.api + ': ' + app.API + 'api/schedule_article_publication');
           console.log(scheduleData);
           console.log(data);
-          var responseText = (_.has(data, 'responseText')) ? JSON.parse(data.responseText) : null;
+          var responseText = (app.utils.isJson(data.responseText)) ? JSON.parse(data.responseText) : {detail: data.responseText};
           var error = {
             type: app.errors.en.type.api,
           };
@@ -1841,7 +1854,8 @@ app.current = {
       error: function(data) {
         console.error(app.errors.en.type.api + ': ' + app.API + 'api/current');
         console.log(data);
-        var responseText = JSON.parse(data.responseText);
+        var responseText = (app.utils.isJson(data.responseText)) ? JSON.parse(data.responseText) : {detail: data.responseText};
+        console.log(responseText)
         var error = {
           type: app.errors.en.type.api,
         };
@@ -2077,7 +2091,7 @@ app.detail = {
         error: function(data) {
           console.error(app.errors.en.type.api + ': ' + app.API + 'api/current');
           console.log(data);
-          var responseText = JSON.parse(data.responseText);
+          var responseText = (app.utils.isJson(data.responseText)) ? JSON.parse(data.responseText) : {detail: data.responseText};
           var error = {
             type: app.errors.en.type.api,
           };
@@ -2139,7 +2153,7 @@ app.detail = {
         error: function(data) {
           console.error(app.errors.en.type.api + ': ' + app.API + 'api/article/' + app.detail.queryParams.articleId);
           console.log(data);
-          var responseText = JSON.parse(data.responseText);
+          var responseText = (app.utils.isJson(data.responseText)) ? JSON.parse(data.responseText) : {detail: data.responseText};
           var error = {
             type: app.errors.en.type.api,
           };
@@ -2557,7 +2571,7 @@ app.scheduled = {
       error: function(data) {
         console.error('API Error: ' + app.API + 'api/article_schedule_for_range/from/' + start + '/to/' + end + '/');
         console.log(data);
-        var responseText = JSON.parse(data.responseText);
+        var responseText = (app.utils.isJson(data.responseText)) ? JSON.parse(data.responseText) : {detail: data.responseText};
         var error = {
           type: app.errors.en.type.api,
         };
