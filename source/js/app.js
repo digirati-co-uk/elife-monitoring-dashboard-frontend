@@ -200,12 +200,12 @@ Handlebars.registerPartial("article-item", Handlebars.template({"1":function(con
 },"28":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3=container.escapeExpression, alias4="function";
 
-  return "\n                <p><strong><span\n                        class=\"text-uppercase\">Scheduled</span><br/>"
+  return "                <p><strong><span\n                        class=\"text-uppercase\">Scheduled</span><br/>"
     + alias3((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["scheduled-publication-date"] : depth0),"DD/MM/YYYY h:mma",{"name":"elFormatUnixDate","hash":{},"data":data}))
     + "\n                </strong></p><br/>\n                <button class=\"btn btn-default btn-block schedule\" id=\"schedule-amend\" data-toggle=\"modal\"\n                        data-target=\"#schedule-modal\"\n                        data-article-id=\""
     + alias3(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias4 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\"\n                        data-title=\"Re-schedule Article\"\n                        data-scheduled=\""
-    + alias3((helpers.elFormatUnixDate || (depth0 && depth0.elFormatUnixDate) || alias2).call(alias1,(depth0 != null ? depth0["scheduled-publication-date"] : depth0),"DD/MM/YYYY",{"name":"elFormatUnixDate","hash":{},"data":data}))
+    + alias3(((helper = (helper = helpers["scheduled-publication-date"] || (depth0 != null ? depth0["scheduled-publication-date"] : depth0)) != null ? helper : alias2),(typeof helper === alias4 ? helper.call(alias1,{"name":"scheduled-publication-date","hash":{},"data":data}) : helper)))
     + "\">\n                    <span class=\"fa fa-calendar\"></span>\n                    Re-Schedule\n                </button>\n                <button class=\"btn btn-default btn-block schedule\" id=\"schedule-cancel\" data-toggle=\"modal\"\n                        data-target=\"#schedule-modal\"\n                        data-article-id=\""
     + alias3(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias4 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\"\n                        data-title=\"Cancel Schedule\">\n                    <span class=\"fa fa-calendar-minus-o\"></span>\n                    Cancel\n                </button>\n\n";
@@ -759,10 +759,12 @@ this["eLife"]["templates"]["detail/buttons-publish"] = Handlebars.template({"com
 },"useData":true});
 
 this["eLife"]["templates"]["detail/buttons-reschedule"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
+    var stack1, helper, alias1=container.lambda, alias2=container.escapeExpression;
 
   return "<button class=\"btn btn-default schedule\" id=\"schedule-amend\" data-toggle=\"modal\"\n        data-target=\"#schedule-modal\"\n        data-article-id=\""
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
+    + "\"\n        data-scheduled=\""
+    + alias2(((helper = (helper = helpers["scheduled-publication-date"] || (depth0 != null ? depth0["scheduled-publication-date"] : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"scheduled-publication-date","hash":{},"data":data}) : helper)))
     + "\"\n        data-title=\"Re-schedule Article\">\n    <span class=\"fa fa-calendar\"></span>\n    Re-Schedule\n</button>\n<button class=\"btn btn-default schedule\" id=\"schedule-cancel\" data-toggle=\"modal\"\n        data-target=\"#schedule-modal\"\n        data-article-id=\""
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.article : depth0)) != null ? stack1.id : stack1), depth0))
     + "\"\n        data-title=\"Cancel Schedule\">\n    <span class=\"fa fa-calendar-minus-o\"></span>\n    Cancel Schedule\n</button>";
@@ -1485,9 +1487,9 @@ app.schedule = {
     // $('#schedule-action').prop('disabled', true).addClass('disabled');
     var yesterday = new Date((new Date()).valueOf() - 1000 * 60 * 60 * 24);
     var $datePicker = $('.datepicker').pickadate({
-      disable: [
-        {from: [0, 0, 0], to: yesterday},
-      ],
+      // disable: [
+      //   {from: [0, 0, 0], to: yesterday},
+      // ],
       format: 'mmmm d, yyyy',
       formatSubmit: 'dd/mm/yyyy',
       onStart: function() {
@@ -1629,6 +1631,7 @@ app.schedule = {
     if (!_.isEmpty(hours) && !_.isEmpty(minutes)) {
       this.scheduleTime = $('input[name="schedule_hour_submit"]').val() + ':' + $('input[name="schedule_minute_submit"]').val() + ' ' + $('select[name="schedule_ampm_submit"] option:selected').val();
     }
+
 
     if (!_.isNull(this.scheduleDate) && !_.isNull(this.scheduleTime)) {
       var date = moment(this.scheduleDate).format('DD-MM-YYYY');
@@ -2108,7 +2111,7 @@ app.detail = {
   renderDetailActions: function() {
     if (!_.isEmpty(this.scheduleStatus)) {
       if (this.scheduleStatus.scheduled > 0) {
-        $('.article-detail-actions', '#article').empty().html(app.detail.buttonsReScheduleTemplate({article: app.detail.article}));
+        $('.article-detail-actions', '#article').empty().html(app.detail.buttonsReScheduleTemplate({article: app.detail.article, "scheduled-publication-date": this.scheduleStatus.scheduled }));
         $('.article-detail-scheduled', '#article').empty().html(app.detail.articlesScheduledForTemplate({scheduleStatus: this.scheduleStatus}));
       } else {
         var buttons = app.detail.buttonsScheduleTemplate({article: app.detail.article}) + app.detail.buttonsPublishTemplate({

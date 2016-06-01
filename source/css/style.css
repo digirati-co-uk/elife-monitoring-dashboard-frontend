@@ -6851,6 +6851,10 @@ Its currently used in the schedule modal popup
   margin-left: 10px;
 }
 
+.picker__day--today {
+  background-color: #f1f1f1;
+}
+
 .version-run-nav-list,
 .version-run-nav-list.run-container {
   list-style: none;
