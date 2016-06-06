@@ -3,7 +3,7 @@ This code creates custom grid for the time picker in the scheduler
 Its currently used in the schedule modal popup
 |hour|Minute|am/pm|
 */
-.timepicker {
+.timepicker-container {
   @include clearfix;
   .timepicker-hour,
   .timepicker-divider,

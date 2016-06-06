@@ -6824,30 +6824,30 @@ This code creates custom grid for the time picker in the scheduler
 Its currently used in the schedule modal popup
 |hour|Minute|am/pm|
 */
-.timepicker:before, .timepicker:after {
+.timepicker-container:before, .timepicker-container:after {
   content: " ";
   display: table;
 }
 
-.timepicker:after {
+.timepicker-container:after {
   clear: both;
 }
 
-.timepicker .timepicker-hour,
-.timepicker .timepicker-divider,
-.timepicker .timepicker-minute,
-.timepicker .timepicker-ampm {
+.timepicker-container .timepicker-hour,
+.timepicker-container .timepicker-divider,
+.timepicker-container .timepicker-minute,
+.timepicker-container .timepicker-ampm {
   float: left;
   width: 20%;
   margin-right: 5px;
 }
 
-.timepicker .timepicker-divider {
+.timepicker-container .timepicker-divider {
   width: auto;
   line-height: 34px;
 }
 
-.timepicker .timepicker-ampm {
+.timepicker-container .timepicker-ampm {
   margin-left: 10px;
 }
 

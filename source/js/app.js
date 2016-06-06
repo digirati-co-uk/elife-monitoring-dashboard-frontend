@@ -935,7 +935,7 @@ this["eLife"]["templates"]["schedule/article-schedule-modal-body"] = Handlebars.
     var stack1;
 
   return ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.showArticleIdField : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "    <p>When do you want to schedule this article?</p>\n    <p class=\"article-cancel-info\"></p>\n    <br/>\n    <div class=\"form-group\">\n        <div class=\"col-sm-12\">\n            <input id=\"schedule-date\" name=\"date\" class=\"form-control datepicker schedule-field\" type=\"text\" placeholder=\"Date\">\n        </div>\n    </div>\n    <br/>\n    <br/>\n    <div class=\"form-group\">\n        <div class=\"col-sm-12\">\n            <div class=\"timepicker\">\n                <div class=\"timepicker-hour\">\n                    <input id=\"schedule_hour_submit\" name=\"schedule_hour_submit\"\n                           class=\"form-control timepicker hourpicker schedule-field\"\n                           type=\"number\" placeholder=\"Hour\" min=\"1\" max=\"12\"  maxlength=\"2\" data-validation=\"numeric\">\n                </div>\n                <div class=\"timepicker-divider\">:</div>\n                <div class=\"timepicker-minute\">\n                    <input id=\"schedule_minute_submit\" name=\"schedule_minute_submit\"\n                           class=\"form-control timepicker minutepicker schedule-field\" type=\"number\" placeholder=\"Minute\" min=\"0\" max=\"59\"  maxlength=\"2\" data-validation=\"numeric\">\n                </div>\n                <div class=\"timepicker-ampm\">\n                    <select id=\"schedule_ampm_submit\" class=\"form-control timepicker ampmpicker schedule-field\" name=\"schedule_ampm_submit\">\n                        <option value=\"am\">am</option>\n                        <option value=\"pm\" selected=\"selected\">pm</option>\n                    </select>\n                </div>\n            </div>\n        </div>\n    </div>\n    <br/>\n";
+    + "    <p>When do you want to schedule this article?</p>\n    <p class=\"article-cancel-info\"></p>\n    <br/>\n    <div class=\"form-group\">\n        <div class=\"col-sm-12\">\n            <input id=\"schedule-date\" name=\"date\" class=\"form-control datepicker schedule-field\" type=\"text\" placeholder=\"Date\">\n        </div>\n    </div>\n    <br/>\n    <br/>\n    <div class=\"form-group\">\n        <div class=\"col-sm-12\">\n            <div class=\"timepicker-container\">\n                <div class=\"timepicker-hour\">\n                    <input id=\"schedule_hour_submit\" name=\"schedule_hour_submit\"\n                           class=\"form-control timepicker hourpicker schedule-field\"\n                           type=\"number\" placeholder=\"Hour\" data-min=\"0\" data-actual-min=\"1\" data-max=\"13\" data-actual-max=\"12\" data-maxlength=\"2\" data-validation=\"numeric\">\n                </div>\n                <div class=\"timepicker-divider\">:</div>\n                <div class=\"timepicker-minute\">\n                    <input id=\"schedule_minute_submit\" name=\"schedule_minute_submit\"\n                           class=\"form-control timepicker minutepicker schedule-field\" type=\"number\" placeholder=\"Minute\" data-min=\"-1\" data-actual-min=\"0\" data-max=\"60\" data-actual-max=\"59\" data-maxlength=\"2\" data-validation=\"numeric\">\n                </div>\n                <div class=\"timepicker-ampm\">\n                    <select id=\"schedule_ampm_submit\" class=\"form-control timepicker ampmpicker schedule-field\" name=\"schedule_ampm_submit\">\n                        <option value=\"am\">am</option>\n                        <option value=\"pm\" selected=\"selected\">pm</option>\n                    </select>\n                </div>\n            </div>\n        </div>\n    </div>\n    <br/>\n";
 },"2":function(container,depth0,helpers,partials,data) {
     return "        <p>Please enter the numeric ID of the article you wish to publish:</p>\n        <br/>\n        <div class=\"form-group\">\n            <div class=\"col-sm-12\">\n                <input id=\"schedule-id\" name=\"id\" class=\"form-control article-id schedule-field\" data-validation=\"numeric\" type=\"number\" placeholder=\"Article ID\" min=\"0\">\n            </div>\n        </div>\n        <br/>\n        <hr/>\n        <br/>\n";
 },"4":function(container,depth0,helpers,partials,data) {
@@ -1194,6 +1194,16 @@ app.utils = {
             return false;
         }
         return true;
+    },
+
+    /**
+     * Pad out a number
+     * @param number
+     * @param digits
+     * @returns {*}
+     */
+    padDigits: function(number, digits) {
+        return Array(Math.max(digits - String(number).length + 1, 0)).join(0) + number;
     }
 
 };
@@ -1477,6 +1487,8 @@ app.schedule = {
     // $(document).on('hide.bs.modal', this.resetParameters.bind(this));
     $(document).on('click', '#schedule-modal .close', this.refreshPage.bind(this));
     $(document).on('click', '#schedule-modal #schedule-close', this.refreshPage.bind(this));
+    $(document).on('change', '.hourpicker, .minutepicker', this.loopPicker.bind(this));
+    $(document).on('change blur', '.hourpicker, .minutepicker', this.padInput.bind(this));
     $(document).on('change blur keyup', '.schedule-field', this.validateForm.bind(this));
   },
 
@@ -1577,13 +1589,13 @@ app.schedule = {
 
 
     // ensure max and min values are adhered to
-    var maxminfields = $('[min][max]', '#schedule-modal');
+    var maxminfields = $('[data-actual-min][data-actual-max]', '#schedule-modal');
     errors += maxminfields.length;
     _.each(maxminfields, function(field) {
       var $el = $(field);
       var val = parseInt($el.val());
-      var min = parseInt($el.attr('min'));
-      var max = parseInt($el.attr('max'));
+      var min = parseInt($el.attr('data-actual-min'));
+      var max = parseInt($el.attr('data-actual-max'));
       var isValid = (val >= min && val <= max) ? true : false;
       if (isValid) {
         errors--;
@@ -1592,24 +1604,25 @@ app.schedule = {
       app.schedule.validateToggleError($el, isValid);
     });
 
-    // check this time isn't in the past
-    var isScheduledTimeValid = false;
-    var $timeEl = $('.timepicker', '#schedule-modal');
-    if (!_.isNull(this.scheduleDate) && !_.isNull(this.scheduleTime)) {
-      // console.log('current time is after the selected date ' + moment().isAfter(this.scheduleDateTime));
-      if (moment().isAfter(this.scheduleDateTime)) {
-        isScheduledTimeValid = false;
-        errors++;
-      } else {
-        isScheduledTimeValid = true;
+    // ensure maxlength adhered too
+    var maxlengthfields = $('[data-maxlength]', '#schedule-modal');
+    errors += maxlengthfields.length;
+    _.each(maxlengthfields, function(field) {
+      var $el = $(field);
+      var val = $el.val();
+      var valLen = val.length;
+      var maxlength = parseInt($el.attr('data-maxlength'));
+      var isValid = (valLen <= maxlength) ? true : false;
+      if (isValid) {
+        errors--;
       }
-    } else {
-      isScheduledTimeValid = false;
-      errors++;
-    }
 
-    app.schedule.validateToggleError($timeEl, isScheduledTimeValid);
+      app.schedule.validateToggleError($el, isValid);
+    });
 
+    // check this time isn't in the past
+    var $timeEl = $('.timepicker', '#schedule-modal');
+    app.schedule.validateToggleError($timeEl, this.checkScheduledTimeValid($timeEl));
 
     if (errors == 0) {
       $('#schedule-action', '#schedule-modal').prop('disabled', false).removeClass('disabled');
@@ -1619,6 +1632,30 @@ app.schedule = {
       return false;
     }
 
+  },
+
+  checkScheduledTimeValid: function($el) {
+    var $elHour = $('.hourpicker', '#schedule-modal');
+    var $elMinute = $('.minutepicker', '#schedule-modal');
+    var date = $('.datepicker', '#schedule-modal').val();
+    var hour = $elHour.val();
+    var minute = $elMinute.val();
+    if (_.isEmpty(date) || _.isEmpty(hour) || _.isEmpty(minute)) {
+      // no hour minute or date
+      return false;
+    }
+    else if($elHour.hasClass('validation-error') || $elMinute.hasClass('validation-error')) {
+      // other validation error
+      return false;
+    }
+    else {
+      // console.log('current time is after the selected date ' + moment().isAfter(this.scheduleDateTime));
+      if(moment().isAfter(this.scheduleDateTime)) {
+        // selected time is before now
+        return false
+      }
+      return true;
+    }
   },
 
   /**
@@ -1766,8 +1803,9 @@ app.schedule = {
    * user closes modal and scheduling is not takign place.
    */
   refreshPage: function() {
-    // we're on the scheduled page and there is a scheduled date (ie not cancellation) and calendar view is active
-    if ($('.scheduled-page').length > 0 && this.scheduleDateTime && $('.scheduled-page').hasClass('calendar-view')) {
+    // we're on the scheduled page and there is a scheduled date (ie not cancellation) and calendar view is active ans the scheduleddatetime is not on the calendar
+    if ($('.scheduled-page').length > 0 && this.scheduleDateTime && $('.scheduled-page').hasClass('calendar-view') && !(moment(this.scheduleDateTime).isAfter($('#schedule-calendar').fullCalendar('getView').start) && moment(this.scheduleDateTime).isBefore($('#schedule-calendar').fullCalendar('getView').end))) {
+      $('#schedule-calendar').fullCalendar('render'); // render then go to the date incase its in the current month
       $('#schedule-calendar').fullCalendar('gotoDate', this.scheduleDateTime);
     } else {
       this.resetParameters();
@@ -1776,6 +1814,41 @@ app.schedule = {
       }
     }
   },
+
+  /**
+   * Zero Pad the value
+   * @param e
+     */
+  padInput: function(e) {
+    var $el = $(e.currentTarget);
+    var val = $el.val();
+    var valLength = val.length;
+    var valInt = parseInt($el.val());
+    if(valLength <= 9 && valInt <= 9 && valInt >= 0) {
+      var newVal = app.utils.padDigits(val, 2);
+      $el.val(newVal)
+    }
+  },
+
+  /**
+   * Loop the number inputs. When adding hour, minutes, clicking up when you're on 12 will go straight to 1 and 59 to 0
+   * @param e
+   */
+  loopPicker: function(e) {
+    var $el = $(e.currentTarget);
+    var val = $el.val();
+    var min = $el.attr('data-min');
+    var max = $el.attr('data-max');
+    var actualmin = $el.attr('data-actual-min');
+    var actualmax = $el.attr('data-actual-max');
+    if(val === max) {
+      $el.val(actualmin);
+    }
+    if(val === min) {
+      $el.val(actualmax);
+    }
+  },
+
 };
 
 app.schedule.init();
@@ -2658,6 +2731,7 @@ app.scheduled = {
    * @param end
    */
   updateCalendar: function(start, end) {
+    // console.info('updateCalendar')
     $('#schedule-calendar', this.$el).before(this.loadingTemplate());
     var fetchScheduledArticles = this.fetchScheduledArticles(start, end);
     fetchScheduledArticles.done(function(data) {
