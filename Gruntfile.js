@@ -27,12 +27,12 @@ module.exports = function(grunt) {
         files: {
           //app  js
           'source/css/libs.css': [
-            '_src/libs/fullcalendar/fullcalendar.css',
-            '_src/libs/jquery.qtip.custom/jquery.qtip.css',
-            '_src/libs/pickadate/lib/themes/classic.css',
-            '_src/libs/pickadate/lib/themes/classic.date.css',
-            '_src/libs/pickadate/lib/themes/classic.time.css',
-            '_src/libs/fontawesome/css/font-awesome.css',
+            'assets/libs/fullcalendar/fullcalendar.css',
+            'assets/libs/jquery.qtip.custom/jquery.qtip.css',
+            'assets/libs/pickadate/lib/themes/classic.css',
+            'assets/libs/pickadate/lib/themes/classic.date.css',
+            'assets/libs/pickadate/lib/themes/classic.time.css',
+            'assets/libs/fontawesome/css/font-awesome.css',
           ],
         },
       },
@@ -41,14 +41,14 @@ module.exports = function(grunt) {
     sass: {
       dev: {
         files: {
-          'source/css/style.css': '_src/scss/style.scss',
+          'source/css/style.css': 'assets/scss/style.scss',
         },
         options: {
-          //includePaths: ['_src/css/scss/incs'],
+          //includePaths: ['assets/css/scss/incs'],
           outputStyle: 'expanded',
           imagePath: '../images',
           sourceMap: true,
-          outFile: '_src/css/',
+          outFile: 'assets/css/',
         },
       },
     },
@@ -59,26 +59,26 @@ module.exports = function(grunt) {
         livereload: false,
       },
       html: {
-        files: ['_src/_patterns/**/*.mustache', '_src/_patterns/**/*.json', '_src/_data/*.json'],
+        files: ['assets/_patterns/**/*.mustache', 'assets/_patterns/**/*.json', 'assets/_data/*.json'],
         tasks: ['shell:patternlab'],
         options: {
           spawn: false
         }
       },
       js: {
-        files: ['_src/js/*.js'],
+        files: ['assets/js/*.js'],
         tasks: ['shell:patternlab'],
         options: {
           spawn: false
         }
       },
       css: {
-        files: ['_src/scss/**/*.scss'],
+        files: ['assets/scss/**/*.scss'],
         tasks: ['sass', 'shell:patternlab'],
         options: {nospawn: false},
       },
       patternlab: {
-        files: ['_src/js/patternlibrary.js'],
+        files: ['assets/js/patternlibrary.js'],
         tasks: ['shell:patternlab'],
         options: {nospawn: false},
       },

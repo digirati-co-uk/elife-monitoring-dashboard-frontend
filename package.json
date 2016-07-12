@@ -21,7 +21,21 @@
     "grunt-contrib-handlebars": "latest",
     "grunt-sass": "^1.0.0",
     "grunt-scss-lint": "^0.3.6",
-    "node-sass": "^3.1.2"
+    "node-sass": "^3.1.2",
+    "browserify": "^13.0.1",
+    "browserify-shim": "^3.8.12",
+    "browserify-test": "^2.1.2",
+    "chai": "^3.5.0",
+    "grunt-browserify": "^5.0.0",
+    "grunt-cli": "^1.2.0",
+    "grunt-mocha-phantomjs": "^3.0.0",
+    "grunt-serve": "^0.1.6",
+    "jsdom": "^9.2.1",
+    "loglevel": "^1.4.1",
+    "mocha": "^2.5.3",
+    "moment": "^2.13.0",
+    "phantomjs": "^2.1.7",
+    "sinon": "^1.17.4"
   },
   "path" : {
     "js" : "source/js/",
@@ -32,5 +46,58 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "preinstall": "php core/builder.php -gpwr",
     "start": "php -S localhost:8001 -t public/"
+  },
+  "dependencies": {
+    "bootstrap-sass": "^3.3.6",
+    "font-awesome": "^4.6.3",
+    "fontawesome": "^4.5.0",
+    "fullcalendar": "^2.6.1",
+    "handlebars": "^4.0.5",
+    "hbsfy": "^2.7.0",
+    "historyjs": "^1.8.0-b2",
+    "jquery": "^1.11.3",
+    "moment": "^2.13.0",
+    "pickadate": "^3.5.6",
+    "qTip2": "^2.1.1",
+    "qtip2": "^3.0.3",
+    "underscore": "^1.8.3",
+    "uniq": "^1.0.1"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "hbsfy",
+        "browserify-shim"
+      ]
+    ]
+  },
+  "browser": {
+    "pickadate": "./assets/libs/pickadate/lib/index.js",
+    "swag": "./assets/libs/swag.js",
+    "templates": "./assets/js/templates.js",
+    "utils": "./assets/js/helpers/utils.js",
+    "detail": "./assets/js/pages/detail.js",
+    "history": "./assets/libs/jquery.history.js"
+  },
+  "browserify-shim": {
+    "swag": "Swag",
+    "jquery": "$",
+    "bootstrap": {
+      "depends": [
+        "jquery:$"
+      ]
+    },
+    "fullcalendar": {
+      "depends": [
+        "jquery:$",
+        "moment"
+      ]
+    },
+    "history": {
+      "exports": "history",
+      "depends": [
+        "jquery:$"
+      ]
+    }
   }
 }
