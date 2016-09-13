@@ -16,27 +16,7 @@ module.exports = function(grunt) {
         command: "php core/builder.php -g"
       }
     },
-    // Concatenate all JS into one file
-    concat: {
-      options: {
-        banner: '<%= banner %>',
-        stripBanners: true,
-      },
-      css: {
-        //put all the prerequisites in a file
-        files: {
-          //app  js
-          'source/css/libs.css': [
-            'assets/libs/fullcalendar/fullcalendar.css',
-            'assets/libs/jquery.qtip.custom/jquery.qtip.css',
-            'assets/libs/pickadate/lib/themes/classic.css',
-            'assets/libs/pickadate/lib/themes/classic.date.css',
-            'assets/libs/pickadate/lib/themes/classic.time.css',
-            'assets/libs/fontawesome/css/font-awesome.css',
-          ],
-        },
-      },
-    },
+
 
     sass: {
       dev: {
@@ -97,5 +77,5 @@ module.exports = function(grunt) {
 
   // Register the default tasks
   grunt.registerTask('serve', ['shell:patternlabserve']);
-  grunt.registerTask('default', ['concat', 'sass', 'shell:patternlab', 'watch']);
+  grunt.registerTask('default', [ 'sass', 'shell:patternlab', 'watch']);
 };
