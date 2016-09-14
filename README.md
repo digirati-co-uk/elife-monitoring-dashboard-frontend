@@ -1,56 +1,80 @@
-# Pattern Library
+# [eLife Dashboard Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend)
 
-This is the UI components for the eLife monitoring dashboard. The eLife dashboard is comprised of three parts.
+This is the eLife Dashboard Pattern Library
 
-1. [UX Pin](https://live.uxpin.com/593d5793b51645bc5dfb5a0a5ab7629065ef1743#/pages/22041535/sitemap) defines the UX and interactions
-1. [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend) the front end code describing the UI (but not to include any behaviour)
-1. [Dashboard](https://github.com/elifesciences/elife-dashboard) this is the actual implementation of the front end functionality using the patterns from PatternLab.
+This document covers the setup of the pattern library, it is based on [patternlab](http://patternlab.io/).
 
-New front end features should be developed in the [Dashboard](https://github.com/elifesciences/elife-dashboard) and copied back into the [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend) using ```bash -x copyfromdashboard.sh ~/Projects/eLife/elife-dashboard``` within the [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend) 
-
-# Things to ensure when developing
-
-* The [Dashboard](https://github.com/elifesciences/elife-dashboard) contains **all** interactions, before developing a new UI feature check that the html, js and css is up to date.
-* **Develop new features in the [Dashboard](https://github.com/elifesciences/elife-dashboard), the task will not be considered complete until any UI changes and all updated javascript has been copied back into the [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend) using ```bash -x copyfromdashboard.sh ~/Projects/eLife/elife-dashboard``` within the [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend)** 
+## Table of Contents
 
 
----
+* [Requirements](#requirements)
+* [Quick start](#quick-start)
+* [Documentation](#documentation)
+* [Maintaining Dashboard and Pattern Library](#maintaining-dashboard-and-pattern-library)
+* [Atomic Design](#atomic-design)
+* [License](#license)
 
-# Requirements:
+
+
+## Requirements:
 
 * [Homebrew](http://brew.sh/) (OSX only)
 * [Node](https://nodejs.org/en/)
-* PHP
-* [Live Reload](http://livereload.com/) - [Chrome plugin](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei)
-* [Dashboard Test Services](https://github.com/elifesciences/elife-dashboard)
-
----
-
-# Installation
-
-**On First Installation**
-* Install node, if on OSX run ```brew install node```
-* Install ```npm install```
-* Setup test services, see [Dashboard Test Services](https://github.com/elifesciences/elife-dashboard)
+* [Live Reload](http://livereload.com/) - [Chrome plugin](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei) (optional)
 
 
----
 
-# Development
+## Quick Start
 
-* ```npm start``` to start php server
-* ```grunt``` in new terminal window to start build, and live reload.
-* run test services.
-* Start Live Reload in your browser (if required)
+* Install dependencies 
+
+```bash
+npm install
+```
+
+* Start server
+
+```bash
+npm start
+```
+
+* Build assets and start live reload
+
+```bash
+grunt
+```
 
 
----
 
-# Documentation
+
+
+
+## Documentation
+
+
+The front end workflow for the eLife dashboard is comprised of three parts.
+
+1. [UX Pin](https://live.uxpin.com/593d5793b51645bc5dfb5a0a5ab7629065ef1743#/pages/22041535/sitemap): defines the UX and interactions
+1. [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend): the front end code describing the UI (but not to include any behaviour)
+1. [This dashboard](https://github.com/elifesciences/elife-dashboard): the actual implementation of the front end functionality using the patterns from PatternLab.
+
+
+**Develop new features in the [Dashboard](https://github.com/elifesciences/elife-dashboard).**  
+The task will not be considered complete until any UI changes and all updated javascript has been copied back into the [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend) using the script provided in the [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend/blob/master/copyfromdashboard.sh).
+
+## Maintaining Dashboard and Pattern Library
+Copying [Dashboard](https://github.com/elifesciences/elife-dashboard) back into the [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend)
+
+ ```sh
+ bash -x copyfromdashboard.sh ~/Projects/eLife/elife-dashboard
+ ```
+
+
+# Atomic Design
 
 * Atoms, Molecules, Organisms, Templates are all 'static' html. Pages are entirely controlled by the javascript, making any changes to the html in the js templates will need to be copied over into the static versions.
 * For more information about pattern lab see the [patternlab readme](patternlab-README.md)
-* The below notes are taken from [Atomic web design](http://bradfrost.com/blog/post/atomic-web-design/)
+* The summarised notes below are taken from [Atomic web design](http://bradfrost.com/blog/post/atomic-web-design/)
 
 ## Atoms
 Good as a reference in the context of a pattern library as you can see all your global styles laid out at a glance.
@@ -90,4 +114,18 @@ It’s typically where most people in the process spend most of their time and w
 The page stage is where we test the effectiveness of the design system. Viewing everything in context allows us to loop back to modify our molecules, organisms, and templates to better address the real context of the design.
 
 Pages are also the place to test variations in templates. For example, you might want to articulate what a headline containing 40 characters looks like, but also demonstrate what 340 characters looks like. 
+
+
+## License
+
+MIT Licensed. See [LICENSE](LICENSE)
+
+
+
+
+
+
+
+
+
 
