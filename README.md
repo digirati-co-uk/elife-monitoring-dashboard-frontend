@@ -35,13 +35,19 @@ npm install
 * Start server
 
 ```bash
-npm start
+grunt shell:serve
 ```
 
-* Build assets and start live reload
+* Build assets
 
 ```bash
 grunt
+```
+
+* Build assets, start live reload and watch
+
+```bash
+grunt dev
 ```
 
 
@@ -67,6 +73,12 @@ Copying [Dashboard](https://github.com/elifesciences/elife-dashboard) back into 
 
  ```sh
  bash -x copyfromdashboard.sh ~/Projects/eLife/elife-dashboard
+ ```
+
+Copying [Pattern Library](https://github.com/digirati-co-uk/elife-monitoring-dashboard-frontend) into [Dashboard](https://github.com/elifesciences/elife-dashboard)
+
+ ```sh
+ bash -x copytodashboard.sh ~/Projects/eLife/elife-dashboard
  ```
 
 
