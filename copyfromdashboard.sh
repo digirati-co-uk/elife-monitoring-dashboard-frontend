@@ -7,5 +7,5 @@
 #DASHBOARD="~/Projects/eLife/elife-dashboard/"
 DASHBOARD=$1
 
-cp -rp "$DASHBOARD/assets/libs/" assets/libs
+cp -rp "$DASHBOARD/assets/libs/" assets/libs/
 grunt
