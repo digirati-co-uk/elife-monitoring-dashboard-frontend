@@ -7,3 +7,4 @@ latest-change.txt
 .idea/
 node_modules/
 npm-debug.log
+source/css/*
