@@ -39,7 +39,7 @@ module.exports = function(grunt) {
         livereload: false,
       },
       html: {
-        files: ['assets/_patterns/**/*.mustache', 'assets/_patterns/**/*.json', 'assets/_data/*.json'],
+        files: ['assets/_patterns/**/*.mustache', 'assets/_patterns/**/*.json', 'assets/_data/**/*.json'],
         tasks: ['shell:patternlab'],
         options: {
           spawn: false

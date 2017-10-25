@@ -44,6 +44,11 @@ npm start
 grunt
 ```
 
+* watch for PP changes
+```
+php core/builder.php -w
+```
+
 
 
 
