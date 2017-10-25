@@ -1440,7 +1440,6 @@ a:hover, a:focus {
 }
 
 a:focus {
-  outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -3048,7 +3047,6 @@ select[size] {
 input[type="file"]:focus,
 input[type="radio"]:focus,
 input[type="checkbox"]:focus {
-  outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -3668,7 +3666,6 @@ select[multiple].input-lg,
 }
 
 .btn:focus, .btn.focus, .btn:active:focus, .btn:active.focus, .btn.active:focus, .btn.active.focus {
-  outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -6762,10 +6759,11 @@ dl dd {
 .article-stats .article-stats__section {
   position: relative;
   float: left;
-  width: 25%;
+  width: 16.6666666667%;
   min-height: 1px;
   padding-left: 0px;
   padding-right: 0px;
+  width: 20%;
   text-align: center;
 }
 

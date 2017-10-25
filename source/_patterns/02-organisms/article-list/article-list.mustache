@@ -14,15 +14,19 @@
                 {{#uir}}
                     {{>atoms-icon-uir(class: 'pull-left md')}}
                 {{/uir}}
+                {{#uir-vr}}
+                    {{>atoms-icon-uir-vr(class: 'pull-left md')}}
+                {{/uir-vr}}
                 {{#scheduled}}
                     {{>atoms-icon-scheduled(class: 'pull-left md')}}
                 {{/scheduled}}
                 <h4>
                     {{#error}}Error{{/error}}
                     {{#inprogress}}In Progress{{/inprogress}}
-                    {{#uir}}User Input Required{{/uir}}
+                    {{#uir}}Articles Ready to Publish{{/uir}}
+                    {{#uir-vr}}Reason for Version Required{{/uir-vr}}
                     {{#scheduled}}Scheduled{{/scheduled}}
-                    <small>(1 Article)</small>
+                    <small>{{#uir-vr}}User Input Required{{/uir-vr}} {{#uir}}User Input Required{{/uir}} (1 Article)</small>
                 </h4>
             </caption>
         {{/hidecaption}}
@@ -96,7 +100,13 @@
                                 </label>
                             </div>
                         {{/uir}}
-                        {{^uir}}
+                        {{#uir-vr}}
+                            <a href="http://54.84.81.117/content/5/e11407v3" target="_blank" class="btn btn-default  btn-block preview">
+                                <span class="fa fa-eye"></span>
+                                Reason for Version
+                            </a>
+                        {{/uir-vr}}
+                        {{^hide-status}}
                             <p>
                                 <b>
                                     <a href="/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/03430/2/5">POST
@@ -105,7 +115,7 @@
                                     <a href="/patterns/04-pages-01-detail/04-pages-01-detail.html?/article/03430/2/5">ERROR</a>
                                 </b>
                             </p>
-                        {{/uir}}
+                        {{/hide-status}}
                     {{/showScheduleButtons}}
                     {{#showScheduleButtons}}
                             <p><strong><span class="text-uppercase">Scheduled</span><br>05/04/2016 2:17pm</strong></p><br>

@@ -2,7 +2,8 @@
 <div id="articles">
     {{>organisms-article-list(error: true, class: 'error')}}
     {{>organisms-article-list(inprogress: true, class: 'inprogress')}}
-    {{>organisms-article-list(uir: true, class: 'uir')}}
+    {{>organisms-article-list(uir: true, hide-status: true, class: 'uir')}}
+    {{>organisms-article-list(uir-vr: true, hide-status: true, class: 'uir-vr')}}
     {{>organisms-article-list(scheduled: true, class: 'scheduled')}}
 </div>
 {{>atoms-download-as}}

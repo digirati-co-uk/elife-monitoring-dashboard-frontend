@@ -1,4 +1,5 @@
 {
   "uir": true,
-  "class": "uir"
+  "class": "uir",
+  "hide-status":true
 }
