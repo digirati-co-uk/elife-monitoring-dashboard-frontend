@@ -14,6 +14,9 @@ module.exports = function(grunt) {
       },
       patternlab: {
         command: "php core/builder.php -g"
+      },
+      patternlabwatch: {
+        command: "php core/builder.php -w"
       }
     },
 
@@ -77,5 +80,6 @@ module.exports = function(grunt) {
 
   // Register the default tasks
   grunt.registerTask('serve', ['shell:patternlabserve']);
+  grunt.registerTask('ppwatch', ['shell:patternlabwatch']);
   grunt.registerTask('default', [ 'sass', 'shell:patternlab', 'watch']);
 };

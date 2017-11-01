@@ -32,21 +32,21 @@ This document covers the setup of the pattern library, it is based on [patternla
 npm install
 ```
 
-* Start server
+* Then Start server 
 
 ```bash
 npm start
 ```
 
-* Build assets and start live reload
+* (In separate window) Build assets and start live reload
 
 ```bash
 grunt
 ```
 
-* watch for PP changes
+* (In separate window) Watch for PP changes
 ```
-php core/builder.php -w
+grunt ppwatch
 ```
 
 

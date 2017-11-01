@@ -11,20 +11,20 @@
                 {{#inprogress}}
                     {{>atoms-icon-inprogress(class: 'pull-left md')}}
                 {{/inprogress}}
-                {{#uir}}
-                    {{>atoms-icon-uir(class: 'pull-left md')}}
-                {{/uir}}
                 {{#uir-vr}}
                     {{>atoms-icon-uir-vr(class: 'pull-left md')}}
                 {{/uir-vr}}
+                {{#uir}}
+                    {{>atoms-icon-uir(class: 'pull-left md')}}
+                {{/uir}}
                 {{#scheduled}}
                     {{>atoms-icon-scheduled(class: 'pull-left md')}}
                 {{/scheduled}}
                 <h4>
                     {{#error}}Error{{/error}}
                     {{#inprogress}}In Progress{{/inprogress}}
+                    {{#uir-vr}}Reason for Version {{/uir-vr}}
                     {{#uir}}Articles Ready to Publish{{/uir}}
-                    {{#uir-vr}}Reason for Version Required{{/uir-vr}}
                     {{#scheduled}}Scheduled{{/scheduled}}
                     <small>{{#uir-vr}}User Input Required{{/uir-vr}} {{#uir}}User Input Required{{/uir}} (1 Article)</small>
                 </h4>
@@ -102,7 +102,7 @@
                         {{/uir}}
                         {{#uir-vr}}
                             <a href="http://54.84.81.117/content/5/e11407v3" target="_blank" class="btn btn-default  btn-block preview">
-                                <span class="fa fa-eye"></span>
+                                <span class="fa fa-history"></span>
                                 Reason for Version
                             </a>
                         {{/uir-vr}}
