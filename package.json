@@ -37,15 +37,17 @@
     "phantomjs": "^2.1.7",
     "sinon": "^1.17.4"
   },
-  "path" : {
-    "js" : "source/js/",
-    "scss" : "source/css/scss/",
-    "css" : "source/css/"
+  "path": {
+    "js": "source/js/",
+    "scss": "source/css/scss/",
+    "css": "source/css/"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "preinstall": "php core/builder.php -gpwr",
-    "start": "php -S localhost:8001 -t public/"
+    "start": "php -S localhost:8001 -t public/",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "bootstrap-sass": "^3.3.6",
@@ -55,13 +57,14 @@
     "handlebars": "^4.0.5",
     "hbsfy": "^2.7.0",
     "historyjs": "^1.8.0-b2",
-    "jquery": "^1.11.3",
+    "jquery": "^3.4.0",
     "moment": "^2.13.0",
     "pickadate": "^3.5.6",
     "qTip2": "^2.1.1",
     "qtip2": "^3.0.3",
     "underscore": "^1.8.3",
-    "uniq": "^1.0.1"
+    "uniq": "^1.0.1",
+    "snyk": "^1.150.0"
   },
   "browserify": {
     "transform": [
@@ -99,5 +102,6 @@
         "jquery:$"
       ]
     }
-  }
+  },
+  "snyk": true
 }
